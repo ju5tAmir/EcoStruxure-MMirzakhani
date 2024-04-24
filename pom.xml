@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.se</groupId>
-  <artifactId>EcoStruxure-RC</artifactId>
+  <artifactId>EcoStruxure-MMirzakhani</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>EcoStruxure-RC</name>
 
@@ -58,7 +58,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.se.ecostruxurerc/com.se.ecostruxurerc.HelloApplication</mainClass>
+              <mainClass>com.se.ecostruxurerc/com.se.ecostruxure_mmirzakhani.HelloApplication</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>
