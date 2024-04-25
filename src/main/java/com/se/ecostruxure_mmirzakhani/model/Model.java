@@ -1,16 +1,16 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.bll.Logic;
+import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Model {
 
-    private Logic logic;
+    private EmployeeLogic employeeLogic;
 
     public Model() {
-        this.logic = new Logic();
+        this.employeeLogic = new EmployeeLogic();
     }
 
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
@@ -25,19 +25,19 @@ public class Model {
     }
 
     public void updateEmployeeList() {
-        this.employeeList.setAll(logic.getEmployees());
+        this.employeeList.setAll(employeeLogic.getEmployees());
     }
 
     public void createEmployee(Employee employee) {
-        logic.createEmployee(employee);
+        employeeLogic.createEmployee(employee);
     }
 
     public boolean deleteEmployee(Employee employee) {
-        return logic.deleteEmployee(employee);
+        return employeeLogic.deleteEmployee(employee);
     }
 
     public void editEmployee(Employee employee) {
-        logic.editEmployee(employee);
+        employeeLogic.editEmployee(employee);
     }
 }
 

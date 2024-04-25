@@ -4,10 +4,10 @@ import com.se.ecostruxure_mmirzakhani.be.Employee;
 
 import java.util.List;
 
-public class Logic {
+public class EmployeeLogic {
     private UserDAO userDAO;
 
-    public Logic() {
+    public EmployeeLogic() {
         userDAO = new UserDAO();
     }
 
