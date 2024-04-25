@@ -77,6 +77,7 @@ public class EmployeeDashboardController implements IController{
     }
     @FXML
     private void onEditProfile(ActionEvent actionEvent) throws IOException{
+        Employee selectedEmployee = employeesTable.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
@@ -90,8 +91,9 @@ public class EmployeeDashboardController implements IController{
     @FXML
     private void onDeleteEmployee() {
         Employee selectedEmployee = employeesTable.getSelectionModel().getSelectedItem();
+        Alert alert = null;
         if (selectedEmployee != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Delete Employee");
             alert.setHeaderText("Are you sure you want to delete this employee?");
             alert.setContentText("Deleting an employee will remove them from the company.");
