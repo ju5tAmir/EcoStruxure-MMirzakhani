@@ -1,5 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.be;
 public class Employee {
+    private int id;
     private String name;
     private Double annualSalary;
     private Double overheadMultiplier;
@@ -13,7 +14,19 @@ public class Employee {
     // Default constructor
     public Employee() {}
 
-    // Parameterized constructor
+    public Employee(int employeeid, String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
+                    String country, String team, Double annualWorkingHours, Double utilization, Boolean employeeType) {
+        this.id = id;
+        this.name = name;
+        this.annualSalary = annualSalary;
+        this.overheadMultiplier = overheadMultiplier;
+        this.fixedAnnualAmount = fixedAnnualAmount;
+        this.country = country;
+        this.team = team;
+        this.annualWorkingHours = annualWorkingHours;
+        this.utilization = utilization;
+        this.employeeType = employeeType;
+    }
     public Employee(String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
                     String country, String team, Double annualWorkingHours, Double utilization, Boolean employeeType) {
         this.name = name;
@@ -27,7 +40,13 @@ public class Employee {
         this.employeeType = employeeType;
     }
 
-    // Getters and setters
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -99,4 +118,6 @@ public class Employee {
     public void setEmployeeType(Boolean employeeType) {
         this.employeeType = employeeType;
     }
+
+
 }

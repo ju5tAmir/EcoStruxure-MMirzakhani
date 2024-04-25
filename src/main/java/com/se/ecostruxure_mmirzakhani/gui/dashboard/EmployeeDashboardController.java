@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
 
 public class EmployeeDashboardController implements IController{
     @FXML
-    private TableView<Employee> employeeTable;
+    private TableView<Employee> employeesTable;
     @FXML
     private TableColumn<Employee, String> employeeName;
     @FXML
@@ -43,6 +43,7 @@ public class EmployeeDashboardController implements IController{
 
     private ObservableList<Employee> employees = FXCollections.observableArrayList();
     private Model model;
+    private Employee employeeToEdit;
 
     @Override
     public void setModel(Object model) {
@@ -87,7 +88,7 @@ public class EmployeeDashboardController implements IController{
         stage.show();
 
         EditEmployee editEmployee = loader.getController();
-        editEmployee.setEmployeeToEdit(EmployeeToEdit);
+        editEmployee.setEmployeeToEdit(employeeToEdit);
     }
     @FXML
     private void onDeleteEmployee() {
