@@ -1,6 +1,5 @@
 package com.se.ecostruxure_mmirzakhani.be;
-
-public class Profile {
+public class Employee {
     private String name;
     private Double annualSalary;
     private Double overheadMultiplier;
@@ -9,12 +8,14 @@ public class Profile {
     private String team;
     private Double annualWorkingHours;
     private Double utilization;
-    private Boolean profileType;
+    private Boolean employeeType;
 
-    public Profile() {}
+    // Default constructor
+    public Employee() {}
 
-    public Profile(String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
-                   String country, String team, Double annualWorkingHours, Double utilization, Boolean profileType) {
+    // Parameterized constructor
+    public Employee(String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
+                    String country, String team, Double annualWorkingHours, Double utilization, Boolean employeeType) {
         this.name = name;
         this.annualSalary = annualSalary;
         this.overheadMultiplier = overheadMultiplier;
@@ -23,9 +24,10 @@ public class Profile {
         this.team = team;
         this.annualWorkingHours = annualWorkingHours;
         this.utilization = utilization;
-        this.profileType = profileType;
+        this.employeeType = employeeType;
     }
 
+    // Getters and setters
     public String getName() {
         return name;
     }
@@ -90,11 +92,11 @@ public class Profile {
         this.utilization = utilization;
     }
 
-    public Boolean getProfileType() {
-        return profileType;
+    public Boolean getEmployeeType() {
+        return employeeType;
     }
 
-    public void setProfileType(Boolean profileType) {
-        this.profileType = profileType;
+    public void setEmployeeType(Boolean employeeType) {
+        this.employeeType = employeeType;
     }
 }

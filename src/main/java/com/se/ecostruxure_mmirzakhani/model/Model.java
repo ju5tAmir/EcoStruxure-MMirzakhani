@@ -1,6 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
-import com.se.ecostruxure_mmirzakhani.be.Profile;
+import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.bll.Logic;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,33 +13,31 @@ public class Model {
         this.logic = new Logic();
     }
 
-    private ObservableList<Profile> profileList = FXCollections.observableArrayList();
+    private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
-
-    public ObservableList<Profile> getProfiles() {
-        updateProfileList();
-        return profileList;
+    public ObservableList<Employee> getEmployees() {
+        updateEmployeeList();
+        return employeeList;
     }
 
-    public void addProfileToList(Profile profile) {
-        profileList.add(profile);
+    public void addEmployeeToList(Employee employee) {
+        employeeList.add(employee);
     }
 
-    public void updateProfileList() {
-        this.profileList.setAll(logic.getProfiles());
+    public void updateEmployeeList() {
+        this.employeeList.setAll(logic.getEmployees());
     }
 
-
-    public void createProfile(Profile profile) {
-        logic.createProfile(profile);
+    public void createEmployee(Employee employee) {
+        logic.createEmployee(employee);
     }
 
-    public boolean deleteProfile(Profile profile) {
-        return logic.deleteProfile(profile);
+    public boolean deleteEmployee(Employee employee) {
+        return logic.deleteEmployee(employee);
     }
 
-    public void editProfile(Profile profile) {
-        logic.editProfile(profile);
+    public void editEmployee(Employee employee) {
+        logic.editEmployee(employee);
     }
 }
 

@@ -1,5 +1,5 @@
 package com.se.ecostruxure_mmirzakhani.gui.dashboard;
-import com.se.ecostruxure_mmirzakhani.be.Profile;
+import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import java.lang.Double;
@@ -16,27 +15,27 @@ import java.io.IOException;
 
 public class EmployeeDashboardController implements IController{
     @FXML
-    private TableView<Profile> profileTable;
+    private TableView<Employee> employeeTable;
     @FXML
-    private TableView<Profile, String> profileName;
+    private TableView<Employee, String> employeeName;
     @FXML
-    private TableView<Profile, Double> profileAnnualSalary;
+    private TableView<Employee, Double> employeeAnnualSalary;
     @FXML
-    private TableView<Profile, Double> profileOverheadMultiplier;
+    private TableView<Employee, Double> employeeOverheadMultiplier;
     @FXML
-    private TableView<Profile, Double> profileFixedAnnualAmount;
+    private TableView<Employee, Double> employeeFixedAnnualAmount;
     @FXML
-    private TableView<Profile, String> profileCountry;
+    private TableView<Employee, String> employeeCountry;
     @FXML
-    private TableView<Profile, String> profileTeam;
+    private TableView<Employee, String> employeeTeam;
     @FXML
-    private TableView<Profile, Double> profileAnnualWorkingHours;
+    private TableView<Employee, Double> employeeAnnualWorkingHours;
     @FXML
-    private TableView<Profile, Double> profileUtilization;
+    private TableView<Employee, Double> employeeUtilization;
     @FXML
-    private TableView<Profile, Boolean> profileType;
+    private TableView<Employee, Boolean> employeeType;
 
-    private ObservableList<Profile> profiles = FXCollections.observableArrayList();
+    private ObservableList<Employee> employees = FXCollections.observableArrayList();
     private Model model;
 
     @Override
@@ -44,7 +43,7 @@ public class EmployeeDashboardController implements IController{
     }
 
     @FXML
-    private void onCreateProfile() throws IOException {
+    private void onCreateEmployee() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
@@ -52,8 +51,8 @@ public class EmployeeDashboardController implements IController{
         stage.setScene(scene);
         stage.show();
 
-        CreateProfile createProfile = loader.getController();
-        createProfile.setModel(this.model);
+        CreateEmployee createEmployee = loader.getController();
+        createEmployee.setModel(this.model);
 
     }
     @FXML
@@ -65,8 +64,8 @@ public class EmployeeDashboardController implements IController{
         stage.setScene(scene);
         stage.show();
 
-        //EditProfile editProfile = loader.getController();
-        //editProfile.setProfileToEdit(profileToEdit);
+        EditEmployee editEmployee = loader.getController();
+        editEmployee.setEmployeeToEdit(EmployeeToEdit);
     }
 
     @FXML
