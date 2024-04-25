@@ -14,9 +14,9 @@ public class Employee {
     // Default constructor
     public Employee() {}
 
-    public Employee(int employeeid, String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
+    public Employee(int employeeId, String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
                     String country, String team, Double annualWorkingHours, Double utilization, Boolean employeeType) {
-        this.id = id;
+        this.id = employeeId;
         this.name = name;
         this.annualSalary = annualSalary;
         this.overheadMultiplier = overheadMultiplier;
