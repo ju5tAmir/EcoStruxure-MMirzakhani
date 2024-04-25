@@ -12,7 +12,8 @@ public class Employee {
     private Boolean employeeType;
 
     // Default constructor
-    public Employee() {}
+    public Employee() {
+    }
 
     public Employee(int employeeId, String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
                     String country, String team, Double annualWorkingHours, Double utilization, Boolean employeeType) {
@@ -27,6 +28,7 @@ public class Employee {
         this.utilization = utilization;
         this.employeeType = employeeType;
     }
+
     public Employee(String name, Double annualSalary, Double overheadMultiplier, Double fixedAnnualAmount,
                     String country, String team, Double annualWorkingHours, Double utilization, Boolean employeeType) {
         this.name = name;
@@ -40,13 +42,14 @@ public class Employee {
         this.employeeType = employeeType;
     }
 
-
     public int getId() {
         return id;
     }
-    public void setId(int id){
+
+    public void setId(int id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -119,5 +122,19 @@ public class Employee {
         this.employeeType = employeeType;
     }
 
-
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", annualSalary=" + annualSalary +
+                ", overheadMultiplier=" + overheadMultiplier +
+                ", fixedAnnualAmount=" + fixedAnnualAmount +
+                ", country='" + country + '\'' +
+                ", team='" + team + '\'' +
+                ", annualWorkingHours=" + annualWorkingHours +
+                ", utilization=" + utilization +
+                ", employeeType=" + employeeType +
+                '}';
+    }
 }

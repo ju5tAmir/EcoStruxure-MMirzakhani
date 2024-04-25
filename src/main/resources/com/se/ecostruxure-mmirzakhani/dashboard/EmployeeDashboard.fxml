@@ -71,15 +71,15 @@
             </ImageView>
             <TableView fx:id="employeeTableView" minHeight="100.0" minWidth="100.0" prefHeight="600.0">
               <columns>
-                <TableColumn fx:id="nameColumn" prefWidth="75.0" text="Name" />
-                  <TableColumn fx:id="annualSalaryColumn" prefWidth="87.5" text="Annual Salary" />
-                  <TableColumn fx:id="overheadMultiplierColumn" prefWidth="128.0" text="Overhead multiplier %" />
-                  <TableColumn fx:id="countryColumn" prefWidth="113.0" text="Country" />
-                  <TableColumn fx:id="fixedAnnualAmountColumn" prefWidth="126.5" text="Fixed annual amount" />
-                  <TableColumn fx:id="teamColumn" prefWidth="115.0" text="Team" />
-                  <TableColumn prefWidth="132.5" text="Annual Working Hours" />
-                  <TableColumn minWidth="0.0" prefWidth="127.0" text="Utilization %" />
-                  <TableColumn prefWidth="117.0" text="Type" />
+                <TableColumn fx:id="employeeName" prefWidth="75.0" text="Name" />
+                  <TableColumn fx:id="employeeAnnualSalary" prefWidth="87.5" text="Annual Salary" />
+                  <TableColumn fx:id="employeeOverheadMultiplier" prefWidth="128.0" text="Overhead multiplier" />
+                  <TableColumn fx:id="employeeCountry" prefWidth="113.0" text="Country" />
+                  <TableColumn fx:id="employeeFixedAnnualAmount" prefWidth="126.5" text="Fixed annual amount" />
+                  <TableColumn fx:id="employeeTeam" prefWidth="115.0" text="Team" />
+                  <TableColumn fx:id="employeeAnnualWorkingHours" prefWidth="132.5" text="Annual Working Hours" />
+                  <TableColumn fx:id="employeeUtilization" minWidth="0.0" prefWidth="127.0" text="Utilization" />
+                  <TableColumn fx:id="employeeType" prefWidth="117.0" text="Type" />
               </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" top="150.0" />
