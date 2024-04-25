@@ -79,7 +79,7 @@ public class EmployeeDashboardController implements IController{
     }
     @FXML
     private void onEditProfile(ActionEvent actionEvent) throws IOException{
-        Employee selectedEmployee = employeesTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
@@ -92,7 +92,7 @@ public class EmployeeDashboardController implements IController{
     }
     @FXML
     private void onDeleteEmployee() {
-        Employee selectedEmployee = employeesTable.getSelectionModel().getSelectedItem();
+        Employee selectedEmployee = employeeTable.getSelectionModel().getSelectedItem();
         Alert alert = null;
         if (selectedEmployee != null) {
             alert = new Alert(Alert.AlertType.CONFIRMATION);
