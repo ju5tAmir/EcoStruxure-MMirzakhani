@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -22,23 +23,23 @@ public class EmployeeDashboardController implements IController{
     @FXML
     private TableView<Employee> employeeTable;
     @FXML
-    private TableView<Employee, String> employeeName;
+    private TableColumn<Employee, String> employeeName;
     @FXML
-    private TableView<Employee, Double> employeeAnnualSalary;
+    private TableColumn<Employee, Double> employeeAnnualSalary;
     @FXML
-    private TableView<Employee, Double> employeeOverheadMultiplier;
+    private TableColumn<Employee, Double> employeeOverheadMultiplier;
     @FXML
-    private TableView<Employee, Double> employeeFixedAnnualAmount;
+    private TableColumn<Employee, Double> employeeFixedAnnualAmount;
     @FXML
-    private TableView<Employee, String> employeeCountry;
+    private TableColumn<Employee, String> employeeCountry;
     @FXML
-    private TableView<Employee, String> employeeTeam;
+    private TableColumn<Employee, String> employeeTeam;
     @FXML
-    private TableView<Employee, Double> employeeAnnualWorkingHours;
+    private TableColumn<Employee, Double> employeeAnnualWorkingHours;
     @FXML
-    private TableView<Employee, Double> employeeUtilization;
+    private TableColumn<Employee, Double> employeeUtilization;
     @FXML
-    private TableView<Employee, Boolean> employeeType;
+    private TableColumn<Employee, Boolean> employeeType;
 
     private ObservableList<Employee> employees = FXCollections.observableArrayList();
     private Model model;
