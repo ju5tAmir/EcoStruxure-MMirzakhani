@@ -5,25 +5,25 @@ import com.se.ecostruxure_mmirzakhani.be.Employee;
 import java.util.List;
 
 public class EmployeeLogic {
-    private UserDAO userDAO;
+   //private UserDAO userDAO;
 
-    public EmployeeLogic() {
-        userDAO = new UserDAO();
-    }
+   //public EmployeeLogic() {
+   //    userDAO = new UserDAO();
+   //}
 
-    public void createEmployee(Employee employee) {
-        userDAO.createEmployee(employee);
-    }
+   //public void createEmployee(Employee employee) {
+   //    userDAO.createEmployee(employee);
+   //}
 
-    public boolean deleteEmployee(Employee employee) {
-        return userDAO.deleteEmployee(employee.getId());
-    }
+   //public boolean deleteEmployee(Employee employee) {
+   //    return userDAO.deleteEmployee(employee.getId());
+   //}
 
-    public void editEmployee(Employee employee) {
-        userDAO.editEmployee(employee);
-    }
+   //public void editEmployee(Employee employee) {
+       // userDAO.editEmployee(employee);
+   //}
 
-    public List<Employee> getEmployees() {
-        return userDAO.getEmployeeList();
-    }
+   //public List<Employee> getEmployees() {
+       // return userDAO.getEmployeeList();
+   // }
 }
