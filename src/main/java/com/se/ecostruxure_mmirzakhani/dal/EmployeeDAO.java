@@ -1,6 +1,9 @@
 package com.se.ecostruxure_mmirzakhani.dal;
 
+import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.be.Region;
+import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
@@ -92,4 +95,45 @@ public class EmployeeDAO {
         }
     }
 
+    public Employee getEmployee(int id) throws ExceptionHandler{
+        // Employee object to update
+        Employee employee = new Employee();
+
+        // SQL Query to fetch an employee by id
+        String getEmployeeQuery = "SELECT Employees.*, T.*, C.* " +
+                "FROM Employees " +
+                "JOIN dbo.Team T " +
+                "ON Employees.EmployeeID = T.EmployeeID " +
+                "JOIN dbo.Contract C ON " +
+                "Employees.EmployeeID = C.EmployeeID " +
+                "WHERE dbo.Employees.EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(getEmployeeQuery, Statement.RETURN_GENERATED_KEYS)){
+            statement.setInt(1, id);
+
+            // Results
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()){
+                employee.setFirstName(rs.getString("FirstName"));
+                employee.setLastName(rs.getString("LastName"));
+                employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
+                employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
+                employee.setTeam(new Team(rs.getInt("TeamID"), rs.getString("TeamName")));
+                employee.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                employee.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                employee.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                employee.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                employee.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                employee.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
+                employee.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
+                employee.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
+                employee.setOverhead(rs.getBoolean("IsOverhead"));
+            }
+            return employee;
+
+        } catch (SQLException e){
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
+        }
+    }
 }

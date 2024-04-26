@@ -16,28 +16,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static void main(String[] args) {
 
-        Employee employee = new Employee();
-        employee.setFirstName("Aria");
-        employee.setLastName("Jackson");
-        employee.setAnnualSalary(8000.0);
-        employee.setAnnualWorkHours(1090);
-        employee.setAverageDailyWorkHours(8.1);
-        employee.setFixedAnnualAmount(5000);
-        employee.setOverheadPercentage(20);
-        employee.setUtilizationPercentage(80);
-        employee.setMarkupPercentage(10);
-        employee.setGrossMarginPercentage(30);
-        employee.setOverhead(false);
-
-        employee.setRegion(Region.EUROPE);
-        employee.setCountry(Country.SWAZILAND);
-
-
-        employee.setTeam(new Team("r3k4p1g"));
-
         try {
             EmployeeDAO dao = new EmployeeDAO();
-            System.out.println(dao.createEmployee(employee));
+            System.out.println(dao.getEmployee(1));
         } catch (ExceptionHandler e){
             System.out.println(e.getMessage());
         }
