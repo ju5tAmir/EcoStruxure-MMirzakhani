@@ -1,7 +1,9 @@
 package com.se.ecostruxure_mmirzakhani.utils.window;
 
+import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
+import com.se.ecostruxure_mmirzakhani.gui.dashboard.CreateEmployeeController;
 import com.se.ecostruxure_mmirzakhani.gui.dashboard.IController;
 import com.se.ecostruxure_mmirzakhani.utils.IUtils;
 
@@ -9,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -32,7 +35,8 @@ public class Window implements IUtils {
     public static <T> void  createStage(WindowType windowType,
                                         T model,
                                         Modality modality,
-                                        boolean resizable)
+                                        boolean resizable,
+                                        TableView<Employee> employeeTableView)
             throws ExceptionHandler
 
     {
@@ -45,6 +49,10 @@ public class Window implements IUtils {
         // Pass the model to the controller of new page
         IController<T> controller = fxmlLoader.getController();
         controller.setModel(model);
+
+        if (controller instanceof CreateEmployeeController) {
+            ((CreateEmployeeController) controller).setEmployeeTableView(employeeTableView);
+        }
 
         // Create a new stage and set its properties.
         Stage stage = new Stage();
@@ -65,8 +73,9 @@ public class Window implements IUtils {
      * @param windowType The type of window to create.
      * @throws ExceptionHandler If an error occurs during stage creation.
      */
+
     public static void createStage(WindowType windowType) throws ExceptionHandler{
-        createStage(windowType, null, null, true);
+        createStage(windowType, null, null,false, null);
     }
 
 
@@ -129,6 +138,7 @@ public class Window implements IUtils {
     private static String getResourcePath(WindowType windowType) throws ExceptionHandler{
         return switch (windowType){
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
+            case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/dashboard/CreateEmployee.fxml";
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths
 

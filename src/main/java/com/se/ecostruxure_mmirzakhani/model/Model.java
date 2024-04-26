@@ -15,15 +15,13 @@ public class Model {
 
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
+    public void addEmployeeToList(Employee employee) {
+        employeeList.add(employee);
+    }
     public ObservableList<Employee> getEmployees() {
         //updateEmployeeList();
         return employeeList;
     }
-
-    public void addEmployeeToList(Employee employee) {
-        employeeList.add(employee);
-    }
-
     public void updateEmployeeList() {
         //this.employeeList.setAll(employeeLogic.getEmployees());
     }

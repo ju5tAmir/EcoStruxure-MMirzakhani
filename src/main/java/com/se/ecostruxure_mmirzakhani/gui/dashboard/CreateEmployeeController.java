@@ -4,15 +4,17 @@ import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.SplitMenuButton;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class CreateEmployee {
+public class CreateEmployeeController implements IController {
 
     private Model model;
 
-    public CreateEmployee() {
+    public CreateEmployeeController() {
         this.model = new Model();
     }
 
@@ -29,22 +31,29 @@ public class CreateEmployee {
     @FXML
     private TextField fixedAnnualAmountField;
     @FXML
-    private SplitMenuButton countryField;
+    private ChoiceBox<String> countryChoice;
     @FXML
-    private SplitMenuButton teamField;
+    private ChoiceBox<String> teamChoice;
     @FXML
     private TextField annualWorkingHoursField;
     @FXML
     private TextField utilizationField;
     @FXML
-    private SplitMenuButton employeeTypeField;
+    private ChoiceBox<String> typeChoice;
+    @FXML
+    private TableView<Employee> employeeTableView;
+
+    public void setEmployeeTableView(TableView<Employee> employeeTableView) {
+        this.employeeTableView = employeeTableView;
+    }
+
 
     @FXML
     private void onSubmitButton() {
         // Get selected text from SplitMenuButton
-        String selectedCountry = countryField.getText();
-        String selectedTeam = teamField.getText();
-        Boolean isPermanent = Boolean.parseBoolean(employeeTypeField.getText());
+        String selectedCountry = countryChoice.getValue();
+        String selectedTeam =  teamChoice.getValue();
+        Boolean isPermanent = Boolean.parseBoolean(typeChoice.getValue());
 
         Employee newEmployee = new Employee(
                 nameField.getText(),
@@ -57,13 +66,20 @@ public class CreateEmployee {
                 Double.parseDouble(utilizationField.getText()),
                 isPermanent
         );
-
+        model.addEmployeeToList(newEmployee);
         this.model.createEmployee(newEmployee);
         this.model.updateEmployeeList();
+
+        employeeTableView.getItems().clear();
+        employeeTableView.setItems(model.getEmployees());
+
+
 
         Scene scene = (Scene) nameField.getScene();
         Stage stage = (Stage) scene.getWindow();
         stage.close();
+
+        System.out.println(newEmployee);
     }
 
     @FXML
@@ -71,5 +87,10 @@ public class CreateEmployee {
         Scene scene = (Scene) nameField.getScene();
         Stage stage = (Stage) scene.getWindow();
         stage.close();
+    }
+
+    @Override
+    public void setModel(Object model) {
+
     }
 }

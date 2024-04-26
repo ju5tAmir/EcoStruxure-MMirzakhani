@@ -1,7 +1,10 @@
 package com.se.ecostruxure_mmirzakhani.gui.dashboard;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -96,23 +99,9 @@ public class EmployeeDashboardController implements IController, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         populateEmployeeTable();
         initEmployeeTableColumns();
+        //employees.setAll(model.getProfiles());
+        //employeesTable.setItems(employees);
     }
-    /*@Override
-    public void initialize(URL location, ResourceBundle resources) {
-        employeeId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        employeeName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        employeeAnnualSalary.setCellValueFactory(new PropertyValueFactory<>("annualSalary"));
-        employeeOverheadMultiplier.setCellValueFactory(new PropertyValueFactory<>("overheadMultiplier"));
-        employeeFixedAnnualAmount.setCellValueFactory(new PropertyValueFactory<>("fixedAnnualAmount"));
-        employeeCountry.setCellValueFactory(new PropertyValueFactory<>("country"));
-        employeeTeam.setCellValueFactory(new PropertyValueFactory<>("team"));
-        employeeAnnualWorkingHours.setCellValueFactory(new PropertyValueFactory<>("annualWorkingHours"));
-        employeeUtilization.setCellValueFactory(new PropertyValueFactory<>("utilization"));
-        employeeType.setCellValueFactory(new PropertyValueFactory<>("employeeType"));
-
-        employees.setAll(model.getProfiles());
-        employeesTable.setItems(employees);
-    }*/
     @FXML
     private void onCreateEmployee() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(""));
@@ -122,8 +111,8 @@ public class EmployeeDashboardController implements IController, Initializable {
         stage.setScene(scene);
         stage.show();
 
-        CreateEmployee createEmployee = loader.getController();
-        createEmployee.setModel(this.model);
+        CreateEmployeeController createEmployeeController = loader.getController();
+        createEmployeeController.setModel(this.model);
 
     }
     @FXML
@@ -186,5 +175,9 @@ public class EmployeeDashboardController implements IController, Initializable {
     @FXML
     public void calculateDailyRate(ActionEvent actionEvent) throws IOException{
 
+    }
+
+    public void createEmployee(ActionEvent actionEvent) throws ExceptionHandler {
+        Window.createStage(WindowType.CREATE_EMPLOYEE, null, null, false, employeeTableView);
     }
 }
