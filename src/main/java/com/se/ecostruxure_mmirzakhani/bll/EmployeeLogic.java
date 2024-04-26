@@ -1,12 +1,11 @@
 package com.se.ecostruxure_mmirzakhani.bll;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.dal.UserDAO;
 
 import java.util.List;
 
 public class EmployeeLogic {
-    private UserDAO UserDAO;
+    /*private UserDAO UserDAO;
 
     public EmployeeLogic() {
         UserDAO = new UserDAO();
@@ -26,5 +25,5 @@ public class EmployeeLogic {
 
     public List<Employee> getEmployees() {
         return UserDAO.getEmployeeList();
-    }
+    }*/
 }
