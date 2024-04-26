@@ -16,7 +16,7 @@ public class Model {
     private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
     public ObservableList<Employee> getEmployees() {
-        updateEmployeeList();
+        //updateEmployeeList();
         return employeeList;
     }
 
@@ -25,19 +25,20 @@ public class Model {
     }
 
     public void updateEmployeeList() {
-        this.employeeList.setAll(employeeLogic.getEmployees());
+        //this.employeeList.setAll(employeeLogic.getEmployees());
     }
 
     public void createEmployee(Employee employee) {
-        employeeLogic.createEmployee(employee);
+        //employeeLogic.createEmployee(employee);
     }
 
     public boolean deleteEmployee(Employee employee) {
-        return employeeLogic.deleteEmployee(employee);
+        //return employeeLogic.deleteEmployee(employee);
+        return true;
     }
 
     public void editEmployee(Employee employee) {
-        employeeLogic.editEmployee(employee);
+        //employeeLogic.editEmployee(employee);
     }
 }
 
