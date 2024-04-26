@@ -4,6 +4,10 @@ public class Team {
     private int id;
     private String name;
 
+    public Team(String name) {
+        this.name = name;
+    }
+
     public int getId() {
         return id;
     }
@@ -18,5 +22,13 @@ public class Team {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

@@ -12,7 +12,10 @@ public enum ExceptionMessage {
 
 
     // ** Database Exceptions ** \\
-    DB_CONNECTION_FAILURE("An error occurred while trying to connect to the database");
+    DB_CONNECTION_FAILURE("An error occurred while trying to connect to the database"),
+    EMPLOYEE_INSERT_FAILED("Failure in inserting the employee information into database occurred."),
+    TEAM_INSERT_FAILED("Failure in inserting the team information into database occurred."),
+    KEY_GENERATION_FAILURE("Failure in generating key to the employee.");
 
 
 

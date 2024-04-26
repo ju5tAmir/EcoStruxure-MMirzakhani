@@ -159,4 +159,26 @@ public class Employee extends User {
     public void setDailyRate(double dailyRate) {
         this.dailyRate = dailyRate;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", annualSalary=" + annualSalary +
+                ", fixedAnnualAmount=" + fixedAnnualAmount +
+                ", annualWorkHours=" + annualWorkHours +
+                ", averageDailyWorkHours=" + averageDailyWorkHours +
+                ", isOverhead=" + isOverhead +
+                ", overheadPercentage=" + overheadPercentage +
+                ", utilizationPercentage=" + utilizationPercentage +
+                ", markupPercentage=" + markupPercentage +
+                ", grossMarginPercentage=" + grossMarginPercentage +
+                ", region=" + region +
+                ", country=" + country +
+                ", team=" + team +
+                ", hourlyRate=" + hourlyRate +
+                ", dailyRate=" + dailyRate +
+                '}';
+    }
 }
