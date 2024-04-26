@@ -66,7 +66,7 @@ public class Window implements IUtils {
      * @throws ExceptionHandler If an error occurs during stage creation.
      */
     public static void createStage(WindowType windowType) throws ExceptionHandler{
-        createStage(windowType, null, null, false);
+        createStage(windowType, null, null, true);
     }
 
 
