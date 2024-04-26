@@ -129,6 +129,7 @@ public class Window implements IUtils {
     private static String getResourcePath(WindowType windowType) throws ExceptionHandler{
         return switch (windowType){
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
+            case SCRIPT_BUILDER -> "/com/se/ecostruxure-mmirzakhani/script/ScriptBuilder.fxml";
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths
 

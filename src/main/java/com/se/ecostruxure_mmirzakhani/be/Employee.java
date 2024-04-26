@@ -5,11 +5,11 @@ import java.util.List;
 public class Employee extends User {
     private double annualSalary;
     private double dailyWorkHours;
-    private double yearlyWorkHours;
+    private double annualWorkHours;
     private double hourlyRate;
     private double dailyRate;
 
-    private List<Config> configs;
+    private List<Script> scripts;
 
 
     public Employee(){
@@ -24,12 +24,12 @@ public class Employee extends User {
         this.annualSalary = annualSalary;
     }
 
-    public double getYearlyWorkHours() {
-        return yearlyWorkHours;
+    public double getAnnualWorkHours() {
+        return annualWorkHours;
     }
 
-    public void setYearlyWorkHours(double yearlyWorkHours) {
-        this.yearlyWorkHours = yearlyWorkHours;
+    public void setAnnualWorkHours(double annualWorkHours) {
+        this.annualWorkHours = annualWorkHours;
     }
 
     public double getDailyWorkHours() {
@@ -56,11 +56,11 @@ public class Employee extends User {
         this.dailyRate = dailyRate;
     }
 
-    public List<Config> getConfigs() {
-        return configs;
+    public List<Script> getConfigs() {
+        return scripts;
     }
 
-    public void setConfigs(List<Config> configs) {
-        this.configs = configs;
+    public void setConfigs(List<Script> scripts) {
+        this.scripts = scripts;
     }
 }

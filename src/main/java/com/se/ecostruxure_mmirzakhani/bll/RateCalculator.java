@@ -8,16 +8,7 @@ public class RateCalculator {
      *  Constructor
      */
     public RateCalculator(){
-
+        // ToDo
     }
-
-
-//    public double hourlyRate(Employee employee){
-//        return employee.getAnnualSalary() + employee.g
-//    }
-
-//    public double salaryBonus(Employee employee){
-//
-//    }
 
 }

@@ -1,12 +1,11 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-public class Config {
+public class Script {
     private int id;
     private String name;
     private String formula;
-    private boolean isActive;
 
-    public Config() {
+    public Script() {
 
     }
 
@@ -34,11 +33,4 @@ public class Config {
         this.formula = formula;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }
