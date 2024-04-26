@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -72,6 +73,18 @@ public class EmployeeDashboardController implements IController, Initializable {
         Employee e1 = new Employee("John Doe", 50000.0, 1.2, 40000.0, "USA", "Engineering", 1800.0, 85.0, true);
         Employee e2 = new Employee("Jane Smith", 60000.0, 1.1, 45000.0, "UK", "Marketing", 1900.0, 90.0, false);
         employees.addAll(e1, e2);
+
+        employeeType.setCellFactory(column -> new TableCell<Employee, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item ? "Overhead Cost" : "Production Resource");
+                }
+            }
+        });
         employeeTableView.setItems(employees);
     }
 
