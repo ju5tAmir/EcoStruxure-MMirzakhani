@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class EmployeeDashboardController implements IController, Initializable {
+public class EmployeeDashboardController implements IController<Model>, Initializable {
     @FXML
     private TableView<Employee> employeeTable;
     @FXML
@@ -53,9 +53,10 @@ public class EmployeeDashboardController implements IController, Initializable {
 
     @FXML
     private TableView<Employee> employeeTableView;
-
     @Override
-    public void setModel(Object model) {
+    public void setModel(Model model) {
+        this.model=model;
+
         // Here we will implement loading the Employee Table once the Dashboard label is clicked, just like in the website
         dashboardLabel.setOnMouseClicked(event -> {
             System.out.println("Label clicked!");
@@ -180,4 +181,5 @@ public class EmployeeDashboardController implements IController, Initializable {
     public void createEmployee(ActionEvent actionEvent) throws ExceptionHandler {
         Window.createStage(WindowType.CREATE_EMPLOYEE, null, null, false, employeeTableView);
     }
+
 }
