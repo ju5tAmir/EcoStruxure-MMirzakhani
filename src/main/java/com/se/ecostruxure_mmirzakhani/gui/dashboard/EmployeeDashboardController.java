@@ -76,10 +76,10 @@ public class EmployeeDashboardController implements IController, Initializable {
 
     public void populateEmployeeTable() {
 
-        ObservableList<Employee> employees = FXCollections.observableArrayList();
+        /*ObservableList<Employee> employees = FXCollections.observableArrayList();
         Employee e1 = new Employee("John Doe", 50000.0, 1.2, 40000.0, "USA", "Engineering", 1800.0, 85.0, true);
         Employee e2 = new Employee("Jane Smith", 60000.0, 1.1, 45000.0, "UK", "Marketing", 1900.0, 90.0, false);
-        employees.addAll(e1, e2);
+        employees.addAll(e1, e2);*/
 
         employeeType.setCellFactory(column -> new TableCell<Employee, Boolean>() {
             @Override
@@ -92,7 +92,7 @@ public class EmployeeDashboardController implements IController, Initializable {
                 }
             }
         });
-        employeeTableView.setItems(employees);
+        //employeeTableView.setItems(employees);
     }
 
     @Override
