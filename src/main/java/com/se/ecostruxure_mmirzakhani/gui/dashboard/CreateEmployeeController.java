@@ -47,7 +47,6 @@ public class CreateEmployeeController implements IController {
         this.employeeTableView = employeeTableView;
     }
 
-
     @FXML
     private void onSubmitButton() {
         // Get selected text from SplitMenuButton
@@ -67,11 +66,13 @@ public class CreateEmployeeController implements IController {
                 isPermanent
         );
         model.addEmployeeToList(newEmployee);
-        this.model.createEmployee(newEmployee);
-        this.model.updateEmployeeList();
 
-        employeeTableView.getItems().clear();
+        //this.model.createEmployee(newEmployee);
+        //this.model.updateEmployeeList();
+
         employeeTableView.setItems(model.getEmployees());
+
+        employeeTableView.refresh();
 
 
 

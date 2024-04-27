@@ -8,20 +8,23 @@ import javafx.collections.ObservableList;
 public class Model {
 
     private EmployeeLogic employeeLogic;
+    private ObservableList<Employee> employeeList;
 
     public Model() {
         this.employeeLogic = new EmployeeLogic();
+        this.employeeList = FXCollections.observableArrayList();
     }
 
-    private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
-    public void addEmployeeToList(Employee employee) {
-        employeeList.add(employee);
-    }
     public ObservableList<Employee> getEmployees() {
         //updateEmployeeList();
         return employeeList;
     }
+
+    public void addEmployeeToList(Employee employee) {
+        employeeList.add(employee);
+    }
+
     public void updateEmployeeList() {
         //this.employeeList.setAll(employeeLogic.getEmployees());
     }
