@@ -207,4 +207,85 @@ public class EmployeeDAO {
         }
     }
 
+    public boolean updateEmployee(Employee employee, Contract contract) throws ExceptionHandler {
+        String updateEmployee = "UPDATE Employees SET FirstName = ?, LastName = ?, Region = ?, Country = ? WHERE EmployeeID = ?";
+        String updateTeam = "UPDATE Team SET TeamName = ? WHERE EmployeeID = ?";
+        String updateContract = "UPDATE Contract SET AnnualSalary = ?, FixedAnnualAmount = ?, AnnualWorkHours = ?, AverageDailyWorkHours = ?, OverheadPercentage = ?, UtilizationPercentage = ?, MarkupPercentage = ?, GrossMarginPercentage = ?, IsOverhead = ? WHERE EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+            try (PreparedStatement employeeStmt = conn.prepareStatement(updateEmployee);
+                 PreparedStatement teamStmt = conn.prepareStatement(updateTeam);
+                 PreparedStatement contractStmt = conn.prepareStatement(updateContract)) {
+
+                employeeStmt.setString(1, employee.getFirstName());
+                employeeStmt.setString(2, employee.getLastName());
+                employeeStmt.setString(3, employee.getRegion().getName());
+                employeeStmt.setString(4, employee.getCountry().getValue());
+                employeeStmt.setInt(5, employee.getId());
+                employeeStmt.executeUpdate();
+
+                if (employee.getTeam() != null) {
+                    teamStmt.setString(1, employee.getTeam().getName());
+                    teamStmt.setInt(2, employee.getId());
+                    teamStmt.executeUpdate();
+                }
+
+                contractStmt.setDouble(1, contract.getAnnualSalary());
+                contractStmt.setDouble(2, contract.getFixedAnnualAmount());
+                contractStmt.setDouble(3, contract.getAnnualWorkHours());
+                contractStmt.setDouble(4, contract.getAverageDailyWorkHours());
+                contractStmt.setDouble(5, contract.getOverheadPercentage());
+                contractStmt.setDouble(6, contract.getUtilizationPercentage());
+                contractStmt.setDouble(7, contract.getMarkupPercentage());
+                contractStmt.setDouble(8, contract.getGrossMarginPercentage());
+                contractStmt.setBoolean(9, contract.isOverhead());
+                contractStmt.setInt(10, employee.getId());
+                contractStmt.executeUpdate();
+
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new ExceptionHandler(e.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
+        }
+    }
+
+    public boolean deleteEmployee(int employeeId) throws ExceptionHandler {
+        String deleteContract = "DELETE FROM Contract WHERE EmployeeID = ?";
+        String deleteTeam = "DELETE FROM Team WHERE EmployeeID = ?";
+        String deleteEmployee = "DELETE FROM Employees WHERE EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+            try (PreparedStatement contractStmt = conn.prepareStatement(deleteContract);
+                 PreparedStatement teamStmt = conn.prepareStatement(deleteTeam);
+                 PreparedStatement employeeStmt = conn.prepareStatement(deleteEmployee)) {
+
+                contractStmt.setInt(1, employeeId);
+                contractStmt.executeUpdate();
+
+                teamStmt.setInt(1, employeeId);
+                teamStmt.executeUpdate();
+
+                employeeStmt.setInt(1, employeeId);
+                employeeStmt.executeUpdate();
+                
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new ExceptionHandler(e.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
+        }
+    }
 }
