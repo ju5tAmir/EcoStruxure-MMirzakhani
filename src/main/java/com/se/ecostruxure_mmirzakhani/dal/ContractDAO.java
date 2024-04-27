@@ -18,7 +18,7 @@ public class ContractDAO {
     public List<Contract> getContractHistory(int employeeId) throws ExceptionHandler {
         List<Contract> contractHistory = new ArrayList<>();
 
-        String getContractHistoryQuery = "SELECT * FROM ContractHistory WHERE EmployeeID = ?";
+        String getContractHistoryQuery = "SELECT * FROM ContractHistory WHERE EmployeeID = ? ORDER BY SysEndTime DESC";
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(getContractHistoryQuery)) {
 
@@ -28,7 +28,16 @@ public class ContractDAO {
             while (rs.next()) {
                 Contract contract = new Contract();
                 contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
-
+                contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
+                contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
+                contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
+                contract.setOverhead(rs.getBoolean("IsOverhead"));
+                contract.setValidFrom(rs.getTimestamp("SysStartTime").toLocalDateTime());
+                contract.setValidUntil(rs.getTimestamp("SysEndTime").toLocalDateTime());
                 contractHistory.add(contract);
             }
             return contractHistory;
