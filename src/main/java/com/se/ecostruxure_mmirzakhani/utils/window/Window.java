@@ -78,6 +78,10 @@ public class Window implements IUtils {
         stage.close();
     }
 
+    public static void closeStage(Scene scene){
+        ((Stage) scene.getWindow()).close();
+    }
+
 
     /**
      * Retrieves the Stage object associated with the scene containing the specified Node.

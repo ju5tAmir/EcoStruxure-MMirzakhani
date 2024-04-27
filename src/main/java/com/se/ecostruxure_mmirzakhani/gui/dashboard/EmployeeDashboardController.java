@@ -17,6 +17,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 
+/**
+ * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
+ */
 public class EmployeeDashboardController implements IController {
 
     @FXML
