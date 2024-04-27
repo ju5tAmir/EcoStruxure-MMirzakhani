@@ -2,7 +2,7 @@ package com.se.ecostruxure_mmirzakhani.utils.window;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
-import com.se.ecostruxure_mmirzakhani.gui.dashboard.IController;
+import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.utils.IUtils;
 
 import javafx.fxml.FXMLLoader;
@@ -78,6 +78,10 @@ public class Window implements IUtils {
         stage.close();
     }
 
+    public static void closeStage(Scene scene){
+        ((Stage) scene.getWindow()).close();
+    }
+
 
     /**
      * Retrieves the Stage object associated with the scene containing the specified Node.
@@ -129,6 +133,7 @@ public class Window implements IUtils {
     private static String getResourcePath(WindowType windowType) throws ExceptionHandler{
         return switch (windowType){
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
+            case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/create/CreateEmployee.fxml";
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths
 

@@ -1,14 +1,13 @@
 package com.se.ecostruxure_mmirzakhani.dal;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Region;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeDAO {
     private final DBConnection dbConnection;
@@ -64,16 +63,17 @@ public class EmployeeDAO {
                 }
 
                 // Insert contract information
+                Contract contract = new Contract();
                 contractStatement.setInt(1, employee.getId());
-                contractStatement.setDouble(2, employee.getAnnualSalary());
-                contractStatement.setDouble(3, employee.getFixedAnnualAmount());
-                contractStatement.setDouble(4, employee.getAnnualWorkHours());
-                contractStatement.setDouble(5, employee.getAverageDailyWorkHours());
-                contractStatement.setDouble(6, employee.getOverheadPercentage());
-                contractStatement.setDouble(7, employee.getUtilizationPercentage());
-                contractStatement.setDouble(8, employee.getMarkupPercentage());
-                contractStatement.setDouble(9, employee.getGrossMarginPercentage());
-                contractStatement.setBoolean(10, employee.isOverhead());
+                contractStatement.setDouble(2, contract.getAnnualSalary());
+                contractStatement.setDouble(3, contract.getFixedAnnualAmount());
+                contractStatement.setDouble(4, contract.getAnnualWorkHours());
+                contractStatement.setDouble(5, contract.getAverageDailyWorkHours());
+                contractStatement.setDouble(6, contract.getOverheadPercentage());
+                contractStatement.setDouble(7, contract.getUtilizationPercentage());
+                contractStatement.setDouble(8, contract.getMarkupPercentage());
+                contractStatement.setDouble(9, contract.getGrossMarginPercentage());
+                contractStatement.setBoolean(10, contract.isOverhead());
                 contractStatement.addBatch();
 
                 // Execute batches
@@ -115,25 +115,177 @@ public class EmployeeDAO {
             // Results
             ResultSet rs = statement.executeQuery();
             if (rs.next()){
+                // Set employee properties
                 employee.setFirstName(rs.getString("FirstName"));
                 employee.setLastName(rs.getString("LastName"));
                 employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
                 employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
-                employee.setTeam(new Team(rs.getInt("TeamID"), rs.getString("TeamName")));
-                employee.setAnnualSalary(rs.getDouble("AnnualSalary"));
-                employee.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
-                employee.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
-                employee.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
-                employee.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
-                employee.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
-                employee.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
-                employee.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
-                employee.setOverhead(rs.getBoolean("IsOverhead"));
+
+                // Set team properties
+                Team team = new Team();
+                team.setId(rs.getInt("TeamID"));
+                team.setName(rs.getString("TeamName"));
+                employee.setTeam(team);
+
+
+                // Set contract properties
+                Contract contract = new Contract();
+                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
+                contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
+                contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
+                contract.setOverhead(rs.getBoolean("IsOverhead"));
+                contract.setValidFrom(rs.getTimestamp("SysStartTime").toLocalDateTime());
+                contract.setValidUntil(rs.getTimestamp("SysEndTime").toLocalDateTime());
+
+                employee.setContract(contract);
             }
             return employee;
 
         } catch (SQLException e){
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
+        }
+    }
+
+    public List<Employee> getAllEmployees() throws ExceptionHandler {
+        List<Employee> employees = new ArrayList<>();
+
+        // SQL Query to fetch all employees
+        String getAllEmployeesQuery = "SELECT Employees.*, T.*, C.* " +
+                "FROM Employees " +
+                "JOIN dbo.Team T " +
+                "ON Employees.EmployeeID = T.EmployeeID " +
+                "JOIN dbo.Contract C ON " +
+                "Employees.EmployeeID = C.EmployeeID";
+
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(getAllEmployeesQuery)) {
+
+            // Results
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee();
+
+                // Set employee properties
+                employee.setFirstName(rs.getString("FirstName"));
+                employee.setLastName(rs.getString("LastName"));
+                employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
+                employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
+
+                // Set team properties
+                Team team = new Team();
+                team.setId(rs.getInt("TeamID"));
+                team.setName(rs.getString("TeamName"));
+                employee.setTeam(team);
+
+                // Set contract properties
+                Contract contract = new Contract();
+                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
+                contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
+                contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
+                contract.setOverhead(rs.getBoolean("IsOverhead"));
+                contract.setValidFrom(rs.getTimestamp("SysStartTime").toLocalDateTime());
+                contract.setValidUntil(rs.getTimestamp("SysEndTime").toLocalDateTime());
+
+                employee.setContract(contract);
+
+                employees.add(employee);
+            }
+            return employees;
+
+        } catch (SQLException e) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
+        }
+    }
+
+    public boolean updateEmployee(Employee employee, Contract contract) throws ExceptionHandler {
+        String updateEmployee = "UPDATE Employees SET FirstName = ?, LastName = ?, Region = ?, Country = ? WHERE EmployeeID = ?";
+        String updateTeam = "UPDATE Team SET TeamName = ? WHERE EmployeeID = ?";
+        String updateContract = "UPDATE Contract SET AnnualSalary = ?, FixedAnnualAmount = ?, AnnualWorkHours = ?, AverageDailyWorkHours = ?, OverheadPercentage = ?, UtilizationPercentage = ?, MarkupPercentage = ?, GrossMarginPercentage = ?, IsOverhead = ? WHERE EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+            try (PreparedStatement employeeStmt = conn.prepareStatement(updateEmployee);
+                 PreparedStatement teamStmt = conn.prepareStatement(updateTeam);
+                 PreparedStatement contractStmt = conn.prepareStatement(updateContract)) {
+
+                employeeStmt.setString(1, employee.getFirstName());
+                employeeStmt.setString(2, employee.getLastName());
+                employeeStmt.setString(3, employee.getRegion().getName());
+                employeeStmt.setString(4, employee.getCountry().getValue());
+                employeeStmt.setInt(5, employee.getId());
+                employeeStmt.executeUpdate();
+
+                if (employee.getTeam() != null) {
+                    teamStmt.setString(1, employee.getTeam().getName());
+                    teamStmt.setInt(2, employee.getId());
+                    teamStmt.executeUpdate();
+                }
+
+                contractStmt.setDouble(1, contract.getAnnualSalary());
+                contractStmt.setDouble(2, contract.getFixedAnnualAmount());
+                contractStmt.setDouble(3, contract.getAnnualWorkHours());
+                contractStmt.setDouble(4, contract.getAverageDailyWorkHours());
+                contractStmt.setDouble(5, contract.getOverheadPercentage());
+                contractStmt.setDouble(6, contract.getUtilizationPercentage());
+                contractStmt.setDouble(7, contract.getMarkupPercentage());
+                contractStmt.setDouble(8, contract.getGrossMarginPercentage());
+                contractStmt.setBoolean(9, contract.isOverhead());
+                contractStmt.setInt(10, employee.getId());
+                contractStmt.executeUpdate();
+
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new ExceptionHandler(e.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
+        }
+    }
+
+    public boolean deleteEmployee(int employeeId) throws ExceptionHandler {
+        String deleteContract = "DELETE FROM Contract WHERE EmployeeID = ?";
+        String deleteTeam = "DELETE FROM Team WHERE EmployeeID = ?";
+        String deleteEmployee = "DELETE FROM Employees WHERE EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+
+            try (PreparedStatement contractStmt = conn.prepareStatement(deleteContract);
+                 PreparedStatement teamStmt = conn.prepareStatement(deleteTeam);
+                 PreparedStatement employeeStmt = conn.prepareStatement(deleteEmployee)) {
+
+                contractStmt.setInt(1, employeeId);
+                contractStmt.executeUpdate();
+
+                teamStmt.setInt(1, employeeId);
+                teamStmt.executeUpdate();
+
+                employeeStmt.setInt(1, employeeId);
+                employeeStmt.executeUpdate();
+                
+                conn.commit();
+                return true;
+            } catch (SQLException e) {
+                conn.rollback();
+                throw new ExceptionHandler(e.getMessage());
+            }
+        } catch (SQLException ex) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
         }
     }
 }
