@@ -1,9 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.dal;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Region;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
@@ -64,16 +61,17 @@ public class EmployeeDAO {
                 }
 
                 // Insert contract information
+                Contract contract = new Contract();
                 contractStatement.setInt(1, employee.getId());
-                contractStatement.setDouble(2, employee.getAnnualSalary());
-                contractStatement.setDouble(3, employee.getFixedAnnualAmount());
-                contractStatement.setDouble(4, employee.getAnnualWorkHours());
-                contractStatement.setDouble(5, employee.getAverageDailyWorkHours());
-                contractStatement.setDouble(6, employee.getOverheadPercentage());
-                contractStatement.setDouble(7, employee.getUtilizationPercentage());
-                contractStatement.setDouble(8, employee.getMarkupPercentage());
-                contractStatement.setDouble(9, employee.getGrossMarginPercentage());
-                contractStatement.setBoolean(10, employee.isOverhead());
+                contractStatement.setDouble(2, contract.getAnnualSalary());
+                contractStatement.setDouble(3, contract.getFixedAnnualAmount());
+                contractStatement.setDouble(4, contract.getAnnualWorkHours());
+                contractStatement.setDouble(5, contract.getAverageDailyWorkHours());
+                contractStatement.setDouble(6, contract.getOverheadPercentage());
+                contractStatement.setDouble(7, contract.getUtilizationPercentage());
+                contractStatement.setDouble(8, contract.getMarkupPercentage());
+                contractStatement.setDouble(9, contract.getGrossMarginPercentage());
+                contractStatement.setBoolean(10, contract.isOverhead());
                 contractStatement.addBatch();
 
                 // Execute batches
@@ -115,20 +113,32 @@ public class EmployeeDAO {
             // Results
             ResultSet rs = statement.executeQuery();
             if (rs.next()){
+                // Set employee properties
                 employee.setFirstName(rs.getString("FirstName"));
                 employee.setLastName(rs.getString("LastName"));
                 employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
                 employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
-                employee.setTeam(new Team(rs.getInt("TeamID"), rs.getString("TeamName")));
-                employee.setAnnualSalary(rs.getDouble("AnnualSalary"));
-                employee.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
-                employee.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
-                employee.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
-                employee.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
-                employee.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
-                employee.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
-                employee.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
-                employee.setOverhead(rs.getBoolean("IsOverhead"));
+
+                // Set team properties
+                Team team = new Team();
+                team.setId(rs.getInt("TeamID"));
+                team.setName(rs.getString("TeamName"));
+                employee.setTeam(team);
+
+
+                // Set contract properties
+                Contract contract = new Contract();
+                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
+                contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
+                contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
+                contract.setOverhead(rs.getBoolean("IsOverhead"));
+
+                employee.setContract(contract);
             }
             return employee;
 

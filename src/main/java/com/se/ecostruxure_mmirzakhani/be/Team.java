@@ -13,6 +13,10 @@ public class Team {
         this.name = name;
     }
 
+    public Team() {
+
+    }
+
     public int getId() {
         return id;
     }
