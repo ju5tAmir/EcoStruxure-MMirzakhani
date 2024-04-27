@@ -8,10 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContractManager {
+public class ContractDAO {
     private final DBConnection dbConnection;
 
-    public ContractManager() throws ExceptionHandler {
+    public ContractDAO() throws ExceptionHandler {
         dbConnection = new DBConnection();
     }
 
