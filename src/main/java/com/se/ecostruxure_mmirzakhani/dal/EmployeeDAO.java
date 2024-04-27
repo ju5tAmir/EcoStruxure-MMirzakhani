@@ -137,6 +137,8 @@ public class EmployeeDAO {
                 contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
                 contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
                 contract.setOverhead(rs.getBoolean("IsOverhead"));
+                contract.setValidFrom(rs.getTimestamp("SysStartTime").toLocalDateTime());
+                contract.setValidUntil(rs.getTimestamp("SysEndTime").toLocalDateTime());
 
                 employee.setContract(contract);
             }

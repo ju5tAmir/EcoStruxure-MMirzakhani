@@ -1,5 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 public class Contract {
     // Contract details
     private double annualSalary;
@@ -16,6 +19,10 @@ public class Contract {
     // Rates
     private double hourlyRate;
     private double dailyRate;
+
+    // Valid dates
+    private LocalDateTime validFrom;
+    private LocalDateTime validUntil;
 
     /**
      * Constructor
@@ -115,6 +122,22 @@ public class Contract {
         this.dailyRate = dailyRate;
     }
 
+    public LocalDateTime getValidFrom() {
+        return validFrom;
+    }
+
+    public void setValidFrom(LocalDateTime validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public LocalDateTime getValidUntil() {
+        return validUntil;
+    }
+
+    public void setValidUntil(LocalDateTime validUntil) {
+        this.validUntil = validUntil;
+    }
+
     @Override
     public String toString() {
         return "Contract{" +
@@ -129,6 +152,8 @@ public class Contract {
                 ", grossMarginPercentage=" + grossMarginPercentage +
                 ", hourlyRate=" + hourlyRate +
                 ", dailyRate=" + dailyRate +
+                ", validFrom=" + validFrom +
+                ", validUntil=" + validUntil +
                 '}';
     }
 }
