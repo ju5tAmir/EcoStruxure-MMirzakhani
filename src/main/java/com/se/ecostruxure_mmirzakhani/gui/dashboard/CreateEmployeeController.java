@@ -67,15 +67,6 @@ public class CreateEmployeeController implements IController {
         );
         model.addEmployeeToList(newEmployee);
 
-        //this.model.createEmployee(newEmployee);
-        //this.model.updateEmployeeList();
-
-        employeeTableView.setItems(model.getEmployees());
-
-        employeeTableView.refresh();
-
-
-
         Scene scene = (Scene) nameField.getScene();
         Stage stage = (Stage) scene.getWindow();
         stage.close();

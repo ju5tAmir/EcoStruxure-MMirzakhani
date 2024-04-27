@@ -8,11 +8,10 @@ import javafx.collections.ObservableList;
 public class Model {
 
     private EmployeeLogic employeeLogic;
-    private ObservableList<Employee> employeeList;
+    private ObservableList<Employee> employeeList = FXCollections.observableArrayList();
 
     public Model() {
         this.employeeLogic = new EmployeeLogic();
-        this.employeeList = FXCollections.observableArrayList();
     }
 
 

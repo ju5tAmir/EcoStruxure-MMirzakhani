@@ -35,8 +35,7 @@ public class Window implements IUtils {
     public static <T> void  createStage(WindowType windowType,
                                         T model,
                                         Modality modality,
-                                        boolean resizable,
-                                        TableView<Employee> employeeTableView)
+                                        boolean resizable)
             throws ExceptionHandler
 
     {
@@ -49,10 +48,6 @@ public class Window implements IUtils {
         // Pass the model to the controller of new page
         IController<T> controller = fxmlLoader.getController();
         controller.setModel(model);
-
-        if (controller instanceof CreateEmployeeController) {
-            ((CreateEmployeeController) controller).setEmployeeTableView(employeeTableView);
-        }
 
         // Create a new stage and set its properties.
         Stage stage = new Stage();
@@ -75,7 +70,7 @@ public class Window implements IUtils {
      */
 
     public static void createStage(WindowType windowType) throws ExceptionHandler{
-        createStage(windowType, null, null,false, null);
+        createStage(windowType, null, null,false);
     }
 
 
