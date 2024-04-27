@@ -49,6 +49,7 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private void onSubmitButton(ActionEvent actionEvent) {
         try {
+            // Filling the values from user input
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
 
@@ -58,7 +59,10 @@ public class CreateEmployeeController implements IController<Model> {
             model.setCountry(Country.NORTH_KOREA);
             model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
 
+            // ToDo: Keep going with other fields as needed.
+            // ToDo: Don't forget to check for null inputs.
 
+            // Trigger the final action for creating an employee
             model.createEmployee();
 
             // Close the stage if it was successful
@@ -71,6 +75,6 @@ public class CreateEmployeeController implements IController<Model> {
 
     }
 
-    // ToDo: Check for null inputs
+    // ToDo: Method to check for null inputs
 
 }
