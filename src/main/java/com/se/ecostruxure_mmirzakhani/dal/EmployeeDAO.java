@@ -6,6 +6,8 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EmployeeDAO {
     private final DBConnection dbConnection;
@@ -148,4 +150,61 @@ public class EmployeeDAO {
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
         }
     }
+
+    public List<Employee> getAllEmployees() throws ExceptionHandler {
+        List<Employee> employees = new ArrayList<>();
+
+        // SQL Query to fetch all employees
+        String getAllEmployeesQuery = "SELECT Employees.*, T.*, C.* " +
+                "FROM Employees " +
+                "JOIN dbo.Team T " +
+                "ON Employees.EmployeeID = T.EmployeeID " +
+                "JOIN dbo.Contract C ON " +
+                "Employees.EmployeeID = C.EmployeeID";
+
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(getAllEmployeesQuery)) {
+
+            // Results
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Employee employee = new Employee();
+
+                // Set employee properties
+                employee.setFirstName(rs.getString("FirstName"));
+                employee.setLastName(rs.getString("LastName"));
+                employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
+                employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
+
+                // Set team properties
+                Team team = new Team();
+                team.setId(rs.getInt("TeamID"));
+                team.setName(rs.getString("TeamName"));
+                employee.setTeam(team);
+
+                // Set contract properties
+                Contract contract = new Contract();
+                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
+                contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
+                contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
+                contract.setOverhead(rs.getBoolean("IsOverhead"));
+                contract.setValidFrom(rs.getTimestamp("SysStartTime").toLocalDateTime());
+                contract.setValidUntil(rs.getTimestamp("SysEndTime").toLocalDateTime());
+
+                employee.setContract(contract);
+
+                employees.add(employee);
+            }
+            return employees;
+
+        } catch (SQLException e) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
+        }
+    }
+
 }
