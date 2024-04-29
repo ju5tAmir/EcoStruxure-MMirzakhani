@@ -9,17 +9,14 @@ import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
@@ -140,6 +137,29 @@ public class EmployeeDashboardController implements IController {
                 }
 
             });
+
+        // Set cell factory to display each country with its flag
+        teamComboBox.setCellFactory(param -> new ListCell<Country>() {
+            @Override
+            protected void updateItem(Country country, boolean empty) {
+                super.updateItem(country, empty);
+                if (empty || country == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
+                    if (flagImageView != null) {
+                        flagImageView.setFitWidth(20); // Adjust width and height as needed
+                        flagImageView.setFitHeight(20);
+                        setGraphic(flagImageView);
+                        setText(country.getValue());
+                    } else {
+                        setText(country.getValue());
+                    }
+                }
+            }
+        });
+
 
         teamComboBox.setOnKeyPressed(event -> {
             if (event.getCode().isLetterKey()) {
