@@ -217,4 +217,8 @@ public enum Country {
         return country;
     }
 
+    @Override
+    public String toString() {
+        return country;
+    }
 }

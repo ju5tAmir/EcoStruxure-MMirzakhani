@@ -52,9 +52,15 @@ public class EmployeeLogic {
         labels.add(overheadPercentageLabel);
         Label utilizationPercentageLabel = new Label("Utilization Percentage: " + employee.getContract().getUtilizationPercentage());
         labels.add(utilizationPercentageLabel);
-        Label typeLabel = new Label("Employee Type: " + employee.getContract().isOverhead());
-        labels.add(utilizationPercentageLabel);
 
+        // Check if the employee is considered overhead or not
+        if (employee.getContract().isOverhead()) {
+            Label typeLabel = new Label("Employee Type: Overhead Cost");
+            labels.add(typeLabel);
+        } else {
+            Label typeLabel = new Label("Employee Type: Production Resource");
+            labels.add(typeLabel);
+        }
 
         employeeInfo.getItems().setAll(labels);
     }

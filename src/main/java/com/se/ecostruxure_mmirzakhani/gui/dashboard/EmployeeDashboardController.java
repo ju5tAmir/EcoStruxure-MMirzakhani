@@ -9,7 +9,10 @@ import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,6 +35,8 @@ public class EmployeeDashboardController implements IController {
     private TableColumn<Employee, String> employeeTeam;
     @FXML
     private ListView<Label> employeeInfoList;
+    @FXML
+    private ChoiceBox countryChoiceBox;
 
     private Model model;
 
@@ -97,6 +102,11 @@ public class EmployeeDashboardController implements IController {
                 model.setInfoList(employeeInfoList, newValue);
             }
         } );
+
+        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
+        countryChoiceBox.setItems(countryList);
+        countryChoiceBox.setValue("Group by country");
     }
+
 
 }
