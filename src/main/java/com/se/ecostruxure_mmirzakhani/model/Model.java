@@ -3,7 +3,7 @@ package com.se.ecostruxure_mmirzakhani.model;
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;
-import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
+import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
