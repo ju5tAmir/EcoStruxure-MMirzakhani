@@ -70,4 +70,5 @@ public class EmployeeLogic {
         employeeInfo.getItems().setAll(labels);
     }
 
+
 }

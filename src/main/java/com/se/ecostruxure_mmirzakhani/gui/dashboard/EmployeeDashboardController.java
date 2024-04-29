@@ -36,7 +36,9 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private ListView<Label> employeeInfoList;
     @FXML
-    private ChoiceBox countryChoiceBox;
+    private ComboBox filterComboBox;
+    @FXML
+    private ComboBox teamComboBox;
 
     private Model model;
 
@@ -62,6 +64,8 @@ public class EmployeeDashboardController implements IController {
         try {
             initEmployeesTable();
             initEmployeeColumns();
+            populateChoicebox();
+
 
 
         } catch (ExceptionHandler exceptionHandler){
@@ -97,16 +101,44 @@ public class EmployeeDashboardController implements IController {
             return new SimpleStringProperty(team.getName());
         });
 
+
+        // sets a listener to update the listview based on the selected Employee
         employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
             if(newValue!=null){
                 model.setInfoList(employeeInfoList, newValue);
             }
         } );
 
-        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
-        countryChoiceBox.setItems(countryList);
-        countryChoiceBox.setValue("Group by country");
+
     }
+
+    public void populateChoicebox() {
+        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
+
+        filterComboBox.getItems().addAll("Country", "Team");
+
+        // Initially set the value to "All"
+        filterComboBox.setValue("All");
+
+        teamComboBox.setVisible(false);
+
+        filterComboBox.setOnAction(event -> {
+                String selectedOption = filterComboBox.getValue().toString();
+                if (selectedOption.equals("Country")) {
+                    teamComboBox.setVisible(true);
+                    teamComboBox.setValue("Select Country");
+                    teamComboBox.getItems().addAll(countryList);
+
+                } else if (selectedOption.equals("Team")) {
+                    teamComboBox.setVisible(true);
+                    teamComboBox.setValue("Select Team");
+                    teamComboBox.getItems().setAll("Production", "Management");
+                }
+
+            });
+
+        }
+
 
 
 }

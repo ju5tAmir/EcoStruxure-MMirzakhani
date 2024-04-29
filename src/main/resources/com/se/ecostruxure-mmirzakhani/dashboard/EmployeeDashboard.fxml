@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ComboBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController">
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #D7DBDD; -fx-border-width: 2; -fx-background-color: #E5E7E9;" BorderPane.alignment="CENTER">
@@ -74,12 +75,12 @@
             </ImageView>
             <HBox>
                <children>
-                  <ChoiceBox fx:id="countryChoiceBox" prefWidth="150.0">
+                  <ComboBox fx:id="filterComboBox" prefWidth="150.0">
                      <HBox.margin>
                         <Insets right="20.0" />
                      </HBox.margin>
-                  </ChoiceBox>
-                  <ChoiceBox fx:id="teamChoiceBox" prefWidth="150.0" />
+                  </ComboBox>
+                  <ComboBox fx:id="teamComboBox" prefWidth="150.0" />
                </children>
                <VBox.margin>
                   <Insets top="30.0" />
