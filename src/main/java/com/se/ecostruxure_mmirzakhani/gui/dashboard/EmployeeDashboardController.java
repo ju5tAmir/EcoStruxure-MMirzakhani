@@ -43,6 +43,9 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private ComboBox teamComboBox;
 
+    //get the list of countries from the enum and change it to observable
+    ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
+
     private Model model;
 
     // ToDo: Implement controller methods such as buttons and other nodes.
@@ -116,8 +119,6 @@ public class EmployeeDashboardController implements IController {
     }
 
     public void populateChoicebox() {
-        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
-
         filterComboBox.getItems().addAll("Country", "Team");
 
         // Initially set the value to "All"
@@ -149,10 +150,6 @@ public class EmployeeDashboardController implements IController {
 
         }
     private void filterCountriesByFirstLetter(String letter) {
-
-        //get the list of countries from the enum and change it to observable
-        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
-
         //filter the list by the first typed letter
         ObservableList<Country> filteredList = countryList.filtered(country ->
                 country.getValue().toLowerCase().startsWith(letter.toLowerCase()));
