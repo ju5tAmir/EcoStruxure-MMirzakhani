@@ -11,9 +11,7 @@ import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 
@@ -25,13 +23,15 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private TableView<Employee> employeeTableView;
     @FXML
-    private TableColumn<Employee, String> employeeFirstName;
+    private TableColumn<Employee, String> firstNameColumn;
     @FXML
-    private TableColumn<Employee, String> employeeLastName;
+    private TableColumn<Employee, String> lastNameColumn;
     @FXML
     private TableColumn<Employee, String> employeeCountry;
     @FXML
     private TableColumn<Employee, String> employeeTeam;
+    @FXML
+    private ListView<Label> employeeInfoList;
 
     private Model model;
 
@@ -75,8 +75,8 @@ public class EmployeeDashboardController implements IController {
      * Initializing columns for the Employees table
      */
     private void initEmployeeColumns(){
-        employeeFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        employeeLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         employeeCountry.setCellValueFactory(cellData -> {
             // Retrieve the country enum value from the Employee object
             Country country = cellData.getValue().getCountry();
@@ -91,6 +91,12 @@ public class EmployeeDashboardController implements IController {
             // Return the string representation
             return new SimpleStringProperty(team.getName());
         });
+
+        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+            if(newValue!=null){
+                model.setInfoList(employeeInfoList, newValue);
+            }
+        } );
     }
 
 }

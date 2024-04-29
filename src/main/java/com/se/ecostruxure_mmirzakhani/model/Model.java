@@ -8,6 +8,8 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 
 public class Model {
     // An employee object to update when creating a new profile
@@ -95,4 +97,8 @@ public class Model {
 
 
     // ToDo: Getters and Setters for the above lists and objects
+
+    public void setInfoList(ListView<Label> employeeInfo, Employee employee) {
+    logic.setInfoList(employeeInfo, employee);
+    }
 }
