@@ -18,6 +18,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
  */
@@ -137,8 +140,26 @@ public class EmployeeDashboardController implements IController {
 
             });
 
-        }
+        teamComboBox.setOnKeyPressed(event -> {
+            if (event.getCode().isLetterKey()) {
+                String typedText = event.getText();
+                filterCountriesByFirstLetter(typedText);
+            }
+        });
 
+        }
+    private void filterCountriesByFirstLetter(String letter) {
+
+        //get the list of countries from the enum and change it to observable
+        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
+
+        //filter the list by the first typed letter
+        ObservableList<Country> filteredList = countryList.filtered(country ->
+                country.getValue().toLowerCase().startsWith(letter.toLowerCase()));
+
+        teamComboBox.setItems(filteredList);
+        teamComboBox.getSelectionModel().selectFirst();
+    }
 
 
 }
