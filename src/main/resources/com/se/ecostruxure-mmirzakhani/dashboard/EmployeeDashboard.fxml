@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController">
    <left>
@@ -71,12 +73,12 @@
                </image>
             </ImageView>
             <TableView fx:id="employeeTableView" minHeight="100.0" minWidth="100.0" prefHeight="227.0" prefWidth="903.0">
-              <columns>
-                <TableColumn fx:id="employeeFirstName" prefWidth="75.0" text="Name" />
+               <columns>
+                  <TableColumn fx:id="employeeFirstName" prefWidth="75.0" text="Name" />
                   <TableColumn fx:id="employeeLastName" prefWidth="87.5" text="Family" />
                   <TableColumn fx:id="employeeCountry" prefWidth="113.0" text="Country" />
                   <TableColumn fx:id="employeeTeam" prefWidth="115.0" text="Team" />
-              </columns>
+               </columns>
                <VBox.margin>
                   <Insets left="20.0" right="20.0" top="150.0" />
                </VBox.margin>
@@ -95,4 +97,18 @@
          </children>
       </VBox>
    </center>
+   <right>
+      <VBox alignment="TOP_CENTER" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <LineChart fx:id="rateHistoryChart" minHeight="400.0" minWidth="300.0" VBox.vgrow="ALWAYS">
+               <xAxis>
+                  <NumberAxis autoRanging="true" label="Timestamp" />
+               </xAxis>
+               <yAxis>
+                  <NumberAxis autoRanging="true" label="Hourly Rate ($)" />
+               </yAxis>
+            </LineChart>
+         </children>
+      </VBox>
+   </right>
 </BorderPane>

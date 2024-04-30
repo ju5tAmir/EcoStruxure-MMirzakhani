@@ -9,6 +9,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class Model {
     // An employee object to update when creating a new profile
     private final SimpleObjectProperty<Employee> employee = new SimpleObjectProperty<>();
@@ -18,14 +21,23 @@ public class Model {
 
     // List of contract changes for one employee with same personal details but different contracts
     private final ObservableList<Employee> employeeHistory = FXCollections.observableArrayList();
-    private final EmployeeLogic logic = new EmployeeLogic();
+    private EmployeeLogic logic = new EmployeeLogic(); //this class was a final
 
     /**
      * Constructor
      */
     public Model(){
         initEmployee();
+        this.logic = new EmployeeLogic();
+    }
 
+    //Methods to get all hourly rates related to time
+    public List<Double> getHourlyRateHistory(Employee employee) {
+        return employee.getContract().getHourlyRateHistory();
+    }
+
+    public List<LocalDateTime> getRateChangeTimestamps(Employee employee) {
+        return employee.getContract().getRateChangeTimestamps();
     }
 
     /**
@@ -90,9 +102,5 @@ public class Model {
         // Now It's just a demo how it can change the table view
         employees.add(employee.get());
     }
-
-
-
-
     // ToDo: Getters and Setters for the above lists and objects
 }

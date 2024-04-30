@@ -11,11 +11,17 @@ import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 
 /**
  * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
@@ -32,8 +38,39 @@ public class EmployeeDashboardController implements IController {
     private TableColumn<Employee, String> employeeCountry;
     @FXML
     private TableColumn<Employee, String> employeeTeam;
+    @FXML
+    private LineChart<Number, Number> rateHistoryChart;
 
     private Model model;
+
+    public EmployeeDashboardController(Model model) {
+        this.model = model;
+    }
+
+    public void initialize() {
+        Employee employee = new Employee();
+        updateRateHistoryGraph(employee);
+    }
+
+    private void updateRateHistoryGraph(Employee employee) {
+        try {
+            List<Double> rates = model.getHourlyRateHistory(employee);
+            List<LocalDateTime> timestamps = model.getRateChangeTimestamps(employee);
+
+            XYChart.Series<Number, Number> hourlySeries = new XYChart.Series<>();
+            hourlySeries.setName("Hourly Rate");
+
+            for (int i = 0; i < rates.size(); i++) {
+                long time = timestamps.get(i).atZone(ZoneId.systemDefault()).toEpochSecond();
+                hourlySeries.getData().add(new XYChart.Data<>(time, rates.get(i)));
+            }
+
+            rateHistoryChart.getData().clear();
+            rateHistoryChart.getData().add(hourlySeries);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     // ToDo: Implement controller methods such as buttons and other nodes.
 
