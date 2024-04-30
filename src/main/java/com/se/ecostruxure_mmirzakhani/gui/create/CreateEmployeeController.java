@@ -7,6 +7,8 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -27,7 +29,7 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private TextField fixedAnnualAmountField;
     @FXML
-    private ChoiceBox<String> countryChoice;
+    private ChoiceBox countryChoice;
     @FXML
     private ChoiceBox<String> teamChoice;
     @FXML
@@ -44,6 +46,16 @@ public class CreateEmployeeController implements IController<Model> {
     @Override
     public void setModel(Model model) {
         this.model = model;
+        populateChoiceBoxes();
+    }
+
+    private void populateChoiceBoxes() {
+        ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
+        countryChoice.setItems(countries);
+        countryChoice.setValue("Choose Country");
+
+        typeChoice.getItems().addAll("Production Resource", "Overhead");
+        typeChoice.setValue("Choose Type");
     }
 
     @FXML
@@ -53,6 +65,7 @@ public class CreateEmployeeController implements IController<Model> {
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
 
+            countryChoice.getValue();
             // I need to set a country and team manually here because I don't want to mess with this page :D
             // Just for example and prevent error
             // You can implement your methods
@@ -63,6 +76,9 @@ public class CreateEmployeeController implements IController<Model> {
             // ToDo: Don't forget to check for null inputs.
 
             // Trigger the final action for creating an employee
+
+
+            // For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
             model.createEmployee();
 
             // Close the stage if it was successful

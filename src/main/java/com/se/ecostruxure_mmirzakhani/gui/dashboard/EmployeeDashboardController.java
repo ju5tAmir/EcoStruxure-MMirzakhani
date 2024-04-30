@@ -10,11 +10,12 @@ import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 
 /**
@@ -25,13 +26,22 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private TableView<Employee> employeeTableView;
     @FXML
-    private TableColumn<Employee, String> employeeFirstName;
+    private TableColumn<Employee, String> firstNameColumn;
     @FXML
-    private TableColumn<Employee, String> employeeLastName;
+    private TableColumn<Employee, String> lastNameColumn;
     @FXML
     private TableColumn<Employee, String> employeeCountry;
     @FXML
     private TableColumn<Employee, String> employeeTeam;
+    @FXML
+    private ListView<Label> employeeInfoList;
+    @FXML
+    private ComboBox filterComboBox;
+    @FXML
+    private ComboBox teamComboBox;
+
+    //get the list of countries from the enum and change it to observable
+    ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
 
     private Model model;
 
@@ -57,6 +67,8 @@ public class EmployeeDashboardController implements IController {
         try {
             initEmployeesTable();
             initEmployeeColumns();
+            populateChoicebox();
+
 
 
         } catch (ExceptionHandler exceptionHandler){
@@ -75,8 +87,8 @@ public class EmployeeDashboardController implements IController {
      * Initializing columns for the Employees table
      */
     private void initEmployeeColumns(){
-        employeeFirstName.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        employeeLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         employeeCountry.setCellValueFactory(cellData -> {
             // Retrieve the country enum value from the Employee object
             Country country = cellData.getValue().getCountry();
@@ -91,6 +103,80 @@ public class EmployeeDashboardController implements IController {
             // Return the string representation
             return new SimpleStringProperty(team.getName());
         });
+
+
+        // sets a listener to update the listview based on the selected Employee
+        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
+            if(newValue!=null){
+                model.setInfoList(employeeInfoList, newValue);
+            }
+        } );
+
+
     }
+
+    public void populateChoicebox() {
+        filterComboBox.getItems().addAll("Country", "Team");
+
+        // Initially set the value to "All"
+        filterComboBox.setValue("All");
+
+        teamComboBox.setVisible(false);
+
+        filterComboBox.setOnAction(event -> {
+                String selectedOption = filterComboBox.getValue().toString();
+                if (selectedOption.equals("Country")) {
+                    teamComboBox.setVisible(true);
+                    teamComboBox.setValue("Select Country");
+                    teamComboBox.getItems().addAll(countryList);
+
+                } else if (selectedOption.equals("Team")) {
+                    teamComboBox.setVisible(true);
+                    teamComboBox.setValue("Select Team");
+                    teamComboBox.getItems().setAll("Production", "Management");
+                }
+
+            });
+
+        // Set cell factory to display each country with its flag
+        teamComboBox.setCellFactory(param -> new ListCell<Country>() {
+            @Override
+            protected void updateItem(Country country, boolean empty) {
+                super.updateItem(country, empty);
+                if (empty || country == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
+                    if (flagImageView != null) {
+                        flagImageView.setFitWidth(20); // Adjust width and height as needed
+                        flagImageView.setFitHeight(20);
+                        setGraphic(flagImageView);
+                        setText(country.getValue());
+                    } else {
+                        setText(country.getValue());
+                    }
+                }
+            }
+        });
+
+
+        teamComboBox.setOnKeyPressed(event -> {
+            if (event.getCode().isLetterKey()) {
+                String typedText = event.getText();
+                filterCountriesByFirstLetter(typedText);
+            }
+        });
+
+        }
+    private void filterCountriesByFirstLetter(String letter) {
+        //filter the list by the first typed letter
+        ObservableList<Country> filteredList = countryList.filtered(country ->
+                country.getValue().toLowerCase().startsWith(letter.toLowerCase()));
+
+        teamComboBox.setItems(filteredList);
+        teamComboBox.getSelectionModel().selectFirst();
+    }
+
 
 }

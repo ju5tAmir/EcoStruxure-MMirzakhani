@@ -17,10 +17,12 @@
   <rowConstraints>
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -37,37 +39,37 @@
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Overhead multiplier:" GridPane.rowIndex="2">
+      <Label text="Overhead multiplier:" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Country:" GridPane.rowIndex="3">
+      <Label text="Country:" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Fixed annual amount:" GridPane.rowIndex="4">
+      <Label text="Fixed Annual Amount:" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Team:" GridPane.rowIndex="5">
+      <Label text="Team:" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Annual Working Hours:" GridPane.rowIndex="6">
+      <Label text="Annual Working Hours:" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Utilization:" GridPane.rowIndex="7">
+      <Label text="Utilization:" GridPane.rowIndex="9">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
       </Label>
-      <Label text="Type:" GridPane.rowIndex="8">
+      <Label text="Type:" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets right="10.0" />
          </GridPane.margin>
@@ -82,46 +84,66 @@
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="overheadMultiplierField" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <TextField fx:id="overheadMultiplierField" GridPane.columnIndex="1" GridPane.rowIndex="7">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="fixedAnnualAmountField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+      <TextField fx:id="fixedAnnualAmountField" GridPane.columnIndex="1" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="annualWorkingHoursField" GridPane.columnIndex="1" GridPane.rowIndex="6">
+      <TextField fx:id="annualWorkingHoursField" GridPane.columnIndex="1" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </TextField>
-      <TextField fx:id="utilizationField" GridPane.columnIndex="1" GridPane.rowIndex="7">
+      <TextField fx:id="utilizationField" GridPane.columnIndex="1" GridPane.rowIndex="9">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </TextField>
-      <ChoiceBox fx:id="typeChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+      <ChoiceBox fx:id="typeChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
          <GridPane.margin>
             <Insets left="20.0" right="20.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <Button mnemonicParsing="false" onAction="#onSubmitButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="9">
+      <Button mnemonicParsing="false" onAction="#onSubmitButton" text="Save" GridPane.columnIndex="1" GridPane.rowIndex="11">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
       </Button>
-      <ChoiceBox fx:id="teamChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+      <ChoiceBox fx:id="teamChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <ChoiceBox fx:id="countryChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <ChoiceBox fx:id="countryChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="20.0" />
          </GridPane.margin>
       </ChoiceBox>
+      <Label text="Daily Working Hours:" GridPane.rowIndex="6">
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField fx:id="dailyHoursField" GridPane.columnIndex="1" GridPane.rowIndex="6">
+         <GridPane.margin>
+            <Insets left="20.0" right="20.0" />
+         </GridPane.margin>
+      </TextField>
+      <TextField fx:id="annualSalaryField" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets left="20.0" right="20.0" />
+         </GridPane.margin>
+      </TextField>
+      <Label text="Annual Salary:" GridPane.rowIndex="4">
+         <GridPane.margin>
+            <Insets right="10.0" />
+         </GridPane.margin>
+      </Label>
    </children>
    <padding>
       <Insets bottom="20.0" left="50.0" right="50.0" top="20.0" />
