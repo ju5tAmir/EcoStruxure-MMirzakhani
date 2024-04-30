@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.calculations.CalculatorController">
+   <children>
+      <Label layoutX="43.0" layoutY="37.0" text="Markup Multiplier" />
+      <Label layoutX="43.0" layoutY="250.0" text="Gross Margin Multiplier" />
+      <Label layoutX="43.0" layoutY="73.0" text="Calculate for (User name)" />
+      <Label layoutX="43.0" layoutY="282.0" text="Calculate for (User name)" />
+   </children>
+</AnchorPane>

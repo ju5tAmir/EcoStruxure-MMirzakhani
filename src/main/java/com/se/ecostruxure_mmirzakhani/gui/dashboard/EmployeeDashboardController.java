@@ -12,6 +12,7 @@ import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -149,7 +150,7 @@ public class EmployeeDashboardController implements IController {
                 } else {
                     ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
                     if (flagImageView != null) {
-                        flagImageView.setFitWidth(20); // Adjust width and height as needed
+                        flagImageView.setFitWidth(20);
                         flagImageView.setFitHeight(20);
                         setGraphic(flagImageView);
                         setText(country.getValue());
@@ -179,4 +180,12 @@ public class EmployeeDashboardController implements IController {
     }
 
 
+    public void calculateMultipliers(ActionEvent actionEvent) {
+        try{
+            Window.createStage(WindowType.CALCULATOR, model, Modality.WINDOW_MODAL, false);
+        }
+        catch (ExceptionHandler e){
+            throw new RuntimeException();
+        }
+    }
 }

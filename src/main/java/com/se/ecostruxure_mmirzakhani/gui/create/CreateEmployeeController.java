@@ -5,16 +5,15 @@ import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
+import com.se.ecostruxure_mmirzakhani.gui.dashboard.FlagService;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 
 /**
  * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
@@ -29,15 +28,15 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private TextField fixedAnnualAmountField;
     @FXML
-    private ChoiceBox countryChoice;
+    private ComboBox countryCombo;
     @FXML
-    private ChoiceBox<String> teamChoice;
+    private ComboBox<String> teamCombo;
     @FXML
     private TextField annualWorkingHoursField;
     @FXML
     private TextField utilizationField;
     @FXML
-    private ChoiceBox<String> typeChoice;
+    private ComboBox<String> typeCombo;
     @FXML
     private TableView<Employee> employeeTableView;
 
@@ -51,11 +50,49 @@ public class CreateEmployeeController implements IController<Model> {
 
     private void populateChoiceBoxes() {
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
-        countryChoice.setItems(countries);
-        countryChoice.setValue("Choose Country");
+        countryCombo.setValue("Choose Country");
+        countryCombo.setItems(countries);
 
-        typeChoice.getItems().addAll("Production Resource", "Overhead");
-        typeChoice.setValue("Choose Type");
+        countryCombo.setCellFactory(param -> new ListCell<Country>() {
+            @Override
+            protected void updateItem(Country country, boolean empty) {
+                super.updateItem(country, empty);
+                if (empty || country == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
+                    if (flagImageView != null) {
+                        flagImageView.setFitWidth(20);
+                        flagImageView.setFitHeight(20);
+                        setGraphic(flagImageView);
+                        setText(country.getValue());
+                    } else {
+                        setText(country.getValue());
+                    }
+                }
+            }
+        });
+
+        countryCombo.setOnKeyPressed(event -> {
+            if (event.getCode().isLetterKey()) {
+                String typedText = event.getText();
+                filterCountriesByFirstLetter(typedText);
+            }
+        });
+
+        typeCombo.getItems().addAll("Production Resource", "Overhead");
+        typeCombo.setValue("Choose Type");
+    }
+    private void filterCountriesByFirstLetter(String letter) {
+        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
+
+        //filter the list by the first typed letter
+        ObservableList<Country> filteredList = countryList.filtered(country ->
+                country.getValue().toLowerCase().startsWith(letter.toLowerCase()));
+
+        countryCombo.setItems(filteredList);
+        countryCombo.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -65,7 +102,7 @@ public class CreateEmployeeController implements IController<Model> {
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
 
-            countryChoice.getValue();
+            countryCombo.getValue();
             // I need to set a country and team manually here because I don't want to mess with this page :D
             // Just for example and prevent error
             // You can implement your methods

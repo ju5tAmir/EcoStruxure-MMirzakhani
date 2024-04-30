@@ -134,6 +134,7 @@ public class Window implements IUtils {
         return switch (windowType){
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
             case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/create/CreateEmployee.fxml";
+            case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths
 
