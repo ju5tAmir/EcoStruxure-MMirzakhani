@@ -1,5 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.bll;
 
+import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
