@@ -3,10 +3,7 @@ package com.se.ecostruxure_mmirzakhani.bll;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EmployeeLogic {
@@ -37,9 +34,5 @@ public class EmployeeLogic {
     }
 
     // ToDo: Implement methods to calculate rates
-
-
-
-
 
 }
