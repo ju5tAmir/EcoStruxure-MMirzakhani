@@ -9,6 +9,8 @@ public class Employee extends User {
     private Region region;
     private Country country;
     private Team team;
+    private double hourlyRate;
+    private double dailyRate;
 
     // Contract
     private Contract contract;
@@ -71,6 +73,21 @@ public class Employee extends User {
         this.contract = contract;
     }
 
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public void setHourlyRate(double rate) {
+        this.hourlyRate = rate;
+    }
+
+    public double getDailyRate() {
+        return dailyRate;
+    }
+
+    public void setDailyRate(double rate) {
+        this.dailyRate = rate;
+    }
 
     @Override
     public String toString() {

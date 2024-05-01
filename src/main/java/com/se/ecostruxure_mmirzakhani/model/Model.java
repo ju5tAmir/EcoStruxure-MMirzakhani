@@ -93,9 +93,13 @@ public class Model {
         employees.add(employee.get());
     }
 
+    public double getHourlyRate(Employee employee) throws ExceptionHandler {
+        return logic.calculateHourlyRate(employee);
+    }
 
-
-
+    public double getDailyRate(Employee employee) throws ExceptionHandler {
+        return logic.calculateDailyRate(employee);
+    }
     // ToDo: Getters and Setters for the above lists and objects
 
 

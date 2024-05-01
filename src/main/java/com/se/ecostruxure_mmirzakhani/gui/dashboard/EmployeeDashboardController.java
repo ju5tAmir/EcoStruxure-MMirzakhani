@@ -9,6 +9,7 @@ import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +38,10 @@ public class EmployeeDashboardController implements IController {
     private TableColumn<Employee, String> employeeCountry;
     @FXML
     private TableColumn<Employee, String> employeeTeam;
+    @FXML
+    public TableColumn<Employee, Double> hourlyRateColumn;
+    @FXML
+    public TableColumn<Employee, Double> dailyRateColumn;
     @FXML
     private ListView<Label> employeeInfoList;
     @FXML
@@ -107,7 +112,36 @@ public class EmployeeDashboardController implements IController {
             // Return the string representation
             return new SimpleStringProperty(team.getName());
         });
+        /*hourlyRateColumn.setCellValueFactory(cellData -> {
+            Employee employee = cellData.getValue();
+            double hourlyRate;
 
+            try {
+                hourlyRate = model.getHourlyRate(employee);
+                employee.setHourlyRate(hourlyRate);
+
+            } catch (ExceptionHandler e) {
+
+                throw new RuntimeException(e);
+            }
+            return new SimpleDoubleProperty(employee.getHourlyRate()).asObject();
+        });
+
+        dailyRateColumn.setCellValueFactory(cellData -> {
+            Employee employee = cellData.getValue();
+            double dailyRate;
+
+            try {
+                dailyRate = model.getDailyRate(employee);
+                employee.setDailyRate(dailyRate);
+
+            } catch (ExceptionHandler e) {
+
+                throw new RuntimeException(e);
+            }
+            return new SimpleDoubleProperty(employee.getDailyRate()).asObject();
+
+        });*/
 
         // sets a listener to update the listview based on the selected Employee
         employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -143,6 +177,8 @@ public class EmployeeDashboardController implements IController {
             }
         });
     }
+
+
     public void populateChoicebox() {
         filterComboBox.getItems().addAll("Country", "Team");
 
