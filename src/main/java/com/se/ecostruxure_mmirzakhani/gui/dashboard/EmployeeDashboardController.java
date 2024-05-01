@@ -125,8 +125,8 @@ public class EmployeeDashboardController implements IController {
                 labels.add(averageDailyWorkHoursLabel);
                 Label overheadPercentageLabel = new Label("Overhead Multiplier: " + newValue.getContract().getOverheadPercentage());
                 labels.add(overheadPercentageLabel);
-                Label annualWorkHours = new Label("Annual Working Hours" + newValue.getContract().getAnnualWorkHours());
-                labels.add(annualSalaryLabel);
+                Label annualWorkHours = new Label("Annual Working Hours: " + newValue.getContract().getAnnualWorkHours());
+                labels.add(annualWorkHours);
                 Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
                 labels.add(utilizationPercentageLabel);
 
@@ -142,11 +142,7 @@ public class EmployeeDashboardController implements IController {
                 employeeInfoList.getItems().setAll(labels);
             }
         });
-
-
-
     }
-
     public void populateChoicebox() {
         filterComboBox.getItems().addAll("Country", "Team");
 
@@ -167,9 +163,7 @@ public class EmployeeDashboardController implements IController {
                     teamComboBox.setValue("Select Team");
                     teamComboBox.getItems().setAll("Production", "Management");
                 }
-
             });
-
         // Set cell factory to display each country with its flag
         teamComboBox.setCellFactory(param -> new ListCell<Country>() {
             @Override
@@ -191,15 +185,12 @@ public class EmployeeDashboardController implements IController {
                 }
             }
         });
-
-
         teamComboBox.setOnKeyPressed(event -> {
             if (event.getCode().isLetterKey()) {
                 String typedText = event.getText();
                 filterCountriesByFirstLetter(typedText);
             }
         });
-
         }
     private void filterCountriesByFirstLetter(String letter) {
         //filter the list by the first typed letter
@@ -212,11 +203,22 @@ public class EmployeeDashboardController implements IController {
 
 
     public void calculateMultipliers(ActionEvent actionEvent) {
+        Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
         try{
             Window.createStage(WindowType.CALCULATOR, model, Modality.WINDOW_MODAL, false);
         }
         catch (ExceptionHandler e){
             throw new RuntimeException();
         }
+    }
+
+    public void editEmployee(ActionEvent actionEvent) {
+        try {
+            Window.createStage(WindowType.CREATE_EMPLOYEE, model, Modality.APPLICATION_MODAL, false);
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }    }
+
+    public void deleteEmployee(ActionEvent actionEvent) {
     }
 }

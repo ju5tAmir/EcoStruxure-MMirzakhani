@@ -122,6 +122,16 @@
             <HBox>
                <children>
                   <Button mnemonicParsing="false" onAction="#onCreateEmployee" text="Create Employee" />
+                  <Button mnemonicParsing="false" onAction="#editEmployee" text="Edit..">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#deleteEmployee" text="Delete..">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#calculateMultipliers" text="Calculater Multipliers">
                      <HBox.margin>
                         <Insets left="20.0" />
