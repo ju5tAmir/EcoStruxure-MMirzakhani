@@ -98,7 +98,5 @@ public class Model {
 
     // ToDo: Getters and Setters for the above lists and objects
 
-    public void setInfoList(ListView<Label> employeeInfo, Employee employee) {
-    logic.setInfoList(employeeInfo, employee);
-    }
+
 }

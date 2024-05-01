@@ -19,6 +19,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
  */
@@ -107,11 +110,39 @@ public class EmployeeDashboardController implements IController {
 
 
         // sets a listener to update the listview based on the selected Employee
-        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
-            if(newValue!=null){
-                model.setInfoList(employeeInfoList, newValue);
+        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                List<Label> labels = new ArrayList<>();
+
+                Label employeeExtraInfo = new Label("Contract info of " + newValue.getFirstName() + " " + newValue.getLastName() + ":");
+                employeeExtraInfo.setStyle("-fx-font-weight: bold;");
+                labels.add(employeeExtraInfo);
+                Label annualSalaryLabel = new Label("Annual Salary: " + newValue.getContract().getAnnualSalary());
+                labels.add(annualSalaryLabel);
+                Label fixedAnnualAmountLabel = new Label("Annual Amount: " + newValue.getContract().getFixedAnnualAmount());
+                labels.add(fixedAnnualAmountLabel);
+                Label averageDailyWorkHoursLabel = new Label("Average Daily Work Hours: " + newValue.getContract().getAverageDailyWorkHours());
+                labels.add(averageDailyWorkHoursLabel);
+                Label overheadPercentageLabel = new Label("Overhead Multiplier: " + newValue.getContract().getOverheadPercentage());
+                labels.add(overheadPercentageLabel);
+                Label annualWorkHours = new Label("Annual Working Hours" + newValue.getContract().getAnnualWorkHours());
+                labels.add(annualSalaryLabel);
+                Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
+                labels.add(utilizationPercentageLabel);
+
+                // Check if the employee is considered overhead or not
+                if (newValue.getContract().isOverhead()) {
+                    Label typeLabel = new Label("Employee Type: Overhead Cost");
+                    labels.add(typeLabel);
+                } else {
+                    Label typeLabel = new Label("Employee Type: Production Resource");
+                    labels.add(typeLabel);
+                }
+
+                employeeInfoList.getItems().setAll(labels);
             }
-        } );
+        });
+
 
 
     }
