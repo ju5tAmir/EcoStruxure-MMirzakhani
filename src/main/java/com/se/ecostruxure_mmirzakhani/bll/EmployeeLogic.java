@@ -5,6 +5,7 @@ import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
+import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
 import java.util.List;
 
@@ -70,26 +71,23 @@ public class EmployeeLogic {
      * Author: Radwan
      */
     private void calculateHourlyRate() throws ExceptionHandler {
-        try {
-            Contract contract = employee.getContract();
+        // Check if it's safe to do the division (non-zero numbers)
+        if (Validate.safeDivision(employee.getContract())){
 
+            Contract contract = employee.getContract();
             double annualSalary = contract.getAnnualSalary();
             double fixedAnnualAmount = contract.getFixedAnnualAmount();
             double annualWorkHours = contract.getAnnualWorkHours();
             double utilizationPercentage = contract.getUtilizationPercentage();
             double overheadMultiplier = 1 + (contract.getOverheadPercentage() / 100);
-
             double effectiveAnnualWorkHours = annualWorkHours * (utilizationPercentage / 100);
-
             double adjustedAnnualSalary = annualSalary + fixedAnnualAmount;
-
             double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
-
             double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
 
             this.employee.getContract().setHourlyRate(hourlyRate);
-        } catch (RuntimeException e){
-        throw new ExceptionHandler(ExceptionMessage.CALCULATION_ERROR.getValue());
+        } else {
+        this.employee.getContract().setHourlyRate(0);
     }
     }
     private double calculateDailyRate(Employee employee) throws ExceptionHandler {
@@ -110,7 +108,9 @@ public class EmployeeLogic {
      * Author: Radwan
      */
     private void calculateDailyRate() throws ExceptionHandler {
-        try {
+        // Check if it's safe to do the division (non-zero numbers)
+        if (Validate.safeDivision(employee.getContract())){
+
             Contract contract = employee.getContract();
 
             double hourlyRate = calculateHourlyRate(employee);
@@ -120,8 +120,8 @@ public class EmployeeLogic {
             double dailyRate = hourlyRate * averageDailyWorkHours;
 
             this.employee.getContract().setDailyRate(dailyRate);
-        } catch (ExceptionHandler e){
-            throw new ExceptionHandler(ExceptionMessage.CALCULATION_ERROR.getValue());
+        } else {
+            this.employee.getContract().setDailyRate(0);
         }
     }
 
@@ -135,14 +135,11 @@ public class EmployeeLogic {
     public Employee createEmployee(Employee employee) throws ExceptionHandler{
         this.employee = employee;
 
-        // Calculate the hourly rate for the provided employee
-        calculateHourlyRate();
-
-        // Calculate the daily rate for the provided employee
-        calculateDailyRate();
-
         // Creates an employee in the db
         dao.createEmployee(this.employee);
+
+        // Calculate and update the rates for the employee
+        updateRates(this.employee);
 
         // Returns the employee object
         return this.employee;
@@ -150,9 +147,14 @@ public class EmployeeLogic {
 
     public void updateRates(Employee employee) throws ExceptionHandler {
         this.employee = employee;
+        // Calculate the hourly rate for the provided employee
         calculateHourlyRate();
+
+        // Calculate the daily rate for the provided employee
         calculateDailyRate();
+
     }
+
 
     /*
     public double applyMarkupToHourlyRate(double hourlyRate, double markupPercentage) {

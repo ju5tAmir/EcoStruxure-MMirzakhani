@@ -1,5 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
+import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
@@ -71,6 +72,19 @@ public class Validate implements IUtils {
             // Throw an Exception if the input is not a valid name
             throw new ExceptionHandler(ExceptionMessage.INVALID_NAME.getValue());
         }
+    }
+
+    /**
+     * Checks if a contract's values for annual salary, annual work hours, and average daily work hours
+     * are all non-zero, ensuring safe division without encountering arithmetic errors.
+     *
+     * @param contract The contract object containing salary and work hour information.
+     * @return True if all values are non-zero, indicating safe conditions for division; otherwise, false.
+     */
+    public static boolean safeDivision(Contract contract){
+        return contract.getAnnualSalary() != 0 &&
+                contract.getAnnualWorkHours() != 0 &&
+                contract.getAverageDailyWorkHours() != 0;
     }
 
 }
