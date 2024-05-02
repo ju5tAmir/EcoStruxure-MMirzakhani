@@ -4,6 +4,7 @@ public enum ExceptionMessage {
     // ** General Exceptions ** \\
     ILLEGAL_FILE_OPERATION("Illegal file operation occurred."),
     FAILED_TO_LOAD_CONFIG_FILE("Failed to load Database configs"),
+    INVALID_DOUBLE("The provided number is not a valid number."),
 
     // ** GUI Exceptions ** \\
 
