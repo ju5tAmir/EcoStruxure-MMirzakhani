@@ -33,7 +33,14 @@ public class EmployeeLogic {
      * @throws ExceptionHandler If any error occurred.
      */
     public List<Employee> getAllEmployees() throws ExceptionHandler{
-        return dao.getAllEmployees();
+        // List to store all retrieved employees from the database
+        List<Employee> employees = dao.getAllEmployees();
+
+        // Update all the employees with their rates
+        for (Employee e: employees){
+            updateRates(e);
+        }
+        return employees;
     }
 
     // ToDo: Implement methods to calculate rates

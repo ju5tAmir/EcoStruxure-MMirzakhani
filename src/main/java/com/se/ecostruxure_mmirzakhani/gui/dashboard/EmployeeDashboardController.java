@@ -36,7 +36,7 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private TableColumn<Employee, String> employeeCountry;
     @FXML
-    private TableColumn<Employee, String> employeeTeam;
+    private TableColumn<Employee, String> employeeTeam, hourlyRateColumn, dailyRateColumn;
     @FXML
     private ListView<Label> employeeInfoList;
     @FXML
@@ -106,6 +106,20 @@ public class EmployeeDashboardController implements IController {
             return new SimpleStringProperty(team.getName());
         });
 
+        dailyRateColumn.setCellValueFactory(cellData -> {
+            // Retrieve the daily rate
+            double dailyRate = cellData.getValue().getContract().getDailyRate();
+
+            // Return the string representation with 2 decimal float number
+            return new SimpleStringProperty(String.format("%.2f", dailyRate));
+        });
+        hourlyRateColumn.setCellValueFactory(cellData -> {
+            // Retrieve the hourly rate
+            double hourlyRate = cellData.getValue().getContract().getHourlyRate();
+
+            // Return the string representation with 2 decimal float number
+            return new SimpleStringProperty(String.format("%.2f", hourlyRate));
+        });
 
         // sets a listener to update the listview based on the selected Employee
         employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -132,7 +146,6 @@ public class EmployeeDashboardController implements IController {
                     Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
                     labels.add(utilizationPercentageLabel);
 
-//                Label dailyRate = new Label("Daily Rate: " + )
 
                     // Check if the employee is considered overhead or not
                     if (newValue.getContract().isOverhead()) {
