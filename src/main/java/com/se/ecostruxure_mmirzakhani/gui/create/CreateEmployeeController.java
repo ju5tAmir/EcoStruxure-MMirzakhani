@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.gui.create;
 
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.be.Region;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -92,6 +93,7 @@ public class CreateEmployeeController implements IController<Model> {
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
             model.setCountry(countryCombo.getValue());
+            model.setRegion(Region.EUROPE);    // ToDo: Needs to be implemented correctly
 //            model.setTeam(team.getValue()); // ToDo: Needs to be implemented to show as team names in the box
             model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
             model.setAnnualSalary(annualSalaryField.getText());
@@ -102,7 +104,6 @@ public class CreateEmployeeController implements IController<Model> {
             model.setUtilizationPercentage(utilizationField.getText());
 //            model.setOverheadStatus(typeCombo); ToDo: Needs to be fixed -> change DB to accept the type as overhead or production resource, instead of boolean
 //                                                ToDo: For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
-
 
             // Trigger the final action for creating an employee
             model.createEmployee(model.getEmployee());

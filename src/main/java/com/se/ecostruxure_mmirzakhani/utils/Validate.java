@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 /**
  * Utility class to validate various user inputs
  */
+
+// ToDo: Implement JUnit tests
 public class Validate implements IUtils {
 
     /**
@@ -32,7 +34,7 @@ public class Validate implements IUtils {
     public static double validateDouble(String doubleAsString) throws ExceptionHandler {
         // Regex pattern to check if user input matches to double format
         Pattern pattern = Pattern.compile("^[-+]?\\d*\\.?\\d+$");
-        // Match the provided double with the pattern
+        // Matches the provided double with the pattern
         Matcher matcher = pattern.matcher(doubleAsString);
 
         // If the input matches to the pattern, which means it's an eligible double
@@ -43,4 +45,32 @@ public class Validate implements IUtils {
             throw new ExceptionHandler(ExceptionMessage.INVALID_DOUBLE.getValue());
         }
     }
+
+    /**
+     * Validates a string input to ensure it meets the criteria for a name.
+     * Names must contain only letters, with a minimum length of 3 and a maximum length of 50 characters.
+     *
+     * @param name The string to validate as a name.
+     * @return The validated name if it meets the criteria.
+     * @throws ExceptionHandler if the input string does not represent a valid name.
+     */
+    public static String validateName(String name) throws ExceptionHandler{
+        // Regex pattern to check if user input matches to a name (only letters, min 3 and max 50)
+        Pattern pattern = Pattern.compile("^[a-zA-Z]{3,50}$");
+
+        // Matches the provided name with the pattern
+        Matcher matcher = pattern.matcher(name);
+
+        // If the input matches to the pattern, which means it's an eligible name
+        if (matcher.find()){
+            // Returns the name, here we could have return boolean, but I thought it would be easier to handle this in the model (This way we reduce complexity in the Model)
+            return name;
+        } else {
+            // Throw an Exception if the input is not a valid name
+            throw new ExceptionHandler(ExceptionMessage.INVALID_NAME.getValue());
+        }
+    }
+
+
+
 }

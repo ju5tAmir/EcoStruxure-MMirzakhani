@@ -1,9 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
-import com.se.ecostruxure_mmirzakhani.be.Contract;
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
@@ -64,17 +61,17 @@ public class Model {
     /**
      * Set Employee's first name
      */
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) throws ExceptionHandler {
         employee.get()
-                .setFirstName(firstName);
+                .setFirstName(Validate.validateName(firstName));
     }
 
     /**
      * Set Employee's last name
      */
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) throws ExceptionHandler {
         employee.get()
-                .setLastName(lastName);
+                .setLastName(Validate.validateName(lastName));
     }
 
     /**
@@ -84,6 +81,15 @@ public class Model {
         employee.get()
                 .setCountry(country);
     }
+
+    /**
+     * Set Employee's region
+     */
+    public void setRegion(Region region) {
+        employee.get()
+                .setRegion(region);
+    }
+
 
     /**
      * Set Employee's team name

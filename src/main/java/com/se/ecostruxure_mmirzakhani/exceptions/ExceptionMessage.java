@@ -4,7 +4,13 @@ public enum ExceptionMessage {
     // ** General Exceptions ** \\
     ILLEGAL_FILE_OPERATION("Illegal file operation occurred."),
     FAILED_TO_LOAD_CONFIG_FILE("Failed to load Database configs"),
+
+
+
+    // ** Invalid inputs ** \\
     INVALID_DOUBLE("The provided number is not a valid number."),
+    INVALID_NAME("First name or Last name must be only letters.\nMinimum: 3\nMaximum: 50"),
+
 
     // ** GUI Exceptions ** \\
 
