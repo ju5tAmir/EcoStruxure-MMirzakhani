@@ -129,7 +129,13 @@ public class CreateEmployeeController implements IController<Model> {
             model.setAnnualWorkHours(annualWorkingHours);
             model.setAverageDailyWorkHours(dailyAverageWorkHours);
             model.setUtilizationPercentage(utilizationPercentage);
-            model.setOverhead(Boolean.parseBoolean(typeCombo.getValue()));
+
+
+            String selectedType = typeCombo.getValue();
+            // Set the isOverhead value based on the selected type
+            boolean isOverhead = selectedType.equals("Overhead");
+            // Set the isOverhead value in the model
+            model.setOverhead(isOverhead);
             model.setOverheadPercentage(overheadMultiplier);
 
             model.setRegion(Region.EUROPE);
@@ -141,7 +147,6 @@ public class CreateEmployeeController implements IController<Model> {
             // ToDo: Don't forget to check for null inputs.
 
             // Trigger the final action for creating an employee
-
 
             // For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
             model.createEmployee();

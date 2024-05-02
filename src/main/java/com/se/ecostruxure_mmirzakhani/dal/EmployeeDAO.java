@@ -63,17 +63,16 @@ public class EmployeeDAO {
                 }
 
                 // Insert contract information
-                Contract contract = new Contract();
                 contractStatement.setInt(1, employee.getId());
-                contractStatement.setDouble(2, contract.getAnnualSalary());
-                contractStatement.setDouble(3, contract.getFixedAnnualAmount());
-                contractStatement.setDouble(4, contract.getAnnualWorkHours());
-                contractStatement.setDouble(5, contract.getAverageDailyWorkHours());
-                contractStatement.setDouble(6, contract.getOverheadPercentage());
-                contractStatement.setDouble(7, contract.getUtilizationPercentage());
-                contractStatement.setDouble(8, contract.getMarkupPercentage());
-                contractStatement.setDouble(9, contract.getGrossMarginPercentage());
-                contractStatement.setBoolean(10, contract.isOverhead());
+                contractStatement.setDouble(2, employee.getContract().getAnnualSalary());
+                contractStatement.setDouble(3, employee.getContract().getFixedAnnualAmount());
+                contractStatement.setDouble(4, employee.getContract().getAnnualWorkHours());
+                contractStatement.setDouble(5, employee.getContract().getAverageDailyWorkHours());
+                contractStatement.setDouble(6, employee.getContract().getOverheadPercentage());
+                contractStatement.setDouble(7, employee.getContract().getUtilizationPercentage());
+                contractStatement.setDouble(8, employee.getContract().getMarkupPercentage());
+                contractStatement.setDouble(9, employee.getContract().getGrossMarginPercentage());
+                contractStatement.setBoolean(10, employee.getContract().isOverhead());
                 contractStatement.addBatch();
 
                 // Execute batches
