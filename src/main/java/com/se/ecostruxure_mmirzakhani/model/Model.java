@@ -1,10 +1,9 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.utils.Validate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,11 +32,14 @@ public class Model {
     /**
      * Init an empty employee object with default values to update it later
      */
-    private void initEmployee(){
+    public void initEmployee(){
         Employee e = new Employee();
         Team t = new Team();
+        Contract c = new Contract();
         e.setTeam(t);
+        e.setContract(c);
         employee.set(e);
+
     }
 
     /**
@@ -59,46 +61,166 @@ public class Model {
     /**
      * Set Employee's first name
      */
-    public void setFirstName(String firstName){
-        this.employee.get().setFirstName(firstName);
+    public void setFirstName(String firstName) throws ExceptionHandler {
+        employee.get()
+                .setFirstName(Validate.validateName(firstName));
     }
 
     /**
      * Set Employee's last name
      */
-    public void setLastName(String lastName){
-        this.employee.get().setLastName(lastName);
+    public void setLastName(String lastName) throws ExceptionHandler {
+        employee.get()
+                .setLastName(Validate.validateName(lastName));
     }
 
     /**
      * Set Employee's country
      */
     public void setCountry(Country country) {
-        employee.get().setCountry(country);
+        employee.get()
+                .setCountry(country);
     }
+
+    /**
+     * Set Employee's region
+     */
+    public void setRegion(Region region) {
+        employee.get()
+                .setRegion(region);
+    }
+
 
     /**
      * Set Employee's team name
      */
     public void setTeam(String teamName) {
-        employee.get().getTeam().setName(teamName);
+        employee.get()
+                .getTeam()
+                .setName(teamName);
     }
 
     /**
-     * Create employee
+     * Set Employee's annual salary
      */
-    public void createEmployee() throws ExceptionHandler {
-        // ToDo: You need to send employee details to the bottom layers and if succeeded, create otherwise throw an exception from bottom layer
-        // Now It's just a demo how it can change the table view
-        employees.add(employee.get());
+    public void setAnnualSalary(String annualSalary) throws ExceptionHandler{
+        employee.get()
+                .getContract()
+                .setAnnualSalary(Validate.validateDouble(annualSalary));
+    }
+
+    /**
+     * Set Employee's fixed annual amount
+     */
+    public void setFixedAnnualAmount(String fixedAnnualAmount) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setFixedAnnualAmount(Validate.validateDouble(fixedAnnualAmount));
+    }
+
+    /**
+     * Set Employee's annual work hours
+     */
+    public void setAnnualWorkHours(String annualWorkHours) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setAnnualWorkHours(Validate.validateDouble(annualWorkHours));
+    }
+
+    /**
+     * Set Employee's average daily work hours
+     */
+    public void setAverageDailyWorkHours(String averageDailyWorkHours) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setAverageDailyWorkHours(Validate.validateDouble(averageDailyWorkHours));
+    }
+
+    /**
+     * Set Employee's overhead percentage
+     */
+    public void setOverheadPercentage(String overheadPercentage) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setOverheadPercentage(Validate.validateDouble(overheadPercentage));
+    }
+
+    /**
+     * Set Employee's utilization percentage
+     */
+    public void setUtilizationPercentage(String utilizationPercentage) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setUtilizationPercentage(Validate.validateDouble(utilizationPercentage));
+    }
+
+    /**
+     * Set Employee's overhead status
+     */
+    public void setOverheadStatus(boolean isOverhead){
+        employee.get()
+                .getContract()
+                .setOverhead(isOverhead);
+    }
+
+    /**
+     * Creates a new employee and adds it to the list of employees.
+     *
+     * @param employee The employee object to be created and added.
+     * @throws ExceptionHandler if an error occurs during the creation process.
+     */
+    public void createEmployee(Employee employee) throws ExceptionHandler {
+        // Adds the newly created employee to the list
+        employees.add(logic.createEmployee(employee));
     }
 
 
+    /**
+     * Updates the employee object with the provided employee details.
+     *
+     * @param employee The employee object containing updated details.
+     */
+    public void setEmployee(Employee employee){
+        this.employee.set(employee);
+    }
+
+    /**
+     * Retrieves the current working employee object.
+     *
+     * @return The current employee object.
+     */
+    public Employee getEmployee(){
+        return employee.get();
+    }
+
+    /**
+     * @return Employee's hourly rate
+     */
+    public double getHourlyRate() throws ExceptionHandler{
+        updateRates();
+        return employee.get()
+                .getContract()
+                .getHourlyRate();
+    }
+
+    /**
+     * @return Employee's daily rate
+     */
+    public double getDailyRate() throws ExceptionHandler{
+        updateRates();
+        return employee.get()
+                .getContract()
+                .getDailyRate();
+    }
+
+    /**
+     * Method to update the Employee object with the latest daily and hourly rate
+     */
+    private void updateRates() throws ExceptionHandler{
+        logic.updateRates(employee.get());
+    }
 
 
     // ToDo: Getters and Setters for the above lists and objects
 
-    public void setInfoList(ListView<Label> employeeInfo, Employee employee) {
-    logic.setInfoList(employeeInfo, employee);
-    }
 }

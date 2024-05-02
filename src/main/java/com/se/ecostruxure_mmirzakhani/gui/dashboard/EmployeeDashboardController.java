@@ -12,11 +12,15 @@ import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
@@ -32,7 +36,7 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private TableColumn<Employee, String> employeeCountry;
     @FXML
-    private TableColumn<Employee, String> employeeTeam;
+    private TableColumn<Employee, String> employeeTeam, hourlyRateColumn, dailyRateColumn;
     @FXML
     private ListView<Label> employeeInfoList;
     @FXML
@@ -69,8 +73,6 @@ public class EmployeeDashboardController implements IController {
             initEmployeeColumns();
             populateChoicebox();
 
-
-
         } catch (ExceptionHandler exceptionHandler){
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
@@ -86,7 +88,7 @@ public class EmployeeDashboardController implements IController {
     /**
      * Initializing columns for the Employees table
      */
-    private void initEmployeeColumns(){
+    private void initEmployeeColumns() throws ExceptionHandler {
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         employeeCountry.setCellValueFactory(cellData -> {
@@ -104,16 +106,72 @@ public class EmployeeDashboardController implements IController {
             return new SimpleStringProperty(team.getName());
         });
 
+        dailyRateColumn.setCellValueFactory(cellData -> {
+            // Retrieve the daily rate
+            double dailyRate = cellData.getValue().getContract().getDailyRate();
+
+            // Return the string representation with 2 decimal float number
+            return new SimpleStringProperty(String.format("%.2f", dailyRate));
+        });
+        hourlyRateColumn.setCellValueFactory(cellData -> {
+            // Retrieve the hourly rate
+            double hourlyRate = cellData.getValue().getContract().getHourlyRate();
+
+            // Return the string representation with 2 decimal float number
+            return new SimpleStringProperty(String.format("%.2f", hourlyRate));
+        });
 
         // sets a listener to update the listview based on the selected Employee
-        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->{
-            if(newValue!=null){
-                model.setInfoList(employeeInfoList, newValue);
-            }
-        } );
+        employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                if (newValue != null) {
+                    // Updates the employee object in the model with the selected employee from the table
+                    model.setEmployee(newValue);
+
+                    List<Label> labels = new ArrayList<>();
+
+                    Label employeeExtraInfo = new Label("Contract info of " + model.getEmployee().getFirstName() + " " + model.getEmployee().getLastName() + ":");
+                    employeeExtraInfo.setStyle("-fx-font-weight: bold;");
+                    labels.add(employeeExtraInfo);
+                    Label annualSalaryLabel = new Label("Annual Salary: " + model.getEmployee().getContract().getAnnualSalary());
+                    labels.add(annualSalaryLabel);
+                    Label fixedAnnualAmountLabel = new Label("Annual Amount: " + model.getEmployee().getContract().getFixedAnnualAmount());
+                    labels.add(fixedAnnualAmountLabel);
+                    Label averageDailyWorkHoursLabel = new Label("Average Daily Work Hours: " + model.getEmployee().getContract().getAverageDailyWorkHours());
+                    labels.add(averageDailyWorkHoursLabel);
+                    Label overheadPercentageLabel = new Label("Overhead Multiplier: " + model.getEmployee().getContract().getOverheadPercentage());
+                    labels.add(overheadPercentageLabel);
+                    Label annualWorkHours = new Label("Annual Working Hours: " + model.getEmployee().getContract().getAnnualWorkHours());
+                    labels.add(annualWorkHours);
+                    Label utilizationPercentageLabel = new Label("Utilization Percentage: " + model.getEmployee().getContract().getUtilizationPercentage());
+                    labels.add(utilizationPercentageLabel);
 
 
+                    // Check if the employee is considered overhead or not
+                    if (model.getEmployee().getContract().isOverhead()) {
+                        Label typeLabel = new Label("Employee Type: Overhead Cost");
+                        labels.add(typeLabel);
+                    } else {
+                        Label typeLabel = new Label("Employee Type: Production Resource");
+                        labels.add(typeLabel);
+                    }
+
+                    Label lineSeparator = new Label("-------------------");
+                    labels.add(lineSeparator);
+
+                    Label dailyRate = new Label("Daily Rate: " + String.format("%.2f", model.getDailyRate()));
+                    labels.add(dailyRate);
+
+                    Label hourlyRate = new Label("Hourly Rate: " + String.format("%.2f", model.getHourlyRate()));
+                    labels.add(hourlyRate);
+
+                    employeeInfoList.getItems().setAll(labels);
+                }
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+            }});
     }
+
 
     public void populateChoicebox() {
         filterComboBox.getItems().addAll("Country", "Team");
@@ -135,9 +193,7 @@ public class EmployeeDashboardController implements IController {
                     teamComboBox.setValue("Select Team");
                     teamComboBox.getItems().setAll("Production", "Management");
                 }
-
             });
-
         // Set cell factory to display each country with its flag
         teamComboBox.setCellFactory(param -> new ListCell<Country>() {
             @Override
@@ -149,7 +205,7 @@ public class EmployeeDashboardController implements IController {
                 } else {
                     ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
                     if (flagImageView != null) {
-                        flagImageView.setFitWidth(20); // Adjust width and height as needed
+                        flagImageView.setFitWidth(20);
                         flagImageView.setFitHeight(20);
                         setGraphic(flagImageView);
                         setText(country.getValue());
@@ -159,15 +215,12 @@ public class EmployeeDashboardController implements IController {
                 }
             }
         });
-
-
         teamComboBox.setOnKeyPressed(event -> {
             if (event.getCode().isLetterKey()) {
                 String typedText = event.getText();
                 filterCountriesByFirstLetter(typedText);
             }
         });
-
         }
     private void filterCountriesByFirstLetter(String letter) {
         //filter the list by the first typed letter
@@ -179,4 +232,23 @@ public class EmployeeDashboardController implements IController {
     }
 
 
+    public void calculateMultipliers(ActionEvent actionEvent) {
+        Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+        try{
+            Window.createStage(WindowType.CALCULATOR, model, Modality.WINDOW_MODAL, false);
+        }
+        catch (ExceptionHandler e){
+            throw new RuntimeException();
+        }
+    }
+
+    public void editEmployee(ActionEvent actionEvent) {
+        try {
+            Window.createStage(WindowType.CREATE_EMPLOYEE, model, Modality.APPLICATION_MODAL, false);
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }    }
+
+    public void deleteEmployee(ActionEvent actionEvent) {
+    }
 }

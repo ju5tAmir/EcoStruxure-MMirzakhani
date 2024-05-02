@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,7 +14,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.control.ComboBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController">
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #D7DBDD; -fx-border-width: 2; -fx-background-color: #E5E7E9;" BorderPane.alignment="CENTER">
@@ -100,8 +99,8 @@
                         <TableColumn fx:id="lastNameColumn" prefWidth="111.0" text="Last Name" />
                         <TableColumn fx:id="employeeCountry" prefWidth="115.5" text="Country" />
                         <TableColumn fx:id="employeeTeam" prefWidth="104.5" text="Team" />
-                        <TableColumn fx:id="hourlyRateColumn" prefWidth="79.5" text="Hourly Rate" />
-                        <TableColumn fx:id="dailyRateColumn" prefWidth="97.5" text="Daily Rate" />
+                        <TableColumn fx:id="dailyRateColumn" prefWidth="79.5" text="D-Rate" />
+                        <TableColumn fx:id="hourlyRateColumn" prefWidth="97.5" text="H-Rate" />
                     </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -123,6 +122,21 @@
             <HBox>
                <children>
                   <Button mnemonicParsing="false" onAction="#onCreateEmployee" text="Create Employee" />
+                  <Button mnemonicParsing="false" onAction="#editEmployee" text="Edit..">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#deleteEmployee" text="Delete..">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#calculateMultipliers" text="Calculater Multipliers">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
                <VBox.margin>
                   <Insets />

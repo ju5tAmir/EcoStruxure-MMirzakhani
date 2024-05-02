@@ -2,42 +2,33 @@ package com.se.ecostruxure_mmirzakhani.gui.create;
 
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.be.Region;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
+import com.se.ecostruxure_mmirzakhani.gui.dashboard.FlagService;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 
-/**
- * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
- */
+// ToDo: Don't forget to check for null inputs.
+//       (Optional) Validate if user clicked on a field and left it empty (then shows a little warn), also if they put invalid name, shows an error after Focus moved
 
 public class CreateEmployeeController implements IController<Model> {
 
     @FXML
-    private TextField firstNameField, lastNameField;
+    private TextField firstNameField, lastNameField, annualSalaryField, overheadMultiplierField, fixedAnnualAmountField, annualWorkingHoursField, utilizationField, averageDailyHoursField;
     @FXML
-    private TextField overheadMultiplierField;
+    private ComboBox<Country> countryCombo;
     @FXML
-    private TextField fixedAnnualAmountField;
+    private ComboBox<String> teamCombo;
     @FXML
-    private ChoiceBox countryChoice;
-    @FXML
-    private ChoiceBox<String> teamChoice;
-    @FXML
-    private TextField annualWorkingHoursField;
-    @FXML
-    private TextField utilizationField;
-    @FXML
-    private ChoiceBox<String> typeChoice;
+    private ComboBox<String> typeCombo;
     @FXML
     private TableView<Employee> employeeTableView;
 
@@ -46,16 +37,55 @@ public class CreateEmployeeController implements IController<Model> {
     @Override
     public void setModel(Model model) {
         this.model = model;
+        this.model.initEmployee();
         populateChoiceBoxes();
     }
 
     private void populateChoiceBoxes() {
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
-        countryChoice.setItems(countries);
-        countryChoice.setValue("Choose Country");
+//        countryCombo.setValue();
+        countryCombo.setItems(countries);
 
-        typeChoice.getItems().addAll("Production Resource", "Overhead");
-        typeChoice.setValue("Choose Type");
+        countryCombo.setCellFactory(param -> new ListCell<Country>() {
+            @Override
+            protected void updateItem(Country country, boolean empty) {
+                super.updateItem(country, empty);
+                if (empty || country == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
+                    if (flagImageView != null) {
+                        flagImageView.setFitWidth(20);
+                        flagImageView.setFitHeight(20);
+                        setGraphic(flagImageView);
+                        setText(country.getValue());
+                    } else {
+                        setText(country.getValue());
+                    }
+                }
+            }
+        });
+
+        countryCombo.setOnKeyPressed(event -> {
+            if (event.getCode().isLetterKey()) {
+                String typedText = event.getText();
+                filterCountriesByFirstLetter(typedText);
+            }
+        });
+
+        typeCombo.getItems().addAll("Production Resource", "Overhead");
+        typeCombo.setValue("Choose Type");
+    }
+    private void filterCountriesByFirstLetter(String letter) {
+        ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
+
+        //filter the list by the first typed letter
+        ObservableList<Country> filteredList = countryList.filtered(country ->
+                country.getValue().toLowerCase().startsWith(letter.toLowerCase()));
+
+        countryCombo.setItems(filteredList);
+        countryCombo.getSelectionModel().selectFirst();
     }
 
     @FXML
@@ -64,22 +94,21 @@ public class CreateEmployeeController implements IController<Model> {
             // Filling the values from user input
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
-
-            countryChoice.getValue();
-            // I need to set a country and team manually here because I don't want to mess with this page :D
-            // Just for example and prevent error
-            // You can implement your methods
-            model.setCountry(Country.NORTH_KOREA);
+            model.setCountry(countryCombo.getValue());
+            model.setRegion(Region.EUROPE);    // ToDo: Needs to be implemented correctly
+//            model.setTeam(team.getValue()); // ToDo: Needs to be implemented to show as team names in the box
             model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
-
-            // ToDo: Keep going with other fields as needed.
-            // ToDo: Don't forget to check for null inputs.
+            model.setAnnualSalary(annualSalaryField.getText());
+            model.setFixedAnnualAmount(fixedAnnualAmountField.getText());
+            model.setAnnualWorkHours(annualWorkingHoursField.getText());
+            model.setAverageDailyWorkHours(averageDailyHoursField.getText());
+            model.setOverheadPercentage(overheadMultiplierField.getText());
+            model.setUtilizationPercentage(utilizationField.getText());
+//            model.setOverheadStatus(typeCombo); ToDo: Needs to be fixed -> change DB to accept the type as overhead or production resource, instead of boolean
+//                                                ToDo: For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
 
             // Trigger the final action for creating an employee
-
-
-            // For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
-            model.createEmployee();
+            model.createEmployee(model.getEmployee());
 
             // Close the stage if it was successful
             Window.closeStage(firstNameField.getScene());
