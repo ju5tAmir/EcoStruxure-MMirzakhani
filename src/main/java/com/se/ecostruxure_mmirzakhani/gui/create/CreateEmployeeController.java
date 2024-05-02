@@ -17,6 +17,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
 // ToDo: Don't forget to check for null inputs.
+//       (Optional) Validate if user clicked on a field and left it empty (then shows a little warn), also if they put invalid name, shows an error after Focus moved
 
 public class CreateEmployeeController implements IController<Model> {
 

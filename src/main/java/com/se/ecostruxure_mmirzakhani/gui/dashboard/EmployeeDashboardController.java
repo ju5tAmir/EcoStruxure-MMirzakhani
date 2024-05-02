@@ -88,7 +88,7 @@ public class EmployeeDashboardController implements IController {
     /**
      * Initializing columns for the Employees table
      */
-    private void initEmployeeColumns(){
+    private void initEmployeeColumns() throws ExceptionHandler {
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         employeeCountry.setCellValueFactory(cellData -> {
@@ -109,41 +109,58 @@ public class EmployeeDashboardController implements IController {
 
         // sets a listener to update the listview based on the selected Employee
         employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null) {
-                List<Label> labels = new ArrayList<>();
+            try {
+                if (newValue != null) {
+                    // Updates the employee object in the model with the selected employee from the table
+                    model.setEmployee(newValue);
 
-                Label employeeExtraInfo = new Label("Contract info of " + newValue.getFirstName() + " " + newValue.getLastName() + ":");
-                employeeExtraInfo.setStyle("-fx-font-weight: bold;");
-                labels.add(employeeExtraInfo);
-                Label annualSalaryLabel = new Label("Annual Salary: " + newValue.getContract().getAnnualSalary());
-                labels.add(annualSalaryLabel);
-                Label fixedAnnualAmountLabel = new Label("Annual Amount: " + newValue.getContract().getFixedAnnualAmount());
-                labels.add(fixedAnnualAmountLabel);
-                Label averageDailyWorkHoursLabel = new Label("Average Daily Work Hours: " + newValue.getContract().getAverageDailyWorkHours());
-                labels.add(averageDailyWorkHoursLabel);
-                Label overheadPercentageLabel = new Label("Overhead Multiplier: " + newValue.getContract().getOverheadPercentage());
-                labels.add(overheadPercentageLabel);
-                Label annualWorkHours = new Label("Annual Working Hours: " + newValue.getContract().getAnnualWorkHours());
-                labels.add(annualWorkHours);
-                Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
-                labels.add(utilizationPercentageLabel);
-                Label lineSeparator = new Label("-----------------");
-                labels.add(lineSeparator);
+                    List<Label> labels = new ArrayList<>();
+
+                    Label employeeExtraInfo = new Label("Contract info of " + newValue.getFirstName() + " " + newValue.getLastName() + ":");
+                    employeeExtraInfo.setStyle("-fx-font-weight: bold;");
+                    labels.add(employeeExtraInfo);
+                    Label annualSalaryLabel = new Label("Annual Salary: " + newValue.getContract().getAnnualSalary());
+                    labels.add(annualSalaryLabel);
+                    Label fixedAnnualAmountLabel = new Label("Annual Amount: " + newValue.getContract().getFixedAnnualAmount());
+                    labels.add(fixedAnnualAmountLabel);
+                    Label averageDailyWorkHoursLabel = new Label("Average Daily Work Hours: " + newValue.getContract().getAverageDailyWorkHours());
+                    labels.add(averageDailyWorkHoursLabel);
+                    Label overheadPercentageLabel = new Label("Overhead Multiplier: " + newValue.getContract().getOverheadPercentage());
+                    labels.add(overheadPercentageLabel);
+                    Label annualWorkHours = new Label("Annual Working Hours: " + newValue.getContract().getAnnualWorkHours());
+                    labels.add(annualWorkHours);
+                    Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
+                    labels.add(utilizationPercentageLabel);
+
 //                Label dailyRate = new Label("Daily Rate: " + )
 
-                // Check if the employee is considered overhead or not
-                if (newValue.getContract().isOverhead()) {
-                    Label typeLabel = new Label("Employee Type: Overhead Cost");
-                    labels.add(typeLabel);
-                } else {
-                    Label typeLabel = new Label("Employee Type: Production Resource");
-                    labels.add(typeLabel);
-                }
+                    // Check if the employee is considered overhead or not
+                    if (newValue.getContract().isOverhead()) {
+                        Label typeLabel = new Label("Employee Type: Overhead Cost");
+                        labels.add(typeLabel);
+                    } else {
+                        Label typeLabel = new Label("Employee Type: Production Resource");
+                        labels.add(typeLabel);
+                    }
 
-                employeeInfoList.getItems().setAll(labels);
-            }
-        });
+                    Label lineSeparator = new Label("-------------------");
+                    labels.add(lineSeparator);
+
+                    Label dailyRate = new Label("Daily Rate: " + String.format("%.2f", model.getDailyRate()));
+                    labels.add(dailyRate);
+
+                    Label hourlyRate = new Label("Hourly Rate: " + String.format("%.2f", model.getHourlyRate()));
+                    labels.add(hourlyRate);
+
+
+                    employeeInfoList.getItems().setAll(labels);
+                }
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+            }});
     }
+
+
     public void populateChoicebox() {
         filterComboBox.getItems().addAll("Country", "Team");
 

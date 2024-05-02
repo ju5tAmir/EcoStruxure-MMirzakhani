@@ -4,6 +4,7 @@ import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
 import java.util.List;
 
@@ -62,24 +63,27 @@ public class EmployeeLogic {
      * Author: Radwan
      */
     private void calculateHourlyRate() throws ExceptionHandler {
+        try {
+            Contract contract = employee.getContract();
 
-        Contract contract = employee.getContract();
+            double annualSalary = contract.getAnnualSalary();
+            double fixedAnnualAmount = contract.getFixedAnnualAmount();
+            double annualWorkHours = contract.getAnnualWorkHours();
+            double utilizationPercentage = contract.getUtilizationPercentage();
+            double overheadMultiplier = 1 + (contract.getOverheadPercentage() / 100);
 
-        double annualSalary = contract.getAnnualSalary();
-        double fixedAnnualAmount = contract.getFixedAnnualAmount();
-        double annualWorkHours = contract.getAnnualWorkHours();
-        double utilizationPercentage = contract.getUtilizationPercentage();
-        double overheadMultiplier = 1 + (contract.getOverheadPercentage() / 100);
+            double effectiveAnnualWorkHours = annualWorkHours * (utilizationPercentage / 100);
 
-        double effectiveAnnualWorkHours = annualWorkHours * (utilizationPercentage / 100);
+            double adjustedAnnualSalary = annualSalary + fixedAnnualAmount;
 
-        double adjustedAnnualSalary = annualSalary + fixedAnnualAmount;
+            double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
 
-        double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
+            double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
 
-        double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
-
-        this.employee.getContract().setHourlyRate(hourlyRate);
+            this.employee.getContract().setHourlyRate(hourlyRate);
+        } catch (RuntimeException e){
+        throw new ExceptionHandler(ExceptionMessage.CALCULATION_ERROR.getValue());
+    }
     }
     private double calculateDailyRate(Employee employee) throws ExceptionHandler {
 
@@ -99,16 +103,19 @@ public class EmployeeLogic {
      * Author: Radwan
      */
     private void calculateDailyRate() throws ExceptionHandler {
+        try {
+            Contract contract = employee.getContract();
 
-        Contract contract = employee.getContract();
+            double hourlyRate = calculateHourlyRate(employee);
 
-        double hourlyRate = calculateHourlyRate(employee);
+            double averageDailyWorkHours = contract.getAverageDailyWorkHours();
 
-        double averageDailyWorkHours = contract.getAverageDailyWorkHours();
+            double dailyRate = hourlyRate * averageDailyWorkHours;
 
-        double dailyRate = hourlyRate * averageDailyWorkHours;
-
-        this.employee.getContract().setDailyRate(dailyRate);
+            this.employee.getContract().setDailyRate(dailyRate);
+        } catch (ExceptionHandler e){
+            throw new ExceptionHandler(ExceptionMessage.CALCULATION_ERROR.getValue());
+        }
     }
 
     /**
@@ -132,6 +139,12 @@ public class EmployeeLogic {
 
         // Returns the employee object
         return this.employee;
+    }
+
+    public void updateRates(Employee employee) throws ExceptionHandler {
+        this.employee = employee;
+        calculateHourlyRate();
+        calculateDailyRate();
     }
 
     /*

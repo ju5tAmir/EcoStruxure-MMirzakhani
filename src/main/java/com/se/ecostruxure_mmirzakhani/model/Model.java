@@ -154,8 +154,6 @@ public class Model {
                 .setUtilizationPercentage(Validate.validateDouble(utilizationPercentage));
     }
 
-
-
     /**
      * Set Employee's overhead status
      */
@@ -198,6 +196,32 @@ public class Model {
         return employee.get();
     }
 
+    /**
+     * @return Employee's hourly rate
+     */
+    public double getHourlyRate() throws ExceptionHandler{
+        updateRates();
+        return employee.get()
+                .getContract()
+                .getHourlyRate();
+    }
+
+    /**
+     * @return Employee's daily rate
+     */
+    public double getDailyRate() throws ExceptionHandler{
+        updateRates();
+        return employee.get()
+                .getContract()
+                .getDailyRate();
+    }
+
+    /**
+     * Method to update the Employee object with the latest daily and hourly rate
+     */
+    private void updateRates() throws ExceptionHandler{
+        logic.updateRates(employee.get());
+    }
 
 
     // ToDo: Getters and Setters for the above lists and objects

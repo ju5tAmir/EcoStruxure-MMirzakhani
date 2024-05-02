@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
  */
 
 // ToDo: Implement JUnit tests
+//       Implement Percentage validator
 public class Validate implements IUtils {
 
     /**
@@ -54,6 +55,7 @@ public class Validate implements IUtils {
      * @return The validated name if it meets the criteria.
      * @throws ExceptionHandler if the input string does not represent a valid name.
      */
+
     public static String validateName(String name) throws ExceptionHandler{
         // Regex pattern to check if user input matches to a name (only letters, min 3 and max 50)
         Pattern pattern = Pattern.compile("^[a-zA-Z]{3,50}$");
@@ -70,7 +72,5 @@ public class Validate implements IUtils {
             throw new ExceptionHandler(ExceptionMessage.INVALID_NAME.getValue());
         }
     }
-
-
 
 }

@@ -16,6 +16,7 @@ public enum ExceptionMessage {
 
 
     // ** Logical Exceptions ** \\
+    CALCULATION_ERROR("An error occurred while trying to calculate the rates."),
 
 
     // ** Database Exceptions ** \\
