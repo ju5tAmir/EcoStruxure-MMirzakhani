@@ -5,6 +5,7 @@ import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.utils.Validate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -60,71 +61,87 @@ public class Model {
      * Set Employee's first name
      */
     public void setFirstName(String firstName){
-        this.employee.get().setFirstName(firstName);
+        employee.get()
+                .setFirstName(firstName);
     }
 
     /**
      * Set Employee's last name
      */
     public void setLastName(String lastName){
-        this.employee.get().setLastName(lastName);
+        employee.get()
+                .setLastName(lastName);
     }
 
     /**
      * Set Employee's country
      */
     public void setCountry(Country country) {
-        employee.get().setCountry(country);
+        employee.get()
+                .setCountry(country);
     }
 
     /**
      * Set Employee's team name
      */
     public void setTeam(String teamName) {
-        employee.get().getTeam().setName(teamName);
+        employee.get()
+                .getTeam()
+                .setName(teamName);
     }
 
     /**
      * Set Employee's annual salary
      */
-    public void setAnnualSalary(String annualSalary){
-        // Validate the user input
-        employee.get().getContract().setAnnualSalary(annualSalary);
+    public void setAnnualSalary(String annualSalary) throws ExceptionHandler{
+        employee.get()
+                .getContract()
+                .setAnnualSalary(Validate.validateDouble(annualSalary));
     }
 
     /**
      * Set Employee's fixed annual amount
      */
-    public void setFixedAnnualAmount(double fixedAnnualAmount){
-        employee.get().getContract().setFixedAnnualAmount(fixedAnnualAmount);
+    public void setFixedAnnualAmount(String fixedAnnualAmount) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setFixedAnnualAmount(Validate.validateDouble(fixedAnnualAmount));
     }
 
     /**
      * Set Employee's annual work hours
      */
-    public void setAnnualWorkHours(double annualWorkHours){
-        employee.get().getContract().setAnnualWorkHours(annualWorkHours);
+    public void setAnnualWorkHours(String annualWorkHours) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setAnnualWorkHours(Validate.validateDouble(annualWorkHours));
     }
 
     /**
      * Set Employee's average daily work hours
      */
-    public void setAverageDailyWorkHours(double averageDailyWorkHours){
-        employee.get().getContract().setAverageDailyWorkHours(averageDailyWorkHours);
+    public void setAverageDailyWorkHours(String averageDailyWorkHours) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setAverageDailyWorkHours(Validate.validateDouble(averageDailyWorkHours));
     }
 
     /**
      * Set Employee's overhead percentage
      */
     public void setOverheadPercentage(double overheadPercentage){
-        employee.get().getContract().setOverheadPercentage(overheadPercentage);
+        employee.get()
+                .getContract()
+                .setOverheadPercentage(overheadPercentage);
     }
 
     /**
      * Set Employee's utilization percentage
      */
-    public void setUtilizationPercentage(double utilizationPercentage){
-        employee.get().getContract().setUtilizationPercentage(utilizationPercentage);
+    public void setUtilizationPercentage(String utilizationPercentage) throws ExceptionHandler {
+        employee.get()
+                .getContract()
+                .setUtilizationPercentage(Validate.validateDouble(utilizationPercentage));
     }
 
 
@@ -133,7 +150,9 @@ public class Model {
      * Set Employee's overhead status
      */
     public void setOverheadStatus(boolean isOverhead){
-        employee.get().getContract().setOverhead(isOverhead);
+        employee.get()
+                .getContract()
+                .setOverhead(isOverhead);
     }
 
 
@@ -146,7 +165,6 @@ public class Model {
      * @throws ExceptionHandler if an error occurs during the creation process.
      */
     public void createEmployee(Employee employee) throws ExceptionHandler {
-
         // Adds the newly created employee to the list
         employees.add(logic.createEmployee(employee));
     }
