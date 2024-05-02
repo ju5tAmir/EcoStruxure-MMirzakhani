@@ -70,15 +70,24 @@ public class EmployeeLogic {
         return dailyRate;
     }
 
-    /*
-    public double applyMarkupToHourlyRate(double hourlyRate, double markupPercentage) {
+
+    public double hourlyRateMarkup(double hourlyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
         return hourlyRate * markupMultiplier;
     }
 
-    public double applyMarkupToDailyRate(double dailyRate, double markupPercentage) {
+    public double dailyRateMarkup(double dailyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
         return dailyRate * markupMultiplier;
     }
-    */
+
+    public double hourlyRateGM(double baseHourlyRate, double gmPercentage) {
+        double gmMultiplier = 1 + (gmPercentage / 100);
+        return baseHourlyRate * gmMultiplier;
+    }
+
+    public double dailyRateGM(double baseDailyRate, double gmPercentage) {
+        double gmMultiplier = 1 + (gmPercentage / 100);
+        return baseDailyRate * gmMultiplier;
+    }
 }
