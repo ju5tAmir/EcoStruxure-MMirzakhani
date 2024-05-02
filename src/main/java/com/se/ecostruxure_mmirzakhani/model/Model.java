@@ -1,8 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import javafx.beans.property.SimpleObjectProperty;
@@ -37,6 +35,10 @@ public class Model {
         Employee e = new Employee();
         Team t = new Team();
         e.setTeam(t);
+
+        Contract contract = new Contract();
+        e.setContract(contract);
+
         employee.set(e);
     }
 
@@ -84,6 +86,48 @@ public class Model {
         employee.get().getTeam().setName(teamName);
     }
 
+    public void setRegion(Region region){
+        employee.get().setRegion(region);
+    }
+
+    public void setAnnualSalary(double annualSalary){
+        employee.get().getContract().setAnnualSalary(annualSalary);
+    }
+    public void setFixedAnnualAmount(double fixedAnnualAmount){
+        employee.get().getContract().setFixedAnnualAmount(fixedAnnualAmount);
+    }
+    public void setAnnualWorkHours(double annualWorkHours){
+        employee.get().getContract().setAnnualWorkHours(annualWorkHours);
+    }
+    public void setAverageDailyWorkHours(double averageDailyWorkHours) {
+        employee.get().getContract().setAverageDailyWorkHours(averageDailyWorkHours);
+    }
+    public void setOverhead(boolean overhead) {
+        employee.get().getContract().setOverhead(overhead);
+    }
+    public void setOverheadPercentage(double overheadPercentage) {
+        employee.get().getContract().setOverheadPercentage(overheadPercentage);
+    }
+    public void setUtilizationPercentage(double utilizationPercentage) {
+        employee.get().getContract().setUtilizationPercentage(utilizationPercentage);
+    }
+    public void setMarkupPercentage(double markupPercentage) {
+        employee.get().getContract().setMarkupPercentage(markupPercentage);
+    }
+    public void setGrossMarginPercentage(double grossMarginPercentage) {
+        employee.get().getContract().setGrossMarginPercentage(grossMarginPercentage);
+    }
+    public void setHourlyRate(double hourlyRate) {
+        employee.get().getContract().setHourlyRate(hourlyRate);
+    }
+    public void setDailyRate(double dailyRate) {
+        employee.get().getContract().setDailyRate(dailyRate);
+    }
+
+
+
+
+
     /**
      * Create employee
      */
@@ -91,6 +135,7 @@ public class Model {
         // ToDo: You need to send employee details to the bottom layers and if succeeded, create otherwise throw an exception from bottom layer
         // Now It's just a demo how it can change the table view
         employees.add(employee.get());
+        logic.createEmployee(employee.get());
     }
 
 

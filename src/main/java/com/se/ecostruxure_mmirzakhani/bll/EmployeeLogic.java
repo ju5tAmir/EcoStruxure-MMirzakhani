@@ -34,6 +34,11 @@ public class EmployeeLogic {
         return dao.getAllEmployees();
     }
 
+    public boolean createEmployee(Employee employee) throws ExceptionHandler {
+        dao.createEmployee(employee);
+        return true;
+    }
+
     // ToDo: Implement methods to calculate rates
 
     public double calculateHourlyRate(Employee employee) throws ExceptionHandler {
@@ -81,4 +86,6 @@ public class EmployeeLogic {
         return dailyRate * markupMultiplier;
     }
     */
+
+
 }

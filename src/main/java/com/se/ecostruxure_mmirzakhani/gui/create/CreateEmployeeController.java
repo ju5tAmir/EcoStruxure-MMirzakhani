@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.gui.create;
 
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.be.Region;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -22,9 +23,9 @@ import javafx.scene.image.ImageView;
 public class CreateEmployeeController implements IController<Model> {
 
     @FXML
-    private TextField firstNameField, lastNameField;
+    private TextField firstNameField, lastNameField, annualSalaryField;
     @FXML
-    private TextField overheadMultiplierField;
+    private TextField overheadMultiplierField, dailyHoursField;
     @FXML
     private TextField fixedAnnualAmountField;
     @FXML
@@ -45,10 +46,11 @@ public class CreateEmployeeController implements IController<Model> {
     @Override
     public void setModel(Model model) {
         this.model = model;
-        populateChoiceBoxes();
+        populateComboBoxes();
     }
 
-    private void populateChoiceBoxes() {
+    private void populateComboBoxes() {
+
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
         countryCombo.setValue("Choose Country");
         countryCombo.setItems(countries);
@@ -83,6 +85,9 @@ public class CreateEmployeeController implements IController<Model> {
 
         typeCombo.getItems().addAll("Production Resource", "Overhead");
         typeCombo.setValue("Choose Type");
+
+        teamCombo.getItems().addAll("Producton Developement","Software Developement","Sales and Marketing");
+        teamCombo.setValue("Choose Team");
     }
     private void filterCountriesByFirstLetter(String letter) {
         ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -97,19 +102,42 @@ public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private void onSubmitButton(ActionEvent actionEvent) {
+        String annualSalaryText = annualSalaryField.getText();
+        String fixedAnnualAmountText = fixedAnnualAmountField.getText();
+        String annualWorkingHoursText = annualWorkingHoursField.getText();
+        String utilizationPercentageText = utilizationField.getText();
+        String overheadMultiplierText = overheadMultiplierField.getText();
+        String dailyAverageWorkHoursText = dailyHoursField.getText();
+        double dailyRate = 5.5;
+        double markUp = 1.1;
+        double grossM = 3.1;
+
         try {
+            double annualSalary = Double.parseDouble(annualSalaryText);
+            double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
+            double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
+            double utilizationPercentage = Double.parseDouble(utilizationPercentageText);
+            double overheadMultiplier = Double.parseDouble(overheadMultiplierText);
+            double dailyAverageWorkHours = Double.parseDouble(dailyAverageWorkHoursText);
             // Filling the values from user input
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
+            model.setCountry((Country) countryCombo.getValue());
+            model.setTeam(teamCombo.getValue());
+            model.setAnnualSalary(annualSalary);
+            model.setFixedAnnualAmount(fixedAnnualAmount);
+            model.setAnnualWorkHours(annualWorkingHours);
+            model.setAverageDailyWorkHours(dailyAverageWorkHours);
+            model.setUtilizationPercentage(utilizationPercentage);
+            model.setOverhead(Boolean.parseBoolean(typeCombo.getValue()));
+            model.setOverheadPercentage(overheadMultiplier);
 
-            countryCombo.getValue();
-            // I need to set a country and team manually here because I don't want to mess with this page :D
-            // Just for example and prevent error
-            // You can implement your methods
-            model.setCountry(Country.NORTH_KOREA);
-            model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
+            model.setRegion(Region.EUROPE);
+            model.setDailyRate(dailyRate);
+            model.setGrossMarginPercentage(grossM);
+            model.setMarkupPercentage(markUp);
 
-            // ToDo: Keep going with other fields as needed.
+
             // ToDo: Don't forget to check for null inputs.
 
             // Trigger the final action for creating an employee
@@ -121,9 +149,8 @@ public class CreateEmployeeController implements IController<Model> {
             // Close the stage if it was successful
             Window.closeStage(firstNameField.getScene());
 
-        } catch (ExceptionHandler e){
-            // Throw an alert error ToDo: Add a custom error message :D
-            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        } catch (NumberFormatException | ExceptionHandler e) {
+            AlertHandler.displayAlert("Please enter valid numerical values.", Alert.AlertType.ERROR);
         }
 
     }
