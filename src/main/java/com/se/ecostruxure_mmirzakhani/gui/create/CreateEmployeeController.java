@@ -37,6 +37,7 @@ public class CreateEmployeeController implements IController<Model> {
     @Override
     public void setModel(Model model) {
         this.model = model;
+        this.model.initEmployee();
         populateChoiceBoxes();
     }
 

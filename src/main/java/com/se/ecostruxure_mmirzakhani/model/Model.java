@@ -32,7 +32,7 @@ public class Model {
     /**
      * Init an empty employee object with default values to update it later
      */
-    private void initEmployee(){
+    public void initEmployee(){
         Employee e = new Employee();
         Team t = new Team();
         Contract c = new Contract();
@@ -162,9 +162,6 @@ public class Model {
                 .getContract()
                 .setOverhead(isOverhead);
     }
-
-
-
 
     /**
      * Creates a new employee and adds it to the list of employees.

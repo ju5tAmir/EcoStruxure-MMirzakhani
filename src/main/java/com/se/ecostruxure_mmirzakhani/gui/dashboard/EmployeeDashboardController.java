@@ -130,25 +130,25 @@ public class EmployeeDashboardController implements IController {
 
                     List<Label> labels = new ArrayList<>();
 
-                    Label employeeExtraInfo = new Label("Contract info of " + newValue.getFirstName() + " " + newValue.getLastName() + ":");
+                    Label employeeExtraInfo = new Label("Contract info of " + model.getEmployee().getFirstName() + " " + model.getEmployee().getLastName() + ":");
                     employeeExtraInfo.setStyle("-fx-font-weight: bold;");
                     labels.add(employeeExtraInfo);
-                    Label annualSalaryLabel = new Label("Annual Salary: " + newValue.getContract().getAnnualSalary());
+                    Label annualSalaryLabel = new Label("Annual Salary: " + model.getEmployee().getContract().getAnnualSalary());
                     labels.add(annualSalaryLabel);
-                    Label fixedAnnualAmountLabel = new Label("Annual Amount: " + newValue.getContract().getFixedAnnualAmount());
+                    Label fixedAnnualAmountLabel = new Label("Annual Amount: " + model.getEmployee().getContract().getFixedAnnualAmount());
                     labels.add(fixedAnnualAmountLabel);
-                    Label averageDailyWorkHoursLabel = new Label("Average Daily Work Hours: " + newValue.getContract().getAverageDailyWorkHours());
+                    Label averageDailyWorkHoursLabel = new Label("Average Daily Work Hours: " + model.getEmployee().getContract().getAverageDailyWorkHours());
                     labels.add(averageDailyWorkHoursLabel);
-                    Label overheadPercentageLabel = new Label("Overhead Multiplier: " + newValue.getContract().getOverheadPercentage());
+                    Label overheadPercentageLabel = new Label("Overhead Multiplier: " + model.getEmployee().getContract().getOverheadPercentage());
                     labels.add(overheadPercentageLabel);
-                    Label annualWorkHours = new Label("Annual Working Hours: " + newValue.getContract().getAnnualWorkHours());
+                    Label annualWorkHours = new Label("Annual Working Hours: " + model.getEmployee().getContract().getAnnualWorkHours());
                     labels.add(annualWorkHours);
-                    Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
+                    Label utilizationPercentageLabel = new Label("Utilization Percentage: " + model.getEmployee().getContract().getUtilizationPercentage());
                     labels.add(utilizationPercentageLabel);
 
 
                     // Check if the employee is considered overhead or not
-                    if (newValue.getContract().isOverhead()) {
+                    if (model.getEmployee().getContract().isOverhead()) {
                         Label typeLabel = new Label("Employee Type: Overhead Cost");
                         labels.add(typeLabel);
                     } else {
@@ -164,7 +164,6 @@ public class EmployeeDashboardController implements IController {
 
                     Label hourlyRate = new Label("Hourly Rate: " + String.format("%.2f", model.getHourlyRate()));
                     labels.add(hourlyRate);
-
 
                     employeeInfoList.getItems().setAll(labels);
                 }
