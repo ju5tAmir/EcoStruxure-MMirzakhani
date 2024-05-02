@@ -86,7 +86,7 @@ public class CreateEmployeeController implements IController<Model> {
         typeCombo.getItems().addAll("Production Resource", "Overhead");
         typeCombo.setValue("Choose Type");
 
-        teamCombo.getItems().addAll("Producton Developement","Software Developement","Sales and Marketing");
+        teamCombo.getItems().addAll("Production Development","Software Development","Sales and Marketing");
         teamCombo.setValue("Choose Team");
     }
     private void filterCountriesByFirstLetter(String letter) {
