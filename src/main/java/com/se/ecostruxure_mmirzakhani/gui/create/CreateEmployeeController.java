@@ -15,14 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
-/**
- * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
- */
+// ToDo: Don't forget to check for null inputs.
 
 public class CreateEmployeeController implements IController<Model> {
 
     @FXML
-    private TextField firstNameField, lastNameField, annualSalaryField, overheadMultiplierField, fixedAnnualAmountField, annualWorkingHoursField, utilizationField;
+    private TextField firstNameField, lastNameField, annualSalaryField, overheadMultiplierField, fixedAnnualAmountField, annualWorkingHoursField, utilizationField, averageDailyHoursField;
     @FXML
     private ComboBox<Country> countryCombo;
     @FXML
@@ -94,23 +92,20 @@ public class CreateEmployeeController implements IController<Model> {
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
             model.setCountry(countryCombo.getValue());
-            model.setTeam("Not Implemented"); // ToDo: Needs to be implemented to show
-            model.setAnnualSalary(annualSalaryField.getText());
-
-            // I need to set a country and team manually here because I don't want to mess with this page :D
-            // Just for example and prevent error
-            // You can implement your methods
-            model.setCountry(countryCombo.getValue());
+//            model.setTeam(team.getValue()); // ToDo: Needs to be implemented to show as team names in the box
             model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
+            model.setAnnualSalary(annualSalaryField.getText());
+            model.setFixedAnnualAmount(fixedAnnualAmountField.getText());
+            model.setAnnualWorkHours(annualWorkingHoursField.getText());
+            model.setAverageDailyWorkHours(averageDailyHoursField.getText());
+            model.setOverheadPercentage(overheadMultiplierField.getText());
+            model.setUtilizationPercentage(utilizationField.getText());
+//            model.setOverheadStatus(typeCombo); ToDo: Needs to be fixed -> change DB to accept the type as overhead or production resource, instead of boolean
+//                                                ToDo: For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
 
-            // ToDo: Keep going with other fields as needed.
-            // ToDo: Don't forget to check for null inputs.
 
             // Trigger the final action for creating an employee
             model.createEmployee(model.getEmployee());
-
-            // For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
-
 
             // Close the stage if it was successful
             Window.closeStage(firstNameField.getScene());

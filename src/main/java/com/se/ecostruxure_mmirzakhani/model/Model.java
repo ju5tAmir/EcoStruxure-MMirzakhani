@@ -1,5 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
+import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;
@@ -37,8 +38,11 @@ public class Model {
     private void initEmployee(){
         Employee e = new Employee();
         Team t = new Team();
+        Contract c = new Contract();
         e.setTeam(t);
+        e.setContract(c);
         employee.set(e);
+
     }
 
     /**
@@ -129,10 +133,10 @@ public class Model {
     /**
      * Set Employee's overhead percentage
      */
-    public void setOverheadPercentage(double overheadPercentage){
+    public void setOverheadPercentage(String overheadPercentage) throws ExceptionHandler {
         employee.get()
                 .getContract()
-                .setOverheadPercentage(overheadPercentage);
+                .setOverheadPercentage(Validate.validateDouble(overheadPercentage));
     }
 
     /**

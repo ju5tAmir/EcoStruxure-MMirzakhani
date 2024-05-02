@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Utility class to validate various user inputs
  */
-public class Validate {
+public class Validate implements IUtils {
 
     /**
      * Converts a string representation of a valid double to an actual double value.
