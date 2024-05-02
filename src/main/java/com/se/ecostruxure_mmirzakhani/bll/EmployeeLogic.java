@@ -9,6 +9,7 @@ import java.util.List;
 
 public class EmployeeLogic {
     private final EmployeeDAO dao;
+    private Employee employee;
 
     {
         try {
@@ -36,7 +37,7 @@ public class EmployeeLogic {
 
     // ToDo: Implement methods to calculate rates
 
-    public double calculateHourlyRate(Employee employee) throws ExceptionHandler {
+    private double calculateHourlyRate(Employee employee) throws ExceptionHandler {
 
         Contract contract = employee.getContract();
 
@@ -57,7 +58,30 @@ public class EmployeeLogic {
         return hourlyRate;
     }
 
-    public double calculateDailyRate(Employee employee) throws ExceptionHandler {
+    /**
+     * Author: Radwan
+     */
+    private void calculateHourlyRate() throws ExceptionHandler {
+
+        Contract contract = employee.getContract();
+
+        double annualSalary = contract.getAnnualSalary();
+        double fixedAnnualAmount = contract.getFixedAnnualAmount();
+        double annualWorkHours = contract.getAnnualWorkHours();
+        double utilizationPercentage = contract.getUtilizationPercentage();
+        double overheadMultiplier = 1 + (contract.getOverheadPercentage() / 100);
+
+        double effectiveAnnualWorkHours = annualWorkHours * (utilizationPercentage / 100);
+
+        double adjustedAnnualSalary = annualSalary + fixedAnnualAmount;
+
+        double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
+
+        double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
+
+        this.employee.getContract().setHourlyRate(hourlyRate);
+    }
+    private double calculateDailyRate(Employee employee) throws ExceptionHandler {
 
         Contract contract = employee.getContract();
 
@@ -68,6 +92,46 @@ public class EmployeeLogic {
         double dailyRate = hourlyRate * averageDailyWorkHours;
 
         return dailyRate;
+    }
+
+
+    /**
+     * Author: Radwan
+     */
+    private void calculateDailyRate() throws ExceptionHandler {
+
+        Contract contract = employee.getContract();
+
+        double hourlyRate = calculateHourlyRate(employee);
+
+        double averageDailyWorkHours = contract.getAverageDailyWorkHours();
+
+        double dailyRate = hourlyRate * averageDailyWorkHours;
+
+        this.employee.getContract().setDailyRate(dailyRate);
+    }
+
+    /**
+     * Updates the provided employee object with the daily and hourly rate and creates a record for it in the database.
+     *
+     * @param employee The provided employee object.
+     * @return The updated employee object with daily and hourly rate.
+     * @throws ExceptionHandler if an error occurs during the creation process in the database.
+     */
+    public Employee createEmployee(Employee employee) throws ExceptionHandler{
+        this.employee = employee;
+
+        // Calculate the hourly rate for the provided employee
+        calculateHourlyRate();
+
+        // Calculate the daily rate for the provided employee
+        calculateDailyRate();
+
+        // Creates an employee in the db
+        dao.createEmployee(this.employee);
+
+        // Returns the employee object
+        return this.employee;
     }
 
     /*

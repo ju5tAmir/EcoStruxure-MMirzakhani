@@ -22,19 +22,11 @@ import javafx.scene.image.ImageView;
 public class CreateEmployeeController implements IController<Model> {
 
     @FXML
-    private TextField firstNameField, lastNameField;
+    private TextField firstNameField, lastNameField, annualSalaryField, overheadMultiplierField, fixedAnnualAmountField, annualWorkingHoursField, utilizationField;
     @FXML
-    private TextField overheadMultiplierField;
-    @FXML
-    private TextField fixedAnnualAmountField;
-    @FXML
-    private ComboBox countryCombo;
+    private ComboBox<Country> countryCombo;
     @FXML
     private ComboBox<String> teamCombo;
-    @FXML
-    private TextField annualWorkingHoursField;
-    @FXML
-    private TextField utilizationField;
     @FXML
     private ComboBox<String> typeCombo;
     @FXML
@@ -50,7 +42,7 @@ public class CreateEmployeeController implements IController<Model> {
 
     private void populateChoiceBoxes() {
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
-        countryCombo.setValue("Choose Country");
+//        countryCombo.setValue();
         countryCombo.setItems(countries);
 
         countryCombo.setCellFactory(param -> new ListCell<Country>() {
@@ -101,22 +93,24 @@ public class CreateEmployeeController implements IController<Model> {
             // Filling the values from user input
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
+            model.setCountry(countryCombo.getValue());
+            model.setTeam("Not Implemented"); // ToDo: Needs to be implemented to show
+            model.setAnnualSalary(annualSalaryField.getText());
 
-            countryCombo.getValue();
             // I need to set a country and team manually here because I don't want to mess with this page :D
             // Just for example and prevent error
             // You can implement your methods
-            model.setCountry(Country.NORTH_KOREA);
+            model.setCountry(countryCombo.getValue());
             model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
 
             // ToDo: Keep going with other fields as needed.
             // ToDo: Don't forget to check for null inputs.
 
             // Trigger the final action for creating an employee
-
+            model.createEmployee(model.getEmployee());
 
             // For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
-            model.createEmployee();
+
 
             // Close the stage if it was successful
             Window.closeStage(firstNameField.getScene());

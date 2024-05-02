@@ -73,8 +73,6 @@ public class EmployeeDashboardController implements IController {
             initEmployeeColumns();
             populateChoicebox();
 
-
-
         } catch (ExceptionHandler exceptionHandler){
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
@@ -129,6 +127,9 @@ public class EmployeeDashboardController implements IController {
                 labels.add(annualWorkHours);
                 Label utilizationPercentageLabel = new Label("Utilization Percentage: " + newValue.getContract().getUtilizationPercentage());
                 labels.add(utilizationPercentageLabel);
+                Label lineSeparator = new Label("-----------------");
+                labels.add(lineSeparator);
+//                Label dailyRate = new Label("Daily Rate: " + )
 
                 // Check if the employee is considered overhead or not
                 if (newValue.getContract().isOverhead()) {

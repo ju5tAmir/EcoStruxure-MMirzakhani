@@ -85,18 +85,93 @@ public class Model {
     }
 
     /**
-     * Create employee
+     * Set Employee's annual salary
      */
-    public void createEmployee() throws ExceptionHandler {
-        // ToDo: You need to send employee details to the bottom layers and if succeeded, create otherwise throw an exception from bottom layer
-        // Now It's just a demo how it can change the table view
-        employees.add(employee.get());
+    public void setAnnualSalary(String annualSalary){
+        // Validate the user input
+        employee.get().getContract().setAnnualSalary(annualSalary);
+    }
+
+    /**
+     * Set Employee's fixed annual amount
+     */
+    public void setFixedAnnualAmount(double fixedAnnualAmount){
+        employee.get().getContract().setFixedAnnualAmount(fixedAnnualAmount);
+    }
+
+    /**
+     * Set Employee's annual work hours
+     */
+    public void setAnnualWorkHours(double annualWorkHours){
+        employee.get().getContract().setAnnualWorkHours(annualWorkHours);
+    }
+
+    /**
+     * Set Employee's average daily work hours
+     */
+    public void setAverageDailyWorkHours(double averageDailyWorkHours){
+        employee.get().getContract().setAverageDailyWorkHours(averageDailyWorkHours);
+    }
+
+    /**
+     * Set Employee's overhead percentage
+     */
+    public void setOverheadPercentage(double overheadPercentage){
+        employee.get().getContract().setOverheadPercentage(overheadPercentage);
+    }
+
+    /**
+     * Set Employee's utilization percentage
+     */
+    public void setUtilizationPercentage(double utilizationPercentage){
+        employee.get().getContract().setUtilizationPercentage(utilizationPercentage);
+    }
+
+
+
+    /**
+     * Set Employee's overhead status
+     */
+    public void setOverheadStatus(boolean isOverhead){
+        employee.get().getContract().setOverhead(isOverhead);
     }
 
 
 
 
-    // ToDo: Getters and Setters for the above lists and objects
+    /**
+     * Creates a new employee and adds it to the list of employees.
+     *
+     * @param employee The employee object to be created and added.
+     * @throws ExceptionHandler if an error occurs during the creation process.
+     */
+    public void createEmployee(Employee employee) throws ExceptionHandler {
 
+        // Adds the newly created employee to the list
+        employees.add(logic.createEmployee(employee));
+    }
+
+
+    /**
+     * Updates the employee object with the provided employee details.
+     *
+     * @param employee The employee object containing updated details.
+     */
+    public void setEmployee(Employee employee){
+        this.employee.set(employee);
+    }
+
+    /**
+     * Retrieves the current working employee object.
+     *
+     * @return The current employee object.
+     */
+    public Employee getEmployee(){
+        return employee.get();
+    }
+
+
+
+    // ToDo: Getters and Setters for the above lists and objects
 
 }
