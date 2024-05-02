@@ -14,23 +14,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +43,6 @@ public class EmployeeDashboardController implements IController {
     private ComboBox filterComboBox;
     @FXML
     private ComboBox teamComboBox;
-    @FXML
-    private Label teamsLabel;
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -87,58 +73,12 @@ public class EmployeeDashboardController implements IController {
             initEmployeeColumns();
             populateChoicebox();
 
-            teamsLabel.setOnMouseClicked(event -> {
-                // Remove the current content from the scene
-                Parent newContent = createNewContent(); // Create the new content
-                Scene scene = teamsLabel.getScene();
-                scene.setRoot(newContent);
-            });
+
 
         } catch (ExceptionHandler exceptionHandler){
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
-    private Parent createNewContent() {
-        // Create a new BorderPane to mimic the structure of the original FXML
-        BorderPane root = new BorderPane();
-
-        // Create left VBox with labels
-        VBox leftVBox = new VBox();
-        leftVBox.setStyle("-fx-border-color: #D7DBDD; -fx-border-width: 2; -fx-background-color: #E5E7E9;");
-        leftVBox.setPadding(new Insets(10));
-        leftVBox.setSpacing(20);
-
-        //ImageView menuIcon = new ImageView(new Image(getClass().getResourceAsStream("src/main/resources/com/se/ecostruxure-mmirzakhani/dashboard/menu-removebg-preview.png")));
-        //ImageView appIcon = new ImageView(new Image(getClass().getResourceAsStream("icon-removebg-preview.png")));
-
-        Label dashboardLabel = new Label("Dashboard");
-        dashboardLabel.setFont(Font.font(18));
-        Label teamsLabel = new Label("Teams");
-        teamsLabel.setFont(Font.font(18));
-
-        leftVBox.getChildren().addAll(dashboardLabel, teamsLabel);
-
-        root.setLeft(leftVBox);
-
-        // Create center VBox with image and combo boxes
-        VBox centerVBox = new VBox();
-        centerVBox.setAlignment(Pos.TOP_RIGHT);
-        centerVBox.setPadding(new Insets(10));
-        centerVBox.setSpacing(10);
-
-        //ImageView logo = new ImageView(new Image(getClass().getResourceAsStream("@loco-2-removebg-preview.png")));
-
-        ComboBox<String> filterComboBox = new ComboBox<>();
-        ComboBox<String> teamComboBox = new ComboBox<>();
-
-        centerVBox.getChildren().addAll(new HBox(10, filterComboBox, teamComboBox));
-
-        root.setCenter(centerVBox);
-
-        return root;
-    }
-
 
     /**
      * Initializing the Employees table
