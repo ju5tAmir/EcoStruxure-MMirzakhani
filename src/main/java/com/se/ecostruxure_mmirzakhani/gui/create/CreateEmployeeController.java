@@ -38,9 +38,6 @@ public class CreateEmployeeController implements IController<Model> {
     private TextField utilizationField;
     @FXML
     private ComboBox<String> typeCombo;
-    @FXML
-    private TableView<Employee> employeeTableView;
-
     private Model model;
 
     @Override

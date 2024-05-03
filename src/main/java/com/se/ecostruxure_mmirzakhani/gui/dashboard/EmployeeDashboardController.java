@@ -18,7 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,10 @@ public class EmployeeDashboardController implements IController {
     private ComboBox filterComboBox;
     @FXML
     private ComboBox teamComboBox;
+    @FXML
+    private Label teamsLabel;
+    @FXML
+    private Label employeesLabel;
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -58,6 +61,8 @@ public class EmployeeDashboardController implements IController {
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
 
@@ -73,12 +78,25 @@ public class EmployeeDashboardController implements IController {
             initEmployeeColumns();
             populateChoicebox();
 
+            teamsLabel.setOnMouseClicked(event -> {
+                try {
+                    Window.createStage(WindowType.TEAMS);
+                    Window.closeStage(teamsLabel.getScene());
+                } catch (ExceptionHandler e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            employeesLabel.setOnMouseClicked(event -> {
+                AlertHandler.displayAlert("Employee Dashboard is already open!", Alert.AlertType.INFORMATION);
+            });
 
 
-        } catch (ExceptionHandler exceptionHandler){
+        } catch (ExceptionHandler exceptionHandler) {
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
     }
+
+
 
     /**
      * Initializing the Employees table
@@ -221,4 +239,6 @@ public class EmployeeDashboardController implements IController {
 
     public void deleteEmployee(ActionEvent actionEvent) {
     }
+
+
 }

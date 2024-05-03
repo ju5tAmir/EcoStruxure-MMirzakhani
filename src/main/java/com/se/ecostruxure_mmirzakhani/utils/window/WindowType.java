@@ -4,5 +4,6 @@ public enum WindowType {
     EMPLOYEE_DASHBOARD,
     CREATE_EMPLOYEE,
     MULTIPLIERS,
-    CALCULATOR;
+    CALCULATOR,
+    TEAMS;
 }

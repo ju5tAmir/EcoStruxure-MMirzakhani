@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.TeamsController">
+    <left>
+        <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #D7DBDD; -fx-border-width: 2; -fx-background-color: #E5E7E9;" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="51.0" prefWidth="74.0">
+                    <children>
+                        <ImageView fitHeight="28.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@menu-removebg-preview.png" />
+                            </image>
+                            <HBox.margin>
+                                <Insets left="10.0" top="33.0" />
+                            </HBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="94.0" fitWidth="191.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@icon-removebg-preview.png" />
+                            </image>
+                        </ImageView>
+                    </children>
+                </HBox>
+                <VBox>
+                    <VBox.margin>
+                        <Insets left="35.0" top="50.0" />
+                    </VBox.margin>
+                    <children>
+                        <HBox>
+                            <children>
+                                <ImageView fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@dashboard-removebg-preview.png" />
+                                    </image>
+                                    <HBox.margin>
+                                        <Insets top="2.0" />
+                                    </HBox.margin>
+                                </ImageView>
+                                <Label fx:id="dashboardLabel" text="Dashboard">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="5.0" />
+                                    </HBox.margin>
+                                </Label>
+                            </children>
+                        </HBox>
+                        <HBox>
+                     <children>
+                        <Label fx:id="employeesLabel" text="Employees">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                        </HBox>
+                  <HBox>
+                     <children>
+                                <Label fx:id="teamsLabel" text="Teams">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </Label>
+                     </children>
+                  </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox alignment="TOP_RIGHT" BorderPane.alignment="TOP_LEFT">
+            <children>
+                <ImageView fitHeight="52.0" fitWidth="142.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
+                    <VBox.margin>
+                        <Insets right="-20.0" />
+                    </VBox.margin>
+                    <image>
+                        <Image url="@loco-2-removebg-preview.png" />
+                    </image>
+                </ImageView>
+                <HBox>
+                    <VBox.margin>
+                        <Insets top="30.0" />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+                <HBox>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                    </padding>
+                </HBox>
+                <HBox>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                    <padding>
+                        <Insets top="10.0" />
+                    </padding>
+                </HBox>
+            <TableView prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+            </children>
+            <BorderPane.margin>
+                <Insets />
+            </BorderPane.margin>
+            <padding>
+                <Insets left="20.0" right="20.0" />
+            </padding>
+        </VBox>
+    </center>
+</BorderPane>
