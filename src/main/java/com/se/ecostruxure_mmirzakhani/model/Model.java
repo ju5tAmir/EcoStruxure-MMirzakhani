@@ -25,7 +25,7 @@ public class Model {
     /**
      * Constructor
      */
-    public Model(){
+    public Model() {
         initEmployee();
 
     }
@@ -33,7 +33,7 @@ public class Model {
     /**
      * Init an empty employee object with default values to update it later
      */
-    private void initEmployee(){
+    private void initEmployee() {
         Employee e = new Employee();
         Team t = new Team();
         e.setTeam(t);
@@ -42,6 +42,7 @@ public class Model {
 
     /**
      * Retrieve all the employees
+     *
      * @return List of employees as ObservableList
      */
     public ObservableList<Employee> getAllEmployees() throws ExceptionHandler {
@@ -59,14 +60,14 @@ public class Model {
     /**
      * Set Employee's first name
      */
-    public void setFirstName(String firstName){
+    public void setFirstName(String firstName) {
         this.employee.get().setFirstName(firstName);
     }
 
     /**
      * Set Employee's last name
      */
-    public void setLastName(String lastName){
+    public void setLastName(String lastName) {
         this.employee.get().setLastName(lastName);
     }
 
@@ -102,5 +103,24 @@ public class Model {
     }
     // ToDo: Getters and Setters for the above lists and objects
 
+    public double getMarkup() {
 
+        return 0;
+    }
+
+    public double setMarkup() {
+
+        return 0;
+    }
+
+    public double getGM() {
+
+        return 0;
+    }
+
+    public double setGM() {
+
+        return 0;
+
+    }
 }
