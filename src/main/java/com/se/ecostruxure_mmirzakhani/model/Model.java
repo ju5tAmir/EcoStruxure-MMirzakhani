@@ -10,6 +10,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public class Model {
     // An employee object to update when creating a new profile
     private final SimpleObjectProperty<Employee> employee = new SimpleObjectProperty<>();
@@ -40,6 +43,15 @@ public class Model {
         e.setContract(c);
         employee.set(e);
 
+    }
+
+    // Method to get hourly rate history for a specific employee
+    public List<Double> getHourlyRateHistory(Employee employee) throws ExceptionHandler {
+        return employee.getContract().getHourlyRateHistory();
+    }
+
+    public List<LocalDateTime> getRateChangeTimestamps(Employee employee) throws ExceptionHandler {
+        return employee.getContract().getRateChangeTimestamps();
     }
 
     /**

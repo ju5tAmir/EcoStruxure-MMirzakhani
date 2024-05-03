@@ -2,6 +2,8 @@ package com.se.ecostruxure_mmirzakhani.be;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Contract {
     // Contract details
@@ -24,6 +26,10 @@ public class Contract {
     private LocalDateTime validFrom;
     private LocalDateTime validUntil;
 
+    // List to hold the history of rate changes
+    private List<Double> hourlyRateHistory = new ArrayList<>();
+    private List<LocalDateTime> rateChangeTimestamps = new ArrayList<>();
+
     /**
      * Constructor
      */
@@ -34,6 +40,21 @@ public class Contract {
     /**
      * Methods
      */
+
+    // Method to record a new rate and its timestamp
+    public void recordHourlyRate(double rate) {
+        this.hourlyRate = rate;
+        hourlyRateHistory.add(rate);
+        rateChangeTimestamps.add(LocalDateTime.now());
+    }
+
+    public List<Double> getHourlyRateHistory() {
+        return hourlyRateHistory;
+    }
+
+    public List<LocalDateTime> getRateChangeTimestamps() {
+        return rateChangeTimestamps;
+    }
 
     public double getAnnualSalary() {
         return annualSalary;

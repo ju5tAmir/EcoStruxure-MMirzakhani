@@ -13,7 +13,6 @@ public class Employee extends User {
     // Contract
     private Contract contract;
 
-
     /**
      * Constructor
      */

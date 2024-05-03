@@ -63,6 +63,7 @@ public class EmployeeLogic {
         double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
 
         double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
+        contract.recordHourlyRate(hourlyRate);
 
         return hourlyRate;
     }

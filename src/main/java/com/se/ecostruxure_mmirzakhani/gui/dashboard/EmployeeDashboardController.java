@@ -14,11 +14,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,11 +47,41 @@ public class EmployeeDashboardController implements IController {
     private ComboBox filterComboBox;
     @FXML
     private ComboBox teamComboBox;
+    @FXML
+    private LineChart rateHistoryChart;
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
 
     private Model model;
+
+    public EmployeeDashboardController() {
+        this.model = new Model();
+    }
+
+    public void initialize() {
+        Employee employee = new Employee();
+        updateRateHistoryGraph(employee);
+    }
+
+    private void updateRateHistoryGraph(Employee employee) {
+        try {
+            List<Double> rates = model.getHourlyRateHistory(employee);
+            List<LocalDateTime> timestamps = model.getRateChangeTimestamps(employee);
+            XYChart.Series<Number, Number> series = new XYChart.Series<>();
+            series.setName("Hourly Rate");
+
+            for (int i = 0; i < rates.size(); i++) {
+                long epochSecond = timestamps.get(i).atZone(ZoneId.systemDefault()).toEpochSecond();
+                series.getData().add(new XYChart.Data<>(epochSecond, rates.get(i)));
+            }
+
+            rateHistoryChart.getData().clear();
+            rateHistoryChart.getData().add(series);
+        } catch (ExceptionHandler e) {
+            // Handle the error appropriately
+        }
+    }
 
     // ToDo: Implement controller methods such as buttons and other nodes.
 
