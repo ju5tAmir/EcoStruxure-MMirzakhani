@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
+import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -9,16 +10,22 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class Model {
     // An employee object to update when creating a new profile
     private final SimpleObjectProperty<Employee> employee = new SimpleObjectProperty<>();
 
     // List of employee when they grouped based on user request whether all of them or based on a filter like country, team or etc.
     private final ObservableList<Employee> employees = FXCollections.observableArrayList();
+    private final ObservableList<Team> teams = FXCollections.observableArrayList();
+
 
     // List of contract changes for one employee with same personal details but different contracts
     private final ObservableList<Employee> employeeHistory = FXCollections.observableArrayList();
     private final EmployeeLogic logic = new EmployeeLogic();
+    private final TeamLogic teamLogic = new TeamLogic();
 
     /**
      * Constructor
@@ -57,6 +64,15 @@ public class Model {
     private void setEmployees() throws ExceptionHandler {
         employees.setAll(logic.getAllEmployees());
     }
+    public ObservableList<Team> getAllTeams() throws ExceptionHandler {
+        setTeams();
+        return teams;
+    }
+    public void setTeams() throws ExceptionHandler {
+        teams.setAll(teamLogic.getAllTeams());
+    }
+
+
 
     /**
      * Set Employee's first name
@@ -138,10 +154,11 @@ public class Model {
         logic.createEmployee(employee.get());
     }
 
+        // ToDo: Getters and Setters for the above lists and objects
 
-
-
-    // ToDo: Getters and Setters for the above lists and objects
-
+    public void createTeam(Team team) throws ExceptionHandler, SQLException {
+        teamLogic.createTeam(team);
+        teams.add(team);
+    }
 
 }

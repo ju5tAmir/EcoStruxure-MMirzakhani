@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.create;
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Region;
+import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -31,7 +32,7 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private ComboBox countryCombo;
     @FXML
-    private ComboBox<String> teamCombo;
+    private ComboBox<Team> teamCombo;
     @FXML
     private TextField annualWorkingHoursField;
     @FXML
@@ -43,10 +44,14 @@ public class CreateEmployeeController implements IController<Model> {
     @Override
     public void setModel(Model model) {
         this.model = model;
-        populateComboBoxes();
+        try {
+            populateComboBoxes();
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private void populateComboBoxes() {
+    private void populateComboBoxes() throws ExceptionHandler {
 
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
         countryCombo.setValue("Choose Country");
@@ -83,8 +88,8 @@ public class CreateEmployeeController implements IController<Model> {
         typeCombo.getItems().addAll("Production Resource", "Overhead");
         typeCombo.setValue("Choose Type");
 
-        teamCombo.getItems().addAll("Production Development","Software Development","Sales and Marketing");
-        teamCombo.setValue("Choose Team");
+        teamCombo.setItems(model.getAllTeams());
+        teamCombo.setValue(model.getAllTeams().get(0));
     }
     private void filterCountriesByFirstLetter(String letter) {
         ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -120,7 +125,7 @@ public class CreateEmployeeController implements IController<Model> {
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
             model.setCountry((Country) countryCombo.getValue());
-            model.setTeam(teamCombo.getValue());
+            model.setTeam(teamCombo.getValue().toString());
             model.setAnnualSalary(annualSalary);
             model.setFixedAnnualAmount(fixedAnnualAmount);
             model.setAnnualWorkHours(annualWorkingHours);

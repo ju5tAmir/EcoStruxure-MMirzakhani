@@ -68,10 +68,12 @@ public class EmployeeDashboardController implements IController {
 
     @Override
     public void setModel(Object model) {
-        // This method should update model object by retrieving incoming model,
-        // but because this controller is the initial controller, it will only
-        // instantiate a new model object
-        this.model = new Model();
+        if (model instanceof Model) {
+            this.model = (Model) model;
+        } else {
+            // If the incoming model is not of type Model, create a new one
+            this.model = new Model();
+        }
 
         try {
             initEmployeesTable();
@@ -80,7 +82,7 @@ public class EmployeeDashboardController implements IController {
 
             teamsLabel.setOnMouseClicked(event -> {
                 try {
-                    Window.createStage(WindowType.TEAMS);
+                    Window.createStage(WindowType.TEAMS, this.model, Modality.WINDOW_MODAL, false);
                     Window.closeStage(teamsLabel.getScene());
                 } catch (ExceptionHandler e) {
                     throw new RuntimeException(e);
@@ -90,13 +92,10 @@ public class EmployeeDashboardController implements IController {
                 AlertHandler.displayAlert("Employee Dashboard is already open!", Alert.AlertType.INFORMATION);
             });
 
-
         } catch (ExceptionHandler exceptionHandler) {
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
     }
-
-
 
     /**
      * Initializing the Employees table
