@@ -7,6 +7,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -132,11 +133,13 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#calculateMultipliers" text="Calculater Multipliers">
+                  <Button mnemonicParsing="false" onAction="#onCalculate" text="Calculater Multipliers">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
+                  <TextField fx:id="markupTextField" />
+                  <TextField fx:id="gmTextField" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -145,6 +148,7 @@
                   <Insets top="10.0" />
                </padding>
             </HBox>
+            <ListView fx:id="test" prefHeight="200.0" prefWidth="1012.0" />
          </children>
          <BorderPane.margin>
             <Insets />

@@ -46,7 +46,10 @@ public class EmployeeDashboardController implements IController {
     private ComboBox teamComboBox;
     @FXML
     private TextField markupTextField;
+    @FXML
     private TextField gmTextField;
+    @FXML
+    private ListView<Label> test;
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -169,12 +172,6 @@ public class EmployeeDashboardController implements IController {
                     Label hourlyRate = new Label("Hourly Rate: " + String.format("%.2f", model.getHourlyRate()));
                     labels.add(hourlyRate);
 
-                    /*labels.add(new Label("Markup Hourly Rate: " + markupHourlyRate));
-                    labels.add(new Label("GM Hourly Rate: " + gmHourlyRate));
-
-                    labels.add(new Label("Markup Daily Rate: " + markupDailyRate));
-                    labels.add(new Label("GM Daily Rate: " + gmDailyRate));*/
-
                     employeeInfoList.getItems().setAll(labels);
                 }
 
@@ -256,36 +253,39 @@ public class EmployeeDashboardController implements IController {
     @FXML
     public void onCalculate(ActionEvent event) {
         try {
-
             Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
             if (selectedEmployee == null) {
                 showError("Please select an employee.");
                 return;
             }
 
-
             double markupPercentage = getMultiplier(markupTextField);
             double gmPercentage = getMultiplier(gmTextField);
 
             EmployeeLogic logic = new EmployeeLogic();
 
-
             double hourlyRate = selectedEmployee.getContract().getHourlyRate();
             double dailyRate = selectedEmployee.getContract().getDailyRate();
-
 
             double markupHourlyRate = logic.hourlyRateMarkup(hourlyRate, markupPercentage);
             double markupDailyRate = logic.dailyRateMarkup(dailyRate, markupPercentage);
 
+            double gmHourlyRate = logic.hourlyRateGM(markupHourlyRate, gmPercentage);
+            double gmDailyRate = logic.dailyRateGM(markupDailyRate, gmPercentage);
 
-            double gmHourlyRate = logic.hourlyRateGM(hourlyRate, gmPercentage);
-            double gmDailyRate = logic.dailyRateGM(dailyRate, gmPercentage);
+            List<Label> labels = new ArrayList<>();
+            labels.add(new Label("Markup Hourly Rate: " + markupHourlyRate));
+            labels.add(new Label("GM Hourly Rate: " + gmHourlyRate));
+            labels.add(new Label("Markup Daily Rate: " + markupDailyRate));
+            labels.add(new Label("GM Daily Rate: " + gmDailyRate));
 
+            test.getItems().setAll(labels);
 
         } catch (IllegalArgumentException e) {
             showError(e.getMessage());
         }
     }
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
