@@ -72,7 +72,7 @@ public class EmployeeLogic {
      */
     private void calculateHourlyRate() throws ExceptionHandler {
         // Check if it's safe to do the division (non-zero numbers)
-        if (Validate.safeDivision(employee.getContract())){
+        if (Validate.safeDivision(employee.getContract())) {
 
             Contract contract = employee.getContract();
             double annualSalary = contract.getAnnualSalary();
@@ -87,20 +87,8 @@ public class EmployeeLogic {
 
             this.employee.getContract().setHourlyRate(hourlyRate);
         } else {
-        this.employee.getContract().setHourlyRate(0);
-    }
-    }
-    private double calculateDailyRate(Employee employee) throws ExceptionHandler {
-
-        Contract contract = employee.getContract();
-
-        double hourlyRate = calculateHourlyRate(employee);
-
-        double averageDailyWorkHours = contract.getAverageDailyWorkHours();
-
-        double dailyRate = hourlyRate * averageDailyWorkHours;
-
-        return dailyRate;
+            this.employee.getContract().setHourlyRate(0);
+        }
     }
 
 
@@ -166,13 +154,13 @@ public class EmployeeLogic {
         return dailyRate * markupMultiplier;
     }
 
-    public double hourlyRateGM(double baseHourlyRate, double gmPercentage) {
+    public double hourlyRateGM(double hourlyRate, double gmPercentage) {
         double gmMultiplier = 1 + (gmPercentage / 100);
-        return baseHourlyRate * gmMultiplier;
+        return hourlyRate * gmMultiplier;
     }
 
-    public double dailyRateGM(double baseDailyRate, double gmPercentage) {
+    public double dailyRateGM(double dailyRate, double gmPercentage) {
         double gmMultiplier = 1 + (gmPercentage / 100);
-        return baseDailyRate * gmMultiplier;
+        return dailyRate * gmMultiplier;
     }
 }
