@@ -112,7 +112,7 @@ public class EmployeeDashboardController implements IController {
             // Return the string representation
             return new SimpleStringProperty(team.getName());
         });
-        /*hourlyRateColumn.setCellValueFactory(cellData -> {
+        hourlyRateColumn.setCellValueFactory(cellData -> {
             Employee employee = cellData.getValue();
             double hourlyRate;
 
@@ -141,7 +141,7 @@ public class EmployeeDashboardController implements IController {
             }
             return new SimpleDoubleProperty(employee.getDailyRate()).asObject();
 
-        });*/
+        });
 
         // sets a listener to update the listview based on the selected Employee
         employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

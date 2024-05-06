@@ -101,26 +101,6 @@ public class Model {
     public double getDailyRate(Employee employee) throws ExceptionHandler {
         return logic.calculateDailyRate(employee);
     }
-    // ToDo: Getters and Setters for the above lists and objects
 
-    public double getMarkup() {
 
-        return 0;
-    }
-
-    public double setMarkup() {
-
-        return 0;
-    }
-
-    public double getGM() {
-
-        return 0;
-    }
-
-    public double setGM() {
-
-        return 0;
-
-    }
 }
