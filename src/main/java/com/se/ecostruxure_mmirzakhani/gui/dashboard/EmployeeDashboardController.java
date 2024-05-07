@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.dashboard;
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -47,6 +48,10 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private Label employeesLabel;
 
+    @FXML
+    private TextField markupTextField;
+    @FXML
+    private TextField gmTextField;
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -187,6 +192,7 @@ public class EmployeeDashboardController implements IController {
 
                     employeeInfoList.getItems().setAll(labels);
                 }
+
             } catch (ExceptionHandler e) {
                 AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
             }});
@@ -251,15 +257,59 @@ public class EmployeeDashboardController implements IController {
         teamComboBox.getSelectionModel().selectFirst();
     }
 
+    private double getMultiplier(TextField textField) {
+        try {
+            double value = Double.parseDouble(textField.getText());
+            if (value < 0 || value > 100) {
+                throw new IllegalArgumentException("Multiplier must be between 0 and 100.");
+            }
+            return value;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid input. Please enter a number between 0 and 100.");
+        }
+    }
+    @FXML
+    public void onCalculate(ActionEvent event) {
+        try {
+            Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+            if (selectedEmployee == null) {
+                showError("Please select an employee.");
+                return;
+            }
 
-    public void calculateMultipliers(ActionEvent actionEvent) {
-        Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
-        try{
-            Window.createStage(WindowType.CALCULATOR, model, Modality.WINDOW_MODAL, false);
+            double markupPercentage = getMultiplier(markupTextField);
+            double gmPercentage = getMultiplier(gmTextField);
+
+            EmployeeLogic logic = new EmployeeLogic();
+
+            double hourlyRate = selectedEmployee.getContract().getHourlyRate();
+            double dailyRate = selectedEmployee.getContract().getDailyRate();
+
+            double markupHourlyRate = logic.hourlyRateMarkup(hourlyRate, markupPercentage);
+            double markupDailyRate = logic.dailyRateMarkup(dailyRate, markupPercentage);
+
+            double gmHourlyRate = logic.hourlyRateGM(markupHourlyRate, gmPercentage);
+            double gmDailyRate = logic.dailyRateGM(markupDailyRate, gmPercentage);
+
+            List<Label> labels = new ArrayList<>();
+            labels.add(new Label("Markup Hourly Rate: " + markupHourlyRate));
+            labels.add(new Label("GM Hourly Rate: " + gmHourlyRate));
+            labels.add(new Label("Markup Daily Rate: " + markupDailyRate));
+            labels.add(new Label("GM Daily Rate: " + gmDailyRate));
+
+            employeeInfoList.getItems().setAll(labels);
+
+        } catch (IllegalArgumentException e) {
+            showError(e.getMessage());
         }
-        catch (ExceptionHandler e){
-            throw new RuntimeException();
-        }
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void editEmployee(ActionEvent actionEvent) {

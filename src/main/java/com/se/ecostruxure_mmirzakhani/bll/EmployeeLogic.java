@@ -79,7 +79,7 @@ public class EmployeeLogic {
      */
     private void calculateHourlyRate() throws ExceptionHandler {
         // Check if it's safe to do the division (non-zero numbers)
-        if (Validate.safeDivision(employee.getContract())){
+        if (Validate.safeDivision(employee.getContract())) {
 
             Contract contract = employee.getContract();
             double annualSalary = contract.getAnnualSalary();
@@ -94,20 +94,8 @@ public class EmployeeLogic {
 
             this.employee.getContract().setHourlyRate(hourlyRate);
         } else {
-        this.employee.getContract().setHourlyRate(0);
-    }
-    }
-    private double calculateDailyRate(Employee employee) throws ExceptionHandler {
-
-        Contract contract = employee.getContract();
-
-        double hourlyRate = calculateHourlyRate(employee);
-
-        double averageDailyWorkHours = contract.getAverageDailyWorkHours();
-
-        double dailyRate = hourlyRate * averageDailyWorkHours;
-
-        return dailyRate;
+            this.employee.getContract().setHourlyRate(0);
+        }
     }
 
 
@@ -163,17 +151,24 @@ public class EmployeeLogic {
     }
 
 
-    /*
-    public double applyMarkupToHourlyRate(double hourlyRate, double markupPercentage) {
+    public double hourlyRateMarkup(double hourlyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
         return hourlyRate * markupMultiplier;
     }
 
-    public double applyMarkupToDailyRate(double dailyRate, double markupPercentage) {
+    public double dailyRateMarkup(double dailyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
         return dailyRate * markupMultiplier;
     }
-    */
 
 
+    public double hourlyRateGM(double hourlyRate, double gmPercentage) {
+        double gmMultiplier = 1 + (gmPercentage / 100);
+        return hourlyRate * gmMultiplier;
+    }
+
+    public double dailyRateGM(double dailyRate, double gmPercentage) {
+        double gmMultiplier = 1 + (gmPercentage / 100);
+        return dailyRate * gmMultiplier;
+    }
 }
