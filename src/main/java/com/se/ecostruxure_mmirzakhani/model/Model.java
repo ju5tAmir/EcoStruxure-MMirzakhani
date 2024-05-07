@@ -2,13 +2,14 @@ package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
+import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+
+import java.sql.SQLException;
 
 public class Model {
     // An employee object to update when creating a new profile
@@ -16,10 +17,23 @@ public class Model {
 
     // List of employee when they grouped based on user request whether all of them or based on a filter like country, team or etc.
     private final ObservableList<Employee> employees = FXCollections.observableArrayList();
+    private final ObservableList<Team> teams = FXCollections.observableArrayList();
+
 
     // List of contract changes for one employee with same personal details but different contracts
     private final ObservableList<Employee> employeeHistory = FXCollections.observableArrayList();
     private final EmployeeLogic logic = new EmployeeLogic();
+    private final TeamLogic teamLogic = new TeamLogic();
+
+    private Employee selectedEmployee;
+    // Getter and setter for selectedEmployee
+    public Employee getSelectedEmployee() {
+        return selectedEmployee;
+    }
+
+    public void setSelectedEmployee(Employee selectedEmployee) {
+        this.selectedEmployee = selectedEmployee;
+    }
 
     /**
      * Constructor
@@ -38,6 +52,10 @@ public class Model {
         Contract c = new Contract();
         e.setTeam(t);
         e.setContract(c);
+
+        Contract contract = new Contract();
+        e.setContract(contract);
+
         employee.set(e);
 
     }
@@ -57,6 +75,15 @@ public class Model {
     private void setEmployees() throws ExceptionHandler {
         employees.setAll(logic.getAllEmployees());
     }
+    public ObservableList<Team> getAllTeams() throws ExceptionHandler {
+        setTeams();
+        return teams;
+    }
+    public void setTeams() throws ExceptionHandler {
+        teams.setAll(teamLogic.getAllTeams());
+    }
+
+
 
     /**
      * Set Employee's first name
@@ -85,9 +112,8 @@ public class Model {
     /**
      * Set Employee's region
      */
-    public void setRegion(Region region) {
-        employee.get()
-                .setRegion(region);
+    public void setRegion(Region region){
+        employee.get().setRegion(region);
     }
 
 
@@ -99,6 +125,44 @@ public class Model {
                 .getTeam()
                 .setName(teamName);
     }
+
+    public void setAnnualSalary(double annualSalary){
+        employee.get().getContract().setAnnualSalary(annualSalary);
+    }
+    public void setFixedAnnualAmount(double fixedAnnualAmount){
+        employee.get().getContract().setFixedAnnualAmount(fixedAnnualAmount);
+    }
+    public void setAnnualWorkHours(double annualWorkHours){
+        employee.get().getContract().setAnnualWorkHours(annualWorkHours);
+    }
+    public void setAverageDailyWorkHours(double averageDailyWorkHours) {
+        employee.get().getContract().setAverageDailyWorkHours(averageDailyWorkHours);
+    }
+    public void setOverhead(boolean overhead) {
+        employee.get().getContract().setOverhead(overhead);
+    }
+    public void setOverheadPercentage(double overheadPercentage) {
+        employee.get().getContract().setOverheadPercentage(overheadPercentage);
+    }
+    public void setUtilizationPercentage(double utilizationPercentage) {
+        employee.get().getContract().setUtilizationPercentage(utilizationPercentage);
+    }
+    public void setMarkupPercentage(double markupPercentage) {
+        employee.get().getContract().setMarkupPercentage(markupPercentage);
+    }
+    public void setGrossMarginPercentage(double grossMarginPercentage) {
+        employee.get().getContract().setGrossMarginPercentage(grossMarginPercentage);
+    }
+    public void setHourlyRate(double hourlyRate) {
+        employee.get().getContract().setHourlyRate(hourlyRate);
+    }
+    public void setDailyRate(double dailyRate) {
+        employee.get().getContract().setDailyRate(dailyRate);
+    }
+
+
+
+
 
     /**
      * Set Employee's annual salary
@@ -169,9 +233,11 @@ public class Model {
      * @param employee The employee object to be created and added.
      * @throws ExceptionHandler if an error occurs during the creation process.
      */
-    public void createEmployee(Employee employee) throws ExceptionHandler {
-        // Adds the newly created employee to the list
-        employees.add(logic.createEmployee(employee));
+    public void createEmployee() throws ExceptionHandler {
+        // ToDo: You need to send employee details to the bottom layers and if succeeded, create otherwise throw an exception from bottom layer
+        // Now It's just a demo how it can change the table view
+        employees.add(employee.get());
+        logic.createEmployee(employee.get());
     }
 
 
@@ -222,5 +288,26 @@ public class Model {
 
 
     // ToDo: Getters and Setters for the above lists and objects
+
+
+
+        // ToDo: Getters and Setters for the above lists and objects
+
+    public void createTeam(Team team) throws ExceptionHandler, SQLException {
+        teamLogic.createTeam(team);
+        teams.add(team);
+    }
+    public void updateTeam(Team team) throws ExceptionHandler, SQLException {
+        teamLogic.updateTeam(team);
+    }
+    public boolean deleteTeam(int id) throws ExceptionHandler, SQLException {
+        teamLogic.deleteTeam(id);
+        return true;
+    }
+
+    public void updateEmployee(Employee employee) throws ExceptionHandler {
+       logic.updateEmployee(employee);
+    }
+
 
 }

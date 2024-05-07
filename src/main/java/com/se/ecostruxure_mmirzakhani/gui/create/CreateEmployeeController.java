@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.create;
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Region;
+import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -26,22 +27,30 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private ComboBox<Country> countryCombo;
     @FXML
-    private ComboBox<String> teamCombo;
+    private TextField dailyHoursField;
+    @FXML
+    private ComboBox<Team> teamCombo;
     @FXML
     private ComboBox<String> typeCombo;
-    @FXML
-    private TableView<Employee> employeeTableView;
-
     private Model model;
+    private Employee selectedEmployee;
 
     @Override
     public void setModel(Model model) {
         this.model = model;
+
         this.model.initEmployee();
-        populateChoiceBoxes();
+        try {
+            populateComboBoxes();
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
+        selectedEmployee = model.getSelectedEmployee();
+
     }
 
-    private void populateChoiceBoxes() {
+    private void populateComboBoxes() throws ExceptionHandler {
+
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
 //        countryCombo.setValue();
         countryCombo.setItems(countries);
@@ -76,6 +85,9 @@ public class CreateEmployeeController implements IController<Model> {
 
         typeCombo.getItems().addAll("Production Resource", "Overhead");
         typeCombo.setValue("Choose Type");
+
+        teamCombo.setItems(model.getAllTeams());
+        teamCombo.setValue(model.getAllTeams().get(0));
     }
     private void filterCountriesByFirstLetter(String letter) {
         ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -90,36 +102,120 @@ public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private void onSubmitButton(ActionEvent actionEvent) {
+        if (model.getSelectedEmployee()==null){
+            createEmployee();
+        } else {
+            updateEmployee();
+        }
+    }
+
+    private void updateEmployee() {
+        if(selectedEmployee!=null) {
+            try {
+                String annualSalaryText = annualSalaryField.getText();
+                String fixedAnnualAmountText = fixedAnnualAmountField.getText();
+                String annualWorkingHoursText = annualWorkingHoursField.getText();
+                String utilizationPercentageText = utilizationField.getText();
+                String overheadMultiplierText = overheadMultiplierField.getText();
+                String dailyAverageWorkHoursText = dailyHoursField.getText();
+                double dailyRate = 5.5;
+                double markUp = 1.1;
+                double grossM = 3.1;
+                double annualSalary = Double.parseDouble(annualSalaryText);
+                double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
+                double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
+                double utilizationPercentage = Double.parseDouble(utilizationPercentageText);
+                double overheadMultiplier = Double.parseDouble(overheadMultiplierText);
+                double dailyAverageWorkHours = Double.parseDouble(dailyAverageWorkHoursText);
+                // Filling the values from user input
+                model.setFirstName(firstNameField.getText());
+                model.setLastName(lastNameField.getText());
+                model.setCountry((Country) countryCombo.getValue());
+                model.setTeam(teamCombo.getValue().toString());
+                model.setAnnualSalary(annualSalary);
+                model.setFixedAnnualAmount(fixedAnnualAmount);
+                model.setAnnualWorkHours(annualWorkingHours);
+                model.setAverageDailyWorkHours(dailyAverageWorkHours);
+                model.setUtilizationPercentage(utilizationPercentage);
+                String selectedType = typeCombo.getValue();
+                // Set the isOverhead value based on the selected type
+                boolean isOverhead = selectedType.equals("Overhead");
+                // Set the isOverhead value in the model
+                model.setOverhead(isOverhead);
+                model.setOverheadPercentage(overheadMultiplier);
+
+                model.setRegion(Region.EUROPE);
+                model.setDailyRate(dailyRate);
+                model.setGrossMarginPercentage(grossM);
+                model.setMarkupPercentage(markUp);
+                model.updateEmployee(selectedEmployee);
+
+                selectedEmployee.setFirstName(firstNameField.getText());
+
+                // Close the stage if it was successful
+                Window.closeStage(firstNameField.getScene());
+
+                System.out.println(selectedEmployee);
+                AlertHandler.displayAlert("Employee updated successfully.", Alert.AlertType.INFORMATION);
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert("Error updating employee: " + e.getMessage(), Alert.AlertType.ERROR);
+            }}
+    }
+
+    // ToDo: Method to check for null inputs
+
+    public void createEmployee(){
         try {
+            String annualSalaryText = annualSalaryField.getText();
+            String fixedAnnualAmountText = fixedAnnualAmountField.getText();
+            String annualWorkingHoursText = annualWorkingHoursField.getText();
+            String utilizationPercentageText = utilizationField.getText();
+            String overheadMultiplierText = overheadMultiplierField.getText();
+            String dailyAverageWorkHoursText = dailyHoursField.getText();
+            double dailyRate = 5.5;
+            double markUp = 1.1;
+            double grossM = 3.1;
+            double annualSalary = Double.parseDouble(annualSalaryText);
+            double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
+            double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
+            double utilizationPercentage = Double.parseDouble(utilizationPercentageText);
+            double overheadMultiplier = Double.parseDouble(overheadMultiplierText);
+            double dailyAverageWorkHours = Double.parseDouble(dailyAverageWorkHoursText);
             // Filling the values from user input
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
             model.setCountry(countryCombo.getValue());
             model.setRegion(Region.EUROPE);    // ToDo: Needs to be implemented correctly
-//            model.setTeam(team.getValue()); // ToDo: Needs to be implemented to show as team names in the box
-            model.setTeam("AreYouA1or0?"); // Even if you are, try not to be
-            model.setAnnualSalary(annualSalaryField.getText());
-            model.setFixedAnnualAmount(fixedAnnualAmountField.getText());
-            model.setAnnualWorkHours(annualWorkingHoursField.getText());
+            // model.setTeam(team.getValue()); // ToDo: Needs to be implemented to show as team names in the box
             model.setAverageDailyWorkHours(averageDailyHoursField.getText());
-            model.setOverheadPercentage(overheadMultiplierField.getText());
-            model.setUtilizationPercentage(utilizationField.getText());
-//            model.setOverheadStatus(typeCombo); ToDo: Needs to be fixed -> change DB to accept the type as overhead or production resource, instead of boolean
-//                                                ToDo: For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
+            // model.setOverheadStatus(typeCombo); ToDo: Needs to be fixed -> change DB to accept the type as overhead or production resource, instead of boolean
+            //     ToDo: For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
 
-            // Trigger the final action for creating an employee
-            model.createEmployee(model.getEmployee());
+            model.setTeam(teamCombo.getValue().toString());
+            model.setAnnualSalary(annualSalary);
+            model.setFixedAnnualAmount(fixedAnnualAmount);
+            model.setAnnualWorkHours(annualWorkingHours);
+            model.setAverageDailyWorkHours(dailyAverageWorkHours);
+            model.setUtilizationPercentage(utilizationPercentage);
+            String selectedType = typeCombo.getValue();
+            // Set the isOverhead value based on the selected type
+            boolean isOverhead = selectedType.equals("Overhead");
+            // Set the isOverhead value in the model
+            model.setOverhead(isOverhead);
+            model.setOverheadPercentage(overheadMultiplier);
+
+            model.setDailyRate(dailyRate);
+            model.setGrossMarginPercentage(grossM);
+            model.setMarkupPercentage(markUp);
+            model.createEmployee();
 
             // Close the stage if it was successful
             Window.closeStage(firstNameField.getScene());
 
-        } catch (ExceptionHandler e){
-            // Throw an alert error ToDo: Add a custom error message :D
-            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        } catch (NumberFormatException | ExceptionHandler e) {
+            AlertHandler.displayAlert("Please enter valid numerical values.", Alert.AlertType.ERROR);
         }
 
     }
-
-    // ToDo: Method to check for null inputs
 
 }

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController">
+<BorderPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController">
    <left>
       <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-color: #D7DBDD; -fx-border-width: 2; -fx-background-color: #E5E7E9;" BorderPane.alignment="CENTER">
          <children>
@@ -35,29 +35,76 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox>
+            <VBox>
                <VBox.margin>
                   <Insets left="35.0" top="50.0" />
                </VBox.margin>
                <children>
-                  <ImageView fitHeight="18.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@dashboard-removebg-preview.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets top="2.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <Label fx:id="dashboardLabel" text="Dashboard">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Label>
+                  <HBox>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@dashboard-removebg-preview.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets top="2.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <Label fx:id="dashboardLabel" text="Dashboard">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="3.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@employees.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="employeesLabel" text="Employees">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="3.0" top="3.0" />
+                     </padding>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@teams.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="teamsLabel" text="Teams">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding>
+                  </HBox>
                </children>
-            </HBox>
+            </VBox>
          </children>
       </VBox>
    </left>

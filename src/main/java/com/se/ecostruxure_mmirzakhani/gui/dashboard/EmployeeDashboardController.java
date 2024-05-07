@@ -18,7 +18,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.Modality;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +42,11 @@ public class EmployeeDashboardController implements IController {
     private ComboBox filterComboBox;
     @FXML
     private ComboBox teamComboBox;
+    @FXML
+    private Label teamsLabel;
+    @FXML
+    private Label employeesLabel;
+
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -58,22 +62,38 @@ public class EmployeeDashboardController implements IController {
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
+
+
     }
 
 
     @Override
     public void setModel(Object model) {
-        // This method should update model object by retrieving incoming model,
-        // but because this controller is the initial controller, it will only
-        // instantiate a new model object
-        this.model = new Model();
+        if (model instanceof Model) {
+            this.model = (Model) model;
+        } else {
+            // If the incoming model is not of type Model, create a new one
+            this.model = new Model();
+        }
 
         try {
             initEmployeesTable();
             initEmployeeColumns();
             populateChoicebox();
 
-        } catch (ExceptionHandler exceptionHandler){
+            teamsLabel.setOnMouseClicked(event -> {
+                try {
+                    Window.createStage(WindowType.TEAMS, this.model, Modality.WINDOW_MODAL, false);
+                    Window.closeStage(teamsLabel.getScene());
+                } catch (ExceptionHandler e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            employeesLabel.setOnMouseClicked(event -> {
+                AlertHandler.displayAlert("Employee Dashboard is already open!", Alert.AlertType.INFORMATION);
+            });
+
+        } catch (ExceptionHandler exceptionHandler) {
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
     }
@@ -243,6 +263,8 @@ public class EmployeeDashboardController implements IController {
     }
 
     public void editEmployee(ActionEvent actionEvent) {
+        Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+        model.setSelectedEmployee(selectedEmployee);
         try {
             Window.createStage(WindowType.CREATE_EMPLOYEE, model, Modality.APPLICATION_MODAL, false);
         } catch (ExceptionHandler e) {
@@ -250,5 +272,10 @@ public class EmployeeDashboardController implements IController {
         }    }
 
     public void deleteEmployee(ActionEvent actionEvent) {
+    }
+
+
+    public void onSave(ActionEvent actionEvent) {
+
     }
 }
