@@ -48,8 +48,6 @@ public class EmployeeDashboardController implements IController {
     private TextField markupTextField;
     @FXML
     private TextField gmTextField;
-    @FXML
-    private ListView<Label> test;
 
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -279,7 +277,7 @@ public class EmployeeDashboardController implements IController {
             labels.add(new Label("Markup Daily Rate: " + markupDailyRate));
             labels.add(new Label("GM Daily Rate: " + gmDailyRate));
 
-            test.getItems().setAll(labels);
+            employeeInfoList.getItems().setAll(labels);
 
         } catch (IllegalArgumentException e) {
             showError(e.getMessage());

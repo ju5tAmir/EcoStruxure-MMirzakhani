@@ -10,10 +10,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController">
    <left>
@@ -62,8 +64,8 @@
          </children>
       </VBox>
    </left>
-   <center>
-      <VBox alignment="TOP_RIGHT" BorderPane.alignment="TOP_LEFT">
+   <right>
+      <VBox alignment="TOP_RIGHT" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="52.0" fitWidth="142.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS">
                <VBox.margin>
@@ -133,13 +135,6 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#onCalculate" text="Calculater Multipliers">
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </Button>
-                  <TextField fx:id="markupTextField" />
-                  <TextField fx:id="gmTextField" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -148,7 +143,17 @@
                   <Insets top="10.0" />
                </padding>
             </HBox>
-            <ListView fx:id="test" prefHeight="200.0" prefWidth="1012.0" />
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="gmTextField" layoutX="862.0" layoutY="113.0" prefHeight="25.0" prefWidth="70.0" />
+                  <TextField fx:id="markupTextField" layoutX="862.0" layoutY="58.0" prefHeight="25.0" prefWidth="70.0" />
+                  <Button layoutX="769.0" layoutY="161.0" mnemonicParsing="false" onAction="#onCalculate" text="Calculater Multipliers" />
+                  <Text layoutX="722.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Markup Multiplier" />
+                  <Text layoutX="707.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gross Margin Multiplier" />
+                  <Text layoutX="953.0" layoutY="75.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" />
+                  <Text layoutX="953.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="\%" />
+               </children>
+            </AnchorPane>
          </children>
          <BorderPane.margin>
             <Insets />
@@ -157,5 +162,5 @@
             <Insets left="20.0" right="20.0" />
          </padding>
       </VBox>
-   </center>
+   </right>
 </BorderPane>
