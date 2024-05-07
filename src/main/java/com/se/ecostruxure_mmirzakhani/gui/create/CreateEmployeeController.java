@@ -27,8 +27,6 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private ComboBox<Country> countryCombo;
     @FXML
-    private TextField dailyHoursField;
-    @FXML
     private ComboBox<Team> teamCombo;
     @FXML
     private ComboBox<String> typeCombo;
@@ -112,25 +110,16 @@ public class CreateEmployeeController implements IController<Model> {
     private void updateEmployee() {
         if(selectedEmployee!=null) {
             try {
-                String annualSalaryText = annualSalaryField.getText();
-                String fixedAnnualAmountText = fixedAnnualAmountField.getText();
-                String annualWorkingHoursText = annualWorkingHoursField.getText();
-                String utilizationPercentageText = utilizationField.getText();
-                String overheadMultiplierText = overheadMultiplierField.getText();
-                String dailyAverageWorkHoursText = dailyHoursField.getText();
-                double dailyRate = 5.5;
-                double markUp = 1.1;
-                double grossM = 3.1;
-                double annualSalary = Double.parseDouble(annualSalaryText);
-                double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
-                double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
-                double utilizationPercentage = Double.parseDouble(utilizationPercentageText);
-                double overheadMultiplier = Double.parseDouble(overheadMultiplierText);
-                double dailyAverageWorkHours = Double.parseDouble(dailyAverageWorkHoursText);
+                double annualSalary = Double.parseDouble(annualSalaryField.getText());
+                double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountField.getText());
+                double annualWorkingHours = Double.parseDouble(annualWorkingHoursField.getText());
+                double utilizationPercentage = Double.parseDouble(utilizationField.getText());
+                double overheadMultiplier = Double.parseDouble(overheadMultiplierField.getText());
+                double dailyAverageWorkHours = Double.parseDouble(averageDailyHoursField.getText());
                 // Filling the values from user input
                 model.setFirstName(firstNameField.getText());
                 model.setLastName(lastNameField.getText());
-                model.setCountry((Country) countryCombo.getValue());
+                model.setCountry(countryCombo.getValue());
                 model.setTeam(teamCombo.getValue().toString());
                 model.setAnnualSalary(annualSalary);
                 model.setFixedAnnualAmount(fixedAnnualAmount);
@@ -145,9 +134,6 @@ public class CreateEmployeeController implements IController<Model> {
                 model.setOverheadPercentage(overheadMultiplier);
 
                 model.setRegion(Region.EUROPE);
-                model.setDailyRate(dailyRate);
-                model.setGrossMarginPercentage(grossM);
-                model.setMarkupPercentage(markUp);
                 model.updateEmployee(selectedEmployee);
 
                 selectedEmployee.setFirstName(firstNameField.getText());
@@ -166,27 +152,17 @@ public class CreateEmployeeController implements IController<Model> {
 
     public void createEmployee(){
         try {
-            String annualSalaryText = annualSalaryField.getText();
-            String fixedAnnualAmountText = fixedAnnualAmountField.getText();
-            String annualWorkingHoursText = annualWorkingHoursField.getText();
-            String utilizationPercentageText = utilizationField.getText();
-            String overheadMultiplierText = overheadMultiplierField.getText();
-            String dailyAverageWorkHoursText = dailyHoursField.getText();
-            double dailyRate = 5.5;
-            double markUp = 1.1;
-            double grossM = 3.1;
-            double annualSalary = Double.parseDouble(annualSalaryText);
-            double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
-            double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
-            double utilizationPercentage = Double.parseDouble(utilizationPercentageText);
-            double overheadMultiplier = Double.parseDouble(overheadMultiplierText);
-            double dailyAverageWorkHours = Double.parseDouble(dailyAverageWorkHoursText);
+            double annualSalary = Double.parseDouble(annualSalaryField.getText());
+            double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountField.getText());
+            double annualWorkingHours = Double.parseDouble(annualWorkingHoursField.getText());
+            double utilizationPercentage = Double.parseDouble(utilizationField.getText());
+            double overheadMultiplier = Double.parseDouble(overheadMultiplierField.getText());
+            double dailyAverageWorkHours = Double.parseDouble(averageDailyHoursField.getText());
             // Filling the values from user input
             model.setFirstName(firstNameField.getText());
             model.setLastName(lastNameField.getText());
             model.setCountry(countryCombo.getValue());
             model.setRegion(Region.EUROPE);    // ToDo: Needs to be implemented correctly
-            // model.setTeam(team.getValue()); // ToDo: Needs to be implemented to show as team names in the box
             model.setAverageDailyWorkHours(averageDailyHoursField.getText());
             // model.setOverheadStatus(typeCombo); ToDo: Needs to be fixed -> change DB to accept the type as overhead or production resource, instead of boolean
             //     ToDo: For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
@@ -203,10 +179,6 @@ public class CreateEmployeeController implements IController<Model> {
             // Set the isOverhead value in the model
             model.setOverhead(isOverhead);
             model.setOverheadPercentage(overheadMultiplier);
-
-            model.setDailyRate(dailyRate);
-            model.setGrossMarginPercentage(grossM);
-            model.setMarkupPercentage(markUp);
             model.createEmployee();
 
             // Close the stage if it was successful
