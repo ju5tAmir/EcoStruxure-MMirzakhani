@@ -7,11 +7,8 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public class Model {
     // An employee object to update when creating a new profile
@@ -170,9 +167,17 @@ public class Model {
         teamLogic.createTeam(team);
         teams.add(team);
     }
+    public void updateTeam(Team team) throws ExceptionHandler, SQLException {
+        teamLogic.updateTeam(team);
+    }
+    public boolean deleteTeam(int id) throws ExceptionHandler, SQLException {
+        teamLogic.deleteTeam(id);
+        return true;
+    }
 
     public void updateEmployee(Employee employee) throws ExceptionHandler {
        logic.updateEmployee(employee);
     }
+
 
 }

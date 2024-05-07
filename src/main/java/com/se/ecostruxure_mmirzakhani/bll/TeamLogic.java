@@ -27,4 +27,12 @@ public class TeamLogic {
         return teamDAO.createTeam(team);
     }
 
+    public boolean updateTeam(Team team) throws ExceptionHandler, SQLException {
+        return teamDAO.updateTeam(team);
+    }
+
+    public boolean deleteTeam(int id) throws ExceptionHandler, SQLException {
+        return teamDAO.deleteTeam(id);
+    }
+
 }
