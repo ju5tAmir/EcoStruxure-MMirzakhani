@@ -206,7 +206,7 @@ public class EmployeeDAO {
         }
     }
 
-    public boolean updateEmployee(Employee employee, Contract contract) throws ExceptionHandler {
+    public boolean updateEmployee(Employee employee) throws ExceptionHandler {
         String updateEmployee = "UPDATE Employees SET FirstName = ?, LastName = ?, Region = ?, Country = ? WHERE EmployeeID = ?";
         String updateTeam = "UPDATE Team SET TeamName = ? WHERE EmployeeID = ?";
         String updateContract = "UPDATE Contract SET AnnualSalary = ?, FixedAnnualAmount = ?, AnnualWorkHours = ?, AverageDailyWorkHours = ?, OverheadPercentage = ?, UtilizationPercentage = ?, MarkupPercentage = ?, GrossMarginPercentage = ?, IsOverhead = ? WHERE EmployeeID = ?";
@@ -219,6 +219,7 @@ public class EmployeeDAO {
                  PreparedStatement teamStmt = conn.prepareStatement(updateTeam);
                  PreparedStatement contractStmt = conn.prepareStatement(updateContract)) {
 
+                // Set parameters for updating employee
                 employeeStmt.setString(1, employee.getFirstName());
                 employeeStmt.setString(2, employee.getLastName());
                 employeeStmt.setString(3, employee.getRegion().getName());
@@ -226,12 +227,15 @@ public class EmployeeDAO {
                 employeeStmt.setInt(5, employee.getId());
                 employeeStmt.executeUpdate();
 
+                // Set parameters for updating team
                 if (employee.getTeam() != null) {
                     teamStmt.setString(1, employee.getTeam().getName());
                     teamStmt.setInt(2, employee.getId());
                     teamStmt.executeUpdate();
                 }
 
+                // Set parameters for updating contract
+                Contract contract = employee.getContract();
                 contractStmt.setDouble(1, contract.getAnnualSalary());
                 contractStmt.setDouble(2, contract.getFixedAnnualAmount());
                 contractStmt.setDouble(3, contract.getAnnualWorkHours());
@@ -244,16 +248,19 @@ public class EmployeeDAO {
                 contractStmt.setInt(10, employee.getId());
                 contractStmt.executeUpdate();
 
+                // Commit the transaction
                 conn.commit();
                 return true;
             } catch (SQLException e) {
+                // Rollback the transaction in case of SQL exception
                 conn.rollback();
-                throw new ExceptionHandler(e.getMessage());
+                throw new ExceptionHandler("Failed to update employee: " + e.getMessage());
             }
         } catch (SQLException ex) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
+            throw new ExceptionHandler("Database connection failure: " + ex.getMessage());
         }
     }
+
 
     public boolean deleteEmployee(int employeeId) throws ExceptionHandler {
         String deleteContract = "DELETE FROM Contract WHERE EmployeeID = ?";

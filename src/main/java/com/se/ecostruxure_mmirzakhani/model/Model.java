@@ -27,6 +27,16 @@ public class Model {
     private final EmployeeLogic logic = new EmployeeLogic();
     private final TeamLogic teamLogic = new TeamLogic();
 
+    private Employee selectedEmployee;
+    // Getter and setter for selectedEmployee
+    public Employee getSelectedEmployee() {
+        return selectedEmployee;
+    }
+
+    public void setSelectedEmployee(Employee selectedEmployee) {
+        this.selectedEmployee = selectedEmployee;
+    }
+
     /**
      * Constructor
      */
@@ -159,6 +169,10 @@ public class Model {
     public void createTeam(Team team) throws ExceptionHandler, SQLException {
         teamLogic.createTeam(team);
         teams.add(team);
+    }
+
+    public void updateEmployee(Employee employee) throws ExceptionHandler {
+       logic.updateEmployee(employee);
     }
 
 }

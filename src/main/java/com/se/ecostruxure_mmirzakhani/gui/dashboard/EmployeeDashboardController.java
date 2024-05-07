@@ -47,6 +47,7 @@ public class EmployeeDashboardController implements IController {
     @FXML
     private Label employeesLabel;
 
+
     //get the list of countries from the enum and change it to observable
     ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
 
@@ -230,6 +231,8 @@ public class EmployeeDashboardController implements IController {
     }
 
     public void editEmployee(ActionEvent actionEvent) {
+        Employee selectedEmployee = employeeTableView.getSelectionModel().getSelectedItem();
+        model.setSelectedEmployee(selectedEmployee);
         try {
             Window.createStage(WindowType.CREATE_EMPLOYEE, model, Modality.APPLICATION_MODAL, false);
         } catch (ExceptionHandler e) {
@@ -240,4 +243,7 @@ public class EmployeeDashboardController implements IController {
     }
 
 
+    public void onSave(ActionEvent actionEvent) {
+
+    }
 }

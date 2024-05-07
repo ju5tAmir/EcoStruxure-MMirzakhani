@@ -39,6 +39,13 @@ public class EmployeeLogic {
         return true;
     }
 
+    public boolean updateEmployee(Employee employee) throws ExceptionHandler {
+       return dao.updateEmployee(employee);
+
+
+        // ToDo: exception handling
+    }
+
     // ToDo: Implement methods to calculate rates
 
     public double calculateHourlyRate(Employee employee) throws ExceptionHandler {

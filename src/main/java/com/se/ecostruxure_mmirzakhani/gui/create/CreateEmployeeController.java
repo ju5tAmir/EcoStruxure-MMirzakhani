@@ -40,6 +40,7 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private ComboBox<String> typeCombo;
     private Model model;
+    private Employee selectedEmployee;
 
     @Override
     public void setModel(Model model) {
@@ -49,6 +50,8 @@ public class CreateEmployeeController implements IController<Model> {
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
+        selectedEmployee = model.getSelectedEmployee();
+
     }
 
     private void populateComboBoxes() throws ExceptionHandler {
@@ -104,17 +107,79 @@ public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private void onSubmitButton(ActionEvent actionEvent) {
-        String annualSalaryText = annualSalaryField.getText();
-        String fixedAnnualAmountText = fixedAnnualAmountField.getText();
-        String annualWorkingHoursText = annualWorkingHoursField.getText();
-        String utilizationPercentageText = utilizationField.getText();
-        String overheadMultiplierText = overheadMultiplierField.getText();
-        String dailyAverageWorkHoursText = dailyHoursField.getText();
-        double dailyRate = 5.5;
-        double markUp = 1.1;
-        double grossM = 3.1;
+        if (model.getSelectedEmployee()==null){
+            createEmployee();
+        } else {
+            updateEmployee();
+        }
+    }
 
+    private void updateEmployee() {
+        if(selectedEmployee!=null) {
+            try {
+                String annualSalaryText = annualSalaryField.getText();
+                String fixedAnnualAmountText = fixedAnnualAmountField.getText();
+                String annualWorkingHoursText = annualWorkingHoursField.getText();
+                String utilizationPercentageText = utilizationField.getText();
+                String overheadMultiplierText = overheadMultiplierField.getText();
+                String dailyAverageWorkHoursText = dailyHoursField.getText();
+                double dailyRate = 5.5;
+                double markUp = 1.1;
+                double grossM = 3.1;
+                double annualSalary = Double.parseDouble(annualSalaryText);
+                double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
+                double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
+                double utilizationPercentage = Double.parseDouble(utilizationPercentageText);
+                double overheadMultiplier = Double.parseDouble(overheadMultiplierText);
+                double dailyAverageWorkHours = Double.parseDouble(dailyAverageWorkHoursText);
+                // Filling the values from user input
+                model.setFirstName(firstNameField.getText());
+                model.setLastName(lastNameField.getText());
+                model.setCountry((Country) countryCombo.getValue());
+                model.setTeam(teamCombo.getValue().toString());
+                model.setAnnualSalary(annualSalary);
+                model.setFixedAnnualAmount(fixedAnnualAmount);
+                model.setAnnualWorkHours(annualWorkingHours);
+                model.setAverageDailyWorkHours(dailyAverageWorkHours);
+                model.setUtilizationPercentage(utilizationPercentage);
+                String selectedType = typeCombo.getValue();
+                // Set the isOverhead value based on the selected type
+                boolean isOverhead = selectedType.equals("Overhead");
+                // Set the isOverhead value in the model
+                model.setOverhead(isOverhead);
+                model.setOverheadPercentage(overheadMultiplier);
+
+                model.setRegion(Region.EUROPE);
+                model.setDailyRate(dailyRate);
+                model.setGrossMarginPercentage(grossM);
+                model.setMarkupPercentage(markUp);
+                model.updateEmployee(selectedEmployee);
+
+                selectedEmployee.setFirstName(firstNameField.getText());
+
+                // Close the stage if it was successful
+                Window.closeStage(firstNameField.getScene());
+
+                System.out.println(selectedEmployee);
+                AlertHandler.displayAlert("Employee updated successfully.", Alert.AlertType.INFORMATION);
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert("Error updating employee: " + e.getMessage(), Alert.AlertType.ERROR);
+            }}
+    }
+
+    // ToDo: Method to check for null inputs
+
+    public void createEmployee(){
         try {
+            String annualSalaryText = annualSalaryField.getText();
+            String fixedAnnualAmountText = fixedAnnualAmountField.getText();
+            String annualWorkingHoursText = annualWorkingHoursField.getText();
+            String utilizationPercentageText = utilizationField.getText();
+            String overheadMultiplierText = overheadMultiplierField.getText();
+            String dailyAverageWorkHoursText = dailyHoursField.getText();
+            double dailyRate = 5.5;
+            double markUp = 1.1;
+            double grossM = 3.1;
             double annualSalary = Double.parseDouble(annualSalaryText);
             double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountText);
             double annualWorkingHours = Double.parseDouble(annualWorkingHoursText);
@@ -131,8 +196,6 @@ public class CreateEmployeeController implements IController<Model> {
             model.setAnnualWorkHours(annualWorkingHours);
             model.setAverageDailyWorkHours(dailyAverageWorkHours);
             model.setUtilizationPercentage(utilizationPercentage);
-
-
             String selectedType = typeCombo.getValue();
             // Set the isOverhead value based on the selected type
             boolean isOverhead = selectedType.equals("Overhead");
@@ -144,13 +207,6 @@ public class CreateEmployeeController implements IController<Model> {
             model.setDailyRate(dailyRate);
             model.setGrossMarginPercentage(grossM);
             model.setMarkupPercentage(markUp);
-
-
-            // ToDo: Don't forget to check for null inputs.
-
-            // Trigger the final action for creating an employee
-
-            // For type choiceBox, the logic should be if the selected value iss Overhead, return true, else false
             model.createEmployee();
 
             // Close the stage if it was successful
@@ -161,7 +217,5 @@ public class CreateEmployeeController implements IController<Model> {
         }
 
     }
-
-    // ToDo: Method to check for null inputs
 
 }

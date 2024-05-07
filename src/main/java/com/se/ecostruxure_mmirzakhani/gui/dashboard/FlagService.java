@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class FlagService {
 
-    private static final String FLAGS_FOLDER_PATH = "src/main/resources/flags"; // Update this with your folder path
+    private static final String FLAGS_FOLDER_PATH = "src/main/resources/flags";
     private static final Map<String, Image> flagMap = new HashMap<>();
 
     static {
