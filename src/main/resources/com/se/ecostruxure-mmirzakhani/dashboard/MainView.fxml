@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
@@ -103,6 +104,7 @@
             </Label>
          </children>
       </HBox>
-      <Pane fx:id="pane" layoutX="333.0" layoutY="121.0" prefHeight="881.0" prefWidth="1380.0" />
+      <Pane fx:id="pane" layoutX="333.0" layoutY="83.0" prefHeight="919.0" prefWidth="1380.0" />
+      <Line endX="1273.0" layoutX="436.0" layoutY="85.0" startX="-100.0" stroke="#3fc765" />
    </children>
 </AnchorPane>

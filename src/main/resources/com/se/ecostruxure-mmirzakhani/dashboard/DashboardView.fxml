@@ -108,10 +108,10 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <HBox layoutX="1114.0" layoutY="447.0" prefHeight="24.0" prefWidth="142.0" spacing="15.0">
+      <HBox layoutX="1035.0" layoutY="396.0" prefHeight="44.0" prefWidth="203.0" spacing="15.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#onReset" text="Reset" />
-            <Button mnemonicParsing="false" onAction="#onCalculate" text="Apply" />
+            <Button mnemonicParsing="false" onAction="#onReset" prefHeight="45.0" prefWidth="82.0" text="Reset" />
+            <Button mnemonicParsing="false" onAction="#onCalculate" prefHeight="44.0" prefWidth="104.0" text="Apply" />
          </children>
       </HBox>
       <ListView fx:id="multipliersInfoList" layoutX="537.0" layoutY="509.0" maxHeight="-Infinity" prefHeight="317.0" prefWidth="418.0" />
