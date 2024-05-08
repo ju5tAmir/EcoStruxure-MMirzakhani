@@ -19,6 +19,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         // Create and show a new stage
-        Window.createStage(WindowType.EMPLOYEE_DASHBOARD);
+        Window.createStage(WindowType.MAIN);
     }
 }

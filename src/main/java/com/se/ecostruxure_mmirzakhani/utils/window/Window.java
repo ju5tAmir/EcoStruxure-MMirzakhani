@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -132,6 +133,11 @@ public class Window implements IUtils {
      */
     private static String getResourcePath(WindowType windowType) throws ExceptionHandler{
         return switch (windowType){
+            case MAIN -> "/com/se/ecostruxure-mmirzakhani/dashboard/MainView.fxml";
+            case DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/DashboardView.fxml";
+            case TEAM -> "/com/se/ecostruxure-mmirzakhani/dashboard/TeamView.fxml";
+            case SCRIPT -> "/com/se/ecostruxure-mmirzakhani/script/ScriptView.fxml";
+            case PROGRESS_BAR -> "/com/se/ecostruxure-mmirzakhani/script/ProgressBarView.fxml";
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
             case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/create/CreateEmployee.fxml";
             case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
@@ -143,5 +149,25 @@ public class Window implements IUtils {
             // If there is any issue in fetching FXML file
             default -> throw new ExceptionHandler(ExceptionMessage.ILLEGAL_FILE_OPERATION.getValue());
         };
+    }
+
+    public static <T> void loadPane(Pane pane, WindowType window, T model) throws ExceptionHandler {
+        try {
+            FXMLLoader loader = loadFXML(getResourcePath(window));
+            Parent root = loader.load();
+
+            IController<T> controller = loader.getController();
+            controller.setModel(model);
+
+            pane.getChildren().setAll(root);
+
+
+        } catch (IOException e){
+            throw new ExceptionHandler(e.getMessage());
+        }
+    }
+
+    public static void loadPane(Pane pane, WindowType window) throws ExceptionHandler {
+        loadPane(pane, window, null);
     }
 }
