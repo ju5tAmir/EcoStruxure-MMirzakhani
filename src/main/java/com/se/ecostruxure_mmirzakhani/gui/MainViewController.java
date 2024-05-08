@@ -27,7 +27,7 @@ public class MainViewController implements IController, Initializable {
     }
     @FXML
     private void onEmployee() throws ExceptionHandler {
-//        Window.loadPane(pane, WindowType.TEAM);
+        Window.loadPane(pane, WindowType.EMPLOYEE, model);
     }
 
     @FXML

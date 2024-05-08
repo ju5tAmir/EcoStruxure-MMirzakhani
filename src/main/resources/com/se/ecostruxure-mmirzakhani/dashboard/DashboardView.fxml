@@ -31,7 +31,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ListView fx:id="employeeInfoList" layoutX="74.0" layoutY="541.0" maxHeight="-Infinity" prefHeight="266.0" prefWidth="243.0" />
+      <ListView fx:id="employeeInfoList" layoutX="74.0" layoutY="509.0" maxHeight="-Infinity" prefHeight="266.0" prefWidth="243.0" />
       <HBox layoutX="635.0" layoutY="57.0" spacing="20.0">
          <children>
             <ComboBox fx:id="teamComboBox" prefWidth="150.0" />
@@ -44,21 +44,6 @@
          <padding>
             <Insets bottom="10.0" top="10.0" />
          </padding>
-      </HBox>
-      <HBox layoutX="674.0" layoutY="447.0" spacing="15.0">
-         <children>
-            <Button mnemonicParsing="false" onAction="#deleteEmployee" text="Delete..">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#editEmployee" text="Edit..">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" onAction="#onCreateEmployee" text="Create Employee" />
-         </children>
       </HBox>
       <Label layoutX="74.0" layoutY="64.0" text="Employees Profile">
          <font>
@@ -118,7 +103,7 @@
             </Text>
          </children>
       </HBox>
-      <Label layoutX="74.0" layoutY="509.0" text="Contract Info">
+      <Label layoutX="74.0" layoutY="477.0" text="Contract Info">
          <font>
             <Font size="19.0" />
          </font>
@@ -129,8 +114,8 @@
             <Button mnemonicParsing="false" onAction="#onCalculate" text="Apply" />
          </children>
       </HBox>
-      <ListView fx:id="multipliersInfoList" layoutX="368.0" layoutY="541.0" maxHeight="-Infinity" prefHeight="266.0" prefWidth="243.0" />
-      <Label layoutX="368.0" layoutY="509.0" text="Applied Multipliers">
+      <ListView fx:id="multipliersInfoList" layoutX="368.0" layoutY="509.0" maxHeight="-Infinity" prefHeight="266.0" prefWidth="243.0" />
+      <Label layoutX="368.0" layoutY="477.0" text="Applied Multipliers">
          <font>
             <Font size="19.0" />
          </font>
