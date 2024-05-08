@@ -26,7 +26,7 @@
                   <Image url="@../../../../images/dashboard-icon.png" />
                </image>
             </ImageView>
-            <Label text="Dashboards" textFill="WHITE">
+            <Label text="Dashboard" textFill="WHITE">
                <font>
                   <Font size="22.0" />
                </font>

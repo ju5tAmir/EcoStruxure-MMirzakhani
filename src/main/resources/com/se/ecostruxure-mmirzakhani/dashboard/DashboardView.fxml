@@ -18,7 +18,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="880.0" prefWidth="1270.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.dashboard.DashboardController">
    <children>
-      <TableView fx:id="employeeTableView" layoutX="74.0" layoutY="101.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="339.0" prefWidth="881.0">
+      <TableView fx:id="employeeTableView" focusTraversable="false" layoutX="74.0" layoutY="101.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="339.0" prefWidth="881.0">
          <columns>
             <TableColumn fx:id="firstNameColumn" prefWidth="110.0" text="First Name" />
             <TableColumn fx:id="lastNameColumn" prefWidth="130.0" text="Last Name" />
