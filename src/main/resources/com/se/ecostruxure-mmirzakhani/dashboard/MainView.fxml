@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1709.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1709.0" stylesheets="@../team/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.MainViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3fc765" height="1001.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="335.0" />
       <ImageView fitHeight="128.0" fitWidth="327.0" layoutX="6.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
