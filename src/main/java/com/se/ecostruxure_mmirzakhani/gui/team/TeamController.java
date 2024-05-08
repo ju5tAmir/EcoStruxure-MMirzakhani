@@ -139,7 +139,9 @@ public class TeamController implements IController<Model> {
 
     public void initTeamsTable() throws ExceptionHandler {
         teamsTable.setItems(model.getAllTeams());
+        teamsTable.getSelectionModel().clearSelection();
         teamNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
     }
     public void deleteTeam(){
         Team selectedTeam = teamsTable.getSelectionModel().getSelectedItem();

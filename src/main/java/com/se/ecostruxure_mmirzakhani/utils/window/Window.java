@@ -106,7 +106,7 @@ public class Window implements IUtils {
             Parent root = fxmlLoader.load();
             // Create and return a new scene based on created root node
             return new Scene(root);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // Throw an exception if runtime error occurred
             throw new ExceptionHandler(e.getMessage());
         }

@@ -17,8 +17,9 @@
     -fx-font-family: Hack;
 }
 
-.table-view:focused, .list-view:focused{
+.table-view:focused{
       -fx-background-color: transparent;
+     -fx-text-fill: white;
   }
 
 
@@ -88,12 +89,20 @@
     -fx-text-fill: white;
 }
 
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+.list-cell:hover{
+    -fx-background-color: #91f14f;
+}
+
 .list-cell:odd {
-    -fx-cell-hover-color: #0093ff;
+    -fx-cell-hover-color: trsnparent;
 
 }
 
 .list-cell:filled:hover {
-    -fx-cell-hover-color: #0093ff;
+    -fx-cell-hover-color: trsnparent;
 
 }

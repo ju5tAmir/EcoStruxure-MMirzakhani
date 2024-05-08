@@ -1,10 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
 public enum Region {
-    EAST("East"),
-    WEST("West"),
-    SOUTH("South"),
-    NORTH("North"),
     AFRICA("Africa"),
     ANTARCTICA("Antarctica"),
     ASIA("Asia"),

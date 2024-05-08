@@ -40,6 +40,7 @@ public class EmployeeController implements IController<Model> {
      */
     private void initEmployeesTable() throws ExceptionHandler {
         employeeTableView.setItems(model.getAllEmployees());
+        employeeTableView.getSelectionModel().clearSelection();
     }
 
     /**
@@ -170,6 +171,7 @@ public class EmployeeController implements IController<Model> {
         try {
             initEmployeesTable();
             initEmployeeColumns();
+
         } catch (ExceptionHandler exceptionHandler) {
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }

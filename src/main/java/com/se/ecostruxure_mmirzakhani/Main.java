@@ -6,7 +6,7 @@ import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-
+// ToDo: Fix the Region and Country handling part in DAO
 public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         

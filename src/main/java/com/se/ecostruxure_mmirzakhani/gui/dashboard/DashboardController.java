@@ -92,6 +92,8 @@ public class DashboardController implements IController<Model> {
      */
     private void initEmployeesTable() throws ExceptionHandler{
         employeeTableView.setItems(model.getAllEmployees());
+        employeeTableView.getSelectionModel().clearSelection();
+
     }
 
     /**

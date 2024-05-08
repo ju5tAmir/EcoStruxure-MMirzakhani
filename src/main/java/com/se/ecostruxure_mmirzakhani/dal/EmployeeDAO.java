@@ -172,8 +172,13 @@ public class EmployeeDAO {
                 // Set employee properties
                 employee.setFirstName(rs.getString("FirstName"));
                 employee.setLastName(rs.getString("LastName"));
-                employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
-                employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
+                try {
+                    employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
+                    employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
+                } catch (RuntimeException e){
+                    employee.setRegion(Region.EUROPE);
+                    employee.setCountry(Country.DENMARK);
+                }
 
                 // Set team properties
                 Team team = new Team();
