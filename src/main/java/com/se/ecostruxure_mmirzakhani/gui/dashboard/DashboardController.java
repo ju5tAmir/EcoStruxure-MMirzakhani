@@ -185,7 +185,7 @@ public class DashboardController implements IController<Model> {
     }
 
 
-    public void populateChoicebox() {
+    public void populateChoicebox() throws ExceptionHandler {
         filterComboBox.getItems().addAll("Country", "Team");
 
         // Initially set the value to "All"
@@ -203,7 +203,7 @@ public class DashboardController implements IController<Model> {
             } else if (selectedOption.equals("Team")) {
                 teamComboBox.setVisible(true);
                 teamComboBox.setValue("Select Team");
-                teamComboBox.getItems().setAll("Production", "Management");
+                teamComboBox.getItems().setAll(model.getTeams());
             }
         });
         // Set cell factory to display each country with its flag

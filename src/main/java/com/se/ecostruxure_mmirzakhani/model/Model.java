@@ -10,6 +10,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Model {
     // An employee object to update when creating a new profile
@@ -309,5 +311,13 @@ public class Model {
        logic.updateEmployee(employee);
     }
 
+
+    public List<String> getTeams(){
+        List<String> teams = new ArrayList<>();
+        for (Employee e: employees){
+            teams.add(e.getTeam().getName());
+        }
+        return teams;
+    }
 
 }
