@@ -47,7 +47,6 @@ public class EmployeeDashboardController implements IController {
     private Label teamsLabel;
     @FXML
     private Label employeesLabel;
-
     @FXML
     private TextField markupTextField;
     @FXML
@@ -58,8 +57,6 @@ public class EmployeeDashboardController implements IController {
 
     private Model model;
 
-    // ToDo: Implement controller methods such as buttons and other nodes.
-
     @FXML
     private void onCreateEmployee() {
         try {
@@ -67,10 +64,7 @@ public class EmployeeDashboardController implements IController {
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
 
     @Override
     public void setModel(Object model) {
@@ -80,33 +74,35 @@ public class EmployeeDashboardController implements IController {
             // If the incoming model is not of type Model, create a new one
             this.model = new Model();
         }
-
         try {
             initEmployeesTable();
             initEmployeeColumns();
-            populateChoicebox();
-
-            teamsLabel.setOnMouseClicked(event -> {
-                try {
-                    Window.createStage(WindowType.TEAMS, this.model, Modality.WINDOW_MODAL, false);
-                    Window.closeStage(teamsLabel.getScene());
-                } catch (ExceptionHandler e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            employeesLabel.setOnMouseClicked(event -> {
-                AlertHandler.displayAlert("Employee Dashboard is already open!", Alert.AlertType.INFORMATION);
-            });
-
+            updateListView();
+            populateComboBox();
+            actionEvents();
         } catch (ExceptionHandler exceptionHandler) {
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
+    public void actionEvents(){
+        teamsLabel.setOnMouseClicked(event -> {
+            try {
+                Window.createStage(WindowType.TEAMS, this.model, Modality.WINDOW_MODAL, false);
+                Window.closeStage(teamsLabel.getScene());
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
+        });
+        employeesLabel.setOnMouseClicked(event -> {
+            AlertHandler.displayAlert("Employee Dashboard is already open!", Alert.AlertType.INFORMATION);
+        });
+    }
+
     /**
      * Initializing the Employees table
      */
-    private void initEmployeesTable() throws ExceptionHandler{
+    public void initEmployeesTable() throws ExceptionHandler{
         employeeTableView.setItems(model.getAllEmployees());
     }
 
@@ -146,6 +142,8 @@ public class EmployeeDashboardController implements IController {
             return new SimpleStringProperty(String.format("%.2f", hourlyRate));
         });
 
+    }
+    public void updateListView(){
         // sets a listener to update the listview based on the selected Employee
         employeeTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             try {
@@ -199,7 +197,7 @@ public class EmployeeDashboardController implements IController {
     }
 
 
-    public void populateChoicebox() {
+    public void populateComboBox() {
         filterComboBox.getItems().addAll("Country", "Team");
 
         // Initially set the value to "All"
@@ -324,8 +322,4 @@ public class EmployeeDashboardController implements IController {
     public void deleteEmployee(ActionEvent actionEvent) {
     }
 
-
-    public void onSave(ActionEvent actionEvent) {
-
-    }
 }

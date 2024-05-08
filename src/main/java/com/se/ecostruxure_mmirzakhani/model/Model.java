@@ -8,6 +8,7 @@ import com.se.ecostruxure_mmirzakhani.utils.Validate;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 import java.sql.SQLException;
 
@@ -147,21 +148,6 @@ public class Model {
     public void setUtilizationPercentage(double utilizationPercentage) {
         employee.get().getContract().setUtilizationPercentage(utilizationPercentage);
     }
-    public void setMarkupPercentage(double markupPercentage) {
-        employee.get().getContract().setMarkupPercentage(markupPercentage);
-    }
-    public void setGrossMarginPercentage(double grossMarginPercentage) {
-        employee.get().getContract().setGrossMarginPercentage(grossMarginPercentage);
-    }
-    public void setHourlyRate(double hourlyRate) {
-        employee.get().getContract().setHourlyRate(hourlyRate);
-    }
-    public void setDailyRate(double dailyRate) {
-        employee.get().getContract().setDailyRate(dailyRate);
-    }
-
-
-
 
 
     /**
@@ -239,6 +225,12 @@ public class Model {
         employees.add(employee.get());
         logic.createEmployee(employee.get());
     }
+    public void updateEmployee(Employee employee) throws ExceptionHandler {
+        logic.updateEmployee(employee);
+
+        employees.clear();
+        employees.setAll(logic.getAllEmployees());
+    }
 
 
     /**
@@ -304,10 +296,5 @@ public class Model {
         teamLogic.deleteTeam(id);
         return true;
     }
-
-    public void updateEmployee(Employee employee) throws ExceptionHandler {
-       logic.updateEmployee(employee);
-    }
-
 
 }

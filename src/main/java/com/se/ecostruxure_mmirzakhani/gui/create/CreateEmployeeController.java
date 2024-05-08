@@ -7,6 +7,7 @@ import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
+import com.se.ecostruxure_mmirzakhani.gui.dashboard.EmployeeDashboardController;
 import com.se.ecostruxure_mmirzakhani.gui.dashboard.FlagService;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
@@ -50,7 +51,7 @@ public class CreateEmployeeController implements IController<Model> {
     private void populateComboBoxes() throws ExceptionHandler {
 
         ObservableList<Country> countries = FXCollections.observableArrayList(Country.values());
-//        countryCombo.setValue();
+        countryCombo.setValue(countries.get(0));
         countryCombo.setItems(countries);
 
         countryCombo.setCellFactory(param -> new ListCell<Country>() {
@@ -82,7 +83,7 @@ public class CreateEmployeeController implements IController<Model> {
         });
 
         typeCombo.getItems().addAll("Production Resource", "Overhead");
-        typeCombo.setValue("Choose Type");
+        typeCombo.setValue("Overhead");
 
         teamCombo.setItems(model.getAllTeams());
         teamCombo.setValue(model.getAllTeams().get(0));
@@ -116,32 +117,29 @@ public class CreateEmployeeController implements IController<Model> {
                 double utilizationPercentage = Double.parseDouble(utilizationField.getText());
                 double overheadMultiplier = Double.parseDouble(overheadMultiplierField.getText());
                 double dailyAverageWorkHours = Double.parseDouble(averageDailyHoursField.getText());
-                // Filling the values from user input
-                model.setFirstName(firstNameField.getText());
-                model.setLastName(lastNameField.getText());
-                model.setCountry(countryCombo.getValue());
-                model.setTeam(teamCombo.getValue().toString());
-                model.setAnnualSalary(annualSalary);
-                model.setFixedAnnualAmount(fixedAnnualAmount);
-                model.setAnnualWorkHours(annualWorkingHours);
-                model.setAverageDailyWorkHours(dailyAverageWorkHours);
-                model.setUtilizationPercentage(utilizationPercentage);
                 String selectedType = typeCombo.getValue();
                 // Set the isOverhead value based on the selected type
                 boolean isOverhead = selectedType.equals("Overhead");
-                // Set the isOverhead value in the model
-                model.setOverhead(isOverhead);
-                model.setOverheadPercentage(overheadMultiplier);
-
-                model.setRegion(Region.EUROPE);
-                model.updateEmployee(selectedEmployee);
 
                 selectedEmployee.setFirstName(firstNameField.getText());
+                selectedEmployee.setLastName(lastNameField.getText());
+                selectedEmployee.setCountry(countryCombo.getValue());
+                selectedEmployee.setTeam(teamCombo.getValue());
+                selectedEmployee.getContract().setAnnualSalary(annualSalary);
+                selectedEmployee.getContract().setFixedAnnualAmount(fixedAnnualAmount);
+                selectedEmployee.getContract().setAnnualWorkHours(annualWorkingHours);
+                selectedEmployee.getContract().setAverageDailyWorkHours(dailyAverageWorkHours);
+                selectedEmployee.getContract().setUtilizationPercentage(utilizationPercentage);
+                selectedEmployee.getContract().setOverhead(isOverhead);
+                selectedEmployee.getContract().setOverheadPercentage(overheadMultiplier);
+                selectedEmployee.setRegion(Region.EUROPE); //Todo : to be implemented through gui
+                model.updateEmployee(selectedEmployee);
+
+
 
                 // Close the stage if it was successful
                 Window.closeStage(firstNameField.getScene());
 
-                System.out.println(selectedEmployee);
                 AlertHandler.displayAlert("Employee updated successfully.", Alert.AlertType.INFORMATION);
             } catch (ExceptionHandler e) {
                 AlertHandler.displayAlert("Error updating employee: " + e.getMessage(), Alert.AlertType.ERROR);

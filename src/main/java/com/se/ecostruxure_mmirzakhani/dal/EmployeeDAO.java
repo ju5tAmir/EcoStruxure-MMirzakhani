@@ -170,6 +170,7 @@ public class EmployeeDAO {
                 Employee employee = new Employee();
 
                 // Set employee properties
+                employee.setId(rs.getInt("EmployeeID"));
                 employee.setFirstName(rs.getString("FirstName"));
                 employee.setLastName(rs.getString("LastName"));
                 employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
