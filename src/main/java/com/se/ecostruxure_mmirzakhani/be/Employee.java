@@ -1,5 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Employee extends User {
     // Personal attributes
     private String firstName;
@@ -13,6 +16,8 @@ public class Employee extends User {
     // Contract
     private Contract contract;
 
+    //Rate Record
+    private List<RateRecord> rateHistory = new ArrayList<>();
 
     /**
      * Constructor
@@ -22,6 +27,15 @@ public class Employee extends User {
     /**
      * Methods
      */
+
+    //Rate Record Methods
+    public void addRateRecord(RateRecord rateRecord) {
+        rateHistory.add(rateRecord);
+    }
+
+    public List<RateRecord> getRateHistory() {
+        return rateHistory;
+    }
 
     public String getFirstName() {
         return firstName;

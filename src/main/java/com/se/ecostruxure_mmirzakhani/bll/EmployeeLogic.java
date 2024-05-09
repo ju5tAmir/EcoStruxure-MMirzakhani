@@ -2,16 +2,22 @@ package com.se.ecostruxure_mmirzakhani.bll;
 
 import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.be.RateRecord;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EmployeeLogic {
     private final EmployeeDAO dao;
     private Employee employee;
+    private Map<Integer, List<RateRecord>> allRateRecords = new HashMap<>();
 
     {
         try {
@@ -26,6 +32,14 @@ public class EmployeeLogic {
      */
     public EmployeeLogic(){
 
+    }
+
+    public List<RateRecord> getRateHistoryForEmployee(int employeeId) {
+        return allRateRecords.getOrDefault(employeeId, new ArrayList<>());
+    }
+
+    public Map<Integer, List<RateRecord>> getAllRateRecords() {
+        return allRateRecords;
     }
 
     /**
@@ -93,6 +107,10 @@ public class EmployeeLogic {
             double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
 
             this.employee.getContract().setHourlyRate(hourlyRate);
+
+            RateRecord record = new RateRecord(hourlyRate, LocalDateTime.now());
+            allRateRecords.computeIfAbsent(employee.getId(), k -> new ArrayList<>()).add(record);
+            employee.addRateRecord(record);
         } else {
             this.employee.getContract().setHourlyRate(0);
         }

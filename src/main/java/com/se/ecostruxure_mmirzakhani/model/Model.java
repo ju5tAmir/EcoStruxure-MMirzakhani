@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Model {
     // An employee object to update when creating a new profile
@@ -60,6 +61,14 @@ public class Model {
 
         employee.set(e);
 
+    }
+
+    public List<RateRecord> getRateHistoryForEmployee(int employeeId) {
+        return logic.getRateHistoryForEmployee(employeeId);
+    }
+
+    public Map<Integer, List<RateRecord>> getAllRateRecords() {
+        return logic.getAllRateRecords();
     }
 
     /**
