@@ -1,5 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Employee extends User {
     // Personal attributes
     private String firstName;
@@ -9,15 +12,18 @@ public class Employee extends User {
     private Region region;
     private Country country;
     private Team team;
-
-    // Contract
     private Contract contract;
+    private ObservableList<Team> teams;
+
 
 
     /**
      * Constructor
      */
-    public Employee(){}
+    public Employee(){
+        this.teams = FXCollections.observableArrayList();
+
+    }
 
     /**
      * Methods
@@ -71,6 +77,13 @@ public class Employee extends User {
         this.contract = contract;
     }
 
+    public ObservableList<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(ObservableList<Team> teams) {
+        this.teams = teams;
+    }
 
     @Override
     public String toString() {
