@@ -1,9 +1,11 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
 public class Team {
-    private int id;
-    private String name;
+    private int         id;
+    private String      name;
 
+
+    // ******************** Constructors *********************************
     public Team(String name) {
         this.name = name;
     }
@@ -17,6 +19,8 @@ public class Team {
 
     }
 
+
+    // ******************** Methods **************************************
     public int getId() {
         return id;
     }
@@ -35,6 +39,9 @@ public class Team {
 
     @Override
     public String toString() {
-        return name;
+        return "Team{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

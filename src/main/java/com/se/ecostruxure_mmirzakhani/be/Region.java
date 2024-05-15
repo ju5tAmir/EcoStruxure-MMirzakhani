@@ -1,22 +1,30 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-public enum Region {
-    AFRICA("Africa"),
-    ANTARCTICA("Antarctica"),
-    ASIA("Asia"),
-    EUROPE("Europe"),
-    NORTH_AMERICA("North America"),
-    AUSTRALIA("Australia"),
-    SOUTH_AMERICA("South America");
+public class Region {
+    private int id;
+    private String name;
 
-    private final String name;
+    // ******************** Constructors *********************************
+    public Region(){
 
-    Region(String name) {
-        this.name = name;
+    }
+
+    // ******************** Methods **************************************
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
 

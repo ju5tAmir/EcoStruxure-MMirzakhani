@@ -5,16 +5,19 @@ package com.se.ecostruxure_mmirzakhani.be;
  * Open end to extend more users as application grows.
  * like admin, guest or etc.
  */
-public class User {
+public class User extends Person{
     private int id;
 
-    /**
-     * Constructor
-     */
+    // ******************** Constructors **************************************
     public User(){
-
     }
 
+    public User(int id){
+        this.id = id;
+    }
+
+
+    // ******************** Methods **************************************
     public int getId() {
         return id;
     }

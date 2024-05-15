@@ -1,39 +1,60 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Contract {
-    // Contract details
-    private double annualSalary;
-    private double fixedAnnualAmount;
-    private double annualWorkHours;
-    private double averageDailyWorkHours;
-    private boolean isOverhead;
-    // -- Multipliers
-    private double overheadPercentage;
-    private double utilizationPercentage;
-    private double markupPercentage;
-    private double grossMarginPercentage;
+public class Profile {
+    private int                 id;
+    private Team                team;
+    private Country             country;
+    private Region              region;
+    private double              annualSalary;
+    private double              fixedAnnualAmount;
+    private double              annualWorkHours;
+    private double              averageDailyWorkHours;
+    private boolean             isOverhead;
+    private double              overheadPercentage;
+    private double              utilizationPercentage;
 
-    // Rates
-    private double hourlyRate;
-    private double dailyRate;
+    private LocalDateTime       validFrom;
+    private LocalDateTime       validUntil;
 
-    // Valid dates
-    private LocalDateTime validFrom;
-    private LocalDateTime validUntil;
-
-    /**
-     * Constructor
-     */
-    public Contract(){
+    // ******************** Constructors *********************************
+    public Profile(){
 
     }
 
-    /**
-     * Methods
-     */
+    // ******************** Methods **************************************
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 
     public double getAnnualSalary() {
         return annualSalary;
@@ -91,37 +112,6 @@ public class Contract {
         this.utilizationPercentage = utilizationPercentage;
     }
 
-    public double getMarkupPercentage() {
-        return markupPercentage;
-    }
-
-    public void setMarkupPercentage(double markupPercentage) {
-        this.markupPercentage = markupPercentage;
-    }
-
-    public double getGrossMarginPercentage() {
-        return grossMarginPercentage;
-    }
-
-    public void setGrossMarginPercentage(double grossMarginPercentage) {
-        this.grossMarginPercentage = grossMarginPercentage;
-    }
-    public double getHourlyRate() {
-        return hourlyRate;
-    }
-
-    public void setHourlyRate(double hourlyRate) {
-        this.hourlyRate = hourlyRate;
-    }
-
-    public double getDailyRate() {
-        return dailyRate;
-    }
-
-    public void setDailyRate(double dailyRate) {
-        this.dailyRate = dailyRate;
-    }
-
     public LocalDateTime getValidFrom() {
         return validFrom;
     }
@@ -138,20 +128,21 @@ public class Contract {
         this.validUntil = validUntil;
     }
 
+
     @Override
     public String toString() {
-        return "Contract{" +
-                "annualSalary=" + annualSalary +
+        return "Profile{" +
+                "id=" + id +
+                ", team=" + team +
+                ", country=" + country +
+                ", region=" + region +
+                ", annualSalary=" + annualSalary +
                 ", fixedAnnualAmount=" + fixedAnnualAmount +
                 ", annualWorkHours=" + annualWorkHours +
                 ", averageDailyWorkHours=" + averageDailyWorkHours +
                 ", isOverhead=" + isOverhead +
                 ", overheadPercentage=" + overheadPercentage +
                 ", utilizationPercentage=" + utilizationPercentage +
-                ", markupPercentage=" + markupPercentage +
-                ", grossMarginPercentage=" + grossMarginPercentage +
-                ", hourlyRate=" + hourlyRate +
-                ", dailyRate=" + dailyRate +
                 ", validFrom=" + validFrom +
                 ", validUntil=" + validUntil +
                 '}';
