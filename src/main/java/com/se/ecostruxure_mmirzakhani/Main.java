@@ -6,7 +6,10 @@ import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-// ToDo: Fix the Region and Country handling part in DAO
+// ToDo : Fix the Region and Country handling part in DAO
+//      : Validate in the front-end
+//      : Autofill and auto-suggest and typo detector based expected average value from DB for some fields
+
 public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         

@@ -1,8 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
 public class Region {
-    private int id;
-    private String name;
+    private int         id;
+    private String      name;
 
     // ******************** Constructors *********************************
     public Region(){

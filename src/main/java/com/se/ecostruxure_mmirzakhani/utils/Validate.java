@@ -1,6 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
-import com.se.ecostruxure_mmirzakhani.be.Contract;
+import com.se.ecostruxure_mmirzakhani.be.Profile;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
@@ -81,7 +81,7 @@ public class Validate implements IUtils {
      * @param contract The contract object containing salary and work hour information.
      * @return True if all values are non-zero, indicating safe conditions for division; otherwise, false.
      */
-    public static boolean safeDivision(Contract contract){
+    public static boolean safeDivision(Profile contract){
         return contract.getAnnualSalary() != 0 &&
                 contract.getAnnualWorkHours() != 0 &&
                 contract.getAverageDailyWorkHours() != 0;

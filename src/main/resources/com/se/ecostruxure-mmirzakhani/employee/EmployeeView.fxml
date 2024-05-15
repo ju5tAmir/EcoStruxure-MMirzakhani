@@ -27,12 +27,12 @@
       </TableView>
       <HBox layoutX="572.0" layoutY="477.0" prefHeight="24.0" prefWidth="289.0" spacing="15.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#deleteEmployee" text="Delete">
+            <Button disable="true" mnemonicParsing="false" onAction="#deleteEmployee" text="Delete">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#editEmployee" text="Update">
+            <Button disable="true" mnemonicParsing="false" onAction="#editEmployee" text="Update">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -43,12 +43,12 @@
       <ListView fx:id="employeeInfoList" layoutX="904.0" layoutY="127.0" maxHeight="-Infinity" prefHeight="331.0" prefWidth="326.0" />
       <Label layoutX="69.0" layoutY="93.0" text="Employee">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
       <Label layoutX="904.0" layoutY="89.0" text="Contract">
          <font>
-            <Font size="24.0" />
+            <Font name="System Bold" size="24.0" />
          </font>
       </Label>
    </children>
