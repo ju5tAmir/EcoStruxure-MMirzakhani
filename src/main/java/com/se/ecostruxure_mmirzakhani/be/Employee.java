@@ -1,86 +1,62 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+import java.util.List;
+
 public class Employee extends User {
-    // Personal attributes
-    private String firstName;
-    private String lastName;
-
-    // Geography and Team
-    private Region region;
-    private Country country;
-    private Team team;
-
-    // Contract
-    private Contract contract;
+    private List<Profile> profiles;
 
 
-    /**
-     * Constructor
-     */
-    public Employee(){}
+    // ******************** Constructors **************************************
+    public Employee(){
 
-    /**
-     * Methods
-     */
+    }
+    public Employee(int id) {
+        super(id);
+    }
+
+
+
+    // ******************** Methods *******************************************
+    public int getId() {
+        return super.getId();
+    }
+
+    public void setId(int id) {
+        super.setId(id);
+    }
 
     public String getFirstName() {
-        return firstName;
+        return super.getFirstName();
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        super.setFirstName(firstName);
     }
 
     public String getLastName() {
-        return lastName;
+        return super.getLastName();
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        super.setLastName(lastName);
     }
 
-    public Region getRegion() {
-        return region;
+    public List<Profile> getProfiles() {
+        return profiles;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
     }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
-
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", region=" + region +
-                ", country=" + country +
-                ", team=" + team +
-                ", contract=" + contract +
+        return "Employee{"  +
+                "id=" + super.getId() +
+                ", firstName='" + super.getFirstName() + '\'' +
+                ", lastName='" + super.getLastName() + '\'' +
+                ", email='" + super.getEmail() + '\'' +
+                ", profiles=" + profiles +
                 '}';
     }
 }
