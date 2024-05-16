@@ -1,14 +1,14 @@
-//package com.se.ecostruxure_mmirzakhani.bll;
-//
-//import com.se.ecostruxure_mmirzakhani.be.Profile;
-//import com.se.ecostruxure_mmirzakhani.be.Employee;
+package com.se.ecostruxure_mmirzakhani.bll;
+
+import com.se.ecostruxure_mmirzakhani.be.Profile;
+import com.se.ecostruxure_mmirzakhani.be.Employee;
 //import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
-//import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-//import com.se.ecostruxure_mmirzakhani.utils.Validate;
-//
-//import java.util.List;
-//
-//public class EmployeeLogic {
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.utils.Validate;
+
+import java.util.List;
+
+public class EmployeeLogic {
 //    private final EmployeeDAO dao;
 //    private Employee employee;
 //
@@ -19,13 +19,13 @@
 //            throw new RuntimeException(e);
 //        }
 //    }
-//
-//    /**
-//     * Constructor
-//     */
-//    public EmployeeLogic(){
-//
-//    }
+
+    /**
+     * Constructor
+     */
+    public EmployeeLogic(){
+
+    }
 //
 //    /**
 //     * Retrieve all the employees from the database with their latest contract (without history)
@@ -170,4 +170,4 @@
 //        double gmMultiplier = 1 + (gmPercentage / 100);
 //        return dailyRate * gmMultiplier;
 //    }
-//}
+}

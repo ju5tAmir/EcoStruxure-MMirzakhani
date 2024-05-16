@@ -1,17 +1,17 @@
 package com.se.ecostruxure_mmirzakhani;
 
-import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-// ToDo : Fix the Region and Country handling part in DAO
+
+public class Main extends Application {
+    // ToDo : Fix the Region and Country handling part in DAO
 //      : Validate in the front-end
 //      : Autofill and auto-suggest and typo detector based expected average value from DB for some fields
 
-public class Main extends Application {
-    public static void main(String[] args) throws ExceptionHandler {
+    public static void main(String[] args)  {
         
         Application.launch(args);
     }
@@ -19,8 +19,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         // Create and show a new stage
         Window.createStage(WindowType.MAIN);
+
     }
 }

@@ -1,9 +1,10 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Employee extends User {
-    private List<Profile> profiles;
+    private List<Profile> profiles = new ArrayList<>();
 
 
     // ******************** Constructors **************************************
@@ -47,6 +48,10 @@ public class Employee extends User {
 
     public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
+    }
+
+    public void addProfile(Profile profiles) {
+        this.profiles.add(profiles);
     }
 
     @Override

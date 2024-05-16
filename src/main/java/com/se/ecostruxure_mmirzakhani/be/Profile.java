@@ -7,6 +7,7 @@ public class Profile {
     private Team                team;
     private Country             country;
     private Region              region;
+    private Currency            currency;
     private double              annualSalary;
     private double              fixedAnnualAmount;
     private double              annualWorkHours;
@@ -55,6 +56,15 @@ public class Profile {
     public void setRegion(Region region) {
         this.region = region;
     }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
+
 
     public double getAnnualSalary() {
         return annualSalary;
@@ -136,6 +146,7 @@ public class Profile {
                 ", team=" + team +
                 ", country=" + country +
                 ", region=" + region +
+                ", currency=" + currency +
                 ", annualSalary=" + annualSalary +
                 ", fixedAnnualAmount=" + fixedAnnualAmount +
                 ", annualWorkHours=" + annualWorkHours +

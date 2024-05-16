@@ -104,9 +104,10 @@ public class Window implements IUtils {
         try {
             // Load the FXML file using the provided FXMLLoader
             Parent root = fxmlLoader.load();
+
             // Create and return a new scene based on created root node
             return new Scene(root);
-        } catch (Exception e) {
+        } catch (IOException e) {
             // Throw an exception if runtime error occurred
             throw new ExceptionHandler(e.getMessage());
         }
@@ -143,6 +144,7 @@ public class Window implements IUtils {
             case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/create/CreateEmployee.fxml";
             case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
             case TEAMS -> "/com/se/ecostruxure-mmirzakhani/dashboard/Teams.fxml";
+            case TEST -> "/com/se/ecostruxure-mmirzakhani/sample.fxml";
 
 
 
