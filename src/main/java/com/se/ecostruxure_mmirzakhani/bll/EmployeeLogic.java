@@ -163,12 +163,12 @@ public class EmployeeLogic {
 
 
     public double hourlyRateGM(double hourlyRate, double gmPercentage) {
-        double gmMultiplier = 1 + (gmPercentage / 100);
+        double gmMultiplier = 1 - (gmPercentage / 100);
         return hourlyRate * gmMultiplier;
     }
 
     public double dailyRateGM(double dailyRate, double gmPercentage) {
-        double gmMultiplier = 1 + (gmPercentage / 100);
+        double gmMultiplier = 1 - (gmPercentage / 100);
         return dailyRate * gmMultiplier;
     }
 }
