@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,10 +130,10 @@ public class Model {
     }
 
     public void setAnnualSalary(double annualSalary){
-        employee.get().getContract().setAnnualSalary(annualSalary);
+        employee.get().getContract().setAnnualSalary(BigDecimal.valueOf(annualSalary));
     }
     public void setFixedAnnualAmount(double fixedAnnualAmount){
-        employee.get().getContract().setFixedAnnualAmount(fixedAnnualAmount);
+        employee.get().getContract().setFixedAnnualAmount(BigDecimal.valueOf(fixedAnnualAmount));
     }
     public void setAnnualWorkHours(double annualWorkHours){
         employee.get().getContract().setAnnualWorkHours(annualWorkHours);
@@ -156,10 +157,10 @@ public class Model {
         employee.get().getContract().setGrossMarginPercentage(grossMarginPercentage);
     }
     public void setHourlyRate(double hourlyRate) {
-        employee.get().getContract().setHourlyRate(hourlyRate);
+        employee.get().getContract().setHourlyRate(BigDecimal.valueOf(hourlyRate));
     }
     public void setDailyRate(double dailyRate) {
-        employee.get().getContract().setDailyRate(dailyRate);
+        employee.get().getContract().setDailyRate(BigDecimal.valueOf(dailyRate));
     }
 
 
@@ -172,7 +173,7 @@ public class Model {
     public void setAnnualSalary(String annualSalary) throws ExceptionHandler{
         employee.get()
                 .getContract()
-                .setAnnualSalary(Validate.validateDouble(annualSalary));
+                .setAnnualSalary(Validate.validateBigDecimal(annualSalary));
     }
 
     /**
@@ -181,7 +182,7 @@ public class Model {
     public void setFixedAnnualAmount(String fixedAnnualAmount) throws ExceptionHandler {
         employee.get()
                 .getContract()
-                .setFixedAnnualAmount(Validate.validateDouble(fixedAnnualAmount));
+                .setFixedAnnualAmount(Validate.validateBigDecimal(fixedAnnualAmount));
     }
 
     /**
@@ -264,7 +265,7 @@ public class Model {
     /**
      * @return Employee's hourly rate
      */
-    public double getHourlyRate() throws ExceptionHandler{
+    public BigDecimal getHourlyRate() throws ExceptionHandler{
         updateRates();
         return employee.get()
                 .getContract()
@@ -274,7 +275,7 @@ public class Model {
     /**
      * @return Employee's daily rate
      */
-    public double getDailyRate() throws ExceptionHandler{
+    public BigDecimal getDailyRate() throws ExceptionHandler{
         updateRates();
         return employee.get()
                 .getContract()

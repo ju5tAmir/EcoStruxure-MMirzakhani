@@ -4,6 +4,7 @@ import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -81,10 +82,36 @@ public class Validate implements IUtils {
      * @param contract The contract object containing salary and work hour information.
      * @return True if all values are non-zero, indicating safe conditions for division; otherwise, false.
      */
-    public static boolean safeDivision(Contract contract){
-        return contract.getAnnualSalary() != 0 &&
+    public static boolean safeDivision(Contract contract) {
+        return contract.getAnnualSalary().compareTo(BigDecimal.ZERO) != 0 &&
                 contract.getAnnualWorkHours() != 0 &&
                 contract.getAverageDailyWorkHours() != 0;
+    }
+
+    public static BigDecimal validateBigDecimal(String decimalAsString) throws ExceptionHandler {
+        // Regex pattern to check if user input matches to BigDecimal format
+        Pattern pattern = Pattern.compile("^[-+]?\\d*\\.?\\d+$");
+        // Matches the provided string with the pattern
+        Matcher matcher = pattern.matcher(decimalAsString);
+
+        // If the input matches the pattern, which means it's an eligible BigDecimal
+        if (matcher.find()) {
+            return new BigDecimal(decimalAsString);
+        } else {
+            // Throw an Exception if the input is not a valid BigDecimal
+            //throw new ExceptionHandler(ExceptionMessage.INVALID_BIGDECIMAL.getValue());
+            throw new RuntimeException();
+        }
+    }
+
+    // Example usage
+    public static void main(String[] args) {
+        try {
+            BigDecimal validBigDecimal = validateBigDecimal("123.45");
+            System.out.println("Valid BigDecimal: " + validBigDecimal);
+        } catch (ExceptionHandler e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 
 }

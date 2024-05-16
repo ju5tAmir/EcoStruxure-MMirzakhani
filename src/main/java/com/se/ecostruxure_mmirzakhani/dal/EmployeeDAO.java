@@ -69,8 +69,8 @@ public class EmployeeDAO {
 
                 // Insert contract information
                 contractStatement.setInt(1, employee.getId());
-                contractStatement.setDouble(2, employee.getContract().getAnnualSalary());
-                contractStatement.setDouble(3, employee.getContract().getFixedAnnualAmount());
+                contractStatement.setBigDecimal(2, employee.getContract().getAnnualSalary());
+                contractStatement.setBigDecimal(3, employee.getContract().getFixedAnnualAmount());
                 contractStatement.setDouble(4, employee.getContract().getAnnualWorkHours());
                 contractStatement.setDouble(5, employee.getContract().getAverageDailyWorkHours());
                 contractStatement.setDouble(6, employee.getContract().getOverheadPercentage());
@@ -130,10 +130,10 @@ public class EmployeeDAO {
 
                 // Set contract properties
                 Contract contract = new Contract();
-                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                contract.setAnnualSalary(rs.getBigDecimal("AnnualSalary"));
                 contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
                 contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
-                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setFixedAnnualAmount(rs.getBigDecimal("FixedAnnualAmount"));
                 contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
                 contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
                 contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
@@ -187,8 +187,8 @@ public class EmployeeDAO {
 
                 // Set contract properties
                 Contract contract = new Contract();
-                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
-                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                contract.setAnnualSalary(rs.getBigDecimal("AnnualSalary"));
+                contract.setFixedAnnualAmount(rs.getBigDecimal("FixedAnnualAmount"));
                 contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
                 contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
                 contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
@@ -240,8 +240,8 @@ public class EmployeeDAO {
 
                 // Set parameters for updating contract
                 Contract contract = employee.getContract();
-                contractStmt.setDouble(1, contract.getAnnualSalary());
-                contractStmt.setDouble(2, contract.getFixedAnnualAmount());
+                contractStmt.setBigDecimal(1, contract.getAnnualSalary());
+                contractStmt.setBigDecimal(2, contract.getFixedAnnualAmount());
                 contractStmt.setDouble(3, contract.getAnnualWorkHours());
                 contractStmt.setDouble(4, contract.getAverageDailyWorkHours());
                 contractStmt.setDouble(5, contract.getOverheadPercentage());

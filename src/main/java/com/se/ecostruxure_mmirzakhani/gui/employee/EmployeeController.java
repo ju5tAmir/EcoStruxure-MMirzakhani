@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,14 +67,14 @@ public class EmployeeController implements IController<Model> {
 
         dailyRateColumn.setCellValueFactory(cellData -> {
             // Retrieve the daily rate
-            double dailyRate = cellData.getValue().getContract().getDailyRate();
+            BigDecimal dailyRate = cellData.getValue().getContract().getDailyRate();
 
             // Return the string representation with 2 decimal float number
             return new SimpleStringProperty(String.format("%.2f", dailyRate));
         });
         hourlyRateColumn.setCellValueFactory(cellData -> {
             // Retrieve the hourly rate
-            double hourlyRate = cellData.getValue().getContract().getHourlyRate();
+            BigDecimal hourlyRate = cellData.getValue().getContract().getHourlyRate();
 
             // Return the string representation with 2 decimal float number
             return new SimpleStringProperty(String.format("%.2f", hourlyRate));

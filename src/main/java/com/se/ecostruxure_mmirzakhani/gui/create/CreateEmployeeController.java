@@ -17,6 +17,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 
+import java.math.BigDecimal;
+
 // ToDo: Don't forget to check for null inputs.
 //       (Optional) Validate if user clicked on a field and left it empty (then shows a little warn), also if they put invalid name, shows an error after Focus moved
 
@@ -27,7 +29,7 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private ComboBox<Country> countryCombo;
     @FXML
-    private ComboBox<Team> teamCombo;
+    private ComboBox teamCombo;
     @FXML
     private ComboBox<String> typeCombo;
     private Model model;
@@ -84,8 +86,9 @@ public class CreateEmployeeController implements IController<Model> {
         typeCombo.getItems().addAll("Production Resource", "Overhead");
         typeCombo.setValue("Choose Type");
 
-        teamCombo.setItems(model.getAllTeams());
-        teamCombo.setValue(model.getAllTeams().get(0));
+        teamCombo.getItems().addAll("Team A", "Team B","Team C");
+        //teamCombo.setItems(model.getAllTeams());
+        //teamCombo.setValue(model.getAllTeams().get(0));
     }
     private void filterCountriesByFirstLetter(String letter) {
         ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
@@ -110,38 +113,35 @@ public class CreateEmployeeController implements IController<Model> {
     private void updateEmployee() {
         if(selectedEmployee!=null) {
             try {
-                double annualSalary = Double.parseDouble(annualSalaryField.getText());
-                double fixedAnnualAmount = Double.parseDouble(fixedAnnualAmountField.getText());
+                BigDecimal annualSalary = new BigDecimal(annualSalaryField.getText());
+                BigDecimal fixedAnnualAmount = new BigDecimal(fixedAnnualAmountField.getText());
                 double annualWorkingHours = Double.parseDouble(annualWorkingHoursField.getText());
                 double utilizationPercentage = Double.parseDouble(utilizationField.getText());
                 double overheadMultiplier = Double.parseDouble(overheadMultiplierField.getText());
                 double dailyAverageWorkHours = Double.parseDouble(averageDailyHoursField.getText());
-                // Filling the values from user input
-                model.setFirstName(firstNameField.getText());
-                model.setLastName(lastNameField.getText());
-                model.setCountry(countryCombo.getValue());
-                model.setTeam(teamCombo.getValue().toString());
-                model.setAnnualSalary(annualSalary);
-                model.setFixedAnnualAmount(fixedAnnualAmount);
-                model.setAnnualWorkHours(annualWorkingHours);
-                model.setAverageDailyWorkHours(dailyAverageWorkHours);
-                model.setUtilizationPercentage(utilizationPercentage);
                 String selectedType = typeCombo.getValue();
                 // Set the isOverhead value based on the selected type
                 boolean isOverhead = selectedType.equals("Overhead");
-                // Set the isOverhead value in the model
-                model.setOverhead(isOverhead);
-                model.setOverheadPercentage(overheadMultiplier);
-
-                model.setRegion(Region.EUROPE);
-                model.updateEmployee(selectedEmployee);
 
                 selectedEmployee.setFirstName(firstNameField.getText());
+                selectedEmployee.setLastName(lastNameField.getText());
+                selectedEmployee.setCountry(countryCombo.getValue());
+                selectedEmployee.setTeam((Team) teamCombo.getValue());
+                selectedEmployee.getContract().setAnnualSalary(annualSalary);
+                selectedEmployee.getContract().setFixedAnnualAmount(fixedAnnualAmount);
+                selectedEmployee.getContract().setAnnualWorkHours(annualWorkingHours);
+                selectedEmployee.getContract().setAverageDailyWorkHours(dailyAverageWorkHours);
+                selectedEmployee.getContract().setUtilizationPercentage(utilizationPercentage);
+                selectedEmployee.getContract().setOverhead(isOverhead);
+                selectedEmployee.getContract().setOverheadPercentage(overheadMultiplier);
+                selectedEmployee.setRegion(Region.EUROPE); //Todo : to be implemented through gui
+                model.updateEmployee(selectedEmployee);
+
+
 
                 // Close the stage if it was successful
                 Window.closeStage(firstNameField.getScene());
 
-                System.out.println(selectedEmployee);
                 AlertHandler.displayAlert("Employee updated successfully.", Alert.AlertType.INFORMATION);
             } catch (ExceptionHandler e) {
                 AlertHandler.displayAlert("Error updating employee: " + e.getMessage(), Alert.AlertType.ERROR);
