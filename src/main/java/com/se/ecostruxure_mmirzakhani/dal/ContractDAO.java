@@ -27,10 +27,10 @@ public class ContractDAO {
 
             while (rs.next()) {
                 Contract contract = new Contract();
-                contract.setAnnualSalary(rs.getBigDecimal("AnnualSalary"));
+                contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
                 contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
                 contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
-                contract.setFixedAnnualAmount(rs.getBigDecimal("FixedAnnualAmount"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
                 contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
                 contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
                 contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
@@ -55,8 +55,8 @@ public class ContractDAO {
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(updateContract)) {
 
-            statement.setBigDecimal(1, contract.getAnnualSalary());
-            statement.setBigDecimal(2, contract.getFixedAnnualAmount());
+            statement.setDouble(1, contract.getAnnualSalary());
+            statement.setDouble(2, contract.getFixedAnnualAmount());
             statement.setDouble(3, contract.getAnnualWorkHours());
             statement.setDouble(4, contract.getAverageDailyWorkHours());
             statement.setDouble(5, contract.getOverheadPercentage());

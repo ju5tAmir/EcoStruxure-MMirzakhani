@@ -24,7 +24,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,14 +119,14 @@ public class DashboardController implements IController<Model> {
 
         dailyRateColumn.setCellValueFactory(cellData -> {
             // Retrieve the daily rate
-            BigDecimal dailyRate = cellData.getValue().getContract().getDailyRate();
+            double dailyRate = cellData.getValue().getContract().getDailyRate();
 
             // Return the string representation with 2 decimal float number
             return new SimpleStringProperty(String.format("%.2f", dailyRate));
         });
         hourlyRateColumn.setCellValueFactory(cellData -> {
             // Retrieve the hourly rate
-            BigDecimal hourlyRate = cellData.getValue().getContract().getHourlyRate();
+            double hourlyRate = cellData.getValue().getContract().getHourlyRate();
 
             // Return the string representation with 2 decimal float number
             return new SimpleStringProperty(String.format("%.2f", hourlyRate));
@@ -269,14 +268,14 @@ public class DashboardController implements IController<Model> {
 
             EmployeeLogic logic = new EmployeeLogic();
 
-            BigDecimal hourlyRate = selectedEmployee.getContract().getHourlyRate();
-            BigDecimal dailyRate = selectedEmployee.getContract().getDailyRate();
+            double hourlyRate = selectedEmployee.getContract().getHourlyRate();
+            double dailyRate = selectedEmployee.getContract().getDailyRate();
 
-            BigDecimal markupHourlyRate = logic.hourlyRateMarkup(hourlyRate, markupPercentage);
-            BigDecimal markupDailyRate = logic.dailyRateMarkup(dailyRate, markupPercentage);
+            double markupHourlyRate = logic.hourlyRateMarkup(hourlyRate, markupPercentage);
+            double markupDailyRate = logic.dailyRateMarkup(dailyRate, markupPercentage);
 
-            BigDecimal gmHourlyRate = logic.hourlyRateGM(markupHourlyRate, gmPercentage);
-            BigDecimal gmDailyRate = logic.dailyRateGM(markupDailyRate, gmPercentage);
+            double gmHourlyRate = logic.hourlyRateGM(markupHourlyRate, gmPercentage);
+            double gmDailyRate = logic.dailyRateGM(markupDailyRate, gmPercentage);
 
             List<Label> labels = new ArrayList<>();
             if (markupCheckBox.isSelected() && gmCheckBox.isSelected()){

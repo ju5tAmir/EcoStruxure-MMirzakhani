@@ -7,8 +7,6 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 public class EmployeeLogic {
@@ -55,28 +53,26 @@ public class EmployeeLogic {
 
     // ToDo: Implement methods to calculate rates
 
-    private BigDecimal calculateHourlyRate(Employee employee) throws ExceptionHandler {
+    private double calculateHourlyRate(Employee employee) throws ExceptionHandler {
+
         Contract contract = employee.getContract();
 
-        BigDecimal annualSalary = contract.getAnnualSalary();
-        BigDecimal fixedAnnualAmount = contract.getFixedAnnualAmount();
+        double annualSalary = contract.getAnnualSalary();
+        double fixedAnnualAmount = contract.getFixedAnnualAmount();
         double annualWorkHours = contract.getAnnualWorkHours();
         double utilizationPercentage = contract.getUtilizationPercentage();
-        double overheadPercentage = contract.getOverheadPercentage();
+        double overheadMultiplier = 1 + (contract.getOverheadPercentage() / 100);
 
         double effectiveAnnualWorkHours = annualWorkHours * (utilizationPercentage / 100);
 
-        BigDecimal adjustedAnnualSalary = annualSalary.add(fixedAnnualAmount);
+        double adjustedAnnualSalary = annualSalary + fixedAnnualAmount;
 
-        BigDecimal overheadMultiplier = BigDecimal.valueOf(1 + (overheadPercentage / 100));
+        double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
 
-        BigDecimal adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary.multiply(overheadMultiplier);
-
-        BigDecimal hourlyRate = adjustedAnnualSalaryWithOverhead.divide(BigDecimal.valueOf(effectiveAnnualWorkHours), 2, RoundingMode.HALF_UP);
+        double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
 
         return hourlyRate;
     }
-
 
     /**
      * Author: Radwan
@@ -86,19 +82,19 @@ public class EmployeeLogic {
         if (Validate.safeDivision(employee.getContract())) {
 
             Contract contract = employee.getContract();
-            BigDecimal annualSalary = contract.getAnnualSalary();
-            BigDecimal fixedAnnualAmount = contract.getFixedAnnualAmount();
+            double annualSalary = contract.getAnnualSalary();
+            double fixedAnnualAmount = contract.getFixedAnnualAmount();
             double annualWorkHours = contract.getAnnualWorkHours();
             double utilizationPercentage = contract.getUtilizationPercentage();
             double overheadMultiplier = 1 + (contract.getOverheadPercentage() / 100);
             double effectiveAnnualWorkHours = annualWorkHours * (utilizationPercentage / 100);
-            BigDecimal adjustedAnnualSalary = annualSalary.add(fixedAnnualAmount);
-            BigDecimal adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary.multiply(BigDecimal.valueOf(overheadMultiplier));
-            BigDecimal hourlyRate = adjustedAnnualSalaryWithOverhead.divide(BigDecimal.valueOf(effectiveAnnualWorkHours));
+            double adjustedAnnualSalary = annualSalary + fixedAnnualAmount;
+            double adjustedAnnualSalaryWithOverhead = adjustedAnnualSalary * overheadMultiplier;
+            double hourlyRate = adjustedAnnualSalaryWithOverhead / effectiveAnnualWorkHours;
 
             this.employee.getContract().setHourlyRate(hourlyRate);
         } else {
-            this.employee.getContract().setHourlyRate(BigDecimal.valueOf(0));
+            this.employee.getContract().setHourlyRate(0);
         }
     }
 
@@ -112,15 +108,15 @@ public class EmployeeLogic {
 
             Contract contract = employee.getContract();
 
-            BigDecimal hourlyRate = calculateHourlyRate(employee);
+            double hourlyRate = calculateHourlyRate(employee);
 
             double averageDailyWorkHours = contract.getAverageDailyWorkHours();
 
-            BigDecimal dailyRate = hourlyRate.multiply(BigDecimal.valueOf(averageDailyWorkHours));
+            double dailyRate = hourlyRate * averageDailyWorkHours;
 
             this.employee.getContract().setDailyRate(dailyRate);
         } else {
-            this.employee.getContract().setDailyRate(BigDecimal.valueOf(0));
+            this.employee.getContract().setDailyRate(0);
         }
     }
 
@@ -155,24 +151,24 @@ public class EmployeeLogic {
     }
 
 
-    public BigDecimal hourlyRateMarkup(BigDecimal hourlyRate, double markupPercentage) {
+    public double hourlyRateMarkup(double hourlyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
-        return hourlyRate.multiply(BigDecimal.valueOf(markupMultiplier));
+        return hourlyRate * markupMultiplier;
     }
 
-    public BigDecimal dailyRateMarkup(BigDecimal dailyRate, double markupPercentage) {
+    public double dailyRateMarkup(double dailyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
-        return dailyRate.multiply(BigDecimal.valueOf(markupMultiplier));
+        return dailyRate * markupMultiplier;
     }
 
 
-    public BigDecimal hourlyRateGM(BigDecimal hourlyRate, double gmPercentage) {
+    public double hourlyRateGM(double hourlyRate, double gmPercentage) {
         double gmMultiplier = 1 + (gmPercentage / 100);
-        return hourlyRate.multiply(BigDecimal.valueOf(gmMultiplier));
+        return hourlyRate * gmMultiplier;
     }
 
-    public BigDecimal dailyRateGM(BigDecimal dailyRate, double gmPercentage) {
+    public double dailyRateGM(double dailyRate, double gmPercentage) {
         double gmMultiplier = 1 + (gmPercentage / 100);
-        return dailyRate.multiply(BigDecimal.valueOf(gmMultiplier));
+        return dailyRate * gmMultiplier;
     }
 }

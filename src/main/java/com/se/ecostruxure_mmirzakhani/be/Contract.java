@@ -1,13 +1,12 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Contract {
     // Contract details
-    private BigDecimal annualSalary;
-    private BigDecimal fixedAnnualAmount;
+    private double annualSalary;
+    private double fixedAnnualAmount;
     private double annualWorkHours;
     private double averageDailyWorkHours;
     private boolean isOverhead;
@@ -18,8 +17,8 @@ public class Contract {
     private double grossMarginPercentage;
 
     // Rates
-    private BigDecimal hourlyRate;
-    private BigDecimal dailyRate;
+    private double hourlyRate;
+    private double dailyRate;
 
     // Valid dates
     private LocalDateTime validFrom;
@@ -32,27 +31,25 @@ public class Contract {
 
     }
 
-    public BigDecimal getAnnualSalary() {
-        return annualSalary;
-    }
-
-    public void setAnnualSalary(BigDecimal annualSalary) {
-        this.annualSalary = annualSalary;
-    }
-
-    public BigDecimal getFixedAnnualAmount() {
-        return fixedAnnualAmount;
-    }
-
-    public void setFixedAnnualAmount(BigDecimal fixedAnnualAmount) {
-        this.fixedAnnualAmount = fixedAnnualAmount;
-    }
-
     /**
      * Methods
      */
 
+    public double getAnnualSalary() {
+        return annualSalary;
+    }
 
+    public void setAnnualSalary(double annualSalary) {
+        this.annualSalary = annualSalary;
+    }
+
+    public double getFixedAnnualAmount() {
+        return fixedAnnualAmount;
+    }
+
+    public void setFixedAnnualAmount(double fixedAnnualAmount) {
+        this.fixedAnnualAmount = fixedAnnualAmount;
+    }
 
     public double getAnnualWorkHours() {
         return annualWorkHours;
@@ -109,20 +106,19 @@ public class Contract {
     public void setGrossMarginPercentage(double grossMarginPercentage) {
         this.grossMarginPercentage = grossMarginPercentage;
     }
-
-    public BigDecimal getHourlyRate() {
+    public double getHourlyRate() {
         return hourlyRate;
     }
 
-    public void setHourlyRate(BigDecimal hourlyRate) {
+    public void setHourlyRate(double hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
 
-    public BigDecimal getDailyRate() {
+    public double getDailyRate() {
         return dailyRate;
     }
 
-    public void setDailyRate(BigDecimal dailyRate) {
+    public void setDailyRate(double dailyRate) {
         this.dailyRate = dailyRate;
     }
 
