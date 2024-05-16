@@ -1,5 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.bll;
 
+import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.dal.TeamDAO;
@@ -10,8 +11,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class TeamLogic {
-    private final TeamDAO teamDAO;
 
+    private final TeamDAO teamDAO;
+    private EmployeeDAO dao;
     {
         try {
             teamDAO = new TeamDAO();
@@ -33,6 +35,26 @@ public class TeamLogic {
 
     public boolean deleteTeam(int id) throws ExceptionHandler, SQLException {
         return teamDAO.deleteTeam(id);
+    }
+
+    public double teamHourlyRate(int teamId) throws ExceptionHandler, SQLException {
+
+        ObservableList<Employee> employees = dao.getEmployeesByTeam(teamId);
+        double totalHourlyRate = employees.stream()
+                .mapToDouble(employee -> employee.getContract().getHourlyRate())
+                .sum();
+
+        return totalHourlyRate / employees.size();
+    }
+
+    public double teamDailyRate(int teamId) throws ExceptionHandler, SQLException {
+
+        ObservableList<Employee> employees = dao.getEmployeesByTeam(teamId);
+        double totalDailyRate = employees.stream()
+                .mapToDouble(employee -> employee.getContract().getDailyRate())
+                .sum();
+
+        return totalDailyRate / employees.size();
     }
 
 }
