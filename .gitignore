@@ -9,6 +9,7 @@ target/
 .idea/compiler.xml
 .idea/libraries/
 src/main/resources/db/config.properties
+src/main/resources/currencies/eur.xml
 *.iws
 *.iml
 *.ipr
