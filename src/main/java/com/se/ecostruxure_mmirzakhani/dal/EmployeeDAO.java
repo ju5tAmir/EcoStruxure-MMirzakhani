@@ -4,7 +4,6 @@ import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
-import javafx.collections.ObservableList;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -23,10 +22,10 @@ public class EmployeeDAO {
     public boolean createEmployee(Employee employee) throws ExceptionHandler {
         // Insert query to Employee table
         String insertEmployee = "INSERT INTO Employees(FirstName, LastName, Region, Country) VALUES (?,?,?,?)";
-        // Insert query for creating the employee-team relationship
-        String insertEmployeeTeam = "INSERT INTO EmployeeTeam(EmployeeID, TeamID, UtilizationPercentage) VALUES (?, ?, ?)";
+        // Insert query for connection an employee to a team (if possible)
+        String insertTeam = "INSERT INTO Team(TeamName, EmployeeID) VALUES (?,?)";
         // Insert contract information
-        String insertContract = "INSERT INTO Contract(EmployeeID, AnnualSalary, FixedAnnualAmount, AnnualWorkHours, AverageDailyWorkHours, OverheadPercentage, MarkupPercentage, GrossMarginPercentage, IsOverhead) VALUES (?,?,?,?,?,?,?,?,?,?)";
+        String insertContract = "INSERT INTO Contract(EmployeeID, AnnualSalary, FixedAnnualAmount, AnnualWorkHours, AverageDailyWorkHours, OverheadPercentage, UtilizationPercentage, MarkupPercentage, GrossMarginPercentage, IsOverhead) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try (Connection conn = dbConnection.getConnection()) {
             // Starting a transaction
@@ -36,7 +35,7 @@ public class EmployeeDAO {
 
             // Statements
             try (PreparedStatement employeeStatement = conn.prepareStatement(insertEmployee, Statement.RETURN_GENERATED_KEYS);
-                 PreparedStatement employeeTeamStatement = conn.prepareStatement(insertEmployeeTeam);
+                 PreparedStatement teamStatement = conn.prepareStatement(insertTeam);
                  PreparedStatement contractStatement = conn.prepareStatement(insertContract)) {
 
                 // Insert employee information
@@ -56,15 +55,11 @@ public class EmployeeDAO {
                     }
                 }
 
-                // Insert employee-team relationship
-                if (!employee.getTeams().isEmpty()) {
-                    for (Team team : employee.getTeams()) {
-                        employeeTeamStatement.setInt(1, employee.getId());
-                        employeeTeamStatement.setInt(2, team.getId());
-                        employeeTeamStatement.setDouble(3, employee.getContract().getUtilizationPercentage());
-                        employeeTeamStatement.addBatch();
-                    }
-                    employeeTeamStatement.executeBatch();
+                // Insert team details if employee is part of a team
+                if (employee.getTeam() != null) {
+                    teamStatement.setString(1, employee.getTeam().getName());
+                    teamStatement.setInt(2, employee.getId());
+                    teamStatement.addBatch();
                 }
 
                 // Insert contract information
@@ -74,13 +69,15 @@ public class EmployeeDAO {
                 contractStatement.setDouble(4, employee.getContract().getAnnualWorkHours());
                 contractStatement.setDouble(5, employee.getContract().getAverageDailyWorkHours());
                 contractStatement.setDouble(6, employee.getContract().getOverheadPercentage());
-                contractStatement.setDouble(7, employee.getContract().getMarkupPercentage());
-                contractStatement.setDouble(8, employee.getContract().getGrossMarginPercentage());
-                contractStatement.setBoolean(9, employee.getContract().isOverhead());
+                contractStatement.setDouble(7, employee.getContract().getUtilizationPercentage());
+                contractStatement.setDouble(8, employee.getContract().getMarkupPercentage());
+                contractStatement.setDouble(9, employee.getContract().getGrossMarginPercentage());
+                contractStatement.setBoolean(10, employee.getContract().isOverhead());
                 contractStatement.addBatch();
 
                 // Execute batches
                 employeeStatement.executeBatch();
+                teamStatement.executeBatch();
                 contractStatement.executeBatch();
 
                 // Commit transaction
@@ -92,9 +89,11 @@ public class EmployeeDAO {
             }
             return true;
         } catch (SQLException ex) {
+
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
         }
     }
+
     public Employee getEmployee(int id) throws ExceptionHandler{
         // Employee object to update
         Employee employee = new Employee();
@@ -125,7 +124,7 @@ public class EmployeeDAO {
                 Team team = new Team();
                 team.setId(rs.getInt("TeamID"));
                 team.setName(rs.getString("TeamName"));
-                employee.setTeams((ObservableList<Team>) team);
+                employee.setTeam(team);
 
 
                 // Set contract properties
@@ -135,6 +134,7 @@ public class EmployeeDAO {
                 contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
                 contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
                 contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
                 contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
                 contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
                 contract.setOverhead(rs.getBoolean("IsOverhead"));
@@ -156,9 +156,10 @@ public class EmployeeDAO {
         // SQL Query to fetch all employees
         String getAllEmployeesQuery = "SELECT Employees.*, T.*, C.* " +
                 "FROM Employees " +
-                "JOIN EmployeeTeam ET ON Employees.EmployeeID = ET.EmployeeID " +
-                "JOIN Team T ON ET.TeamID = T.TeamID " +
-                "JOIN Contract C ON Employees.EmployeeID = C.EmployeeID";
+                "JOIN dbo.Team T " +
+                "ON Employees.EmployeeID = T.EmployeeID " +
+                "JOIN dbo.Contract C ON " +
+                "Employees.EmployeeID = C.EmployeeID";
 
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(getAllEmployeesQuery)) {
@@ -169,14 +170,14 @@ public class EmployeeDAO {
                 Employee employee = new Employee();
 
                 // Set employee properties
-                employee.setId(rs.getInt("EmployeeID"));
                 employee.setFirstName(rs.getString("FirstName"));
                 employee.setLastName(rs.getString("LastName"));
                 try {
                     employee.setRegion(Region.valueOf(rs.getString("Region").toUpperCase()));
                     employee.setCountry(Country.valueOf(rs.getString("Country").toUpperCase()));
-                } catch (IllegalArgumentException e) {
-                    // Handle invalid region/country values
+                } catch (RuntimeException e){
+                    employee.setRegion(Region.EUROPE);
+                    employee.setCountry(Country.DENMARK);
                 }
 
                 // Set team properties
@@ -188,15 +189,16 @@ public class EmployeeDAO {
                 // Set contract properties
                 Contract contract = new Contract();
                 contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
-                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
                 contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
                 contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
                 contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
                 contract.setUtilizationPercentage(rs.getDouble("UtilizationPercentage"));
                 contract.setMarkupPercentage(rs.getDouble("MarkupPercentage"));
                 contract.setGrossMarginPercentage(rs.getDouble("GrossMarginPercentage"));
                 contract.setOverhead(rs.getBoolean("IsOverhead"));
-                // Set other contract properties...
+                contract.setValidFrom(rs.getTimestamp("SysStartTime").toLocalDateTime());
+                contract.setValidUntil(rs.getTimestamp("SysEndTime").toLocalDateTime());
 
                 employee.setContract(contract);
 
@@ -208,7 +210,6 @@ public class EmployeeDAO {
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
         }
     }
-
 
     public boolean updateEmployee(Employee employee) throws ExceptionHandler {
         String updateEmployee = "UPDATE Employees SET FirstName = ?, LastName = ?, Region = ?, Country = ? WHERE EmployeeID = ?";
@@ -232,8 +233,8 @@ public class EmployeeDAO {
                 employeeStmt.executeUpdate();
 
                 // Set parameters for updating team
-                if (employee.getTeams() != null) {
-                    //teamStmt.setString(1, employee.getTeam().getName());
+                if (employee.getTeam() != null) {
+                    teamStmt.setString(1, employee.getTeam().getName());
                     teamStmt.setInt(2, employee.getId());
                     teamStmt.executeUpdate();
                 }
@@ -287,7 +288,7 @@ public class EmployeeDAO {
 
                 employeeStmt.setInt(1, employeeId);
                 employeeStmt.executeUpdate();
-                
+
                 conn.commit();
                 return true;
             } catch (SQLException e) {
