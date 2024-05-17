@@ -41,16 +41,16 @@ public class EmployeeDAO {
         Contract contract1 = new Contract();
         contract1.setId(1);
         contract1.setCountry(Country.DENMARK);
-        contract1.setCurrency(Currency.DKK);
-        contract1.setAnnualSalary(400_000);       // 400K DKK
-        contract1.setFixedAnnualAmount(20_000);   // 20K  DKK
-        contract1.setAnnualWorkHours(1920);
+        contract1.setCurrency(Currency.USD);
+        contract1.setAnnualSalary(80_000);       // 80K USD
+        contract1.setFixedAnnualAmount(5_000);   // 5K USD
+        contract1.setAnnualWorkHours(2000);
         contract1.setAverageDailyWorkHours(8);
         contract1.setOverhead(true);
         contract1.setOverheadPercentage(20);
         employee1.setContract(contract1);
 
-        Project p1 = new Project(employee1, it, 20); // Works in IT 20% of his time
+        Project p1 = new Project(employee1, it, 50); // Works in IT 20% of his time
         Project p2 = new Project(employee1, hr, 40); // Works in HR 40% of his time
 
         projects.add(p1); projects.add(p2);

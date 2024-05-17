@@ -223,9 +223,20 @@ public class Model {
 
 
 
+    public double getHourlyRate(Team team){
+        // Retrieve the list of projects associated with the given team from the teamProjects map
+        List<Project> projects = teamProjects.get(team);
+
+        return teamService.getHourlyRate(projects);
+    }
 
 
+    public double getDailyRate(Team team){
+        // Retrieve the list of projects associated with the given team from the teamProjects map
+        List<Project> projects = teamProjects.get(team);
 
+        return teamService.getDailyRate(projects);
+    }
 
 
 

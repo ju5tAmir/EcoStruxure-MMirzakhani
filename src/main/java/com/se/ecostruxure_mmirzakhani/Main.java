@@ -27,14 +27,17 @@ public class Main extends Application {
 
         for (Team t : model.getTeamProjects().keySet()) {
             System.out.println(t.getName());
-            System.out.println(model.getTotalCost(t));
+            System.out.println("Hourly  Rate: " + model.getHourlyRate(t));
+            System.out.println("Daily   Rate: " + model.getDailyRate(t));
         }
 
-        /* all costs index will be system selected currency
+        /*
          * IT
-         * 128712.435
+         * Hourly  Rate: 133.19868990333333
+         * Daily   Rate: 1065.5895192266667
          * HR
-         * 66712.435
+         * Hourly  Rate: 116.04263321250001
+         * Daily   Rate: 928.3410657000001
          */
 
 
