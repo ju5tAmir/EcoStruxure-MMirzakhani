@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
+import com.se.ecostruxure_mmirzakhani.bll.Mapper;
 import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
@@ -56,7 +57,7 @@ public class Model {
     }
 
     /**
-     * Retrieve all the employees
+     * Get all the employees
      */
     public List<Employee> getAllEmployees() throws ExceptionHandler {
         setEmployees();
@@ -64,7 +65,7 @@ public class Model {
     }
 
     /**
-     * Retrieve all the Teams
+     * Get all the Teams
      */
     public List<Team> getAllTeams() throws ExceptionHandler {
         setTeams();
@@ -72,15 +73,20 @@ public class Model {
     }
 
     /**
-     * Retrieve all the Projects
+     * Get all the Projects
      */
     public List<Project> getAllProjects() throws ExceptionHandler {
         setProjects();
         return projects;
     }
 
-
-
+    /**
+     * Get all the employees with their projects as HashMap
+     */
+    public ObservableMap<Employee, List<Project>> getEmployeesProjects() throws ExceptionHandler{
+        setEmployeesProjects();
+        return employeeProjects;
+    }
 
     // ************************ Setters *****************************
     /**
@@ -125,10 +131,42 @@ public class Model {
         projects.setAll(logic.getAllProjects());
     }
 
+    /**
+     * Retrieve and update all the objects first, then maps all the Employees to their Projects
+     */
+    private void setEmployeesProjects() throws ExceptionHandler{
+        updateAllProperties();
+
+        // Map all the employees to their projects
+        HashMap<Employee, List<Project>> employeeListHashMap = Mapper.allEmployeesToProjects(employees, projects);
+
+        for (Employee e: employeeListHashMap.keySet()){
+            employeeProjects.put(e, employeeListHashMap.get(e));
+        }
+    }
+
+    /**
+     * Update the employeeProjects HashMap with a new item
+     */
+    public void addEmployeeProjects(Employee employee, List<Project> projects){
+        // ToDo: Do it in DB and then if OK then put
+        employeeProjects.put(employee, projects);
+    }
+
+    // ************************ Utilities *****************************
+    private void updateAllProperties() throws ExceptionHandler{
+        setEmployees();
+        setTeams();
+        setProjects();
+    }
 
 
 
     // ****************** LAB *******************
+
+
+
+
 
 
 

@@ -49,17 +49,16 @@ public class Mapper {
     }
 
     /**
-     * Links all the teams to their respective projects and returns a list of hashmaps.
+     * Links all the teams to their respective projects and returns a list of items as hashmaps.
      *
      * @param teams The list of all teams.
      * @param projects The list of all projects.
-     * @return A list of hashmaps where each hashmap contains a team and their corresponding list of projects.
+     * @return A hashmaps where each item contains a team and their corresponding list of projects.
      */
-    public static List<HashMap<Team, List<Project>>> allTeamsToProjects(List<Team> teams, List<Project> projects){
-        List<HashMap<Team, List<Project>>> list = new ArrayList<>();
+    public static HashMap<Team, List<Project>> allTeamsToProjects(List<Team> teams, List<Project> projects){
+        HashMap<Team, List<Project>> hashMap = new HashMap<>();
 
         for (Team team: teams){
-            HashMap<Team, List<Project>> hashMap = new HashMap<>();
             List<Project> projectsList = new ArrayList<>();
             for (Project project: projects){
                 if (project.getTeam().equals(team)){
@@ -67,32 +66,31 @@ public class Mapper {
                 }
             }
             hashMap.put(team, projectsList);
-            list.add(hashMap);
         }
-        return list;
+        return hashMap;
     }
 
     /**
-     * Links all the employees to their respective projects and returns a list of hashmaps.
+     * Links all the employees to their respective projects and returns a list of items as hashmaps.
      *
      * @param employees The list of all employees.
      * @param projects The list of all projects.
-     * @return A list of hashmaps where each hashmap contains an employee and their corresponding list of projects.
+     * @return A list of items where each item contains an employee and their corresponding list of projects.
      */
-    public static List<HashMap<Employee, List<Project>>> allEmployeesToProjects(List<Employee> employees, List<Project> projects){
-        List<HashMap<Employee, List<Project>>> list = new ArrayList<>();
+    public static HashMap<Employee, List<Project>> allEmployeesToProjects(List<Employee> employees, List<Project> projects){
+        HashMap<Employee, List<Project>> hashMap = new HashMap<>();
 
         for (Employee employee: employees){
-            HashMap<Employee, List<Project>> hashMap = new HashMap<>();
             List<Project> projectList = new ArrayList<>();
+
             for (Project project: projects){
                 if (project.getEmployee().equals(employee)){
                     projectList.add(project);
                 }
             }
             hashMap.put(employee, projectList);
-            list.add(hashMap);
+
         }
-        return list;
+        return hashMap;
     }
 }
