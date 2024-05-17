@@ -1,12 +1,9 @@
 package com.se.ecostruxure_mmirzakhani;
 
-import com.se.ecostruxure_mmirzakhani.be.Currency;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
+
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 
