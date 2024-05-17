@@ -6,6 +6,7 @@ import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.List;
 
@@ -59,4 +60,7 @@ public class EmployeeService {
         return totalCostInSystemCurrency;
     }
 
+    public boolean create(Employee employee, List<Project> projects) {
+        return dao.createEmployee(employee, projects);
+    }
 }

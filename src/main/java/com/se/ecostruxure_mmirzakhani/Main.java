@@ -1,5 +1,7 @@
 package com.se.ecostruxure_mmirzakhani;
 
+import com.se.ecostruxure_mmirzakhani.be.Country;
+import com.se.ecostruxure_mmirzakhani.be.Currency;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.model.Model;
@@ -20,6 +22,27 @@ public class Main extends Application {
 
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
+
+        model.setFirstName("Peter");
+        model.setLastName("Check");
+
+        model.setContractCountry(Country.CZECH_REPUBLIC);
+        model.setContractCurrency(Currency.CZK);
+        model.setContractAnnualSalary(80000);
+        model.setContractAnnualWorkHours(2000);
+        model.setContractFixedAnnualAmount(5000);
+        model.setContractAverageDailyWorkHours(7.3);
+        model.setContractOverheadPercentage(20);
+        model.setContractOverheadStatus(true);
+
+        model.setProjectEmployee(model.getEmployee());
+        model.setProjectTeam(new Team(2,"HR"));
+        model.setProjectUtilizationPercentage(60);
+        model.assignProjectToEmployee();
+
+        model.createEmployee();
+
+        System.out.println(model.getAllEmployees().size());
 
         for (Team t : model.getTeamProjects().keySet()) {
             System.out.println(t.getName());

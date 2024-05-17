@@ -19,6 +19,7 @@ import java.util.List;
 
 public class Model {
     private final SimpleObjectProperty  <Employee>                  employee            = new SimpleObjectProperty<>(new Employee());
+    private final SimpleObjectProperty  <Contract>                  contract            = new SimpleObjectProperty<>(new Contract());
     private final SimpleObjectProperty  <Team>                      team                = new SimpleObjectProperty<>(new Team());
     private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
@@ -140,6 +141,133 @@ public class Model {
     }
 
 
+
+
+    /**
+     * Set Employee's first name
+     */
+    public void setFirstName(String firstName) throws ExceptionHandler {
+        employee.get()
+                .setFirstName(firstName);
+    }
+
+    /**
+     * Set Employee's last name
+     */
+    public void setLastName(String lastName) throws ExceptionHandler {
+        employee.get()
+                .setLastName(lastName);
+    }
+
+    /**
+     * Set Country for the currently working contract
+     */
+    public void setContractCountry(Country country){
+        this.contract.get().setCountry(country);
+    }
+
+    /**
+     * Set Currency for the currently working contract
+     */
+    public void setContractCurrency(Currency currency){
+        this.contract.get().setCurrency(currency);
+    }
+
+    /**
+     * Set annual salary for the currently working contract
+     */
+    public void setContractAnnualSalary(double annualSalary){
+        this.contract.get().setAnnualSalary(annualSalary);
+    }
+
+    /**
+     * Set fixed annual amount for the currently working contract
+     */
+    public void setContractFixedAnnualAmount(double fixedAnnualAmount){
+        this.contract.get().setFixedAnnualAmount(fixedAnnualAmount);
+    }
+
+    /**
+     * Set annual work hours for the currently working contract
+     */
+    public void setContractAnnualWorkHours(double annualWorkHours){
+        this.contract.get().setAnnualWorkHours(annualWorkHours);
+    }
+
+    /**
+     * Set average daily work hours for the currently working contract
+     */
+    public void setContractAverageDailyWorkHours(double averageDailyWorkHours){
+        this.contract.get().setAverageDailyWorkHours(averageDailyWorkHours);
+    }
+
+    // ToDo: private void setOverallUtilization
+
+    /**
+     * Set overhead percentage for the currently working contract
+     */
+    public void setContractOverheadPercentage(double overheadPercentage){
+        this.contract.get().setOverheadPercentage(overheadPercentage);
+    }
+
+    /**
+     * Set overhead status for the currently working contract
+     */
+    public void setContractOverheadStatus(boolean isOverhead){
+        this.contract.get().setOverhead(isOverhead);
+    }
+
+    /**
+     * Set employee object for the currently working project
+     */
+    public void setProjectEmployee(Employee employee){
+        this.project.get().setEmployee(employee);
+    }
+
+    /**
+     * Set team object for the currently working project
+     */
+    public void setProjectTeam(Team team){
+        this.project.get().setTeam(team);
+    }
+
+    /**
+     * Set utilization percentage for the currently working project
+     */
+    public void setProjectUtilizationPercentage(double utilizationPercentage){
+        this.project.get().setUtilizationPercentage(utilizationPercentage);
+    }
+
+    /**
+     * Assign the project
+     */
+    public void assignProjectToEmployee(){
+        // Validate
+        this.projects.add(project.get());
+
+        // Reset if above step was successful
+        this.project.set(new Project());
+    }
+
+    /**
+     * Create employee object with projects related to it, if it was successful, return true
+     */
+    public boolean createEmployee(){
+        if (employeeService.create(employee.get(), projects)){
+            System.out.println("here");
+            // If database insert was successful
+            employees.add(employee.get());
+
+            // Update the HashMap
+            employeeProjects.put(employee.get(), projects);
+
+            // Clear objects to prevent conflicts with the future creations
+            clearEmployeeObjects();
+        }
+        return false;
+    }
+
+
     // ************************ Setters *****************************
     /**
      * Set Team object
@@ -235,13 +363,49 @@ public class Model {
         setProjects();
     }
 
-
+    private void clearEmployeeObjects(){
+        this.employee.set(new Employee());
+        this.project.set(new Project());
+        this.team.set(new Team());
+    }
 
     // ****************** LAB *******************
 
 
 
 
+
+//
+//    public void setContract(Contract contract){
+//        this.employee.get().setContract(contract);
+//    }
+//
+//
+//
+//    /**
+//     * Set Employee's country
+//     */
+//    public void setCountry(Country country) {
+//        employee.get()
+//                .setCountry(country);
+//    }
+//
+//    /**
+//     * Set Employee's region
+//     */
+//    public void setRegion(Region region){
+//        employee.get().setRegion(region);
+//    }
+//
+//
+//    /**
+//     * Set Employee's team name
+//     */
+//    public void setTeam(String teamName) {
+//        employee.get()
+//                .getTeam()
+//                .setName(teamName);
+//    }
 
 
 

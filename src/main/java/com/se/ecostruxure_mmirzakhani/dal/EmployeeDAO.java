@@ -1,11 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.dal;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
-import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -115,7 +111,14 @@ public class EmployeeDAO {
         return projects;
     }
 
+    public boolean createEmployee(Employee employee, List<Project> projects) {
+        // Create Employee + Update employee object ID
+
+        // Add Projects    + Update project objects ID
+
+        return true;
     }
+}
 //
 //    public boolean createEmployee(Employee employee) throws ExceptionHandler {
 //        // Insert query to Employee table
