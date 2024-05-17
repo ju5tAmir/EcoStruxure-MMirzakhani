@@ -25,7 +25,6 @@ public class Model {
     private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();  // All projects for an employee
     private final ObservableMap         <Team,     List<Project>>   teamProjects        = FXCollections.observableHashMap();          // All projects for a team
     private final EmployeeService                                   logic               = new EmployeeService();
-    private final TeamLogic                                         teamLogic           = new TeamLogic();
 
     // ************************ Constructor ************************
     public Model(){
@@ -87,6 +86,16 @@ public class Model {
         setEmployeesProjects();
         return employeeProjects;
     }
+
+    /**
+     * Get all the teams with their projects(workers) as HashMap
+     */
+    public ObservableMap<Team, List<Project>> getTeamProjects() throws ExceptionHandler{
+        setTeamsProjects();
+        return teamProjects;
+    }
+
+
 
     // ************************ Setters *****************************
     /**
@@ -152,6 +161,22 @@ public class Model {
         // ToDo: Do it in DB and then if OK then put
         employeeProjects.put(employee, projects);
     }
+
+    /**
+     * Retrieve and update all the objects first, then maps all the Teams to their Projects
+     */
+    private void setTeamsProjects() throws ExceptionHandler{
+        updateAllProperties();
+
+        // Map all the teams to their projects
+        HashMap<Team, List<Project>> teamListHashMap = Mapper.allTeamsToProjects(teams, projects);
+
+        for (Team t: teamListHashMap.keySet()){
+            teamProjects.put(t, teamListHashMap.get(t));
+        }
+    }
+
+
 
     // ************************ Utilities *****************************
     private void updateAllProperties() throws ExceptionHandler{
