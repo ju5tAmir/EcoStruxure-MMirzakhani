@@ -11,8 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 
 public class EmployeeDAO {
-    List<Employee> employees = new ArrayList<>();
-    HashMap<Team, List<Employee>> teams = new HashMap<>();
+    // ToDo: These attributes must be removed and replaces in the proper method and fetch these values from DB
+    private final List<Employee> employees = new ArrayList<>();
+    private final List<Team> teams = new ArrayList<>();
+    private final List<Project> projects = new ArrayList<>();
+    private final HashMap<Team, List<Project>> teamEmployees = new HashMap<>();
 
 //    private final DBConnection dbConnection;
 
@@ -20,107 +23,97 @@ public class EmployeeDAO {
      * Constructor
      */
     public EmployeeDAO() {
+        initMockData();
 
-        // Initial Teams
-        Team teamIT = new Team(1, "IT Team");
-        Team teamHR = new Team(2, "HR Team");
-//
-//
-//        // Initial Employees
-//        Employee employee1 = new Employee();
-//        employee1.setId(1);
-//        employee1.setFirstName("Guss");
-//        employee1.setLastName("Frank");
-//
-//        // Profiles
-//        // Profile 1
-//        Profile profile1 = new Profile();
-//        profile1.setId(1);
-//        profile1.setTeam(teamIT);
-//        profile1.setCountry(Country.DENMARK);
-//        profile1.setCurrency(Currency.DKK);
-//        profile1.setAnnualSalary(400_000);       // 400K DKK
-//        profile1.setFixedAnnualAmount(20_000);   // 20K  DKK
-//        profile1.setAnnualWorkHours(1920);
-//        profile1.setAverageDailyWorkHours(8);
-//        profile1.setOverhead(true);
-//        profile1.setOverheadPercentage(20);
-//        profile1.setUtilizationPercentage(50);
-//
-//        // Profile 2
-//        Profile profile2 = new Profile();
-//        profile2.setId(2);
-//        profile2.setTeam(teamHR);
-//        profile2.setCountry(Country.UNITED_STATES);
-//        profile2.setRegion(regionEU);
-//        profile2.setCurrency(Currency.USD);
-//        profile2.setAnnualSalary(60_000);       // 60K USD
-//        profile2.setFixedAnnualAmount(5_000);   // 5K  USD
-//        profile2.setAnnualWorkHours(1920);
-//        profile2.setAverageDailyWorkHours(8);
-//        profile2.setOverhead(true);
-//        profile2.setOverheadPercentage(20);
-//        profile2.setUtilizationPercentage(20);
-//
-//
-//        // ************* 2 ******************
-//
-//
-//        // Initial Employees
-//        Employee employee2 = new Employee();
-//        employee2.setId(2);
-//        employee2.setFirstName("Frank");
-//        employee2.setLastName("Vallie");
-//
-//        // Region
-//        Region regionASIA = new Region();
-//        regionEU.setId(2);
-//        regionEU.setName("ASIA");
-//
-//        // Profiles
-//        // Profile 3
-//        Profile profile3 = new Profile();
-//        profile3.setId(3);
-//        profile3.setTeam(teamIT);
-//        profile3.setCountry(Country.SWEDEN);
-//        profile3.setRegion(regionEU);
-//        profile3.setCurrency(Currency.EUR);
-//        profile3.setAnnualSalary(50_000);
-//        profile3.setFixedAnnualAmount(2_000);
-//        profile3.setAnnualWorkHours(1920);
-//        profile3.setAverageDailyWorkHours(8);
-//        profile3.setOverhead(true);
-//        profile3.setOverheadPercentage(20);
-//        profile3.setUtilizationPercentage(80);
-//
-//
-//
-//        employee2.addProfile(profile3);
-//
-//        List<Employee> teamITEmployees = new ArrayList<>();
-//        teamITEmployees.add(employee1);
-//        teams.put(teamIT, employee1)
-//
-//        employees.add(employee1);
-//        employees.add(employee2);
     }
 
+    private void initMockData(){
+        // Initial Teams
+        Team it = new Team(1, "IT");
+        Team hr = new Team(2, "HR");
+        teams.add(it); teams.add(hr);
 
+        Employee employee1 = new Employee();
+        employee1.setId(1);
+        employee1.setFirstName("Guss");
+        employee1.setLastName("Frank");
+
+        Contract contract1 = new Contract();
+        contract1.setId(1);
+        contract1.setCountry(Country.DENMARK);
+        contract1.setCurrency(Currency.DKK);
+        contract1.setAnnualSalary(400_000);       // 400K DKK
+        contract1.setFixedAnnualAmount(20_000);   // 20K  DKK
+        contract1.setAnnualWorkHours(1920);
+        contract1.setAverageDailyWorkHours(8);
+        contract1.setOverhead(true);
+        contract1.setOverheadPercentage(20);
+        employee1.setContract(contract1);
+
+        Project p1 = new Project(employee1, it, 20); // Works in IT 20% of his time
+        Project p2 = new Project(employee1, hr, 40); // Works in HR 40% of his time
+
+        projects.add(p1); projects.add(p2);
+
+        // ***** 2 *****
+        Employee employee2 = new Employee();
+        employee2.setId(2);
+        employee2.setFirstName("Frank");
+        employee2.setLastName("Vallie");
+
+        Contract contract2 = new Contract();
+        contract2.setId(2);
+        contract2.setCountry(Country.SWEDEN);
+        contract2.setCurrency(Currency.EUR);
+        contract2.setAnnualSalary(50_000);
+        contract2.setFixedAnnualAmount(2_000);
+        contract2.setAnnualWorkHours(1920);
+        contract2.setAverageDailyWorkHours(8);
+        contract2.setOverhead(true);
+        contract2.setOverheadPercentage(20);
+        employee2.setContract(contract2);
+
+        Project p3 = new Project(employee2, it, 80);
+        projects.add(p3);
+
+
+
+        // Update Total Employees
+        employees.add(employee1);
+        employees.add(employee2);
+    }
+
+    /**
+     * Retrieve all the employees
+     */
     public List<Employee> getAllEmployees(){
         return employees;
     }
 
-//    public List<Employee> getTeam(Team team){
-//        List<Employee> employeeList = new ArrayList<>();
-//        for (Employee employee: employees){
-//            for (Profile profile: employee.getProfiles()){
-//                if (team.getName().equals(profile.getTeam().getName())) {
-//                    employeeList.add(employee);
-//                }
-//            }
-//        }
-//        return employeeList;
-//    }
+    /**
+     * Retrieve Employees of a requested Team
+     */
+    public List<Project> getTeamProjects(Team team){
+        List<Project> projectList = new ArrayList<>();
+
+        for (Project project: projects){
+            if (project.getTeam().equals(team)){
+                projectList.add(project);
+            }
+        }
+        return projectList;
+    }
+
+    /**
+     * Retrieve all the Teams
+     */
+    public List<Team> getAllTeams(){
+        return teams;
+    }
+
+    public List<Project> getAllProjects(){
+        return projects;
+    }
 
     }
 //

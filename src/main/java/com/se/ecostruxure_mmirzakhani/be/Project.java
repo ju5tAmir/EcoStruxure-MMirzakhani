@@ -7,10 +7,15 @@ public class Project {
     private double          utilizationPercentage;
 
     // ******************** Constructors **************************************
+    public Project(){
+        this.employee =                 new Employee();
+        this.team =                     new Team();
+    }
+
     public Project(Employee employee, Team team, double utilizationPercentage) {
-        this.employee = employee;
-        this.team = team;
-        this.utilizationPercentage = utilizationPercentage;
+        this.employee =                 employee;
+        this.team =                     team;
+        this.utilizationPercentage =    utilizationPercentage;
     }
 
     // ******************** Methods *******************************************

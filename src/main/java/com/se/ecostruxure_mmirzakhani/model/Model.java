@@ -1,109 +1,185 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
-import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
+
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
+import javafx.collections.ObservableMap;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Model {
-    // An employee object to update when creating a new profile
-    private final SimpleObjectProperty<Employee> employee = new SimpleObjectProperty<>();
+    private final SimpleObjectProperty  <Employee>                  employee            = new SimpleObjectProperty<>(new Employee());
+    private final SimpleObjectProperty  <Team>                      team                = new SimpleObjectProperty<>(new Team());
+    private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
+    private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
+    private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
+    private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
+    private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();  // All projects for an employee
+    private final ObservableMap         <Team,     List<Project>>   teamProjects        = FXCollections.observableHashMap();          // All projects for a team
+    private final EmployeeService                                   logic               = new EmployeeService();
+    private final TeamLogic                                         teamLogic           = new TeamLogic();
 
-    // List of employee when they grouped based on user request whether all of them or based on a filter like country, team or etc.
-    private final ObservableList<Employee> employees = FXCollections.observableArrayList();
-    private final ObservableList<Team> teams = FXCollections.observableArrayList();
-
-
-    // List of contract changes for one employee with same personal details but different contracts
-    private final ObservableList<Employee> employeeHistory = FXCollections.observableArrayList();
-//    private final EmployeeLogic logic = new EmployeeLogic();
-
-    private final EmployeeService logic = new EmployeeService();
-    private final TeamLogic teamLogic = new TeamLogic();
-
-    private Employee selectedEmployee;
-    // Getter and setter for selectedEmployee
-    public Employee getSelectedEmployee() {
-        return selectedEmployee;
-    }
-
-    public void setSelectedEmployee(Employee selectedEmployee) {
-        this.selectedEmployee = selectedEmployee;
-    }
-
-    /**
-     * Constructor
-     */
+    // ************************ Constructor ************************
     public Model(){
-        initEmployee();
+
+    }
+
+
+    // ************************ Methods *****************************
+    // ************************ Getters *****************************
+    /**
+     * Get currently working employee object
+     */
+    public Employee getEmployee() {
+        return employee.get();
     }
 
     /**
-     * Init an empty employee object with default values to update it later
+     * Get currently working Team object
      */
-    public void initEmployee(){
-//        try {
-//            Employee e = new Employee();
-//            Team t = new Team();
-//            Profile c = new Profile();
-//            e.addProfile(c);
-//            employee.set(e);
-//        } catch (Exception e){
-//            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
-//        }
+    public Team getTeam() {
+        return team.get();
+    }
+
+    /**
+     * Get currently working Project object
+     */
+    public Project getProject() {
+        return project.get();
     }
 
     /**
      * Retrieve all the employees
-     * @return List of employees as ObservableList
      */
-    public ObservableList<Employee> getAllEmployees() throws ExceptionHandler {
+    public List<Employee> getAllEmployees() throws ExceptionHandler {
         setEmployees();
         return employees;
     }
 
     /**
-     * Retrieve all the employees from the logic layer and update the ObservableList
+     * Retrieve all the Teams
+     */
+    public List<Team> getAllTeams() throws ExceptionHandler {
+        setTeams();
+        return teams;
+    }
+
+    /**
+     * Retrieve all the Projects
+     */
+    public List<Project> getAllProjects() throws ExceptionHandler {
+        setProjects();
+        return projects;
+    }
+
+
+
+
+    // ************************ Setters *****************************
+    /**
+     * Set Team object
+     */
+    public void setEmployee(Employee employee){
+        this.employee.set(employee);
+    }
+
+    /**
+     * Set Team object
+     */
+    public void setTeam(Team team){
+        this.team.set(team);
+    }
+
+    /**
+     * Set Project object
+     */
+    public void setProject(Project project){
+        this.project.set(project);
+    }
+
+    /**
+     * Retrieve and updates the latest Employees list
      */
     private void setEmployees() throws ExceptionHandler {
         employees.setAll(logic.getAllEmployees());
     }
-    public ObservableList<Team> getAllTeams() throws ExceptionHandler {
-        setTeams();
-        return teams;
-    }
-    public void setTeams() throws ExceptionHandler {
-        teams.setAll(teamLogic.getAllTeams());
-    }
-
-
 
     /**
-     * Set Employee's first name
+     * Retrieve and updates the latest Team list
      */
-    public void setFirstName(String firstName) throws ExceptionHandler {
-        employee.get()
-                .setFirstName(Validate.validateName(firstName));
+    private void setTeams() throws ExceptionHandler {
+        teams.setAll(logic.getAllTeams());
     }
 
     /**
-     * Set Employee's last name
+     * Retrieve and updates the latest Project list
      */
-    public void setLastName(String lastName) throws ExceptionHandler {
-        employee.get()
-                .setLastName(Validate.validateName(lastName));
+    private void setProjects() throws ExceptionHandler {
+        projects.setAll(logic.getAllProjects());
     }
+
+
+
+
+    // ****************** LAB *******************
+
+
+
+
+//    /**
+//     * Retrieves all teams along with their respective employees.
+//     *
+//     * @return A HashMap containing teams as keys and their employees as values.
+//     * @throws ExceptionHandler if an error occurs during retrieval.
+//     */
+//    public HashMap<Team, List<Employee>> getAllTeams() throws ExceptionHandler {
+//        // Calls a method to update the teams data
+//        setTeams();
+//        // Returns the updated teams data
+//        return teams.get();
+//    }
+
+//    /**
+//     * Retrieves and updates the list of teams from the database.
+//     *
+//     * @throws ExceptionHandler if an error occurs during retrieval.
+//     */
+//    public void setTeams() throws ExceptionHandler {
+//        // Retrieves the latest list of teams from the logic layer and sets it
+//        teams.set(logic.getAllTeams());
+//    }
+//
+//    public void addEmployeeToTeam()
+
+
+//    /**
+//     * Set Employee's first name
+//     */
+//    public void setFirstName(String firstName) throws ExceptionHandler {
+//        employee.get()
+//                .setFirstName(Validate.validateName(firstName));
+//    }
+//
+//    /**
+//     * Set Employee's last name
+//     */
+//    public void setLastName(String lastName) throws ExceptionHandler {
+//        employee.get()
+//                .setLastName(Validate.validateName(lastName));
+//    }
+//
+//    public void setContract(Contract contract){
+//        this.employee.get().setContract(contract);
+//    }
+//
+//
 //
 //    /**
 //     * Set Employee's country
