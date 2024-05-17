@@ -1,13 +1,22 @@
 package com.se.ecostruxure_mmirzakhani.bll;
 
+import com.se.ecostruxure_mmirzakhani.be.Currency;
 import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 
 import java.util.List;
 
 public class TeamService {
+    private EmployeeService employeeService = new EmployeeService();
+    private Currency currency;
 
+    public TeamService(){
 
+    }
+    public TeamService(Currency currency){
+        this.currency = currency;
+        employeeService.setCurrency(currency);
+    }
 
 
     /**
@@ -15,14 +24,14 @@ public class TeamService {
      * @param projects A list of Project objects, each containing an associated employee.
      * @return The total cost for all employees across all projects.
      */
-    public static double getTotalCost(List<Project> projects) {
+    public double getTotalCost(List<Project> projects) {
         // Initialize the total cost to 0
         double totalCost = 0;
 
         // Iterate through each project in the provided list
         for (Project project : projects) {
             // Add the cost of the employee associated with the current project to the total cost
-            totalCost += EmployeeService.getTotalCost(project.getEmployee());
+            totalCost += employeeService.getTotalCost(project.getEmployee());
         }
 
         // Return the calculated total cost

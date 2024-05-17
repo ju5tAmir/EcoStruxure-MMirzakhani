@@ -26,8 +26,9 @@ public class Model {
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();            // All projects for an employee
     private final ObservableMap         <Team,     List<Project>>   teamProjects        = FXCollections.observableHashMap();            // All projects for a team
-    private final ObservableObjectValue <Currency>                  currency            = new SimpleObjectProperty<>(Currency.EUR);     // System default currency is EUR
-    private final EmployeeService                                   logic               = new EmployeeService();
+    private final SimpleObjectProperty <Currency>                   currency            = new SimpleObjectProperty<>(Currency.EUR);     // System default currency is EUR
+    private final EmployeeService                                   employeeService     = new EmployeeService(currency.get());
+    private final TeamService                                       teamService         = new TeamService(currency.get());
 
     // ************************ Constructor ************************
     public Model(){
@@ -108,8 +109,17 @@ public class Model {
         List<Project> projects = teamProjects.get(team);
 
         // Calculate and return the total cost for the retrieved list of projects using TeamService
-        return TeamService.getTotalCost(projects);
+        return teamService.getTotalCost(projects);
     }
+
+    /**
+     * Get current currency of the system (default EUR)
+     */
+    public Currency getCurrency(){
+        return currency.get();
+    }
+
+
 
 
     // ************************ Setters *****************************
@@ -138,21 +148,21 @@ public class Model {
      * Retrieve and updates the latest Employees list
      */
     private void setEmployees() throws ExceptionHandler {
-        employees.setAll(logic.getAllEmployees());
+        employees.setAll(employeeService.getAllEmployees());
     }
 
     /**
      * Retrieve and updates the latest Team list
      */
     private void setTeams() throws ExceptionHandler {
-        teams.setAll(logic.getAllTeams());
+        teams.setAll(employeeService.getAllTeams());
     }
 
     /**
      * Retrieve and updates the latest Project list
      */
     private void setProjects() throws ExceptionHandler {
-        projects.setAll(logic.getAllProjects());
+        projects.setAll(employeeService.getAllProjects());
     }
 
     /**
@@ -191,6 +201,13 @@ public class Model {
         }
     }
 
+    /**
+     * Get current currency of the system (default EUR)
+     */
+    public void setCurrency(Currency currency){
+        this.currency.set(currency);
+    }
+
 
 
     // ************************ Utilities *****************************
@@ -205,9 +222,8 @@ public class Model {
     // ****************** LAB *******************
 
 
-    public Currency getCurrency(){
-        return currency.get();
-    }
+
+
 
 
 
