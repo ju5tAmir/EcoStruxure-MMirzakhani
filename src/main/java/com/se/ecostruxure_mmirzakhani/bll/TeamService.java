@@ -33,10 +33,9 @@ public class TeamService {
 
         // Iterate through each project in the provided team
         for (Project project : projects) {
-            double employeeTotalCost = employeeService.getTotalCost(project.getEmployee());
-            double employeeUtilizationPercentage = project.getUtilizationPercentage() / 100;
-
-            totalCost += employeeTotalCost * employeeUtilizationPercentage;
+            double employeeTotalCost                = employeeService.getTotalCost(project.getEmployee());
+            double employeeUtilizationPercentage    = project.getUtilizationPercentage();
+            totalCost                               += employeeTotalCost * employeeUtilizationPercentage;
         }
 
         // Return the calculated total cost
@@ -50,9 +49,13 @@ public class TeamService {
 
         // Iterate through each project to calculate the hourly rate for the employee assigned to the project
         for (Project project : projects) {
-            double employeeRate = employeeService.getHourlyRate(project);
+            double employeeTotalCost                = employeeService.getTotalCost(project.getEmployee());
+            double employeeAnnualWorkHours          = project.getEmployee().getContract().getAnnualWorkHours();
+            double employeeUtilizationPercentage    = project.getUtilizationPercentage(); // Utilization percentage for this project/team
+            double employeeEffectiveWorkHours       = employeeAnnualWorkHours * employeeUtilizationPercentage / 100;
 
-            // Accumulate the employee's hourly rate into the total rate
+            double employeeRate = employeeTotalCost / employeeEffectiveWorkHours;
+
             totalRate += employeeRate;
         }
 
@@ -66,9 +69,15 @@ public class TeamService {
 
         // Iterate through each project to calculate the daily rate for the employee assigned to the project
         for (Project project : projects) {
-            double employeeRate = employeeService.getDailyRate(project);
+            double employeeTotalCost                = employeeService.getTotalCost(project.getEmployee());
+            double employeeAnnualWorkHours          = project.getEmployee().getContract().getAnnualWorkHours();
+            double employeeUtilizationPercentage    = project.getUtilizationPercentage(); // Utilization percentage for this project/team
+            double employeeAverageDailyWorkHours    = project.getEmployee().getContract().getAverageDailyWorkHours();
+            double employeeEffectiveWorkHours       = employeeAnnualWorkHours * employeeUtilizationPercentage / 100;
 
-            // Accumulate the employee's daily rate into the total rate
+
+            double employeeRate = employeeTotalCost / employeeEffectiveWorkHours * employeeAverageDailyWorkHours;
+
             totalRate += employeeRate;
 
         }

@@ -24,7 +24,6 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-
         for (Team t : model.getTeamProjects().keySet()) {
             System.out.println(t.getName());
             System.out.println("Hourly  Rate: " + model.getHourlyRate(t));
