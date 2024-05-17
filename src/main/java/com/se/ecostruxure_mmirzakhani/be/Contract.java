@@ -2,43 +2,50 @@ package com.se.ecostruxure_mmirzakhani.be;
 
 import java.time.LocalDateTime;
 
-public class Profile {
+public class Contract {
     private int                 id;
-    private Team                team;
     private Country             country;
-    private Region              region;
     private Currency            currency;
     private double              annualSalary;
     private double              fixedAnnualAmount;
     private double              annualWorkHours;
     private double              averageDailyWorkHours;
-    private boolean             isOverhead;
+    private double              overallUtilizationPercentage;
     private double              overheadPercentage;
-    private double              utilizationPercentage;
+    private boolean             isOverhead;
 
     private LocalDateTime       validFrom;
     private LocalDateTime       validUntil;
 
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", country=" + country +
+                ", currency=" + currency +
+                ", annualSalary=" + annualSalary +
+                ", fixedAnnualAmount=" + fixedAnnualAmount +
+                ", annualWorkHours=" + annualWorkHours +
+                ", averageDailyWorkHours=" + averageDailyWorkHours +
+                ", overallUtilizationPercentage=" + overallUtilizationPercentage +
+                ", overheadPercentage=" + overheadPercentage +
+                ", isOverhead=" + isOverhead +
+                ", validFrom=" + validFrom +
+                ", validUntil=" + validUntil +
+                '}';
+    }
+
     // ******************** Constructors *********************************
-    public Profile(){
+    public Contract(){
 
     }
 
-    // ******************** Methods **************************************
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
     }
 
     public Country getCountry() {
@@ -49,14 +56,6 @@ public class Profile {
         this.country = country;
     }
 
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
     public Currency getCurrency() {
         return currency;
     }
@@ -64,7 +63,6 @@ public class Profile {
     public void setCurrency(Currency currency) {
         this.currency = currency;
     }
-
 
     public double getAnnualSalary() {
         return annualSalary;
@@ -98,12 +96,12 @@ public class Profile {
         this.averageDailyWorkHours = averageDailyWorkHours;
     }
 
-    public boolean isOverhead() {
-        return isOverhead;
+    public double getOverallUtilizationPercentage() {
+        return overallUtilizationPercentage;
     }
 
-    public void setOverhead(boolean overhead) {
-        isOverhead = overhead;
+    public void setOverallUtilizationPercentage(double overallUtilizationPercentage) {
+        this.overallUtilizationPercentage = overallUtilizationPercentage;
     }
 
     public double getOverheadPercentage() {
@@ -114,12 +112,12 @@ public class Profile {
         this.overheadPercentage = overheadPercentage;
     }
 
-    public double getUtilizationPercentage() {
-        return utilizationPercentage;
+    public boolean isOverhead() {
+        return isOverhead;
     }
 
-    public void setUtilizationPercentage(double utilizationPercentage) {
-        this.utilizationPercentage = utilizationPercentage;
+    public void setOverhead(boolean overhead) {
+        isOverhead = overhead;
     }
 
     public LocalDateTime getValidFrom() {
@@ -138,24 +136,6 @@ public class Profile {
         this.validUntil = validUntil;
     }
 
+    // ******************** Methods **************************************
 
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "id=" + id +
-                ", team=" + team +
-                ", country=" + country +
-                ", region=" + region +
-                ", currency=" + currency +
-                ", annualSalary=" + annualSalary +
-                ", fixedAnnualAmount=" + fixedAnnualAmount +
-                ", annualWorkHours=" + annualWorkHours +
-                ", averageDailyWorkHours=" + averageDailyWorkHours +
-                ", isOverhead=" + isOverhead +
-                ", overheadPercentage=" + overheadPercentage +
-                ", utilizationPercentage=" + utilizationPercentage +
-                ", validFrom=" + validFrom +
-                ", validUntil=" + validUntil +
-                '}';
-    }
 }

@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.be;
 
 public enum Currency {
     AUD,
+    EUR,
     CAD,
     CNY,
     GBP,

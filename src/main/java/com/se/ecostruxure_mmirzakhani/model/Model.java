@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
+import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
@@ -26,7 +27,9 @@ public class Model {
 
     // List of contract changes for one employee with same personal details but different contracts
     private final ObservableList<Employee> employeeHistory = FXCollections.observableArrayList();
-    private final EmployeeLogic logic = new EmployeeLogic();
+//    private final EmployeeLogic logic = new EmployeeLogic();
+
+    private final EmployeeService logic = new EmployeeService();
     private final TeamLogic teamLogic = new TeamLogic();
 
     private Employee selectedEmployee;
@@ -50,15 +53,15 @@ public class Model {
      * Init an empty employee object with default values to update it later
      */
     public void initEmployee(){
-        try {
-            Employee e = new Employee();
-            Team t = new Team();
-            Profile c = new Profile();
-            e.addProfile(c);
-            employee.set(e);
-        } catch (Exception e){
-            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
-        }
+//        try {
+//            Employee e = new Employee();
+//            Team t = new Team();
+//            Profile c = new Profile();
+//            e.addProfile(c);
+//            employee.set(e);
+//        } catch (Exception e){
+//            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+//        }
     }
 
     /**
@@ -74,7 +77,7 @@ public class Model {
      * Retrieve all the employees from the logic layer and update the ObservableList
      */
     private void setEmployees() throws ExceptionHandler {
-//        employees.setAll(logic.getAllEmployees());
+        employees.setAll(logic.getAllEmployees());
     }
     public ObservableList<Team> getAllTeams() throws ExceptionHandler {
         setTeams();

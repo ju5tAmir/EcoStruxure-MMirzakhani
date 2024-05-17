@@ -1,10 +1,12 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Employee extends User {
-    private List<Profile> profiles = new ArrayList<>();
+    private Contract contract;
+    private List<Project> projects = new ArrayList<>();
 
 
     // ******************** Constructors **************************************
@@ -42,26 +44,32 @@ public class Employee extends User {
         super.setLastName(lastName);
     }
 
-    public List<Profile> getProfiles() {
-        return profiles;
+
+    public Contract getContract() {
+        return contract;
     }
 
-    public void setProfiles(List<Profile> profiles) {
-        this.profiles = profiles;
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 
-    public void addProfile(Profile profiles) {
-        this.profiles.add(profiles);
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+
+    public void addProject(Project project){
+        this.projects.add(project);
     }
 
     @Override
     public String toString() {
-        return "Employee{"  +
-                "id=" + super.getId() +
-                ", firstName='" + super.getFirstName() + '\'' +
-                ", lastName='" + super.getLastName() + '\'' +
-                ", email='" + super.getEmail() + '\'' +
-                ", profiles=" + profiles +
+        return "Employee{" +
+                "contract=" + contract +
+                ", projects=" + projects +
                 '}';
     }
 }
