@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Employee extends User {
-    private Contract contract;
-    private List<Project> projects = new ArrayList<>();
+    private Contract        contract;
+    private List<Project>   projects;
 
 
     // ******************** Constructors **************************************
     public Employee(){
-
+        this.contract =     new Contract();
+        this.projects =     new ArrayList<>();
     }
     public Employee(int id) {
         super(id);

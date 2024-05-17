@@ -6,6 +6,7 @@ public class Project {
     private double          utilizationPercentage;
 
     public Project(){
+        this.team = new Team();
 
     }
 
