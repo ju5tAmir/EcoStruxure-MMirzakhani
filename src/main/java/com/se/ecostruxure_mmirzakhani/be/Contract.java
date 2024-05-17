@@ -17,29 +17,14 @@ public class Contract {
     private LocalDateTime       validFrom;
     private LocalDateTime       validUntil;
 
-    @Override
-    public String toString() {
-        return "Contract{" +
-                "id=" + id +
-                ", country=" + country +
-                ", currency=" + currency +
-                ", annualSalary=" + annualSalary +
-                ", fixedAnnualAmount=" + fixedAnnualAmount +
-                ", annualWorkHours=" + annualWorkHours +
-                ", averageDailyWorkHours=" + averageDailyWorkHours +
-                ", overallUtilizationPercentage=" + overallUtilizationPercentage +
-                ", overheadPercentage=" + overheadPercentage +
-                ", isOverhead=" + isOverhead +
-                ", validFrom=" + validFrom +
-                ", validUntil=" + validUntil +
-                '}';
-    }
+
 
     // ******************** Constructors *********************************
     public Contract(){
 
     }
 
+    // ******************** Methods **************************************
     public int getId() {
         return id;
     }
@@ -136,6 +121,25 @@ public class Contract {
         this.validUntil = validUntil;
     }
 
-    // ******************** Methods **************************************
 
+
+
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", country=" + country +
+                ", currency=" + currency +
+                ", annualSalary=" + annualSalary +
+                ", fixedAnnualAmount=" + fixedAnnualAmount +
+                ", annualWorkHours=" + annualWorkHours +
+                ", averageDailyWorkHours=" + averageDailyWorkHours +
+                ", overallUtilizationPercentage=" + overallUtilizationPercentage +
+                ", overheadPercentage=" + overheadPercentage +
+                ", isOverhead=" + isOverhead +
+                ", validFrom=" + validFrom +
+                ", validUntil=" + validUntil +
+                '}';
+    }
 }

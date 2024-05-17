@@ -1,23 +1,16 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class Employee extends User {
     private Contract        contract;
-    private List<Project>   projects;
 
 
     // ******************** Constructors **************************************
     public Employee(){
         this.contract =     new Contract();
-        this.projects =     new ArrayList<>();
     }
     public Employee(int id) {
         super(id);
     }
-
 
 
     // ******************** Methods *******************************************
@@ -54,23 +47,10 @@ public class Employee extends User {
         this.contract = contract;
     }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
-
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-
-    public void addProject(Project project){
-        this.projects.add(project);
-    }
-
     @Override
     public String toString() {
         return "Employee{" +
                 "contract=" + contract +
-                ", projects=" + projects +
                 '}';
     }
 }

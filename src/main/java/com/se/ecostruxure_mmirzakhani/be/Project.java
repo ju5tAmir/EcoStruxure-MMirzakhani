@@ -2,20 +2,18 @@ package com.se.ecostruxure_mmirzakhani.be;
 
 public class Project {
     private int             id;
+    private Employee        employee;
     private Team            team;
     private double          utilizationPercentage;
 
-    public Project(){
-        this.team = new Team();
-
-    }
-
-    public Project(Team team, double utilizationPercentage) {
+    // ******************** Constructors **************************************
+    public Project(Employee employee, Team team, double utilizationPercentage) {
+        this.employee = employee;
         this.team = team;
         this.utilizationPercentage = utilizationPercentage;
     }
 
-
+    // ******************** Methods *******************************************
     public int getId() {
         return id;
     }
@@ -40,10 +38,19 @@ public class Project {
         this.utilizationPercentage = utilizationPercentage;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
+                ", employee=" + employee +
                 ", team=" + team +
                 ", utilizationPercentage=" + utilizationPercentage +
                 '}';
