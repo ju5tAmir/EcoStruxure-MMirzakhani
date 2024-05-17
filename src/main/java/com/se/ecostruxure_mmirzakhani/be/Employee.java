@@ -4,25 +4,18 @@ public class Employee extends User {
     // Personal attributes
     private String firstName;
     private String lastName;
-
-    // Geography and Team
-    private Region region;
-    private Country country;
-    private Team team;
-
-    // Contract
     private Contract contract;
 
+    // Constructor
+    public Employee() {}
 
-    /**
-     * Constructor
-     */
-    public Employee(){}
+    public Employee(int employeeID, String firstName, String lastName) {
+        super(employeeID); // Call the constructor of the User class to set the employeeID
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
-    /**
-     * Methods
-     */
-
+    // Methods
     public String getFirstName() {
         return firstName;
     }
@@ -39,30 +32,6 @@ public class Employee extends User {
         this.lastName = lastName;
     }
 
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
-
     public Contract getContract() {
         return contract;
     }
@@ -71,15 +40,11 @@ public class Employee extends User {
         this.contract = contract;
     }
 
-
     @Override
     public String toString() {
         return "Employee{" +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", region=" + region +
-                ", country=" + country +
-                ", team=" + team +
                 ", contract=" + contract +
                 '}';
     }

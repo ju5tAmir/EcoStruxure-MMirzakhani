@@ -1,40 +1,40 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
 public class Team {
-    private int id;
-    private String name;
+    private int teamID;
+    private String teamName;
 
-    public Team(String name) {
-        this.name = name;
+    // Constructors
+    public Team() {}
+
+    public Team(String teamName) {
+        this.teamName = teamName;
     }
 
-    public Team(int id, String name) {
-        this.id = id;
-        this.name = name;
+    public Team(int teamID, String teamName) {
+        this.teamID = teamID;
+        this.teamName = teamName;
     }
 
-    public Team() {
-
+    // Getters and Setters
+    public int getTeamID() {
+        return teamID;
     }
 
-    public int getId() {
-        return id;
+    public void setTeamID(int teamID) {
+        this.teamID = teamID;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
     }
 
     @Override
     public String toString() {
-        return name;
+        return teamName;
     }
 }

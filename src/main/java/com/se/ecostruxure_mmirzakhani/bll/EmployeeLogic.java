@@ -2,20 +2,28 @@ package com.se.ecostruxure_mmirzakhani.bll;
 
 import com.se.ecostruxure_mmirzakhani.be.Contract;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.be.EmployeeTeam;
+import com.se.ecostruxure_mmirzakhani.be.Geography;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
+import com.se.ecostruxure_mmirzakhani.dal.EmployeeTeamsDAO;
+import com.se.ecostruxure_mmirzakhani.dal.GeographiesDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class EmployeeLogic {
-    private final EmployeeDAO dao;
+    private final EmployeeDAO employeeDAO;
+    private final EmployeeTeamsDAO employeeTeamsDAO;
+    private final GeographiesDAO geographiesDAO;
     private Employee employee;
 
     {
         try {
-            dao = new EmployeeDAO();
+            employeeDAO = new EmployeeDAO();
+            employeeTeamsDAO = new EmployeeTeamsDAO();
+            geographiesDAO = new GeographiesDAO();
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
@@ -24,7 +32,7 @@ public class EmployeeLogic {
     /**
      * Constructor
      */
-    public EmployeeLogic(){
+    public EmployeeLogic() {
 
     }
 
@@ -33,25 +41,28 @@ public class EmployeeLogic {
      * @return List of employees
      * @throws ExceptionHandler If any error occurred.
      */
-    public List<Employee> getAllEmployees() throws ExceptionHandler{
+    public List<Employee> getAllEmployees() throws ExceptionHandler, SQLException {
         // List to store all retrieved employees from the database
-        List<Employee> employees = dao.getAllEmployees();
+        List<Employee> employees = employeeDAO.getAllEmployees();
 
         // Update all the employees with their rates
-        for (Employee e: employees){
+        for (Employee e : employees) {
             updateRates(e);
         }
         return employees;
     }
 
-    public boolean updateEmployee(Employee employee) throws ExceptionHandler {
-       return dao.updateEmployee(employee);
-
-
-        // ToDo: exception handling
+    public List<EmployeeTeam> getAllEmployeeTeams() throws ExceptionHandler, SQLException {
+        return employeeTeamsDAO.getAllEmployeeTeams();
     }
 
-    // ToDo: Implement methods to calculate rates
+    public List<Geography> getAllGeographies() throws ExceptionHandler, SQLException {
+        return geographiesDAO.getAllGeographies();
+    }
+
+    public boolean updateEmployee(Employee employee) throws ExceptionHandler, SQLException {
+        return employeeDAO.updateEmployee(employee);
+    }
 
     private double calculateHourlyRate(Employee employee) throws ExceptionHandler {
 
@@ -98,13 +109,12 @@ public class EmployeeLogic {
         }
     }
 
-
     /**
      * Author: Radwan
      */
     private void calculateDailyRate() throws ExceptionHandler {
         // Check if it's safe to do the division (non-zero numbers)
-        if (Validate.safeDivision(employee.getContract())){
+        if (Validate.safeDivision(employee.getContract())) {
 
             Contract contract = employee.getContract();
 
@@ -127,11 +137,11 @@ public class EmployeeLogic {
      * @return The updated employee object with daily and hourly rate.
      * @throws ExceptionHandler if an error occurs during the creation process in the database.
      */
-    public Employee createEmployee(Employee employee) throws ExceptionHandler{
+    public Employee createEmployee(Employee employee) throws ExceptionHandler, SQLException {
         this.employee = employee;
 
         // Creates an employee in the db
-        dao.createEmployee(this.employee);
+        employeeDAO.addEmployee(this.employee);
 
         // Calculate and update the rates for the employee
         updateRates(this.employee);
@@ -150,7 +160,6 @@ public class EmployeeLogic {
 
     }
 
-
     public double hourlyRateMarkup(double hourlyRate, double markupPercentage) {
         double markupMultiplier = 1 + (markupPercentage / 100);
         return hourlyRate * markupMultiplier;
@@ -160,7 +169,6 @@ public class EmployeeLogic {
         double markupMultiplier = 1 + (markupPercentage / 100);
         return dailyRate * markupMultiplier;
     }
-
 
     public double hourlyRateGM(double hourlyRate, double gmPercentage) {
         double gmMultiplier = 1 - (gmPercentage / 100);

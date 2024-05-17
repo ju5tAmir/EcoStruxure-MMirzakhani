@@ -20,11 +20,11 @@ public class TeamLogic {
         }
     }
 
-    public List<Team> getAllTeams() throws ExceptionHandler {
+    public List<Team> getAllTeams() throws ExceptionHandler, SQLException {
         return teamDAO.getAllTeams();
     }
     public boolean createTeam(Team team) throws ExceptionHandler, SQLException {
-        return teamDAO.createTeam(team);
+        return teamDAO.addTeam(team);
     }
 
     public boolean updateTeam(Team team) throws ExceptionHandler, SQLException {
