@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.gui.dashboard;
+package com.se.ecostruxure_mmirzakhani.gui;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

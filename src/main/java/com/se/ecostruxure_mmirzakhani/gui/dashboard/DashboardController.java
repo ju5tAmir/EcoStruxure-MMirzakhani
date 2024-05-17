@@ -3,7 +3,9 @@ package com.se.ecostruxure_mmirzakhani.gui.dashboard;
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.bll.CurrencyConverter;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeLogic;
+import com.se.ecostruxure_mmirzakhani.gui.FlagService;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -15,19 +17,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
 public class DashboardController implements IController<Model> {
 
@@ -392,9 +390,20 @@ public class DashboardController implements IController<Model> {
             initEmployeeColumns();
             populateChoicebox();
             initMultipliers();
+            calculateCurrency();
         } catch (ExceptionHandler exceptionHandler) {
             AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    public void calculateCurrency(){
+        String filepath = "src/main/resources/currencies/eur.xml";
+        CurrencyConverter converter = new CurrencyConverter(filepath);
+
+        // Example usage
+        float amountInAFN = 1000232;
+        float amountInEuro = (float) converter.convertToEuro(amountInAFN, "AFN");
+        System.out.println("Amount in Euro: " + amountInEuro);
     }
 
 

@@ -7,7 +7,7 @@ import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
-import com.se.ecostruxure_mmirzakhani.gui.dashboard.FlagService;
+import com.se.ecostruxure_mmirzakhani.gui.FlagService;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import javafx.collections.FXCollections;
