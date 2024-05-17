@@ -20,20 +20,18 @@ public class Main extends Application {
     //  : Lazy loading for team employees and caching
 
     public static void main(String[] args) throws ExceptionHandler {
-
-
         Model model = new Model();
 
         for (Team t : model.getTeamProjects().keySet()) {
-            System.out.println(t.getName() + " " + model.getTeamProjects().get(t).size());
-            System.out.println(model.getTeamProjects().get(t));
+            System.out.println(t.getName());
+            System.out.println(model.getTotalCost(t));
         }
 
-        /*
-         * IT 2
-         * [Project{id=0, employee=Employee{contract=Contract{id=1, country=Denmark, currency=DKK, annualSalary=400000.0, fixedAnnualAmount=20000.0, annualWorkHours=1920.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=1, name='IT'}, utilizationPercentage=20.0}, Project{id=0, employee=Employee{contract=Contract{id=2, country=Sweden, currency=EUR, annualSalary=50000.0, fixedAnnualAmount=2000.0, annualWorkHours=1920.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=1, name='IT'}, utilizationPercentage=80.0}]
-         * HR 1
-         * [Project{id=0, employee=Employee{contract=Contract{id=1, country=Denmark, currency=DKK, annualSalary=400000.0, fixedAnnualAmount=20000.0, annualWorkHours=1920.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=2, name='HR'}, utilizationPercentage=40.0}]
+        /* Incorrect values, because it's adding DKK with USD, so we need to have currency exchange.
+         * HR
+         * 500000.0
+         * IT
+         * 562000.0
          */
 
 //        Application.launch(args);

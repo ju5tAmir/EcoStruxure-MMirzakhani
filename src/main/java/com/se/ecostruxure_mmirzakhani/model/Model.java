@@ -4,10 +4,12 @@ import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.Mapper;
 import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
+import com.se.ecostruxure_mmirzakhani.bll.TeamService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ObservableObjectValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -22,8 +24,9 @@ public class Model {
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
-    private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();  // All projects for an employee
-    private final ObservableMap         <Team,     List<Project>>   teamProjects        = FXCollections.observableHashMap();          // All projects for a team
+    private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();            // All projects for an employee
+    private final ObservableMap         <Team,     List<Project>>   teamProjects        = FXCollections.observableHashMap();            // All projects for a team
+    private final ObservableObjectValue <Currency>                  currency            = new SimpleObjectProperty<>(Currency.EUR);     // System default currency is EUR
     private final EmployeeService                                   logic               = new EmployeeService();
 
     // ************************ Constructor ************************
@@ -95,6 +98,18 @@ public class Model {
         return teamProjects;
     }
 
+    /**
+     * Calculate and return the total cost for a given team based on its projects.
+     * @param team The Team object for which the total cost is to be calculated.
+     * @return The total cost for all projects associated with the given team.
+     */
+    public double getTotalCost(Team team) {
+        // Retrieve the list of projects associated with the given team from the teamProjects map
+        List<Project> projects = teamProjects.get(team);
+
+        // Calculate and return the total cost for the retrieved list of projects using TeamService
+        return TeamService.getTotalCost(projects);
+    }
 
 
     // ************************ Setters *****************************
@@ -190,7 +205,9 @@ public class Model {
     // ****************** LAB *******************
 
 
-
+    public Currency getCurrency(){
+        return currency.get();
+    }
 
 
 

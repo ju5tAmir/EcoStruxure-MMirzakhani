@@ -16,14 +16,14 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3fc765" height="1001.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="335.0" />
       <ImageView fitHeight="128.0" fitWidth="327.0" layoutX="6.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../images/White-Logo.png" />
+            <Image url="@../../../../static/images/White-Logo.png" />
          </image>
       </ImageView>
       <HBox layoutX="26.0" layoutY="218.0" onMouseClicked="#onDashboard" prefHeight="36.0" prefWidth="271.0">
          <children>
             <ImageView fitHeight="40.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../images/dashboard-icon.png" />
+                  <Image url="@../../../../static/images/dashboard-icon.png" />
                </image>
             </ImageView>
             <Label text="Dashboard" textFill="WHITE">
@@ -40,7 +40,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../images/employee-icon.png" />
+                  <Image url="@../../../../static/images/employee-icon.png" />
                </image>
             </ImageView>
             <Label text="Employee" textFill="WHITE">
@@ -57,7 +57,7 @@
          <children>
             <ImageView fitHeight="41.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../images/team-icon.png" />
+                  <Image url="@../../../../static/images/team-icon.png" />
                </image>
             </ImageView>
             <Label text="Team" textFill="WHITE">
@@ -74,7 +74,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../images/script-icon.png" />
+                  <Image url="@../../../../static/images/script-icon.png" />
                </image>
             </ImageView>
             <Label text="Script" textFill="WHITE">
@@ -91,7 +91,7 @@
          <children>
             <ImageView fitHeight="38.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../images/config-icon.png" />
+                  <Image url="@../../../../static/images/config-icon.png" />
                </image>
             </ImageView>
             <Label text="Config" textFill="WHITE">
