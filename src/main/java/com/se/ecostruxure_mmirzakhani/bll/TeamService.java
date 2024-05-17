@@ -34,7 +34,7 @@ public class TeamService {
         // Iterate through each project in the provided team
         for (Project project : projects) {
             double employeeTotalCost                = employeeService.getTotalCost(project.getEmployee());
-            double employeeUtilizationPercentage    = project.getUtilizationPercentage();
+            double employeeUtilizationPercentage    = project.getUtilizationPercentage() / 100 ;
             totalCost                               += employeeTotalCost * employeeUtilizationPercentage;
         }
 

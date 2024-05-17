@@ -25,17 +25,19 @@ public class Main extends Application {
             System.out.println(t.getName());
             System.out.println("Hourly  Rate: " + model.getHourlyRate(t));
             System.out.println("Daily   Rate: " + model.getDailyRate(t));
+            System.out.println("Total   Cost: " + model.getTotalCost(t));
         }
 
         /*
          * IT
          * Hourly  Rate: 133.19868990333333
          * Daily   Rate: 1065.5895192266667
+         * Total   Cost: 96017.053285
          * HR
          * Hourly  Rate: 116.04263321250001
          * Daily   Rate: 928.3410657000001
+         * Total   Cost: 37133.642628
          */
-
 
 //        Application.launch(args);
     }
