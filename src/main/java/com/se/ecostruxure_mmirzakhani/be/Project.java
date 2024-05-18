@@ -7,6 +7,7 @@ public class Project {
     private Employee        employee;
     private Team            team;
     private double          utilizationPercentage;
+    private TimeLine        timeLine;
 
     // ******************** Constructors **************************************
     public Project(){
@@ -14,10 +15,11 @@ public class Project {
         this.team =                     new Team();
     }
 
-    public Project(Employee employee, Team team, double utilizationPercentage) {
+    public Project(Employee employee, Team team, double utilizationPercentage, TimeLine timeLine) {
         this.employee =                 employee;
         this.team =                     team;
         this.utilizationPercentage =    utilizationPercentage;
+        this.timeLine =                 timeLine;
     }
 
     // ******************** Methods *******************************************
@@ -53,6 +55,13 @@ public class Project {
         this.employee = employee;
     }
 
+    public TimeLine getTimeLine() {
+        return timeLine;
+    }
+
+    public void setTimeLine(TimeLine timeLine) {
+        this.timeLine = timeLine;
+    }
     @Override
     public String toString() {
         return "Project{" +
@@ -60,6 +69,7 @@ public class Project {
                 ", employee=" + employee +
                 ", team=" + team +
                 ", utilizationPercentage=" + utilizationPercentage +
+                ", timeLine" + timeLine +
                 '}';
     }
 

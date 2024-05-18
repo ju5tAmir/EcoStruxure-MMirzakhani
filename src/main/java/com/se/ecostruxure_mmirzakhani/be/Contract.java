@@ -13,9 +13,7 @@ public class Contract {
     private double              overallUtilizationPercentage;
     private double              overheadPercentage;
     private boolean             isOverhead;
-
-    private LocalDateTime       validFrom;
-    private LocalDateTime       validUntil;
+    private TimeLine            timeLine;
 
 
 
@@ -105,22 +103,14 @@ public class Contract {
         isOverhead = overhead;
     }
 
-    public LocalDateTime getValidFrom() {
-        return validFrom;
+
+    public TimeLine getTimeLine() {
+        return timeLine;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
-        this.validFrom = validFrom;
+    public void setTimeLine(TimeLine timeLine) {
+        this.timeLine = timeLine;
     }
-
-    public LocalDateTime getValidUntil() {
-        return validUntil;
-    }
-
-    public void setValidUntil(LocalDateTime validUntil) {
-        this.validUntil = validUntil;
-    }
-
 
 
 
@@ -138,8 +128,7 @@ public class Contract {
                 ", overallUtilizationPercentage=" + overallUtilizationPercentage +
                 ", overheadPercentage=" + overheadPercentage +
                 ", isOverhead=" + isOverhead +
-                ", validFrom=" + validFrom +
-                ", validUntil=" + validUntil +
+                ", timeLine=" + timeLine +
                 '}';
     }
 }
