@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Model {
@@ -414,20 +415,34 @@ public class Model {
     }
 
     /**
-     * Assign the project
+     * Assign the contract to the employee (This is the moment that user clicks on submit contract)
+     */
+    public void assignContractToEmployee(){
+        // Assign this moment as start time
+        this.contract.get().setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
+
+        // ToDo: Add to database/ if it's ok, then update it here.
+
+        // Assign the currently working contract to the currently working employee
+        this.employee.get().setContract(contract.get());
+    }
+
+    /**
+     * Assign the project (This is the moment that user clicks on add new project)
      */
     public void assignProjectToEmployee(){
+        // Assign this moment as start time
+        this.project.get().setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
+
         // Validate
         this.projects.add(project.get());
-
-        // Reset if above step was successful
-        this.project.set(new Project());
     }
 
     /**
      * Create employee object with projects related to it, if it was successful, return true
      */
-    public boolean createEmployee(){
+    public boolean createEmployee() throws ExceptionHandler{
+        // Insert the currently working employee into database.
         if (employeeService.create(employee.get(), projects)){
             // If database insert was successful
             employees.add(employee.get());
@@ -435,10 +450,22 @@ public class Model {
             // Update the HashMap
             employeeProjects.put(employee.get(), projects);
 
+            updateTeamProjects();
+
             // Clear objects to prevent conflicts with the future creations
             clearEmployeeObjects();
         }
         return false;
+    }
+
+    /**
+     * This method will update the teamProjects list with newly created employee or team Projects after their creation.
+     * Without requesting from database.
+     */
+    private void updateTeamProjects() throws ExceptionHandler{
+        for (Project p: projects){
+            this.teamProjects.get(p.getTeam()).add(p);
+        }
     }
 
     // ****************** LAB *******************
