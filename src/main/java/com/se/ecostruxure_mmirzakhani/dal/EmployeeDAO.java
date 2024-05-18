@@ -47,12 +47,11 @@ public class EmployeeDAO {
         contract1.setAverageDailyWorkHours(8);
         contract1.setOverhead(true);
         contract1.setOverheadPercentage(20);
-        contract1.setValidFrom(LocalDateTime.now().minusMonths(2));
-        contract1.setValidUntil(LocalDateTime.now());
+        contract1.setTimeLine(new TimeLine(LocalDateTime.now().minusMonths(2), LocalDateTime.MAX));
         employee1.setContract(contract1);
 
-        Project p1 = new Project(employee1, it, 50); // Works in IT 20% of his time
-        Project p2 = new Project(employee1, hr, 40); // Works in HR 40% of his time
+        Project p1 = new Project(employee1, it, 50, new TimeLine(LocalDateTime.now().minusMonths(3), LocalDateTime.now().minusDays(20))); // Works in IT 20% of his time
+        Project p2 = new Project(employee1, hr, 40, new TimeLine(LocalDateTime.now().minusMonths(3), LocalDateTime.MAX)); // Works in HR 40% of his time
 
         projects.add(p1); projects.add(p2);
 
@@ -72,11 +71,11 @@ public class EmployeeDAO {
         contract2.setAverageDailyWorkHours(8);
         contract2.setOverhead(true);
         contract2.setOverheadPercentage(20);
-        contract2.setValidFrom(LocalDateTime.now().minusMonths(5));
-        contract2.setValidUntil(LocalDateTime.now());
+        contract2.setTimeLine(new TimeLine(LocalDateTime.now().minusMonths(10), LocalDateTime.MAX));
+
         employee2.setContract(contract2);
 
-        Project p3 = new Project(employee2, it, 80);
+        Project p3 = new Project(employee2, it, 80, new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
         projects.add(p3);
 
 
@@ -132,18 +131,18 @@ public class EmployeeDAO {
         Contract c1 =new Contract();
         c1.setAnnualSalary(50000);
         c1.setId(3);
-        c1.setValidFrom(LocalDateTime.now().minusYears(4));
-        c1.setValidUntil(LocalDateTime.now().minusYears(3));
+        c1.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(4), LocalDateTime.now().minusYears(3)));
+
 
         Contract c2 = new Contract();
         c2.setAnnualSalary(80000);
-        c2.setValidFrom(LocalDateTime.now().minusYears(2));
-        c2.setValidUntil(LocalDateTime.now().minusYears(1));
+        c2.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(2), LocalDateTime.now().minusYears(1)));
+
 
         Contract c3 = new Contract();
         c3.setAnnualSalary(99000);
-        c3.setValidFrom(LocalDateTime.now().minusYears(1));
-        c3.setValidUntil(LocalDateTime.MAX);
+        c3.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(1), LocalDateTime.MAX));
+
 
         // ToDo: Don't forget to get also the latest item for Contract or Project which will not be in the History table in DB.
         List<Contract> listOfContracts = new ArrayList<>();
