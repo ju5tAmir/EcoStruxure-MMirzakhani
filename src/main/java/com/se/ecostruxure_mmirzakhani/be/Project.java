@@ -1,5 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+import java.util.Objects;
+
 public class Project {
     private int             id;
     private Employee        employee;
@@ -59,5 +61,17 @@ public class Project {
                 ", team=" + team +
                 ", utilizationPercentage=" + utilizationPercentage +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Project project)) return false;
+        return getId() == project.getId() && Double.compare(getUtilizationPercentage(), project.getUtilizationPercentage()) == 0 && Objects.equals(getEmployee(), project.getEmployee()) && Objects.equals(getTeam(), project.getTeam());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getEmployee(), getTeam(), getUtilizationPercentage());
     }
 }
