@@ -17,21 +17,35 @@ public class Main extends Application {
     //  : Validate in the front-end
     //  : Autofill and auto-suggest and typo detector based expected average value from DB for some fields
     //  : Lazy loading for team employees and caching
+    //  : Observer pattern for currency system. so when it's changed in model, it changes in all the classes.
 
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
+        System.out.println("Country     " + Country.DENMARK);
+        System.out.println("HourlyRate: " + model.getHourlyRate(Country.DENMARK));
+        System.out.println("Daily Rate: " + model.getDailyRate(Country.DENMARK));
+        System.out.println("==========================");
+        System.out.println("Country     " + Country.SWEDEN);
+        System.out.println("HourlyRate: " + model.getHourlyRate(Country.SWEDEN));
+        System.out.println("Daily Rate: " + model.getDailyRate(Country.SWEDEN));
+        System.out.println("==========================");
+        System.out.println("Country     " + Country.NORTH_KOREA);
+        System.out.println("HourlyRate: " + model.getHourlyRate(Country.NORTH_KOREA));
+        System.out.println("Daily Rate: " + model.getDailyRate(Country.NORTH_KOREA));
 
-        Employee e = model.getRandomEmployee();
-        System.out.println(e);
-        System.out.println(model.getEmployeeProjects(e));
-        System.out.println("Util %: " + model.getTotalUtilizationPercentage(e));
-
-
-        /* Working as expected.
-         * Employee{contract=Contract{id=1, country=Denmark, currency=USD, annualSalary=80000.0, fixedAnnualAmount=5000.0, annualWorkHours=2000.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}
-         * [Project{id=0, employee=Employee{contract=Contract{id=1, country=Denmark, currency=USD, annualSalary=80000.0, fixedAnnualAmount=5000.0, annualWorkHours=2000.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=1, name='IT'}, utilizationPercentage=50.0}, Project{id=0, employee=Employee{contract=Contract{id=1, country=Denmark, currency=USD, annualSalary=80000.0, fixedAnnualAmount=5000.0, annualWorkHours=2000.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=2, name='HR'}, utilizationPercentage=40.0}]
-         * Util %: 90.0
+        /*
+         * Country     Denmark
+         * HourlyRate: 208.8767397825
+         * Daily Rate: 1671.01391826
+         * ==========================
+         * Country     Sweden
+         * HourlyRate: 40.364583333333336
+         * Daily Rate: 322.9166666666667
+         * ==========================
+         * Country     North Korea
+         * HourlyRate: 0.0
+         * Daily Rate: 0.0
          */
 
 

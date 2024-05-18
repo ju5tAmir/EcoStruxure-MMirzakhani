@@ -1,10 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
-import com.se.ecostruxure_mmirzakhani.bll.Mapper;
-import com.se.ecostruxure_mmirzakhani.bll.TeamLogic;
-import com.se.ecostruxure_mmirzakhani.bll.TeamService;
+import com.se.ecostruxure_mmirzakhani.bll.*;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
@@ -14,6 +11,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -31,6 +29,8 @@ public class Model {
     private final SimpleObjectProperty <Currency>                   currency            = new SimpleObjectProperty<>(Currency.EUR);     // System default currency is EUR
     private final EmployeeService                                   employeeService     = new EmployeeService(currency.get());
     private final TeamService                                       teamService         = new TeamService(currency.get());
+    private final CountryService                                    countryService      = new CountryService(currency.get());
+
 
     // ************************ Constructor ************************
     public Model(){
@@ -176,6 +176,13 @@ public class Model {
      */
     public Employee getRandomEmployee(){
         return employees.get(new Random().nextInt(employees.size()));
+    }
+
+    /**
+     * Get total utilization percentage for a given employee based on all the working projects
+     */
+    public double getTotalUtilizationPercentage(Employee employee){
+        return employeeService.getTotalUtilization(employeeProjects.get(employee));
     }
 
 
@@ -406,10 +413,19 @@ public class Model {
     // ****************** LAB *******************
 
 
-    public double getTotalUtilizationPercentage(Employee employee){
-        return employeeService.getTotalUtilization(employeeProjects.get(employee));
-    }
+    /**
+     * Mandatory 3:  As a user I would like to group a day rate or hourly rate based on the following
+     * information
+     * Geography or country
+     */
+    public double getHourlyRate(Country country){
 
+        return countryService.getHourlyRateForCountry(country, projects);
+    }
+    public double getDailyRate(Country country){
+
+        return countryService.getDailyRateForCountry(country, projects);
+    }
 
 
 
