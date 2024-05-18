@@ -16,6 +16,7 @@ import javafx.collections.ObservableMap;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Model {
     private final SimpleObjectProperty  <Employee>                  employee            = new SimpleObjectProperty<>(new Employee());
@@ -33,7 +34,11 @@ public class Model {
 
     // ************************ Constructor ************************
     public Model(){
-
+        try {
+            updateAllProperties();
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -95,7 +100,7 @@ public class Model {
     /**
      * Get all the teams with their projects(workers) as HashMap
      */
-    public ObservableMap<Team, List<Project>> getTeamProjects() throws ExceptionHandler{
+    public ObservableMap<Team, List<Project>> getAllTeamsProjects() throws ExceptionHandler{
         setTeamsProjects();
         return teamProjects;
     }
@@ -142,6 +147,95 @@ public class Model {
 
 
 
+
+
+
+
+    // ************************ Setters *****************************
+    /**
+     * Set Team object
+     */
+    public void setEmployee(Employee employee){
+        this.employee.set(employee);
+    }
+
+    /**
+     * Set Team object
+     */
+    public void setTeam(Team team){
+        this.team.set(team);
+    }
+
+    /**
+     * Set Project object
+     */
+    public void setProject(Project project){
+        this.project.set(project);
+    }
+
+    /**
+     * Retrieve and updates the latest Employees list
+     */
+    private void setEmployees() throws ExceptionHandler {
+        employees.setAll(employeeService.getAllEmployees());
+    }
+
+    /**
+     * Retrieve and updates the latest Team list
+     */
+    private void setTeams() throws ExceptionHandler {
+        teams.setAll(teamService.getAllTeams());
+    }
+
+    /**
+     * Retrieve and updates the latest Project list
+     */
+    private void setProjects() throws ExceptionHandler {
+        projects.setAll(employeeService.getAllProjects());
+    }
+
+    /**
+     * Retrieve and update all the objects first, then maps all the Employees to their Projects
+     */
+    private void setEmployeesProjects() throws ExceptionHandler{
+        updateAllProperties();
+
+        // Map all the employees to their projects
+        HashMap<Employee, List<Project>> employeeListHashMap = Mapper.allEmployeesToProjects(employees, projects);
+
+        for (Employee e: employeeListHashMap.keySet()){
+            employeeProjects.put(e, employeeListHashMap.get(e));
+        }
+    }
+
+    /**
+     * Update the employeeProjects HashMap with a new item
+     */
+    public void addEmployeeProjects(Employee employee, List<Project> projects){
+        // ToDo: Do it in DB and then if OK then put
+        employeeProjects.put(employee, projects);
+    }
+
+    /**
+     * Retrieve and update all the objects first, then maps all the Teams to their Projects
+     */
+    private void setTeamsProjects() throws ExceptionHandler{
+        updateAllProperties();
+
+        // Map all the teams to their projects
+        HashMap<Team, List<Project>> teamListHashMap = Mapper.allTeamsToProjects(teams, projects);
+
+        for (Team t: teamListHashMap.keySet()){
+            teamProjects.put(t, teamListHashMap.get(t));
+        }
+    }
+
+    /**
+     * Get current currency of the system (default EUR)
+     */
+    public void setCurrency(Currency currency){
+        this.currency.set(currency);
+    }
 
     /**
      * Set Employee's first name
@@ -238,6 +332,21 @@ public class Model {
         this.project.get().setUtilizationPercentage(utilizationPercentage);
     }
 
+
+
+    // ************************ Utilities *****************************
+    private void updateAllProperties() throws ExceptionHandler{
+        setEmployees();
+        setTeams();
+        setProjects();
+    }
+
+    private void clearEmployeeObjects(){
+        this.employee.set(new Employee());
+        this.project.set(new Project());
+        this.team.set(new Team());
+    }
+
     /**
      * Assign the project
      */
@@ -254,7 +363,6 @@ public class Model {
      */
     public boolean createEmployee(){
         if (employeeService.create(employee.get(), projects)){
-            System.out.println("here");
             // If database insert was successful
             employees.add(employee.get());
 
@@ -267,113 +375,27 @@ public class Model {
         return false;
     }
 
-
-    // ************************ Setters *****************************
-    /**
-     * Set Team object
-     */
-    public void setEmployee(Employee employee){
-        this.employee.set(employee);
-    }
-
-    /**
-     * Set Team object
-     */
-    public void setTeam(Team team){
-        this.team.set(team);
-    }
-
-    /**
-     * Set Project object
-     */
-    public void setProject(Project project){
-        this.project.set(project);
-    }
-
-    /**
-     * Retrieve and updates the latest Employees list
-     */
-    private void setEmployees() throws ExceptionHandler {
-        employees.setAll(employeeService.getAllEmployees());
-    }
-
-    /**
-     * Retrieve and updates the latest Team list
-     */
-    private void setTeams() throws ExceptionHandler {
-        teams.setAll(employeeService.getAllTeams());
-    }
-
-    /**
-     * Retrieve and updates the latest Project list
-     */
-    private void setProjects() throws ExceptionHandler {
-        projects.setAll(employeeService.getAllProjects());
-    }
-
-    /**
-     * Retrieve and update all the objects first, then maps all the Employees to their Projects
-     */
-    private void setEmployeesProjects() throws ExceptionHandler{
-        updateAllProperties();
-
-        // Map all the employees to their projects
-        HashMap<Employee, List<Project>> employeeListHashMap = Mapper.allEmployeesToProjects(employees, projects);
-
-        for (Employee e: employeeListHashMap.keySet()){
-            employeeProjects.put(e, employeeListHashMap.get(e));
-        }
-    }
-
-    /**
-     * Update the employeeProjects HashMap with a new item
-     */
-    public void addEmployeeProjects(Employee employee, List<Project> projects){
-        // ToDo: Do it in DB and then if OK then put
-        employeeProjects.put(employee, projects);
-    }
-
-    /**
-     * Retrieve and update all the objects first, then maps all the Teams to their Projects
-     */
-    private void setTeamsProjects() throws ExceptionHandler{
-        updateAllProperties();
-
-        // Map all the teams to their projects
-        HashMap<Team, List<Project>> teamListHashMap = Mapper.allTeamsToProjects(teams, projects);
-
-        for (Team t: teamListHashMap.keySet()){
-            teamProjects.put(t, teamListHashMap.get(t));
-        }
-    }
-
-    /**
-     * Get current currency of the system (default EUR)
-     */
-    public void setCurrency(Currency currency){
-        this.currency.set(currency);
-    }
-
-
-
-    // ************************ Utilities *****************************
-    private void updateAllProperties() throws ExceptionHandler{
-        setEmployees();
-        setTeams();
-        setProjects();
-    }
-
-    private void clearEmployeeObjects(){
-        this.employee.set(new Employee());
-        this.project.set(new Project());
-        this.team.set(new Team());
-    }
-
     // ****************** LAB *******************
 
 
+    /**
+     * Get a list of working projects for a given employee
+     */
+    public List<Project> getEmployeeProjects(Employee employee){
+        return employeeProjects.get(employee);
+    }
 
+    /**
+     * Get a list of projects for a given Team
+     */
+    public List<Project> getTeamProjects(Team team) throws ExceptionHandler{
+        setTeamsProjects();
+        return teamProjects.get(team);
+    }
 
+    public Team getRandomTeam(){
+        return teams.get(new Random().nextInt(teams.size()));
+    }
 
 //
 //    public void setContract(Contract contract){

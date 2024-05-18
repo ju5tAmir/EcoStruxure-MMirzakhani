@@ -31,9 +31,7 @@ public class EmployeeService {
         return dao.getAllEmployees();
     }
 
-    public List<Team> getAllTeams() {
-        return dao.getAllTeams();
-    }
+
 
     public List<Project> getAllProjects() {
         return dao.getAllProjects();

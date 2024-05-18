@@ -3,11 +3,14 @@ package com.se.ecostruxure_mmirzakhani.bll;
 import com.se.ecostruxure_mmirzakhani.be.Currency;
 import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import java.util.List;
 
 public class TeamService {
+    private static final EmployeeDAO dao = new EmployeeDAO();
+
     private EmployeeService employeeService = new EmployeeService();
     private Currency systemCurrency;
 
@@ -82,5 +85,9 @@ public class TeamService {
 
         }
         return totalRate;
+    }
+
+    public List<Team> getAllTeams() {
+        return dao.getAllTeams();
     }
 }

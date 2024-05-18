@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani;
 
 import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Currency;
+import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.model.Model;
@@ -23,43 +24,22 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-        model.setFirstName("Peter");
-        model.setLastName("Check");
 
-        model.setContractCountry(Country.CZECH_REPUBLIC);
-        model.setContractCurrency(Currency.CZK);
-        model.setContractAnnualSalary(80000);
-        model.setContractAnnualWorkHours(2000);
-        model.setContractFixedAnnualAmount(5000);
-        model.setContractAverageDailyWorkHours(7.3);
-        model.setContractOverheadPercentage(20);
-        model.setContractOverheadStatus(true);
-
-        model.setProjectEmployee(model.getEmployee());
-        model.setProjectTeam(new Team(2,"HR"));
-        model.setProjectUtilizationPercentage(60);
-        model.assignProjectToEmployee();
-
-        model.createEmployee();
-
-        System.out.println(model.getAllEmployees().size());
-
-        for (Team t : model.getTeamProjects().keySet()) {
-            System.out.println(t.getName());
-            System.out.println("Hourly  Rate: " + model.getHourlyRate(t));
-            System.out.println("Daily   Rate: " + model.getDailyRate(t));
-            System.out.println("Total   Cost: " + model.getTotalCost(t));
+        Team t = model.getRandomTeam();
+        System.out.println("Team: " + t);
+        for (Project p: model.getTeamProjects(t)){
+            System.out.println(p);
         }
 
-        /*
-         * IT
-         * Hourly  Rate: 133.19868990333333
-         * Daily   Rate: 1065.5895192266667
-         * Total   Cost: 96017.053285
-         * HR
-         * Hourly  Rate: 116.04263321250001
-         * Daily   Rate: 928.3410657000001
-         * Total   Cost: 37133.642628
+        /* IT Team
+         * Team: Team{id=1, name='IT'}
+         * Project{id=0, employee=Employee{contract=Contract{id=1, country=Denmark, currency=USD, annualSalary=80000.0, fixedAnnualAmount=5000.0, annualWorkHours=2000.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=1, name='IT'}, utilizationPercentage=50.0}
+         * Project{id=0, employee=Employee{contract=Contract{id=2, country=Sweden, currency=EUR, annualSalary=50000.0, fixedAnnualAmount=2000.0, annualWorkHours=1920.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=1, name='IT'}, utilizationPercentage=80.0}
+         */
+
+        /* HR Team
+         * Team: Team{id=2, name='HR'}
+         * Project{id=0, employee=Employee{contract=Contract{id=1, country=Denmark, currency=USD, annualSalary=80000.0, fixedAnnualAmount=5000.0, annualWorkHours=2000.0, averageDailyWorkHours=8.0, overallUtilizationPercentage=0.0, overheadPercentage=20.0, isOverhead=true, validFrom=null, validUntil=null}}, team=Team{id=2, name='HR'}, utilizationPercentage=40.0}
          */
 
 //        Application.launch(args);
