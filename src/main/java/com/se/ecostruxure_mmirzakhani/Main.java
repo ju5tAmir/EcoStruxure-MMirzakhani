@@ -22,30 +22,23 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-        System.out.println("Country     " + Country.DENMARK);
-        System.out.println("HourlyRate: " + model.getHourlyRate(Country.DENMARK));
-        System.out.println("Daily Rate: " + model.getDailyRate(Country.DENMARK));
-        System.out.println("==========================");
-        System.out.println("Country     " + Country.SWEDEN);
-        System.out.println("HourlyRate: " + model.getHourlyRate(Country.SWEDEN));
-        System.out.println("Daily Rate: " + model.getDailyRate(Country.SWEDEN));
-        System.out.println("==========================");
-        System.out.println("Country     " + Country.NORTH_KOREA);
-        System.out.println("HourlyRate: " + model.getHourlyRate(Country.NORTH_KOREA));
-        System.out.println("Daily Rate: " + model.getDailyRate(Country.NORTH_KOREA));
+        History history = model.getEmployeeHistory(new Employee());
+        System.out.println(history);
+
+        System.out.println("Contract Changes:" + history.getContracts().size() + " Times.");
+        System.out.println("Contract Changes:" + history.getContracts());
+        System.out.println("======================");
+        System.out.println("Projects Changes:" + history.getProjects().size() + " Times.");
+        System.out.println("Projects Changes:" + history.getProjects());
+
 
         /*
-         * Country     Denmark
-         * HourlyRate: 208.8767397825
-         * Daily Rate: 1671.01391826
-         * ==========================
-         * Country     Sweden
-         * HourlyRate: 40.364583333333336
-         * Daily Rate: 322.9166666666667
-         * ==========================
-         * Country     North Korea
-         * HourlyRate: 0.0
-         * Daily Rate: 0.0
+         * History{contracts=[Contract{id=3, country=null, currency=null, annualSalary=50000.0, fixedAnnualAmount=0.0, annualWorkHours=0.0, averageDailyWorkHours=0.0, overallUtilizationPercentage=0.0, overheadPercentage=0.0, isOverhead=false, validFrom=2020-05-18T19:10:13.107807264, validUntil=2021-05-18T19:10:13.107831921}, Contract{id=0, country=null, currency=null, annualSalary=80000.0, fixedAnnualAmount=0.0, annualWorkHours=0.0, averageDailyWorkHours=0.0, overallUtilizationPercentage=0.0, overheadPercentage=0.0, isOverhead=false, validFrom=2022-05-18T19:10:13.107841222, validUntil=2023-05-18T19:10:13.107848468}, Contract{id=0, country=null, currency=null, annualSalary=99000.0, fixedAnnualAmount=0.0, annualWorkHours=0.0, averageDailyWorkHours=0.0, overallUtilizationPercentage=0.0, overheadPercentage=0.0, isOverhead=false, validFrom=2023-05-18T19:10:13.107855102, validUntil=+999999999-12-31T23:59:59.999999999}], projects=[]}
+         * Contract Changes:3 Times.
+         * Contract Changes:[Contract{id=3, country=null, currency=null, annualSalary=50000.0, fixedAnnualAmount=0.0, annualWorkHours=0.0, averageDailyWorkHours=0.0, overallUtilizationPercentage=0.0, overheadPercentage=0.0, isOverhead=false, validFrom=2020-05-18T19:10:13.107807264, validUntil=2021-05-18T19:10:13.107831921}, Contract{id=0, country=null, currency=null, annualSalary=80000.0, fixedAnnualAmount=0.0, annualWorkHours=0.0, averageDailyWorkHours=0.0, overallUtilizationPercentage=0.0, overheadPercentage=0.0, isOverhead=false, validFrom=2022-05-18T19:10:13.107841222, validUntil=2023-05-18T19:10:13.107848468}, Contract{id=0, country=null, currency=null, annualSalary=99000.0, fixedAnnualAmount=0.0, annualWorkHours=0.0, averageDailyWorkHours=0.0, overallUtilizationPercentage=0.0, overheadPercentage=0.0, isOverhead=false, validFrom=2023-05-18T19:10:13.107855102, validUntil=+999999999-12-31T23:59:59.999999999}]
+         * ======================
+         * Projects Changes:0 Times.
+         * Projects Changes:[]
          */
 
 

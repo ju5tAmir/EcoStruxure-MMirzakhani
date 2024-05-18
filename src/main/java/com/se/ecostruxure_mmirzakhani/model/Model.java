@@ -1,6 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
+import com.se.ecostruxure_mmirzakhani.be.Currency;
 import com.se.ecostruxure_mmirzakhani.bll.*;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
@@ -11,10 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Model {
     private final SimpleObjectProperty  <Employee>                  employee            = new SimpleObjectProperty<>(new Employee());
@@ -185,6 +183,22 @@ public class Model {
         return employeeService.getTotalUtilization(employeeProjects.get(employee));
     }
 
+    /**
+     * Mandatory 3:  As a user I would like to group a day rate or hourly rate based on the following
+     * information
+     * Geography or country
+     */
+    public double getHourlyRate(Country country){
+
+        return countryService.getHourlyRateForCountry(country, projects);
+    }
+    public double getDailyRate(Country country){
+
+        return countryService.getDailyRateForCountry(country, projects);
+    }
+
+
+
 
     // ************************ Setters *****************************
     /**
@@ -266,7 +280,7 @@ public class Model {
     }
 
     /**
-     * Get current currency of the system (default EUR)
+     * Set current currency of the system (default EUR)
      */
     public void setCurrency(Currency currency){
         this.currency.set(currency);
@@ -413,23 +427,12 @@ public class Model {
     // ****************** LAB *******************
 
 
-    /**
-     * Mandatory 3:  As a user I would like to group a day rate or hourly rate based on the following
-     * information
-     * Geography or country
-     */
-    public double getHourlyRate(Country country){
 
-        return countryService.getHourlyRateForCountry(country, projects);
+
+
+    public History getEmployeeHistory(Employee employee){
+        return employeeService.getEmployeeHistory(employee);
     }
-    public double getDailyRate(Country country){
-
-        return countryService.getDailyRateForCountry(country, projects);
-    }
-
-
-
-
 
 
 

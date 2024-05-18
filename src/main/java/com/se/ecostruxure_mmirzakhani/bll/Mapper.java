@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.bll;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import java.util.List;
  * This class provides mapping methods to relate employees and teams to their respective projects.
  */
 public class Mapper {
+
+    private static final EmployeeDAO dao = new EmployeeDAO();
 
     /**
      * Maps an employee to their projects.
