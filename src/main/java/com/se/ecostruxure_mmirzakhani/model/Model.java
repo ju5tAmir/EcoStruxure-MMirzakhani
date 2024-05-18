@@ -146,7 +146,20 @@ public class Model {
     }
 
 
+    /**
+     * Get a list of projects for a given Team
+     */
+    public List<Project> getTeamProjects(Team team) throws ExceptionHandler{
+        setTeamsProjects();
+        return teamProjects.get(team);
+    }
 
+    /**
+     * Get a random Team
+     */
+    public Team getRandomTeam() throws ExceptionHandler{
+        return teams.get(new Random().nextInt(teams.size()));
+    }
 
 
 
@@ -381,21 +394,15 @@ public class Model {
     /**
      * Get a list of working projects for a given employee
      */
-    public List<Project> getEmployeeProjects(Employee employee){
+    public List<Project> getEmployeeProjects(Employee employee) throws ExceptionHandler{
+        setEmployeesProjects();
         return employeeProjects.get(employee);
     }
 
-    /**
-     * Get a list of projects for a given Team
-     */
-    public List<Project> getTeamProjects(Team team) throws ExceptionHandler{
-        setTeamsProjects();
-        return teamProjects.get(team);
+    public Employee getRandomEmployee(){
+        return employees.get(new Random().nextInt(employees.size()));
     }
 
-    public Team getRandomTeam(){
-        return teams.get(new Random().nextInt(teams.size()));
-    }
 
 //
 //    public void setContract(Contract contract){
