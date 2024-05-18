@@ -19,6 +19,7 @@ public class Model {
     private final SimpleObjectProperty  <Contract>                  contract            = new SimpleObjectProperty<>(new Contract());
     private final SimpleObjectProperty  <Team>                      team                = new SimpleObjectProperty<>(new Team());
     private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
+    private final SimpleObjectProperty  <History>                   history             = new SimpleObjectProperty<>(new History());
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
@@ -195,6 +196,16 @@ public class Model {
     public double getDailyRate(Country country){
 
         return countryService.getDailyRateForCountry(country, projects);
+    }
+
+    /**
+     * Get employee history contains Contract and Projects changes
+     */
+    public History getEmployeeHistory(Employee employee) throws ExceptionHandler{
+        // Set history
+        setEmployeeHistory(employee);
+
+        return history.get();
     }
 
 
@@ -381,6 +392,12 @@ public class Model {
         this.project.get().setUtilizationPercentage(utilizationPercentage);
     }
 
+    /**
+     * Retrieve latest employee changes for Contract and Projects
+     */
+    private void setEmployeeHistory(Employee employee) throws ExceptionHandler{
+        this.history.set(employeeService.getEmployeeHistory(employee));
+    }
 
 
     // ************************ Utilities *****************************
@@ -430,9 +447,6 @@ public class Model {
 
 
 
-    public History getEmployeeHistory(Employee employee){
-        return employeeService.getEmployeeHistory(employee);
-    }
 
 
 
