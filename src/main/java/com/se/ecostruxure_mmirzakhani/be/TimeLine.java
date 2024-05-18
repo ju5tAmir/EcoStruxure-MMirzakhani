@@ -31,4 +31,12 @@ public class TimeLine {
     public void setValidUntil(LocalDateTime validUntil) {
         this.validUntil = validUntil;
     }
+
+    @Override
+    public String toString() {
+        return "TimeLine{" +
+                "validFrom=" + validFrom +
+                ", validUntil=" + validUntil +
+                '}';
+    }
 }
