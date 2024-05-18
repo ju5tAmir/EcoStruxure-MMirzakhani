@@ -1,9 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.bll;
 
-import com.se.ecostruxure_mmirzakhani.be.Currency;
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import javafx.beans.property.SimpleObjectProperty;
@@ -71,5 +68,12 @@ public class EmployeeService {
             totalUtilizationPercentage += project.getUtilizationPercentage();
         }
         return totalUtilizationPercentage;
+    }
+
+    /**
+     * Get employee contract and projects changes
+     */
+    public History getEmployeeHistory(Employee employee){
+        return dao.getEmployeeHistory(employee);
     }
 }

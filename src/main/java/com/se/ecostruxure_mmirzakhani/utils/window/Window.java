@@ -134,14 +134,14 @@ public class Window implements IUtils {
      */
     private static String getResourcePath(WindowType windowType) throws ExceptionHandler{
         return switch (windowType){
-            case MAIN -> "/com/se/ecostruxure-mmirzakhani/dashboard/MainView.fxml";
+            case MAIN -> "/com/se/ecostruxure-mmirzakhani/main/MainView.fxml";
             case DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/DashboardView.fxml";
             case TEAM -> "/com/se/ecostruxure-mmirzakhani/team/TeamView.fxml";
             case EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/EmployeeView.fxml";
             case SCRIPT -> "/com/se/ecostruxure-mmirzakhani/script/ScriptView.fxml";
             case PROGRESS_BAR -> "/com/se/ecostruxure-mmirzakhani/script/ProgressBarView.fxml";
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
-            case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/create/CreateEmployee.fxml";
+            case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/create/CreateEmployee.fxml";
             case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
             case TEAMS -> "/com/se/ecostruxure-mmirzakhani/dashboard/Teams.fxml";
             case TEST -> "/com/se/ecostruxure-mmirzakhani/sample.fxml";
