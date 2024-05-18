@@ -35,6 +35,8 @@ public class Model {
     // ************************ Constructor ************************
     public Model(){
         try {
+            setEmployeesProjects();
+            setTeamsProjects();
             updateAllProperties();
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
@@ -161,7 +163,20 @@ public class Model {
         return teams.get(new Random().nextInt(teams.size()));
     }
 
+    /**
+     * Get a list of working projects for a given employee
+     */
+    public List<Project> getEmployeeProjects(Employee employee) throws ExceptionHandler{
+        setEmployeesProjects();
+        return employeeProjects.get(employee);
+    }
 
+    /**
+     * Get a random employee
+     */
+    public Employee getRandomEmployee(){
+        return employees.get(new Random().nextInt(employees.size()));
+    }
 
 
     // ************************ Setters *****************************
@@ -391,17 +406,24 @@ public class Model {
     // ****************** LAB *******************
 
 
-    /**
-     * Get a list of working projects for a given employee
-     */
-    public List<Project> getEmployeeProjects(Employee employee) throws ExceptionHandler{
-        setEmployeesProjects();
-        return employeeProjects.get(employee);
+    public double getTotalUtilizationPercentage(Employee employee){
+        return employeeService.getTotalUtilization(employeeProjects.get(employee));
     }
 
-    public Employee getRandomEmployee(){
-        return employees.get(new Random().nextInt(employees.size()));
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //

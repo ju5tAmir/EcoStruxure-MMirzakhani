@@ -61,4 +61,15 @@ public class EmployeeService {
     public boolean create(Employee employee, List<Project> projects) {
         return dao.createEmployee(employee, projects);
     }
+
+    /**
+     * Calculate and returns total utilization percentage for an employee based on working projects.
+     */
+    public double getTotalUtilization(List<Project> projects) {
+        double totalUtilizationPercentage = 0;
+        for (Project project: projects){
+            totalUtilizationPercentage += project.getUtilizationPercentage();
+        }
+        return totalUtilizationPercentage;
+    }
 }
