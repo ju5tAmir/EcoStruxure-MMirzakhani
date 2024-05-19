@@ -15,6 +15,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 
 
 public class Main extends Application {
@@ -38,6 +39,7 @@ public class Main extends Application {
         contract1.setAverageDailyWorkHours(8);
         contract1.setOverhead(true);
         contract1.setOverheadPercentage(20);
+        contract1.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(1), LocalDateTime.now()));
 
         Contract contract2 = new Contract();
         contract2.setId(1);
@@ -49,6 +51,7 @@ public class Main extends Application {
         contract2.setAverageDailyWorkHours(10);  // Changed from 8 to 10
         contract2.setOverhead(true);
         contract2.setOverheadPercentage(20);
+        contract2.setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
 
         ;
 
@@ -59,6 +62,8 @@ public class Main extends Application {
         /*
          * Change{object='Contract', property='averageDailyWorkHours', previousState=8.0, currentState=10.0, changeState=CHANGED}
          * Change{object='Contract', property='annualSalary', previousState=80000.0, currentState=90000.0, changeState=CHANGED}
+         * Change{object='TimeLine', property='validFrom', previousState=2023-05-19T17:15:22.336772684, currentState=2024-05-19T17:15:22.336799406, changeState=CHANGED}
+         * Change{object='TimeLine', property='validUntil', previousState=2024-05-19T17:15:22.336790276, currentState=+999999999-12-31T23:59:59.999999999, changeState=CHANGED}
          */
 
 
