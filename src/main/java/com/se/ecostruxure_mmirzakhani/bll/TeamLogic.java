@@ -57,4 +57,32 @@ public class TeamLogic {
         return totalDailyRate / employees.size();
     }
 
+    public double teamMarkupHourlyRate(int teamId, double markupPercentage) throws ExceptionHandler, SQLException {
+        double averageHourlyRate = teamHourlyRate(teamId);
+        return applyMarkup(averageHourlyRate, markupPercentage);
+    }
+
+    public double teamMarkupDailyRate(int teamId, double markupPercentage) throws ExceptionHandler, SQLException {
+        double averageDailyRate = teamDailyRate(teamId);
+        return applyMarkup(averageDailyRate, markupPercentage);
+    }
+
+    public double teamGMHourlyRate(int teamId, double gmPercentage) throws ExceptionHandler, SQLException {
+        double averageHourlyRate = teamHourlyRate(teamId);
+        return applyGM(averageHourlyRate, gmPercentage);
+    }
+
+    public double teamGMDailyRate(int teamId, double gmPercentage) throws ExceptionHandler, SQLException {
+        double averageDailyRate = teamDailyRate(teamId);
+        return applyGM(averageDailyRate, gmPercentage);
+    }
+
+    private double applyMarkup(double rate, double markupPercentage) {
+        return rate * (1 + markupPercentage / 100);
+    }
+
+    private double applyGM(double rate, double gmPercentage) {
+        return rate / (1 - gmPercentage / 100);
+    }
+
 }
