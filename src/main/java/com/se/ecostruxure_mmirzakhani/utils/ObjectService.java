@@ -1,8 +1,10 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
 import com.se.ecostruxure_mmirzakhani.be.Change;
+import com.se.ecostruxure_mmirzakhani.be.ChangeState;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -10,9 +12,8 @@ import java.util.regex.Pattern;
 
 public class ObjectService {
 
-
     /**
-     * Compares two different objects and returns changes of properties.
+     * Compares two different objects and returns the changes of their properties.
      *
      * @param firstObject  The first object to compare.
      * @param secondObject The second object to compare.
@@ -23,7 +24,12 @@ public class ObjectService {
         //      : Handle exceptions
         List<Change> changes = new ArrayList<>();
 
-        // Check if there is any objects attributes inside the given object
+        // Check for child objects
+
+
+        // Check nodes
+
+        // Check if there is any child objects
         String objectPattern   = "\\w+=\\w+\\{[^}]*\\}";
 
         // It matches the entire object with their properties
@@ -32,27 +38,25 @@ public class ObjectService {
         // If there is any objects
         while (objectsMatches.find()){
             String objectClassName = getObjectClassName(objectsMatches.group(0));
-            System.out.println("ChildNode: " + objectClassName);
 
             // Extract the node object from the parent object
             String patternToGetObjectProperties = String.format("%s+\\{[^}]*\\}", objectClassName);
 
             // Get match from the first parent
             Matcher p1 = regex(firstObject.toString(), patternToGetObjectProperties);
-
-            if (p1.find()){
-                System.out.println("First Parent Match: ");
-                System.out.println(p1.group());;
-            }
-
             // Get match from the second parent
             Matcher p2 = regex(secondObject.toString(), patternToGetObjectProperties);
 
-            if (p2.find()){
-                System.out.println("Second Parent Match: ");
-                System.out.println(p2.group());;
+
+            if (p1.find() && p2.find()){
+                // Compare child nodes recursively
+                changes.addAll(compare(p1.group(), p2.group()));
             }
 
+
+            // If nodes compare was successful, remove the node object from the parent
+            firstObject = (T) firstObject.toString().replace(objectsMatches.group(0), "");
+            secondObject = (T) secondObject.toString().replace(objectsMatches.group(0), "");
         }
 
 
@@ -81,12 +85,21 @@ public class ObjectService {
                 String secondObjectKey       = m2.group(1);
                 String secondObjectValue     = m2.group(2);
                 if (!Objects.equals(firstObjectValue, secondObjectValue)){
-//                    System.out.println(firstObjectValue);
-//                    System.out.println(secondObjectValue);
-//                    System.out.println("Changed: " + firstObjectKey);
+                    Change change = new Change();
+                    change.setObject(getObjectClassName(firstObject));
+                    change.setProperty(firstObjectKey);
+                    change.setPreviousState(firstObjectValue);
+                    change.setCurrentState(secondObjectValue);
+                    change.setChangeState(ChangeState.CHANGED);
+
+                    changes.add(change);
                 }
             }
         }
+
+        // Reverse the list because it's showing the child objects properties first
+        Collections.reverse(changes);
+        
         return changes;
     }
 
