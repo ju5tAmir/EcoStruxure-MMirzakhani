@@ -87,6 +87,7 @@
 .infobox-number{
     -fx-font-family: Hack;
     -fx-font-weight: bold;
+    -fx-font-size: 30;
 }
 
 .infobox-label{

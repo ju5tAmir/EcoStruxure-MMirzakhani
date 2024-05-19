@@ -12,12 +12,17 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class CurrencyService {
     private static final    File                        file = new File("src/main/resources/static/currency_rates/eur.xml");
     private static          DocumentBuilderFactory      dbf = DocumentBuilderFactory.newInstance();
 
+    /**
+     * Currency converter from local to system currency
+     * Supported currencies: /src/static/currency_rates/
+     */
     public static double convert(Currency from, Currency to, double amount) {
         double convertedValue = 0;
 
@@ -54,5 +59,13 @@ public class CurrencyService {
         }
 
         return convertedValue;
+    }
+
+    /**
+     * Format money amount in 1,234,567.89
+     */
+    public static String formatter(double amount){
+        DecimalFormat formatter = new DecimalFormat("#,##0.00");
+        return formatter.format(amount);
     }
 }

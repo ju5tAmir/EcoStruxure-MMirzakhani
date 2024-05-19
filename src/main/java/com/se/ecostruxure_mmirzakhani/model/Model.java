@@ -209,6 +209,29 @@ public class Model {
         return history.get();
     }
 
+    /**
+     * Get total hourly rate for teams
+     */
+    public double getTotalHourlyRate(){
+        double rate = 0;
+        for (Team t: teams){
+
+            rate += getHourlyRate(t);
+        }
+        return rate;
+    }
+
+    /**
+     * Get total daily rate for all the teams
+     */
+    public double getTotalDailyRate(){
+        double rate = 0;
+        for (Team t: teams){
+            rate += getDailyRate(t);
+        }
+        return rate;
+    }
+
 
 
 
@@ -471,10 +494,13 @@ public class Model {
     // ****************** LAB *******************
 
 
-
-
-
-
+    public double getTotalCost(){
+        double totalCost = 0;
+        for (Team t: teams){
+            totalCost += getTotalCost(t);
+        }
+        return totalCost;
+    }
 
 
 

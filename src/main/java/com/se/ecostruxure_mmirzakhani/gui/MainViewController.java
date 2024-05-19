@@ -40,8 +40,10 @@ public class MainViewController implements IController, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+//            System.out.println(model);
             onDashboard() ;
         } catch (ExceptionHandler e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }
