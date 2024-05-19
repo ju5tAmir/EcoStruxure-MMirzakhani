@@ -10,9 +10,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1720.0" stylesheets="@../team/styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.MainViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1820.0" stylesheets="@main-view-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.MainViewController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3fc765" height="1080.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="320.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#3fc765" height="1000.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="320.0" />
       <ImageView fitHeight="128.0" fitWidth="327.0" layoutX="6.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../static/images/White-Logo.png" />
@@ -22,7 +22,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../static/images/dashboard-icon.png" />
+                  <Image url="@../../../../static/images/icons/dashboard-icon.png" />
                </image>
             </ImageView>
             <Label text="Dashboard" textFill="WHITE">
@@ -39,7 +39,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../static/images/employee-icon.png" />
+                  <Image url="@../../../../static/images/icons/employee-icon.png" />
                </image>
             </ImageView>
             <Label text="Employee" textFill="WHITE">
@@ -56,7 +56,7 @@
          <children>
             <ImageView fitHeight="41.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../static/images/team-icon.png" />
+                  <Image url="@../../../../static/images/icons/team-icon.png" />
                </image>
             </ImageView>
             <Label text="Team" textFill="WHITE">
@@ -73,7 +73,7 @@
          <children>
             <ImageView fitHeight="40.0" fitWidth="44.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../static/images/script-icon.png" />
+                  <Image url="@../../../../static/images/icons/script-icon.png" />
                </image>
             </ImageView>
             <Label text="Script" textFill="WHITE">
@@ -90,7 +90,7 @@
          <children>
             <ImageView fitHeight="38.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../static/images/config-icon.png" />
+                  <Image url="@../../../../static/images/icons/config-icon.png" />
                </image>
             </ImageView>
             <Label text="Config" textFill="WHITE">
@@ -103,6 +103,6 @@
             </Label>
          </children>
       </HBox>
-      <Pane fx:id="pane" layoutX="320.0" prefHeight="1080.0" prefWidth="1400.0" />
+      <Pane fx:id="pane" layoutX="320.0" prefHeight="1000.0" prefWidth="1500.0" />
    </children>
 </AnchorPane>

@@ -1,0 +1,128 @@
+.main-pane{
+    -fx-background-color: rgba(255, 255, 255, 0.52);
+}
+.dashboard-label{
+    -fx-font-family: Hack;
+}
+.welcome-label{
+    -fx-font-family: Hack;
+}
+.top-table-label{
+    -fx-font-family: Hack;
+    -fx-font-weight: bold;
+    -fx-font-size: 24;
+
+}
+
+.circular-button-employee {
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    /*-fx-border-color: black; !* Optional: To add a border *!*/
+    -fx-background-color: #dcac57; /* Optional: To add a background color */
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+}
+
+.circular-button-team{
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    /*-fx-border-color: black; !* Optional: To add a border *!*/
+    -fx-background-color: #10cdde; /* Optional: To add a background color */
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+}
+
+.circular-button-cost{
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    /*-fx-border-color: black; !* Optional: To add a border *!*/
+    -fx-background-color: #00e986; /* Optional: To add a background color */
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+}
+
+.circular-button-hourly-rate{
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    /*-fx-border-color: black; !* Optional: To add a border *!*/
+    -fx-background-color: #f034ce; /* Optional: To add a background color */
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+}
+
+.circular-button-day-rate{
+    -fx-pref-width: 60px;
+    -fx-pref-height: 60px;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    /*-fx-border-color: black; !* Optional: To add a border *!*/
+    -fx-background-color: #00ffd7; /* Optional: To add a background color */
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+}
+
+.table-head-row{
+    -fx-background-color: transparent;
+    -fx-font-size: 18;
+    -fx-alignment: baseline-left;
+    -fx-font-family: Hack;
+    -fx-font-weight: bold;
+}
+
+.table-row-button{
+    -fx-background-color: transparent;
+    -fx-font-size: 18;
+    -fx-alignment: baseline-left;
+    -fx-font-family: Hack;
+}
+
+.infobox-number{
+    -fx-font-family: Hack;
+    -fx-font-weight: bold;
+}
+
+.infobox-label{
+    -fx-font-family: Hack;
+    -fx-font-size: 20;
+}
+
+.infobox-growth-number{
+    -fx-font-family: Hack;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 8, 0, 0, 30;
+
+}
+
+.infobox-vbox {
+    -fx-padding: 10;
+    -fx-background-color: rgba(255, 255, 255, 0.93);
+    -fx-background-radius: 10;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.35), 10, 0.5, 0, 0);
+}
+
+.team-table-vbox{
+    -fx-padding: 10;
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-background-insets: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.18), 10, 0.5, 0, 0);
+}
+
+
+.menu-button{
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(0, 0, 0, 0.55);
+    -fx-border-radius: 5;
+    -fx-font-family: Hack;
+    -fx-font-size: 15;
+}
