@@ -1,67 +1,43 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
 public class Employee extends User {
-    // Personal attributes
-    private String firstName;
-    private String lastName;
-
-    // Geography and Team
-    private Region region;
-    private Country country;
-    private Team team;
-
-    // Contract
-    private Contract contract;
+    private Contract        contract;
 
 
-    /**
-     * Constructor
-     */
-    public Employee(){}
+    // ******************** Constructors **************************************
+    public Employee(){
+        this.contract =     new Contract();
+    }
+    public Employee(int id) {
+        super(id);
+    }
 
-    /**
-     * Methods
-     */
+
+    // ******************** Methods *******************************************
+    public int getId() {
+        return super.getId();
+    }
+
+    public void setId(int id) {
+        super.setId(id);
+    }
 
     public String getFirstName() {
-        return firstName;
+        return super.getFirstName();
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        super.setFirstName(firstName);
     }
 
     public String getLastName() {
-        return lastName;
+        return super.getLastName();
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        super.setLastName(lastName);
     }
 
-    public Region getRegion() {
-        return region;
-    }
-
-    public void setRegion(Region region) {
-        this.region = region;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 
     public Contract getContract() {
         return contract;
@@ -71,16 +47,10 @@ public class Employee extends User {
         this.contract = contract;
     }
 
-
     @Override
     public String toString() {
         return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", region=" + region +
-                ", country=" + country +
-                ", team=" + team +
-                ", contract=" + contract +
+                "contract=" + contract +
                 '}';
     }
 }

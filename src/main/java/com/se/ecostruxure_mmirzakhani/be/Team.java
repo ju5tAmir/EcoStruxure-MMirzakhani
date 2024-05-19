@@ -1,9 +1,13 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-public class Team {
-    private int id;
-    private String name;
+import java.util.Objects;
 
+public class Team {
+    private int         id;
+    private String      name;
+
+
+    // ******************** Constructors *********************************
     public Team(String name) {
         this.name = name;
     }
@@ -17,6 +21,8 @@ public class Team {
 
     }
 
+
+    // ******************** Methods **************************************
     public int getId() {
         return id;
     }
@@ -39,5 +45,17 @@ public class Team {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Team team)) return false;
+        return getId() == team.getId() && Objects.equals(getName(), team.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getName());
     }
 }

@@ -15,17 +15,23 @@
 //import javafx.collections.ObservableList;
 //import javafx.event.ActionEvent;
 //import javafx.fxml.FXML;
+//import javafx.fxml.Initializable;
+//import javafx.scene.Node;
 //import javafx.scene.control.*;
 //import javafx.scene.control.cell.PropertyValueFactory;
 //import javafx.scene.image.ImageView;
+//import javafx.scene.layout.HBox;
+//import javafx.scene.layout.Pane;
 //import javafx.stage.Modality;
+//
+//import java.net.URL;
 //import java.util.ArrayList;
 //import java.util.List;
+//import java.util.ResourceBundle;
 //
-///**
-// * <a href="https://github.com/NilIQW/">Author: NilIQW</a>
-// */
-//public class EmployeeDashboardController implements IController {
+//public class DashboardController implements IController<Model> {
+//
+//
 //
 //    @FXML
 //    private TableView<Employee> employeeTableView;
@@ -38,7 +44,7 @@
 //    @FXML
 //    private TableColumn<Employee, String> employeeTeam, hourlyRateColumn, dailyRateColumn;
 //    @FXML
-//    private ListView<Label> employeeInfoList;
+//    private ListView<Label> employeeInfoList, multipliersInfoList;
 //    @FXML
 //    private ComboBox filterComboBox;
 //    @FXML
@@ -49,14 +55,21 @@
 //    private Label employeesLabel;
 //
 //    @FXML
-//    private TextField markupTextField;
+//    private CheckBox markupCheckBox, gmCheckBox;
 //    @FXML
-//    private TextField gmTextField;
+//    private Slider markupSlider, gmSlider;
+//    @FXML
+//    private TextField markupTextField, gmTextField;
+//
+//    @FXML
+//    private ListView<HBox> multipliersListView;
+//
 //
 //    //get the list of countries from the enum and change it to observable
 //    ObservableList<Country> countryList = FXCollections.observableArrayList(Country.values());
 //
 //    private Model model;
+//
 //
 //    // ToDo: Implement controller methods such as buttons and other nodes.
 //
@@ -72,42 +85,15 @@
 //    }
 //
 //
-//    @Override
-//    public void setModel(Object model) {
-//        if (model instanceof Model) {
-//            this.model = (Model) model;
-//        } else {
-//            // If the incoming model is not of type Model, create a new one
-//            this.model = new Model();
-//        }
 //
-//        try {
-//            initEmployeesTable();
-//            initEmployeeColumns();
-//            populateChoicebox();
-//
-//            teamsLabel.setOnMouseClicked(event -> {
-//                try {
-//                    Window.createStage(WindowType.TEAMS, this.model, Modality.WINDOW_MODAL, false);
-//                    Window.closeStage(teamsLabel.getScene());
-//                } catch (ExceptionHandler e) {
-//                    throw new RuntimeException(e);
-//                }
-//            });
-//            employeesLabel.setOnMouseClicked(event -> {
-//                AlertHandler.displayAlert("Employee Dashboard is already open!", Alert.AlertType.INFORMATION);
-//            });
-//
-//        } catch (ExceptionHandler exceptionHandler) {
-//            AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
-//        }
-//    }
 //
 //    /**
 //     * Initializing the Employees table
 //     */
 //    private void initEmployeesTable() throws ExceptionHandler{
 //        employeeTableView.setItems(model.getAllEmployees());
+//        employeeTableView.getSelectionModel().clearSelection();
+//
 //    }
 //
 //    /**
@@ -199,7 +185,7 @@
 //    }
 //
 //
-//    public void populateChoicebox() {
+//    public void populateChoicebox() throws ExceptionHandler {
 //        filterComboBox.getItems().addAll("Country", "Team");
 //
 //        // Initially set the value to "All"
@@ -208,37 +194,21 @@
 //        teamComboBox.setVisible(false);
 //
 //        filterComboBox.setOnAction(event -> {
-//                String selectedOption = filterComboBox.getValue().toString();
-//                if (selectedOption.equals("Country")) {
-//                    teamComboBox.setVisible(true);
-//                    teamComboBox.setValue("Select Country");
-//                    teamComboBox.getItems().addAll(countryList);
+//            String selectedOption = filterComboBox.getValue().toString();
+//            if (selectedOption.equals("Country")) {
+//                teamComboBox.setVisible(true);
+//                teamComboBox.setValue("Select Country");
+//                teamComboBox.getItems().addAll(countryList);
 //
-//                } else if (selectedOption.equals("Team")) {
-//                    teamComboBox.setVisible(true);
-//                    teamComboBox.setValue("Select Team");
-//                    teamComboBox.getItems().setAll("Production", "Management");
-//                }
-//            });
+//            } else if (selectedOption.equals("Team")) {
+//                teamComboBox.setVisible(true);
+//                teamComboBox.setValue("Select Team");
+//                teamComboBox.getItems().addAll("Hi");
+//            }
+//        });
 //        // Set cell factory to display each country with its flag
-//        teamComboBox.setCellFactory(param -> new ListCell<Country>() {
-//            @Override
-//            protected void updateItem(Country country, boolean empty) {
-//                super.updateItem(country, empty);
-//                if (empty || country == null) {
-//                    setText(null);
-//                    setGraphic(null);
-//                } else {
-//                    ImageView flagImageView = FlagService.getFlagImageView(country.getCode());
-//                    if (flagImageView != null) {
-//                        flagImageView.setFitWidth(20);
-//                        flagImageView.setFitHeight(20);
-//                        setGraphic(flagImageView);
-//                        setText(country.getValue());
-//                    } else {
-//                        setText(country.getValue());
-//                    }
-//                }
+//        teamComboBox.setCellFactory(param -> new ListCell<String>() {
+//            {
 //            }
 //        });
 //        teamComboBox.setOnKeyPressed(event -> {
@@ -247,7 +217,7 @@
 //                filterCountriesByFirstLetter(typedText);
 //            }
 //        });
-//        }
+//    }
 //    private void filterCountriesByFirstLetter(String letter) {
 //        //filter the list by the first typed letter
 //        ObservableList<Country> filteredList = countryList.filtered(country ->
@@ -292,12 +262,23 @@
 //            double gmDailyRate = logic.dailyRateGM(markupDailyRate, gmPercentage);
 //
 //            List<Label> labels = new ArrayList<>();
-//            labels.add(new Label("Markup Hourly Rate: " + markupHourlyRate));
-//            labels.add(new Label("GM Hourly Rate: " + gmHourlyRate));
-//            labels.add(new Label("Markup Daily Rate: " + markupDailyRate));
-//            labels.add(new Label("GM Daily Rate: " + gmDailyRate));
+//            if (markupCheckBox.isSelected() && gmCheckBox.isSelected()){
+//                labels.add(new Label("GM Daily Rate: " + String.format("%.2f", gmDailyRate)));
+//                labels.add(new Label("GM Hourly Rate: " + String.format("%.2f", gmHourlyRate)));
+//                Label lineSeparator = new Label("-------------------");
+//                labels.add(lineSeparator);
+//                labels.add(new Label("Markup Daily Rate: " + String.format("%.2f", markupDailyRate)));
+//                labels.add(new Label("Markup Hourly Rate: " + String.format("%.2f", markupHourlyRate)));
+//            } else if (gmCheckBox.isSelected()) {
+//                labels.add(new Label("GM Daily Rate: " + String.format("%.2f", gmDailyRate)));
+//                labels.add(new Label("GM Hourly Rate: " + String.format("%.2f", gmHourlyRate)));
+//            } else if (markupCheckBox.isSelected()) {
+//                labels.add(new Label("Markup Daily Rate: " + String.format("%.2f", markupDailyRate)));
+//                labels.add(new Label("Markup Hourly Rate: " + String.format("%.2f", markupHourlyRate)));
+//            }
 //
-//            employeeInfoList.getItems().setAll(labels);
+//
+//            multipliersInfoList.getItems().setAll(labels);
 //
 //        } catch (IllegalArgumentException e) {
 //            showError(e.getMessage());
@@ -319,7 +300,8 @@
 //            Window.createStage(WindowType.CREATE_EMPLOYEE, model, Modality.APPLICATION_MODAL, false);
 //        } catch (ExceptionHandler e) {
 //            throw new RuntimeException(e);
-//        }    }
+//        }
+//    }
 //
 //    public void deleteEmployee(ActionEvent actionEvent) {
 //    }
@@ -328,4 +310,76 @@
 //    public void onSave(ActionEvent actionEvent) {
 //
 //    }
+//
+//
+//    private void initMultipliers(){
+//        // Sync textfield with slider
+//
+//        markupSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null){
+//                markupTextField.setText(String.format("%.2f", newValue.doubleValue()));
+//            }
+//        });
+//        gmSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue != null){
+//                gmTextField.setText(String.format("%.2f", newValue.doubleValue()));
+//            }
+//        });
+//
+//        markupCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue){
+//                markupSlider.setDisable(false);
+//                markupTextField.setDisable(false);
+//            } else {
+//                markupSlider.setDisable(true);
+//                markupTextField.setDisable(true);
+//            }
+//        });
+//
+//        markupCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue){
+//                enableNode(markupSlider);
+//                enableNode(markupTextField);
+//            } else {
+//                disableNode(markupSlider);
+//                disableNode(markupTextField);
+//            }
+//        });
+//
+//        gmCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+//            if (newValue){
+//                enableNode(gmSlider);
+//                enableNode(gmTextField);
+//            } else {
+//                disableNode(gmSlider);
+//                disableNode(gmTextField);
+//            }
+//        });
+//    }
+//
+//    private void disableNode(Node node){
+//        node.setDisable(true);
+//    }
+//    private void enableNode(Node node){
+//        node.setDisable(false);
+//    }
+//    @FXML
+//    private void onReset(){
+//
+//    }
+//
+//    @Override
+//    public void setModel(Model model) {
+//        this.model = model;
+//        try {
+//            initEmployeesTable();
+//            initEmployeeColumns();
+//            populateChoicebox();
+//            initMultipliers();
+//        } catch (ExceptionHandler exceptionHandler) {
+//            AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
+//        }
+//    }
+//
+//
 //}
