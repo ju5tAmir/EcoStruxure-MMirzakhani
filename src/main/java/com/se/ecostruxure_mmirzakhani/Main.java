@@ -46,25 +46,22 @@ public class Main extends Application {
         contract2.setAnnualSalary(90_000);       // Salary increased from 80K to 90K
         contract2.setFixedAnnualAmount(5_000);
         contract2.setAnnualWorkHours(2000);
-        contract2.setAverageDailyWorkHours(8);
+        contract2.setAverageDailyWorkHours(10);  // Changed from 8 to 10
         contract2.setOverhead(true);
         contract2.setOverheadPercentage(20);
 
-        ObjectService.compare(contract1, contract2);
+        ;
+
+        for (Change change: ObjectService.compare(contract1, contract2)){
+            System.out.println(change);
+        }
 
         /*
-         * [+] id: 1 -> 1
-         * [+] country: Denmark -> Denmark
-         * [+] currency: USD -> USD
-         * [+] annualSalary: 80000.0 -> 90000.0         ** Change Detected **
-         * [+] fixedAnnualAmount: 5000.0 -> 5000.0
-         * [+] annualWorkHours: 2000.0 -> 2000.0
-         * [+] averageDailyWorkHours: 8.0 -> 8.0
-         * [+] overallUtilizationPercentage: 0.0 -> 0.0
-         * [+] overheadPercentage: 20.0 -> 20.0
-         * [+] isOverhead: true -> true
-         * [+] timeLine: null -> null
+         * Change{object='Contract', property='averageDailyWorkHours', previousState=8.0, currentState=10.0, changeState=CHANGED}
+         * Change{object='Contract', property='annualSalary', previousState=80000.0, currentState=90000.0, changeState=CHANGED}
          */
+
+
 //        Application.launch(args);
     }
 
