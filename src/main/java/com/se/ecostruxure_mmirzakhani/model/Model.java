@@ -17,17 +17,24 @@ import java.util.*;
 
 // ToDo: Lazy loading
 public class Model {
+    // SimpleObjectProperty attributes to handle the current instance of objects for each category.
+    // These properties are updated based on user actions (e.g., CRUD operations) on a specific Employee, Contract, Team, Project, and History object.
     private final SimpleObjectProperty  <Employee>                  employee            = new SimpleObjectProperty<>(new Employee());
     private final SimpleObjectProperty  <Contract>                  contract            = new SimpleObjectProperty<>(new Contract());
     private final SimpleObjectProperty  <Team>                      team                = new SimpleObjectProperty<>(new Team());
     private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
+    private final SimpleObjectProperty  <ProjectMember>             projectMember       = new SimpleObjectProperty<>(new ProjectMember());
     private final SimpleObjectProperty  <History>                   history             = new SimpleObjectProperty<>(new History());
+    private final SimpleObjectProperty <Currency>                   currency            = new SimpleObjectProperty<>(Currency.EUR);     // System default currency is EUR
+
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
+    private final ObservableList        <ProjectMember>             projectMembers      = FXCollections.observableArrayList();
+
+    private final ObservableMap         <Project, List<ProjectMember>> projectToMembers  = FXCollections.observableHashMap() ;
     private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();            // All projects for an employee
-    private final ObservableMap         <Team,     List<Project>>   teamProjects        = FXCollections.observableHashMap();            // All projects for a team
-    private final SimpleObjectProperty <Currency>                   currency            = new SimpleObjectProperty<>(Currency.EUR);     // System default currency is EUR
+
     private final EmployeeService                                   employeeService     = new EmployeeService(currency.get());
     private final TeamService                                       teamService         = new TeamService(currency.get());
     private final CountryService                                    countryService      = new CountryService(currency.get());

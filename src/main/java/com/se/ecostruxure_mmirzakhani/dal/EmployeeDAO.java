@@ -14,7 +14,8 @@ public class EmployeeDAO {
     private final List<Employee> employees = new ArrayList<>();
     private final List<Team> teams = new ArrayList<>();
     private final List<Project> projects = new ArrayList<>();
-    private final HashMap<Team, List<Project>> teamEmployees = new HashMap<>();
+    private final List<ProjectMember> projectMembers = new ArrayList<>();
+    private final HashMap<Project, List<ProjectMember>> projectToMembers = new HashMap<>();
 
 //    private final DBConnection dbConnection;
 
@@ -34,12 +35,11 @@ public class EmployeeDAO {
 
         Employee employee1 = new Employee();
         employee1.setId(1);
-        employee1.setFirstName("Guss");
-        employee1.setLastName("Frank");
+        employee1.setFirstName("Albert");
+        employee1.setLastName("Einstein");
 
         Contract contract1 = new Contract();
         contract1.setId(1);
-        contract1.setCountry(Country.DENMARK);
         contract1.setCurrency(Currency.USD);
         contract1.setAnnualSalary(80_000);       // 80K USD
         contract1.setFixedAnnualAmount(5_000);   // 5K USD
@@ -50,8 +50,8 @@ public class EmployeeDAO {
         contract1.setTimeLine(new TimeLine(LocalDateTime.now().minusMonths(2), LocalDateTime.MAX));
         employee1.setContract(contract1);
 
-        Project p1 = new Project(employee1, it, 50, new TimeLine(LocalDateTime.now().minusMonths(3), LocalDateTime.now().minusDays(20))); // Works in IT 20% of his time
-        Project p2 = new Project(employee1, hr, 40, new TimeLine(LocalDateTime.now().minusMonths(3), LocalDateTime.MAX)); // Works in HR 40% of his time
+        Project p1 = new Project(1, "Project Alpha", Country.DENMARK);
+        Project p2 = new Project(2, "Project Beta", Country.UNITED_STATES);
 
         projects.add(p1); projects.add(p2);
 
@@ -63,7 +63,6 @@ public class EmployeeDAO {
 
         Contract contract2 = new Contract();
         contract2.setId(2);
-        contract2.setCountry(Country.SWEDEN);
         contract2.setCurrency(Currency.EUR);
         contract2.setAnnualSalary(50_000);
         contract2.setFixedAnnualAmount(2_000);
@@ -75,14 +74,33 @@ public class EmployeeDAO {
 
         employee2.setContract(contract2);
 
-        Project p3 = new Project(employee2, it, 80, new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
+        Project p3 = new Project(3, "Project Charlie", Country.SWEDEN);
         projects.add(p3);
 
 
+        // Project Members
+        ProjectMember pm1 = new ProjectMember(employee1, it, 20);
+        ProjectMember pm2 = new ProjectMember(employee1, hr, 50);
+        ProjectMember pm3 = new ProjectMember(employee2, it, 80);
+        projectMembers.add(pm1);projectMembers.add(pm2);projectMembers.add(pm3);
+
+        // List of project members to link
+        List<ProjectMember> pmList = new ArrayList<>();
+        pmList.add(pm1); pmList.add(pm2);
+
+        // Update hashmap
+        projectToMembers.put(p1, pmList);
 
         // Update Total Employees
         employees.add(employee1);
         employees.add(employee2);
+    }
+
+
+    public List<ProjectMember> getProjectMembers(Project project){
+        // Retrieve all projects members from db linked to the given project
+
+        return projectToMembers.get(project);
     }
 
     /**
@@ -92,19 +110,19 @@ public class EmployeeDAO {
         return employees;
     }
 
-    /**
-     * Retrieve Employees of a requested Team
-     */
-    public List<Project> getTeamProjects(Team team){
-        List<Project> projectList = new ArrayList<>();
-
-        for (Project project: projects){
-            if (project.getTeam().equals(team)){
-                projectList.add(project);
-            }
-        }
-        return projectList;
-    }
+//    /**
+//     * Retrieve Employees of a requested Team
+//     */
+//    public List<Project> getTeamProjects(Team team){
+//        List<Project> projectList = new ArrayList<>();
+//
+//        for (Project project: projects){
+//            if (project.getTeam().equals(team)){
+//                projectList.add(project);
+//            }
+//        }
+//        return projectList;
+//    }
 
     /**
      * Retrieve all the Teams

@@ -10,6 +10,10 @@ public class ProjectMember {
     private TimeLine        timeLine;
 
 
+    public ProjectMember(){
+
+    }
+
     public ProjectMember(Employee employee, Team team, double utilizationPercentage) {
         this.employee = employee;
         this.team = team;

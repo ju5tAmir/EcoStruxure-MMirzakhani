@@ -6,7 +6,6 @@ public class Contract {
     private double              fixedAnnualAmount;
     private double              annualWorkHours;
     private double              averageDailyWorkHours;
-    private double              overallUtilizationPercentage;
     private double              overheadPercentage;
     private boolean             isOverhead;
     private Currency            currency;
@@ -68,14 +67,6 @@ public class Contract {
         this.averageDailyWorkHours = averageDailyWorkHours;
     }
 
-    public double getOverallUtilizationPercentage() {
-        return overallUtilizationPercentage;
-    }
-
-    public void setOverallUtilizationPercentage(double overallUtilizationPercentage) {
-        this.overallUtilizationPercentage = overallUtilizationPercentage;
-    }
-
     public double getOverheadPercentage() {
         return overheadPercentage;
     }
@@ -112,7 +103,6 @@ public class Contract {
                 ", fixedAnnualAmount=" + fixedAnnualAmount +
                 ", annualWorkHours=" + annualWorkHours +
                 ", averageDailyWorkHours=" + averageDailyWorkHours +
-                ", overallUtilizationPercentage=" + overallUtilizationPercentage +
                 ", overheadPercentage=" + overheadPercentage +
                 ", isOverhead=" + isOverhead +
                 ", currency=" + currency +

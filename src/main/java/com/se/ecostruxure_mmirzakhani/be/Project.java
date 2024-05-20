@@ -8,6 +8,9 @@ public class Project {
     private Country         country;
 
     // ******************** Constructors **************************************
+    public Project(){
+
+    }
 
     public Project(String name, Country country){
         this.name = name;
