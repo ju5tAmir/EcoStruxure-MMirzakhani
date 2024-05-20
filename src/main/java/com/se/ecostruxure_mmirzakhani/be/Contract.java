@@ -1,11 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-import java.time.LocalDateTime;
-
 public class Contract {
     private int                 id;
-    private Country             country;
-    private Currency            currency;
     private double              annualSalary;
     private double              fixedAnnualAmount;
     private double              annualWorkHours;
@@ -13,6 +9,7 @@ public class Contract {
     private double              overallUtilizationPercentage;
     private double              overheadPercentage;
     private boolean             isOverhead;
+    private Currency            currency;
     private TimeLine            timeLine;
 
 
@@ -29,14 +26,6 @@ public class Contract {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 
     public Currency getCurrency() {
@@ -119,8 +108,6 @@ public class Contract {
     public String toString() {
         return "Contract{" +
                 "id=" + id +
-                ", country=" + country +
-                ", currency=" + currency +
                 ", annualSalary=" + annualSalary +
                 ", fixedAnnualAmount=" + fixedAnnualAmount +
                 ", annualWorkHours=" + annualWorkHours +
@@ -128,6 +115,7 @@ public class Contract {
                 ", overallUtilizationPercentage=" + overallUtilizationPercentage +
                 ", overheadPercentage=" + overheadPercentage +
                 ", isOverhead=" + isOverhead +
+                ", currency=" + currency +
                 ", timeLine=" + timeLine +
                 '}';
     }

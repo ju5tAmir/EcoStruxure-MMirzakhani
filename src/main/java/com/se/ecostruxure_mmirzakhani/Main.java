@@ -42,6 +42,7 @@ public class Main extends Application {
          * 1065.5895192266667
          * 96017.053285
          */
+        System.out.println(model.getAllTeams());
 
 //        Application.launch(args);
     }

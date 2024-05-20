@@ -5,9 +5,6 @@ import java.util.Objects;
 public class Team {
     private int         id;
     private String      name;
-    private double      hourlyRate;
-    private double      dailyRate;
-    private double      totalCost;
 
 
     // ******************** Constructors *********************************
@@ -42,38 +39,11 @@ public class Team {
         this.name = name;
     }
 
-    public double getHourlyRate() {
-        return hourlyRate;
-    }
-
-    public void setHourlyRate(double hourlyRate) {
-        this.hourlyRate = hourlyRate;
-    }
-
-    public double getDailyRate() {
-        return dailyRate;
-    }
-
-    public void setDailyRate(double dailyRate) {
-        this.dailyRate = dailyRate;
-    }
-
-    public double getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(double totalCost) {
-        this.totalCost = totalCost;
-    }
-
     @Override
     public String toString() {
         return "Team{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", hourlyRate=" + hourlyRate +
-                ", dailyRate=" + dailyRate +
-                ", totalCost=" + totalCost +
                 '}';
     }
 

@@ -1,0 +1,11 @@
+.h1-label{
+    -fx-font-family: Hack;
+    -fx-font-weight: bold;
+    -fx-font-size:  40;
+}
+
+.h2-label{
+    -fx-font-family: Hack;
+    -fx-font-weight: bold;
+    -fx-font-size:  30;
+}
