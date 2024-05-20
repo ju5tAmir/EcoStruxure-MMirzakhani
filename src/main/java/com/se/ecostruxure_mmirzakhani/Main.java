@@ -28,8 +28,22 @@ public class Main extends Application {
     //  : Observer pattern for currency system. so when it's changed in model, it changes in all the classes.
 
     public static void main(String[] args) throws ExceptionHandler {
+        Model model = new Model();
 
-        Application.launch(args);
+        Team team = model.getRandomTeam();
+
+
+        System.out.println(team.getHourlyRate());
+        System.out.println(team.getDailyRate());
+        System.out.println(team.getTotalCost());
+
+        /*
+         * 133.19868990333333
+         * 1065.5895192266667
+         * 96017.053285
+         */
+
+//        Application.launch(args);
     }
 
 

@@ -15,6 +15,7 @@ import javafx.collections.ObservableMap;
 import java.time.LocalDateTime;
 import java.util.*;
 
+// ToDo: Lazy loading
 public class Model {
     private final SimpleObjectProperty  <Employee>                  employee            = new SimpleObjectProperty<>(new Employee());
     private final SimpleObjectProperty  <Contract>                  contract            = new SimpleObjectProperty<>(new Contract());
@@ -35,9 +36,12 @@ public class Model {
     // ************************ Constructor ************************
     public Model(){
         try {
+            setEmployees();
+            setProjects();
+            setTeams();
             setEmployeesProjects();
             setTeamsProjects();
-            updateAllProperties();
+            updateRates();
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
@@ -282,8 +286,6 @@ public class Model {
      * Retrieve and update all the objects first, then maps all the Employees to their Projects
      */
     private void setEmployeesProjects() throws ExceptionHandler{
-        updateAllProperties();
-
         // Map all the employees to their projects
         HashMap<Employee, List<Project>> employeeListHashMap = Mapper.allEmployeesToProjects(employees, projects);
 
@@ -304,8 +306,6 @@ public class Model {
      * Retrieve and update all the objects first, then maps all the Teams to their Projects
      */
     private void setTeamsProjects() throws ExceptionHandler{
-        updateAllProperties();
-
         // Map all the teams to their projects
         HashMap<Team, List<Project>> teamListHashMap = Mapper.allTeamsToProjects(teams, projects);
 
@@ -427,8 +427,8 @@ public class Model {
     // ************************ Utilities *****************************
     private void updateAllProperties() throws ExceptionHandler{
         setEmployees();
-        setTeams();
         setProjects();
+        setTeams();
     }
 
     private void clearEmployeeObjects(){
@@ -494,6 +494,9 @@ public class Model {
     // ****************** LAB *******************
 
 
+    /**
+     * Get total cost for all the teams
+     */
     public double getTotalCost(){
         double totalCost = 0;
         for (Team t: teams){
@@ -503,7 +506,13 @@ public class Model {
     }
 
 
-
+    private void updateRates() {
+        for (Team t: teams){
+            t.setHourlyRate(getHourlyRate(t));
+            t.setDailyRate(getDailyRate(t));
+            t.setTotalCost(getTotalCost(t));
+        }
+    }
 
 
 

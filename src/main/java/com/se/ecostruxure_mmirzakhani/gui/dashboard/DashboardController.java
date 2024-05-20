@@ -64,6 +64,7 @@ public class DashboardController implements IController<Model> {
         } catch (ExceptionHandler e){
             throw new RuntimeException(e);
         }
-
     }
+
+
 }
