@@ -1,15 +1,20 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
+import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 
 public class EmployeeViewController implements IController<Model> {
     @FXML
@@ -24,7 +29,7 @@ public class EmployeeViewController implements IController<Model> {
         try {
             setEmployeeTable();
         } catch (ExceptionHandler e){
-            System.out.println(e.getMessage());
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
@@ -74,5 +79,14 @@ public class EmployeeViewController implements IController<Model> {
 
             return new SimpleStringProperty(value);
         });
+    }
+
+    @FXML
+    private void onCreateButton(){
+        try {
+            Window.createStage(WindowType.CREATE_EMPLOYEE, model, Modality.WINDOW_MODAL, false);
+        } catch (ExceptionHandler exceptionHandler){
+            AlertHandler.displayAlert(exceptionHandler.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }

@@ -20,6 +20,6 @@
             <TableColumn fx:id="employeeType" prefWidth="162.0" text="Type" />
          </columns>
       </TableView>
-      <Button layoutX="1153.0" layoutY="476.0" mnemonicParsing="false" text="Create" />
+      <Button layoutX="1153.0" layoutY="476.0" mnemonicParsing="false" onAction="#onCreateButton" text="Create" />
    </children>
 </Pane>
