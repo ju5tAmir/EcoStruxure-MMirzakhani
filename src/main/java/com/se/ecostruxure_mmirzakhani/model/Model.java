@@ -507,7 +507,9 @@ public class Model {
     }
 
     public ObservableList<ProjectMember> getProjectMembers(Project project){
-        return projectToMembers.get(project);
+
+        // When the project doesn't have any members, it will not return null but an empty observableArrayList, to prevent null pointer
+        return projectToMembers.computeIfAbsent(project, k -> FXCollections.observableArrayList());
     }
 
     /**
@@ -544,5 +546,13 @@ public class Model {
      */
     public RateService getRate(Project project){
         return new RateService(project, projectToMembers.get(project));
+    }
+
+    public Project getRandomProject(){
+        return projects.get(new Random().nextInt(projects.size()));
+
+    }
+    public List<ProjectMember> getProjectMembers(){
+        return projectToMembers.get(getRandomProject());
     }
 }
