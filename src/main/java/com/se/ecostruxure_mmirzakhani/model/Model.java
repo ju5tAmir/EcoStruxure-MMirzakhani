@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.model;
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.be.Currency;
 import com.se.ecostruxure_mmirzakhani.bll.*;
+import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
@@ -31,9 +32,9 @@ public class Model {
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <ProjectMember>             projectMembers      = FXCollections.observableArrayList();
+    private final ObservableList        <RateService>               rateServices        = FXCollections.observableArrayList();
 
-    private final ObservableMap         <Project, List<ProjectMember>> projectToMembers  = FXCollections.observableHashMap() ;
-    private final ObservableMap         <Employee, List<Project>>   employeeProjects    = FXCollections.observableHashMap();            // All projects for an employee
+    private final ObservableMap         <Project, ObservableList<ProjectMember>> projectToMembers  = FXCollections.observableHashMap() ;
 
     private final EmployeeService                                   employeeService     = new EmployeeService(currency.get());
     private final TeamService                                       teamService         = new TeamService(currency.get());
@@ -46,9 +47,11 @@ public class Model {
             setEmployees();
             setProjects();
             setTeams();
-            setEmployeesProjects();
-            setTeamsProjects();
-            updateRates();
+
+            setProjectMembers();
+//            setEmployeesProjects();
+//            setTeamsProjects();
+//            updateRates();
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
@@ -102,34 +105,34 @@ public class Model {
         return projects;
     }
 
-    /**
-     * Get all the employees with their projects as HashMap
-     */
-    public ObservableMap<Employee, List<Project>> getEmployeesProjects() throws ExceptionHandler{
-        setEmployeesProjects();
-        return employeeProjects;
-    }
+//    /**
+//     * Get all the employees with their projects as HashMap
+//     */
+//    public ObservableMap<Employee, List<Project>> getEmployeesProjects() throws ExceptionHandler{
+//        setEmployeesProjects();
+//        return employeeProjects;
+//    }
+//
+//    /**
+//     * Get all the teams with their projects(workers) as HashMap
+//     */
+//    public ObservableMap<Team, List<Project>> getAllTeamsProjects() throws ExceptionHandler{
+//        setTeamsProjects();
+//        return teamProjects;
+//    }
 
-    /**
-     * Get all the teams with their projects(workers) as HashMap
-     */
-    public ObservableMap<Team, List<Project>> getAllTeamsProjects() throws ExceptionHandler{
-        setTeamsProjects();
-        return teamProjects;
-    }
-
-    /**
-     * Calculate and return the total cost for a given team based on its projects.
-     * @param team The Team object for which the total cost is to be calculated.
-     * @return The total cost for all projects associated with the given team.
-     */
-    public double getTotalCost(Team team) {
-        // Retrieve the list of projects associated with the given team from the teamProjects map
-        List<Project> projects = teamProjects.get(team);
-
-        // Calculate and return the total cost for the retrieved list of projects using TeamService
-        return teamService.getTotalCost(projects);
-    }
+//    /**
+//     * Calculate and return the total cost for a given team based on its projects.
+//     * @param team The Team object for which the total cost is to be calculated.
+//     * @return The total cost for all projects associated with the given team.
+//     */
+//    public double getTotalCost(Team team) {
+//        // Retrieve the list of projects associated with the given team from the teamProjects map
+//        List<Project> projects = teamProjects.get(team);
+//
+//        // Calculate and return the total cost for the retrieved list of projects using TeamService
+//        return teamService.getTotalCost(projects);
+//    }
 
     /**
      * Get current currency of the system (default EUR)
@@ -137,35 +140,35 @@ public class Model {
     public Currency getCurrency(){
         return currency.get();
     }
+//
+//    /**
+//     * Get the given team hourly rate
+//     */
+//    public double getHourlyRate(Team team){
+//        // Retrieve the list of projects associated with the given team from the teamProjects map
+//        List<Project> projects = teamProjects.get(team);
+//
+//        return teamService.getHourlyRate(projects);
+//    }
+//
+//    /**
+//     * Get the given team daily rat
+//     */
+//    public double getDailyRate(Team team){
+//        // Retrieve the list of projects associated with the given team from the teamProjects map
+//        List<Project> projects = teamProjects.get(team);
+//
+//        return teamService.getDailyRate(projects);
+//    }
 
-    /**
-     * Get the given team hourly rate
-     */
-    public double getHourlyRate(Team team){
-        // Retrieve the list of projects associated with the given team from the teamProjects map
-        List<Project> projects = teamProjects.get(team);
-
-        return teamService.getHourlyRate(projects);
-    }
-
-    /**
-     * Get the given team daily rat
-     */
-    public double getDailyRate(Team team){
-        // Retrieve the list of projects associated with the given team from the teamProjects map
-        List<Project> projects = teamProjects.get(team);
-
-        return teamService.getDailyRate(projects);
-    }
-
-
-    /**
-     * Get a list of projects for a given Team
-     */
-    public List<Project> getTeamProjects(Team team) throws ExceptionHandler{
-        setTeamsProjects();
-        return teamProjects.get(team);
-    }
+//
+//    /**
+//     * Get a list of projects for a given Team
+//     */
+//    public List<Project> getTeamProjects(Team team) throws ExceptionHandler{
+//        setTeamsProjects();
+//        return teamProjects.get(team);
+//    }
 
     /**
      * Get a random Team
@@ -174,13 +177,13 @@ public class Model {
         return teams.get(new Random().nextInt(teams.size()));
     }
 
-    /**
-     * Get a list of working projects for a given employee
-     */
-    public List<Project> getEmployeeProjects(Employee employee) throws ExceptionHandler{
-        setEmployeesProjects();
-        return employeeProjects.get(employee);
-    }
+//    /**
+//     * Get a list of working projects for a given employee
+//     */
+//    public List<Project> getEmployeeProjects(Employee employee) throws ExceptionHandler{
+//        setEmployeesProjects();
+//        return employeeProjects.get(employee);
+//    }
 
     /**
      * Get a random employee
@@ -189,26 +192,26 @@ public class Model {
         return employees.get(new Random().nextInt(employees.size()));
     }
 
-    /**
-     * Get total utilization percentage for a given employee based on all the working projects
-     */
-    public double getTotalUtilizationPercentage(Employee employee){
-        return employeeService.getTotalUtilization(employeeProjects.get(employee));
-    }
+//    /**
+//     * Get total utilization percentage for a given employee based on all the working projects
+//     */
+//    public double getTotalUtilizationPercentage(Employee employee){
+//        return employeeService.getTotalUtilization(employeeProjects.get(employee));
+//    }
 
-    /**
-     * Mandatory 3:  As a user I would like to group a day rate or hourly rate based on the following
-     * information
-     * Geography or country
-     */
-    public double getHourlyRate(Country country){
-
-        return countryService.getHourlyRateForCountry(country, projects);
-    }
-    public double getDailyRate(Country country){
-
-        return countryService.getDailyRateForCountry(country, projects);
-    }
+//    /**
+//     * Mandatory 3:  As a user I would like to group a day rate or hourly rate based on the following
+//     * information
+//     * Geography or country
+//     */
+//    public double getHourlyRate(Country country){
+//
+//        return countryService.getHourlyRateForCountry(country, projects);
+//    }
+//    public double getDailyRate(Country country){
+//
+//        return countryService.getDailyRateForCountry(country, projects);
+//    }
 
     /**
      * Get employee history contains Contract and Projects changes
@@ -220,30 +223,30 @@ public class Model {
         return history.get();
     }
 
-    /**
-     * Get total hourly rate for teams
-     */
-    public double getTotalHourlyRate(){
-        double rate = 0;
-        for (Team t: teams){
-
-            rate += getHourlyRate(t);
-        }
-        return rate;
-    }
-
-    /**
-     * Get total daily rate for all the teams
-     */
-    public double getTotalDailyRate(){
-        double rate = 0;
-        for (Team t: teams){
-            rate += getDailyRate(t);
-        }
-        return rate;
-    }
-
-
+//    /**
+//     * Get total hourly rate for teams
+//     */
+//    public double getTotalHourlyRate(){
+//        double rate = 0;
+//        for (Team t: teams){
+//
+//            rate += getHourlyRate(t);
+//        }
+//        return rate;
+//    }
+//
+//    /**
+//     * Get total daily rate for all the teams
+//     */
+//    public double getTotalDailyRate(){
+//        double rate = 0;
+//        for (Team t: teams){
+//            rate += getDailyRate(t);
+//        }
+//        return rate;
+//    }
+//
+//
 
 
     // ************************ Setters *****************************
@@ -289,37 +292,37 @@ public class Model {
         projects.setAll(employeeService.getAllProjects());
     }
 
-    /**
-     * Retrieve and update all the objects first, then maps all the Employees to their Projects
-     */
-    private void setEmployeesProjects() throws ExceptionHandler{
-        // Map all the employees to their projects
-        HashMap<Employee, List<Project>> employeeListHashMap = Mapper.allEmployeesToProjects(employees, projects);
+//    /**
+//     * Retrieve and update all the objects first, then maps all the Employees to their Projects
+//     */
+//    private void setEmployeesProjects() throws ExceptionHandler{
+//        // Map all the employees to their projects
+//        HashMap<Employee, List<Project>> employeeListHashMap = Mapper.allEmployeesToProjects(employees, projects);
+//
+//        for (Employee e: employeeListHashMap.keySet()){
+//            employeeProjects.put(e, employeeListHashMap.get(e));
+//        }
+//    }
 
-        for (Employee e: employeeListHashMap.keySet()){
-            employeeProjects.put(e, employeeListHashMap.get(e));
-        }
-    }
-
-    /**
-     * Update the employeeProjects HashMap with a new item
-     */
-    public void addEmployeeProjects(Employee employee, List<Project> projects){
-        // ToDo: Do it in DB and then if OK then put
-        employeeProjects.put(employee, projects);
-    }
-
-    /**
-     * Retrieve and update all the objects first, then maps all the Teams to their Projects
-     */
-    private void setTeamsProjects() throws ExceptionHandler{
-        // Map all the teams to their projects
-        HashMap<Team, List<Project>> teamListHashMap = Mapper.allTeamsToProjects(teams, projects);
-
-        for (Team t: teamListHashMap.keySet()){
-            teamProjects.put(t, teamListHashMap.get(t));
-        }
-    }
+//    /**
+//     * Update the employeeProjects HashMap with a new item
+//     */
+//    public void addEmployeeProjects(Employee employee, List<Project> projects){
+//        // ToDo: Do it in DB and then if OK then put
+//        employeeProjects.put(employee, projects);
+//    }
+//
+//    /**
+//     * Retrieve and update all the objects first, then maps all the Teams to their Projects
+//     */
+//    private void setTeamsProjects() throws ExceptionHandler{
+//        // Map all the teams to their projects
+//        HashMap<Team, List<Project>> teamListHashMap = Mapper.allTeamsToProjects(teams, projects);
+//
+//        for (Team t: teamListHashMap.keySet()){
+//            teamProjects.put(t, teamListHashMap.get(t));
+//        }
+//    }
 
     /**
      * Set current currency of the system (default EUR)
@@ -342,13 +345,6 @@ public class Model {
     public void setLastName(String lastName) throws ExceptionHandler {
         employee.get()
                 .setLastName(lastName);
-    }
-
-    /**
-     * Set Country for the currently working contract
-     */
-    public void setContractCountry(Country country){
-        this.contract.get().setCountry(country);
     }
 
     /**
@@ -402,26 +398,20 @@ public class Model {
         this.contract.get().setOverhead(isOverhead);
     }
 
-    /**
-     * Set employee object for the currently working project
-     */
-    public void setProjectEmployee(Employee employee){
-        this.project.get().setEmployee(employee);
-    }
+//    /**
+//     * Set employee object for the currently working project
+//     */
+//    public void setProjectEmployee(Employee employee){
+//        this.project.get().setEmployee(employee);
+//    }
 
-    /**
-     * Set team object for the currently working project
-     */
-    public void setProjectTeam(Team team){
-        this.project.get().setTeam(team);
-    }
-
-    /**
-     * Set utilization percentage for the currently working project
-     */
-    public void setProjectUtilizationPercentage(double utilizationPercentage){
-        this.project.get().setUtilizationPercentage(utilizationPercentage);
-    }
+//    /**
+//     * Set team object for the currently working project
+//     */
+//    public void setProjectTeam(Team team){
+//        this.project.get().setTeam(team);
+//    }
+//
 
     /**
      * Retrieve latest employee changes for Contract and Projects
@@ -457,370 +447,102 @@ public class Model {
         this.employee.get().setContract(contract.get());
     }
 
-    /**
-     * Assign the project (This is the moment that user clicks on add new project)
-     */
-    public void assignProjectToEmployee(){
-        // Assign this moment as start time
-        this.project.get().setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
-
-        // Validate
-        this.projects.add(project.get());
-    }
-
-    /**
-     * Create employee object with projects related to it, if it was successful, return true
-     */
-    public boolean createEmployee() throws ExceptionHandler{
-        // Insert the currently working employee into database.
-        if (employeeService.create(employee.get(), projects)){
-            // If database insert was successful
-            employees.add(employee.get());
-
-            // Update the HashMap
-            employeeProjects.put(employee.get(), projects);
-
-            updateTeamProjects();
-
-            // Clear objects to prevent conflicts with the future creations
-            clearEmployeeObjects();
-        }
-        return false;
-    }
-
-    /**
-     * This method will update the teamProjects list with newly created employee or team Projects after their creation.
-     * Without requesting from database.
-     */
-    private void updateTeamProjects() throws ExceptionHandler{
-        for (Project p: projects){
-            this.teamProjects.get(p.getTeam()).add(p);
-        }
-    }
-
-    // ****************** LAB *******************
-
-
-    /**
-     * Get total cost for all the teams
-     */
-    public double getTotalCost(){
-        double totalCost = 0;
-        for (Team t: teams){
-            totalCost += getTotalCost(t);
-        }
-        return totalCost;
-    }
-
-
-    private void updateRates() {
-        for (Team t: teams){
-            t.setHourlyRate(getHourlyRate(t));
-            t.setDailyRate(getDailyRate(t));
-            t.setTotalCost(getTotalCost(t));
-        }
-    }
-
-
-
-
-
-
-
-
-//
-//    public void setContract(Contract contract){
-//        this.employee.get().setContract(contract);
-//    }
-//
-//
-//
-//    /**
-//     * Set Employee's country
-//     */
-//    public void setCountry(Country country) {
-//        employee.get()
-//                .setCountry(country);
-//    }
-//
-//    /**
-//     * Set Employee's region
-//     */
-//    public void setRegion(Region region){
-//        employee.get().setRegion(region);
-//    }
-//
-//
-//    /**
-//     * Set Employee's team name
-//     */
-//    public void setTeam(String teamName) {
-//        employee.get()
-//                .getTeam()
-//                .setName(teamName);
-//    }
-
-
-
-
 
 
 //    /**
-//     * Retrieves all teams along with their respective employees.
-//     *
-//     * @return A HashMap containing teams as keys and their employees as values.
-//     * @throws ExceptionHandler if an error occurs during retrieval.
+//     * Assign the project (This is the moment that user clicks on add new project)
 //     */
-//    public HashMap<Team, List<Employee>> getAllTeams() throws ExceptionHandler {
-//        // Calls a method to update the teams data
-//        setTeams();
-//        // Returns the updated teams data
-//        return teams.get();
+//    public void assignProjectToEmployee(){
+//        // Assign this moment as start time
+//        this.project.get().setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
+//
+//        // Validate
+//        this.projects.add(project.get());
 //    }
 
 //    /**
-//     * Retrieves and updates the list of teams from the database.
-//     *
-//     * @throws ExceptionHandler if an error occurs during retrieval.
+//     * Create employee object with projects related to it, if it was successful, return true
 //     */
-//    public void setTeams() throws ExceptionHandler {
-//        // Retrieves the latest list of teams from the logic layer and sets it
-//        teams.set(logic.getAllTeams());
-//    }
+//    public boolean createEmployee() throws ExceptionHandler{
+//        // Insert the currently working employee into database.
+//        if (employeeService.create(employee.get(), projects)){
+//            // If database insert was successful
+//            employees.add(employee.get());
 //
-//    public void addEmployeeToTeam()
-
-
-//    /**
-//     * Set Employee's first name
-//     */
-//    public void setFirstName(String firstName) throws ExceptionHandler {
-//        employee.get()
-//                .setFirstName(Validate.validateName(firstName));
-//    }
+//            // Update the HashMap
+//            employeeProjects.put(employee.get(), projects);
 //
-//    /**
-//     * Set Employee's last name
-//     */
-//    public void setLastName(String lastName) throws ExceptionHandler {
-//        employee.get()
-//                .setLastName(Validate.validateName(lastName));
-//    }
+//            updateTeamProjects();
 //
-//    public void setContract(Contract contract){
-//        this.employee.get().setContract(contract);
-//    }
-//
-//
-//
-//    /**
-//     * Set Employee's country
-//     */
-//    public void setCountry(Country country) {
-//        employee.get()
-//                .setCountry(country);
-//    }
-//
-//    /**
-//     * Set Employee's region
-//     */
-//    public void setRegion(Region region){
-//        employee.get().setRegion(region);
-//    }
-//
-//
-//    /**
-//     * Set Employee's team name
-//     */
-//    public void setTeam(String teamName) {
-//        employee.get()
-//                .getTeam()
-//                .setName(teamName);
-//    }
-//
-//    public void setAnnualSalary(double annualSalary){
-//        employee.get().getContract().setAnnualSalary(annualSalary);
-//    }
-//    public void setFixedAnnualAmount(double fixedAnnualAmount){
-//        employee.get().getContract().setFixedAnnualAmount(fixedAnnualAmount);
-//    }
-//    public void setAnnualWorkHours(double annualWorkHours){
-//        employee.get().getContract().setAnnualWorkHours(annualWorkHours);
-//    }
-//    public void setAverageDailyWorkHours(double averageDailyWorkHours) {
-//        employee.get().getContract().setAverageDailyWorkHours(averageDailyWorkHours);
-//    }
-//    public void setOverhead(boolean overhead) {
-//        employee.get().getContract().setOverhead(overhead);
-//    }
-//    public void setOverheadPercentage(double overheadPercentage) {
-//        employee.get().getContract().setOverheadPercentage(overheadPercentage);
-//    }
-//    public void setUtilizationPercentage(double utilizationPercentage) {
-//        employee.get().getContract().setUtilizationPercentage(utilizationPercentage);
-//    }
-//    public void setMarkupPercentage(double markupPercentage) {
-//        employee.get().getContract().setMarkupPercentage(markupPercentage);
-//    }
-//    public void setGrossMarginPercentage(double grossMarginPercentage) {
-//        employee.get().getContract().setGrossMarginPercentage(grossMarginPercentage);
-//    }
-//    public void setHourlyRate(double hourlyRate) {
-//        employee.get().getContract().setHourlyRate(hourlyRate);
-//    }
-//    public void setDailyRate(double dailyRate) {
-//        employee.get().getContract().setDailyRate(dailyRate);
-//    }
-//
-//
-//
-//
-//
-//    /**
-//     * Set Employee's annual salary
-//     */
-//    public void setAnnualSalary(String annualSalary) throws ExceptionHandler{
-//        employee.get()
-//                .getContract()
-//                .setAnnualSalary(Validate.validateDouble(annualSalary));
-//    }
-//
-//    /**
-//     * Set Employee's fixed annual amount
-//     */
-//    public void setFixedAnnualAmount(String fixedAnnualAmount) throws ExceptionHandler {
-//        employee.get()
-//                .getContract()
-//                .setFixedAnnualAmount(Validate.validateDouble(fixedAnnualAmount));
-//    }
-//
-//    /**
-//     * Set Employee's annual work hours
-//     */
-//    public void setAnnualWorkHours(String annualWorkHours) throws ExceptionHandler {
-//        employee.get()
-//                .getContract()
-//                .setAnnualWorkHours(Validate.validateDouble(annualWorkHours));
-//    }
-//
-//    /**
-//     * Set Employee's average daily work hours
-//     */
-//    public void setAverageDailyWorkHours(String averageDailyWorkHours) throws ExceptionHandler {
-//        employee.get()
-//                .getContract()
-//                .setAverageDailyWorkHours(Validate.validateDouble(averageDailyWorkHours));
-//    }
-//
-//    /**
-//     * Set Employee's overhead percentage
-//     */
-//    public void setOverheadPercentage(String overheadPercentage) throws ExceptionHandler {
-//        employee.get()
-//                .getContract()
-//                .setOverheadPercentage(Validate.validateDouble(overheadPercentage));
-//    }
-//
-//    /**
-//     * Set Employee's utilization percentage
-//     */
-//    public void setUtilizationPercentage(String utilizationPercentage) throws ExceptionHandler {
-//        employee.get()
-//                .getContract()
-//                .setUtilizationPercentage(Validate.validateDouble(utilizationPercentage));
-//    }
-//
-//    /**
-//     * Set Employee's overhead status
-//     */
-//    public void setOverheadStatus(boolean isOverhead){
-//        employee.get()
-//                .getContract()
-//                .setOverhead(isOverhead);
-//    }
-//
-//    /**
-//     * Creates a new employee and adds it to the list of employees.
-//     *
-//     * @param employee The employee object to be created and added.
-//     * @throws ExceptionHandler if an error occurs during the creation process.
-//     */
-//    public void createEmployee() throws ExceptionHandler {
-//        // ToDo: You need to send employee details to the bottom layers and if succeeded, create otherwise throw an exception from bottom layer
-//        // Now It's just a demo how it can change the table view
-//        employees.add(employee.get());
-//        logic.createEmployee(employee.get());
-//    }
-//
-//
-//    /**
-//     * Updates the employee object with the provided employee details.
-//     *
-//     * @param employee The employee object containing updated details.
-//     */
-//    public void setEmployee(Employee employee){
-//        this.employee.set(employee);
-//    }
-//
-//    /**
-//     * Retrieves the current working employee object.
-//     *
-//     * @return The current employee object.
-//     */
-//    public Employee getEmployee(){
-//        return employee.get();
-//    }
-//
-//    /**
-//     * @return Employee's hourly rate
-//     */
-//    public double getHourlyRate() throws ExceptionHandler{
-//        updateRates();
-//        return employee.get()
-//                .getContract()
-//                .getHourlyRate();
-//    }
-//
-//    /**
-//     * @return Employee's daily rate
-//     */
-//    public double getDailyRate() throws ExceptionHandler{
-//        updateRates();
-//        return employee.get()
-//                .getContract()
-//                .getDailyRate();
-//    }
-//
-//    /**
-//     * Method to update the Employee object with the latest daily and hourly rate
-//     */
-//    private void updateRates() throws ExceptionHandler{
-//        logic.updateRates(employee.get());
-//    }
-//
-//    public void createTeam(Team team) throws ExceptionHandler, SQLException {
-//        teamLogic.createTeam(team);
-//        teams.add(team);
-//    }
-//    public void updateTeam(Team team) throws ExceptionHandler, SQLException {
-//        teamLogic.updateTeam(team);
-//    }
-//    public boolean deleteTeam(int id) throws ExceptionHandler, SQLException {
-//        teamLogic.deleteTeam(id);
-//        return true;
-//    }
-//
-//    public void updateEmployee(Employee employee) throws ExceptionHandler {
-//       logic.updateEmployee(employee);
-//    }
-//
-//
-//    public List<String> getTeams(){
-//        List<String> teams = new ArrayList<>();
-//        for (Employee e: employees){
-//            teams.add(e.getTeam().getName());
+//            // Clear objects to prevent conflicts with the future creations
+//            clearEmployeeObjects();
 //        }
-//        return teams;
+//        return false;
 //    }
+//
+//    /**
+//     * This method will update the teamProjects list with newly created employee or team Projects after their creation.
+//     * Without requesting from database.
+//     */
+//    private void updateTeamProjects() throws ExceptionHandler{
+//        for (Project p: projects){
+//            this.teamProjects.get(p.getTeam()).add(p);
+//        }
+//    }
+//
+//    // ****************** LAB *******************
 
+
+
+
+    public ObservableList<RateService> getAllRates() {
+        setAllRates();
+        return rateServices;
+    }
+
+    public void setAllRates(){
+        for (Project p: projects){
+            this.rateServices.add(new RateService(p, getProjectMembers(p)));
+        }
+    }
+
+    public ObservableList<ProjectMember> getProjectMembers(Project project){
+        return projectToMembers.get(project);
+    }
+
+    /**
+     * Links the members of all the projects to their associated project
+     */
+    public void setProjectMembers() {
+        // Map all the projects to their members
+        HashMap<Project, List<ProjectMember>> projectToMembersHashMap = Mapper.mapAllTheProjectsToMembers();
+
+        for (Map.Entry<Project, List<ProjectMember>> entry : projectToMembersHashMap.entrySet()) {
+            Project project = entry.getKey();
+            List<ProjectMember> members = entry.getValue();
+
+            // Create an ObservableList from the List
+            ObservableList<ProjectMember> observableMembers = FXCollections.observableArrayList(members);
+
+            // Put the project and its ObservableList of members into the ObservableMap
+            projectToMembers.put(project, observableMembers);
+        }
+
+    }
+
+
+    /**
+     * Get list of teams associated with a project
+     */
+    public Set<Team> getProjectTeams(Project project) {
+        // First getting project members, then fetching a list of teams associated with that project
+        return Mapper.projectToTeamsMapper(projectToMembers.get(project));
+    }
+
+    /**
+     * Get RateService object for a given project
+     */
+    public RateService getRate(Project project){
+        return new RateService(project, projectToMembers.get(project));
+    }
 }
