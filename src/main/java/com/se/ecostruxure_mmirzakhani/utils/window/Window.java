@@ -144,7 +144,7 @@ public class Window implements IUtils {
             case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/create/CreateEmployee.fxml";
             case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
             case TEAMS -> "/com/se/ecostruxure-mmirzakhani/dashboard/Teams.fxml";
-            case TEST -> "/com/se/ecostruxure-mmirzakhani/sample.fxml";
+            case PROJECT_MANAGER -> "/com/se/ecostruxure-mmirzakhani/team/management/ProjectManagement.fxml";
 
 
 
