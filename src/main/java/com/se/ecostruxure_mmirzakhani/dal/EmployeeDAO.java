@@ -45,7 +45,7 @@ public class EmployeeDAO {
         contract1.setFixedAnnualAmount(5_000);   // 5K USD
         contract1.setAnnualWorkHours(2000);
         contract1.setAverageDailyWorkHours(8);
-        contract1.setOverhead(true);
+        contract1.setOverhead(false);
         contract1.setOverheadPercentage(20);
         contract1.setTimeLine(new TimeLine(LocalDateTime.now().minusMonths(2), LocalDateTime.MAX));
         employee1.setContract(contract1);
