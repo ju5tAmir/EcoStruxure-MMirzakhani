@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.gui.gui_utils;
 
 import com.se.ecostruxure_mmirzakhani.be.CurrencySign;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
+import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
 /**
  * This class will provide methods to handle client-side validation and some other utils for the graphical user interface.
@@ -22,5 +23,13 @@ public class GUIHelper {
 
     public static String simpleDoubleFormatter(double amount){
         return CurrencyService.stringFormatter(amount);
+    }
+
+    public static void validateName(String nameValue) throws RuntimeException {
+        Validate.validateName(nameValue);
+    }
+
+    public static void validateEmail(String input) {
+        Validate.validateEmail(input);
     }
 }
