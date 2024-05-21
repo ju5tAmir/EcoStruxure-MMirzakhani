@@ -14,9 +14,13 @@ public class GUIHelper {
      * input:   12345.678
      * output:  €12,345.67
      */
-    public static String formatter(double amount){
+    public static String currencyFormatter(double amount){
         CurrencySign        currencySign    = CurrencyService.getSystemCurrency().getCurrencySign();
         String              value           = CurrencyService.stringFormatter(amount);
         return currencySign.getSign() + value;
+    }
+
+    public static String simpleDoubleFormatter(double amount){
+        return CurrencyService.stringFormatter(amount);
     }
 }
