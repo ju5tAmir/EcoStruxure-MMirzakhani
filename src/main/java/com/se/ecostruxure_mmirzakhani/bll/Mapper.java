@@ -5,6 +5,8 @@ import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.ProjectMember;
 import com.se.ecostruxure_mmirzakhani.be.Team;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 import java.util.*;
 
@@ -37,6 +39,29 @@ public class Mapper {
         }
         return teams;
     }
+
+
+    /**
+     * Maps the given employee to the working projects
+     */
+    public static List<Project> employeeToProjectMapper(Employee employee, ObservableMap<Project, ObservableList<ProjectMember>> projectToMembers) {
+        List<Project> projects = new ArrayList<>();
+
+        for (Project project: projectToMembers.keySet()){
+            for (ProjectMember projectMember: projectToMembers.get(project)){
+                System.out.println("1: " + employee);
+                System.out.println("2: " + projectMember.getEmployee());
+                if (projectMember.getEmployee().equals(employee)) {
+                    projects.add(project);
+                }
+            }
+        }
+        System.out.println(projects);
+        return projects;
+    }
+
+
+
 //
 //    /**
 //     * Maps an employee to their projects.

@@ -1,13 +1,11 @@
 package com.se.ecostruxure_mmirzakhani.dal;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.gui.IController;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class EmployeeDAO {
     // ToDo: These attributes must be removed and replaces in the proper method and fetch these values from DB
@@ -16,6 +14,7 @@ public class EmployeeDAO {
     private final List<Project> projects = new ArrayList<>();
     private final List<ProjectMember> projectMembers = new ArrayList<>();
     private final HashMap<Project, List<ProjectMember>> projectToMembers = new HashMap<>();
+    private final HashMap<Employee, List<ProjectMember>> employeeToProjects = new HashMap<>();
 
 //    private final DBConnection dbConnection;
 
@@ -37,6 +36,7 @@ public class EmployeeDAO {
         employee1.setId(1);
         employee1.setFirstName("Albert");
         employee1.setLastName("Einstein");
+        employee1.setEmail("emc2@gmail.com");
 
         Contract contract1 = new Contract();
         contract1.setId(1);
@@ -60,6 +60,7 @@ public class EmployeeDAO {
         employee2.setId(2);
         employee2.setFirstName("Frank");
         employee2.setLastName("Vallie");
+        employee2.setEmail("FVallie@gmail.com");
 
         Contract contract2 = new Contract();
         contract2.setId(2);
@@ -110,8 +111,6 @@ public class EmployeeDAO {
     }
 
     public HashMap<Project, List<ProjectMember>> getAllProjectsWithTheirMembers(){
-        for (Project p: projectToMembers.keySet()){
-        }
         return projectToMembers;
     }
 
@@ -143,9 +142,24 @@ public class EmployeeDAO {
         return teams;
     }
 
+    public List<Project> getAllProjects(Employee employee){
+        List<Project> projectList = new ArrayList<>();
+
+        // Return all the projects associated with the employee
+        for (Project project: projectToMembers.keySet()){
+            for (ProjectMember pm: projectToMembers.get(project)){
+                if (pm.getEmployee().equals(employee)){
+                    projectList.add(project);
+                }
+            }
+        }
+        return projectList;
+    }
+
     public List<Project> getAllProjects(){
         return projects;
     }
+
 
     public boolean createEmployee(Employee employee, List<Project> projects) {
         // Create Employee + Update employee object ID
@@ -188,7 +202,6 @@ public class EmployeeDAO {
 
 
     }
-
 
 
 }

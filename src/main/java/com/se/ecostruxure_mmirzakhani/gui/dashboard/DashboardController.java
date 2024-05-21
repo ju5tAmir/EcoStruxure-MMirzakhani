@@ -58,9 +58,9 @@ public class DashboardController implements IController<Model> {
 //        try {
 //            updateLabel(totalTeamsLabel,            String.valueOf(model.getAllTeams().size()));
 //            updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
-//            updateLabel(totalHourlyRateLabel,   "$" + CurrencyService.formatter(model.getTotalHourlyRate()));
-//            updateLabel(totalDailyRateLabel,    "$" + CurrencyService.formatter(model.getTotalDailyRate()));
-//            updateLabel(totalCostLabel,         "$" + CurrencyService.formatter(model.getTotalCost()));
+//            updateLabel(totalHourlyRateLabel,   "$" + CurrencyService.currencyFormatter(model.getTotalHourlyRate()));
+//            updateLabel(totalDailyRateLabel,    "$" + CurrencyService.currencyFormatter(model.getTotalDailyRate()));
+//            updateLabel(totalCostLabel,         "$" + CurrencyService.currencyFormatter(model.getTotalCost()));
 //        } catch (ExceptionHandler e){
 //            throw new RuntimeException(e);
 //        }

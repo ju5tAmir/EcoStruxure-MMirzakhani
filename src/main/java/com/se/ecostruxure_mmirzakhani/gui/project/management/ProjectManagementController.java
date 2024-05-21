@@ -1,11 +1,9 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.management;
 
 import com.se.ecostruxure_mmirzakhani.be.ProjectMember;
-import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
@@ -16,7 +14,7 @@ import javafx.scene.control.TableView;
 public class ProjectManagementController implements IController<Model> {
 
     @FXML
-    private Label totalEmployees, overheadEmployees, productionEmployees, totalTeams, hourlyRate, dailyRate, directCosts, overheadCosts, totalCosts;
+    private Label projectName, countryLabel, totalEmployees, overheadEmployees, productionEmployees, totalTeams, hourlyRate, dailyRate, directCosts, overheadCosts, totalCosts;
 
     @FXML
     private TableView<ProjectMember> employeesTable;
@@ -29,19 +27,12 @@ public class ProjectManagementController implements IController<Model> {
     @FXML
     private TableColumn<ProjectMember, Double> employeeUtilPercentage;
 
-//    @FXML
-//    private TableView<>
 
-
-
-    @FXML
-    private Label projectName;
 
     private Model model;
     @Override
     public void setModel(Model model) {
         this.model = model;
-        projectName.setText(model.getProject().getName());
 
         setLabels();
         setEmployeeTable();
@@ -78,19 +69,22 @@ public class ProjectManagementController implements IController<Model> {
 
 
     private void setLabels(){
+        projectName.setText(model.getProject().getName());
+        countryLabel.setText(model.getProject().getCountry().getValue());;
+
         totalEmployees.setText(String.valueOf(model.getProjectMembers(model.getProject()).size()));
         overheadEmployees.setText(String.valueOf(model.getRate(model.getProject()).getOverheadEmployees().size()));
         productionEmployees.setText(String.valueOf(model.getRate(model.getProject()).getProductionEmployees().size()));
 
         totalTeams.setText(String.valueOf(model.getProjectTeams(model.getProject()).size()));
         // We use stringFormatter method because we need to show it pretty in the GUI :D
-        hourlyRate.setText(GUIHelper.formatter(model.getRate(model.getProject()).getHourlyRate()));
-        dailyRate.setText(GUIHelper.formatter(model.getRate(model.getProject()).getDailyRate()));
+        hourlyRate.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getHourlyRate()));
+        dailyRate.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getDailyRate()));
 
         // Costs
-        directCosts.setText(GUIHelper.formatter(model.getRate(model.getProject()).getDirectCosts()));
-        overheadCosts.setText(GUIHelper.formatter(model.getRate(model.getProject()).getOverheadCosts()));
-        totalCosts.setText(GUIHelper.formatter(model.getRate(model.getProject()).getTotalCosts()));
+        directCosts.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getDirectCosts()));
+        overheadCosts.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getOverheadCosts()));
+        totalCosts.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getTotalCosts()));
 
     }
 }

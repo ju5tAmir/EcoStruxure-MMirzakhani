@@ -7,14 +7,11 @@ import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
-
-import java.util.Date;
 
 public class ProjectController implements IController<Model> {
     @FXML
@@ -47,7 +44,7 @@ public class ProjectController implements IController<Model> {
         projectHourlyRate.setCellValueFactory(cellData -> {
             double hourlyRate = cellData.getValue().getHourlyRate();
 
-            String formattedString = GUIHelper.formatter(hourlyRate);
+            String formattedString = GUIHelper.currencyFormatter(hourlyRate);
 
             return new SimpleStringProperty(formattedString);
         });
@@ -55,7 +52,7 @@ public class ProjectController implements IController<Model> {
         projectDailyRate.setCellValueFactory(cellData -> {
             double dailyRate = cellData.getValue().getDailyRate();
 
-            String formattedString = GUIHelper.formatter(dailyRate);
+            String formattedString = GUIHelper.currencyFormatter(dailyRate);
 
             return new SimpleStringProperty(formattedString);
         });

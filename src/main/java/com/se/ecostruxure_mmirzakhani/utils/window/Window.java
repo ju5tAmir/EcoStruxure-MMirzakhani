@@ -137,7 +137,7 @@ public class Window implements IUtils {
             case MAIN -> "/com/se/ecostruxure-mmirzakhani/main/MainView.fxml";
             case DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/DashboardView.fxml";
             case TEAM -> "/com/se/ecostruxure-mmirzakhani/team/TeamView.fxml";
-            case EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/EmployeeView.fxml";
+            case EMPLOYEE_MAIN -> "/com/se/ecostruxure-mmirzakhani/employee/EmployeeMainView.fxml";
             case SCRIPT -> "/com/se/ecostruxure-mmirzakhani/script/ScriptView.fxml";
             case PROGRESS_BAR -> "/com/se/ecostruxure-mmirzakhani/script/ProgressBarView.fxml";
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";

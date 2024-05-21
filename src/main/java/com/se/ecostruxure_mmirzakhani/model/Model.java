@@ -5,6 +5,7 @@ import com.se.ecostruxure_mmirzakhani.be.Currency;
 import com.se.ecostruxure_mmirzakhani.bll.*;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -33,7 +34,7 @@ public class Model {
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <ProjectMember>             projectMembers      = FXCollections.observableArrayList();
     private final ObservableList        <RateService>               rateServices        = FXCollections.observableArrayList();
-
+    private final ObservableList        <EmployeeService>           employeeServices    = FXCollections.observableArrayList();
     private final ObservableMap         <Project, ObservableList<ProjectMember>> projectToMembers  = FXCollections.observableHashMap() ;
 
     private final EmployeeService                                   employeeService     = new EmployeeService(currency.get());
@@ -84,7 +85,7 @@ public class Model {
     /**
      * Get all the employees
      */
-    public List<Employee> getAllEmployees() throws ExceptionHandler {
+    public ObservableList<Employee> getAllEmployees() throws ExceptionHandler {
         setEmployees();
         return employees;
     }
@@ -548,11 +549,18 @@ public class Model {
         return new RateService(project, projectToMembers.get(project));
     }
 
-    public Project getRandomProject(){
-        return projects.get(new Random().nextInt(projects.size()));
 
+    /**
+     * Convert a given amount of money from local currency to system currency
+     */
+    public double convertToSystemCurrency(Currency currency, double amount){
+        return CurrencyService.convert(currency, this.currency.get(), amount);
     }
-    public List<ProjectMember> getProjectMembers(){
-        return projectToMembers.get(getRandomProject());
+
+//    public double getTotalUtilizationPercentage(Employee employee){
+//    }
+
+    public List<Project> getEmployeeProjects(Employee employee){
+        return employeeService.getAllProjects(employee);
     }
 }

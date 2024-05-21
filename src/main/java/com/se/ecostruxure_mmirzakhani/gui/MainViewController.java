@@ -28,7 +28,7 @@ public class MainViewController implements IController, Initializable {
     }
     @FXML
     private void onEmployee() throws ExceptionHandler {
-        Window.loadPane(pane, WindowType.EMPLOYEE, model);
+        Window.loadPane(pane, WindowType.EMPLOYEE_MAIN, model);
     }
 
     @FXML
@@ -42,7 +42,8 @@ public class MainViewController implements IController, Initializable {
         try {
 //            System.out.println(model);
 //            onDashboard() ;
-            onTeam();
+//            onTeam();
+            onEmployee();
         } catch (ExceptionHandler e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

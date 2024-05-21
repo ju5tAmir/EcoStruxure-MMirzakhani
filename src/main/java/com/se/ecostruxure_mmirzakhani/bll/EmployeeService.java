@@ -9,20 +9,31 @@ import java.util.List;
 
 public class EmployeeService {
 
+    private final static EmployeeDAO dao = new EmployeeDAO();;
+
     private static Currency systemCurrency = CurrencyService.getSystemCurrency();
+    private Employee employee;
+    private List<Project> projects;
+    private List<ProjectMember> projectMembers;
 
     public EmployeeService(){
 
+    }
+
+
+    public EmployeeService(Employee employee){
+        this.employee = employee;
     }
 
     public EmployeeService(Currency systemCurrency){
         this.systemCurrency = systemCurrency;
     }
 
+
+
     public void setCurrency(Currency systemCurrency) {
         this.systemCurrency = systemCurrency;
     }
-    private static final EmployeeDAO dao = new EmployeeDAO();
 
     public List<Employee> getAllEmployees(){
         return dao.getAllEmployees();
@@ -30,7 +41,11 @@ public class EmployeeService {
 
 
 
-    public List<Project> getAllProjects() {
+    public List<Project> getAllProjects(Employee employee) {
+        return dao.getAllProjects(employee);
+    }
+
+    public List<Project> getAllProjects(){
         return dao.getAllProjects();
     }
 
@@ -58,17 +73,6 @@ public class EmployeeService {
     public boolean create(Employee employee, List<Project> projects) {
         return dao.createEmployee(employee, projects);
     }
-
-//    /**
-//     * Calculate and returns total utilization percentage for an employee based on working projects.
-//     */
-//    public double getTotalUtilization(List<Project> projects) {
-//        double totalUtilizationPercentage = 0;
-//        for (Project project: projects){
-//            totalUtilizationPercentage += project.getUtilizationPercentage();
-//        }
-//        return totalUtilizationPercentage;
-//    }
 
     /**
      * Get employee contract and projects changes

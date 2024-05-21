@@ -28,7 +28,6 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-        System.out.println(model.getProjectMembers());
         Application.launch(args);
     }
 
