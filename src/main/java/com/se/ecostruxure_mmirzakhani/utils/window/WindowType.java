@@ -10,5 +10,5 @@ public enum WindowType {
     TEAMS,
     DASHBOARD,
     TEAM, SCRIPT, SCRIPT_CONTENT, PROGRESS_BAR, EMPLOYEE,
-    TEST;
+    PROJECT_MANAGER;
 }

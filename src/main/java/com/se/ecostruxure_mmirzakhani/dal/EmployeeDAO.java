@@ -82,14 +82,20 @@ public class EmployeeDAO {
         ProjectMember pm1 = new ProjectMember(employee1, it, 20);
         ProjectMember pm2 = new ProjectMember(employee1, hr, 50);
         ProjectMember pm3 = new ProjectMember(employee2, it, 80);
-        projectMembers.add(pm1);projectMembers.add(pm2);projectMembers.add(pm3);
+        ProjectMember pm4 = new ProjectMember(employee2, it, 20);
+        projectMembers.add(pm1);projectMembers.add(pm2);projectMembers.add(pm3); projectMembers.add(pm4);
 
         // List of project members to link
         List<ProjectMember> pmList = new ArrayList<>();
-        pmList.add(pm1); pmList.add(pm2);
+        pmList.add(pm1); pmList.add(pm2); pmList.add(pm3);
+
+        List<ProjectMember> pmList2 = new ArrayList<>();
+        pmList2.add(pm4);
 
         // Update hashmap
         projectToMembers.put(p1, pmList);
+        projectToMembers.put(p2, pmList2);
+
 
         // Update Total Employees
         employees.add(employee1);
@@ -101,6 +107,12 @@ public class EmployeeDAO {
         // Retrieve all projects members from db linked to the given project
 
         return projectToMembers.get(project);
+    }
+
+    public HashMap<Project, List<ProjectMember>> getAllProjectsWithTheirMembers(){
+        for (Project p: projectToMembers.keySet()){
+        }
+        return projectToMembers;
     }
 
     /**

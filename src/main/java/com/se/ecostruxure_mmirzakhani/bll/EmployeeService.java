@@ -9,7 +9,7 @@ import java.util.List;
 
 public class EmployeeService {
 
-    private Currency systemCurrency;
+    private static Currency systemCurrency = CurrencyService.getSystemCurrency();
 
     public EmployeeService(){
 
@@ -37,7 +37,7 @@ public class EmployeeService {
     /**
      * Calculate the total cost for the given employee
      */
-    public double getTotalCost(Employee employee){
+    public static double getTotalCost(Employee employee){
         // Retrieve the employee's contract details
         double employeeAnnualSalary = employee.getContract().getAnnualSalary();
         double employeeAnnualFixedAmount = employee.getContract().getFixedAnnualAmount();
@@ -59,16 +59,16 @@ public class EmployeeService {
         return dao.createEmployee(employee, projects);
     }
 
-    /**
-     * Calculate and returns total utilization percentage for an employee based on working projects.
-     */
-    public double getTotalUtilization(List<Project> projects) {
-        double totalUtilizationPercentage = 0;
-        for (Project project: projects){
-            totalUtilizationPercentage += project.getUtilizationPercentage();
-        }
-        return totalUtilizationPercentage;
-    }
+//    /**
+//     * Calculate and returns total utilization percentage for an employee based on working projects.
+//     */
+//    public double getTotalUtilization(List<Project> projects) {
+//        double totalUtilizationPercentage = 0;
+//        for (Project project: projects){
+//            totalUtilizationPercentage += project.getUtilizationPercentage();
+//        }
+//        return totalUtilizationPercentage;
+//    }
 
     /**
      * Get employee contract and projects changes

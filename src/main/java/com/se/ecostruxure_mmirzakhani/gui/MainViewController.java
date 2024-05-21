@@ -41,7 +41,8 @@ public class MainViewController implements IController, Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
 //            System.out.println(model);
-            onDashboard() ;
+//            onDashboard() ;
+            onTeam();
         } catch (ExceptionHandler e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

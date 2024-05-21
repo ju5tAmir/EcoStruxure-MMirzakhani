@@ -6,6 +6,7 @@ import com.se.ecostruxure_mmirzakhani.bll.HistoryService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 
+import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import com.se.ecostruxure_mmirzakhani.utils.ObjectService;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
@@ -30,21 +31,10 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-        Team team = model.getRandomTeam();
+        System.out.println(CurrencyService.getSystemCurrency());
+//        System.out.println(model.getAllRates());
 
-
-        System.out.println(team.getHourlyRate());
-        System.out.println(team.getDailyRate());
-        System.out.println(team.getTotalCost());
-
-        /*
-         * 133.19868990333333
-         * 1065.5895192266667
-         * 96017.053285
-         */
-        System.out.println(model.getAllTeams());
-
-//        Application.launch(args);
+        Application.launch(args);
     }
 
 

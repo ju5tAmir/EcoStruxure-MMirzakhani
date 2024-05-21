@@ -54,17 +54,17 @@ public class DashboardController implements IController<Model> {
         label.setText(text);
     }
 
-    private void updateTotalValues(){
-        try {
-            updateLabel(totalTeamsLabel,            String.valueOf(model.getAllTeams().size()));
-            updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
-            updateLabel(totalHourlyRateLabel,   "$" + CurrencyService.formatter(model.getTotalHourlyRate()));
-            updateLabel(totalDailyRateLabel,    "$" + CurrencyService.formatter(model.getTotalDailyRate()));
-            updateLabel(totalCostLabel,         "$" + CurrencyService.formatter(model.getTotalCost()));
-        } catch (ExceptionHandler e){
-            throw new RuntimeException(e);
-        }
-    }
+//    private void updateTotalValues(){
+//        try {
+//            updateLabel(totalTeamsLabel,            String.valueOf(model.getAllTeams().size()));
+//            updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
+//            updateLabel(totalHourlyRateLabel,   "$" + CurrencyService.formatter(model.getTotalHourlyRate()));
+//            updateLabel(totalDailyRateLabel,    "$" + CurrencyService.formatter(model.getTotalDailyRate()));
+//            updateLabel(totalCostLabel,         "$" + CurrencyService.formatter(model.getTotalCost()));
+//        } catch (ExceptionHandler e){
+//            throw new RuntimeException(e);
+//        }
+//    }
 
 
 }

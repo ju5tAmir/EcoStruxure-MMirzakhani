@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1500.0" stylesheets="@team-view-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.team.TeamController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1500.0" stylesheets="@projects-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.project.ProjectController">
    <children>
-      <Label layoutX="50.0" layoutY="33.0" styleClass="h1-label" text="Team Management" />
-      <Label layoutX="50.0" layoutY="443.0" styleClass="h2-label" text="Teams List" />
-      <TableView layoutX="50.0" layoutY="494.0" prefHeight="450.0" prefWidth="1211.0">
+      <Label layoutX="50.0" layoutY="33.0" styleClass="h1-label" text="Project Management" />
+      <Label layoutX="50.0" layoutY="427.0" styleClass="h2-label" text="Projects" />
+      <TableView fx:id="projectTable" layoutX="50.0" layoutY="478.0" prefHeight="450.0" prefWidth="787.0">
         <columns>
-          <TableColumn prefWidth="68.0" text="Position" />
-          <TableColumn prefWidth="283.0" text="Team Name" />
-            <TableColumn prefWidth="125.0" text="Hourly Rate" />
-            <TableColumn prefWidth="133.0" text="Daily Rate" />
-            <TableColumn prefWidth="136.0" text="Total Employees " />
-            <TableColumn prefWidth="455.0" text="Total Cost" />
+          <TableColumn fx:id="projectName" prefWidth="240.0" text="Project Name" />
+            <TableColumn fx:id="projectHourlyRate" prefWidth="141.0" text="Hourly Rate" />
+            <TableColumn fx:id="projectDailyRate" prefWidth="133.0" text="Daily Rate" />
+            <TableColumn fx:id="projectTotalCost" prefWidth="273.0" text="Total Cost" />
         </columns>
       </TableView>
+      <ListView layoutX="1018.0" layoutY="475.0" prefHeight="450.0" prefWidth="433.0" />
+      <Label layoutX="1018.0" layoutY="427.0" styleClass="h2-label" text="Multipliers" />
    </children>
 </Pane>

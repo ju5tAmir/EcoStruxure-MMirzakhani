@@ -73,9 +73,15 @@ public class RateService implements IRateService{
         return CurrencyService.doubleFormatter(totalRate);
     }
 
-    public String getProjectName(){
-        return project.getName();
+    public Project getProject(){
+        return project;
     }
+
+
+
+
+
+
 
     @Override
     public String toString() {
