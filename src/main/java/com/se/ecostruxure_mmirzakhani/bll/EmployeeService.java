@@ -2,9 +2,11 @@ package com.se.ecostruxure_mmirzakhani.bll;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class EmployeeService {
@@ -25,7 +27,11 @@ public class EmployeeService {
     private static final EmployeeDAO dao = new EmployeeDAO();
 
     public List<Employee> getAllEmployees(){
-        return dao.getAllEmployees();
+        try {
+            return dao.getAllEmployees();
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -55,8 +61,8 @@ public class EmployeeService {
         return totalCostInSystemCurrency;
     }
 
-    public boolean create(Employee employee, List<Project> projects) {
-        return dao.createEmployee(employee, projects);
+    public boolean create(Employee employee) throws SQLException {
+        return dao.createEmployee(employee);
     }
 
 //    /**
@@ -73,7 +79,7 @@ public class EmployeeService {
     /**
      * Get employee contract and projects changes
      */
-    public History getEmployeeHistory(Employee employee){
+    public History getEmployeeHistory(Employee employee) throws ExceptionHandler {
         return dao.getEmployeeHistory(employee);
     }
 }
