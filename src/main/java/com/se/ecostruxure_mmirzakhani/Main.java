@@ -14,10 +14,7 @@ import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import mssql.security.provider.MD4;
 
-import java.lang.reflect.Field;
-import java.time.LocalDateTime;
 
 
 public class Main extends Application {
@@ -31,9 +28,7 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-        System.out.println(CurrencyService.getSystemCurrency());
-//        System.out.println(model.getAllRates());
-
+        System.out.println(model.getProjectMembers());
         Application.launch(args);
     }
 

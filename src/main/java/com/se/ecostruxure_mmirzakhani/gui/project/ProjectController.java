@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.project;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
+import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
@@ -21,7 +22,7 @@ public class ProjectController implements IController<Model> {
     @FXML
     private TableColumn<RateService, String> projectName;
     @FXML
-    private TableColumn<RateService, Double> projectHourlyRate, projectDailyRate;
+    private TableColumn<RateService, String> projectHourlyRate, projectDailyRate;
 
     private Model model;
 
@@ -46,13 +47,17 @@ public class ProjectController implements IController<Model> {
         projectHourlyRate.setCellValueFactory(cellData -> {
             double hourlyRate = cellData.getValue().getHourlyRate();
 
-            return new SimpleDoubleProperty(hourlyRate).asObject();
+            String formattedString = GUIHelper.formatter(hourlyRate);
+
+            return new SimpleStringProperty(formattedString);
         });
 
         projectDailyRate.setCellValueFactory(cellData -> {
             double dailyRate = cellData.getValue().getDailyRate();
 
-            return new SimpleDoubleProperty(dailyRate).asObject();
+            String formattedString = GUIHelper.formatter(dailyRate);
+
+            return new SimpleStringProperty(formattedString);
         });
     }
 

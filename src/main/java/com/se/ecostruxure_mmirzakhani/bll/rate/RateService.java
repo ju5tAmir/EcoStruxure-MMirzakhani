@@ -6,6 +6,7 @@ import com.se.ecostruxure_mmirzakhani.be.ProjectMember;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RateService implements IRateService{
@@ -163,6 +164,27 @@ public class RateService implements IRateService{
         return CurrencyService.doubleFormatter(totalRate);
     }
 
+    public List<ProjectMember> getOverheadEmployees(){
+        List<ProjectMember> overheadEmployees = new ArrayList<>();
+
+        for (ProjectMember projectMember: projectMembers){
+            if (projectMember.getEmployee().getContract().isOverhead()){
+                overheadEmployees.add(projectMember);
+            }
+        }
+        return overheadEmployees;
+    }
+
+    public List<ProjectMember> getProductionEmployees(){
+        List<ProjectMember> overheadEmployees = new ArrayList<>();
+
+        for (ProjectMember projectMember: projectMembers){
+            if (!projectMember.getEmployee().getContract().isOverhead()){
+                overheadEmployees.add(projectMember);
+            }
+        }
+        return overheadEmployees;
+    }
 
     @Override
     public String toString() {

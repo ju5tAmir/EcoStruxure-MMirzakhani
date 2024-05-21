@@ -16,7 +16,7 @@ import javafx.scene.control.TableView;
 public class ProjectManagementController implements IController<Model> {
 
     @FXML
-    private Label totalEmployees, totalTeams, hourlyRate, dailyRate, directCosts, overheadCosts, totalCosts;
+    private Label totalEmployees, overheadEmployees, productionEmployees, totalTeams, hourlyRate, dailyRate, directCosts, overheadCosts, totalCosts;
 
     @FXML
     private TableView<ProjectMember> employeesTable;
@@ -79,6 +79,9 @@ public class ProjectManagementController implements IController<Model> {
 
     private void setLabels(){
         totalEmployees.setText(String.valueOf(model.getProjectMembers(model.getProject()).size()));
+        overheadEmployees.setText(String.valueOf(model.getRate(model.getProject()).getOverheadEmployees().size()));
+        productionEmployees.setText(String.valueOf(model.getRate(model.getProject()).getProductionEmployees().size()));
+
         totalTeams.setText(String.valueOf(model.getProjectTeams(model.getProject()).size()));
         // We use stringFormatter method because we need to show it pretty in the GUI :D
         hourlyRate.setText(GUIHelper.formatter(model.getRate(model.getProject()).getHourlyRate()));
