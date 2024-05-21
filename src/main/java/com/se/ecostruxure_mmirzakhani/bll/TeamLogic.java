@@ -39,7 +39,7 @@ public class TeamLogic {
 
     public double teamHourlyRate(int teamId) throws ExceptionHandler, SQLException {
 
-        ObservableList<Employee> employees = dao.getEmployeesByTeam(teamId);
+        ObservableList<Employee> employees = (ObservableList<Employee>) dao.getEmployeesByTeam(teamId);
         double totalHourlyRate = employees.stream()
                 .mapToDouble(employee -> employee.getContract().getHourlyRate())
                 .sum();
@@ -49,7 +49,7 @@ public class TeamLogic {
 
     public double teamDailyRate(int teamId) throws ExceptionHandler, SQLException {
 
-        ObservableList<Employee> employees = dao.getEmployeesByTeam(teamId);
+        ObservableList<Employee> employees = (ObservableList<Employee>) dao.getEmployeesByTeam(teamId);
         double totalDailyRate = employees.stream()
                 .mapToDouble(employee -> employee.getContract().getDailyRate())
                 .sum();
