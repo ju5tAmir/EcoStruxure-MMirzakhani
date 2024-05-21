@@ -2,7 +2,7 @@ package com.se.ecostruxure_mmirzakhani.be;
 
 public enum Currency {
     AUD,
-    EUR,
+    EUR(CurrencySign.EUR),
     CAD,
     CNY,
     GBP,
@@ -147,5 +147,15 @@ public enum Currency {
     XOF,
     XPF,
     YER,
-    ZMW
+    ZMW;
+
+    private CurrencySign currencySign;
+    Currency(CurrencySign currencySign) {
+        this.currencySign = currencySign;
+    }
+    Currency(){}
+
+    public CurrencySign getCurrencySign() {
+        return currencySign;
+    }
 }
