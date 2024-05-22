@@ -37,14 +37,14 @@ public class DashboardController implements IController<Model> {
 
 //        updateTotalValues();
 
-        tableItems.getChildren().clear();
+//        tableItems.getChildren().clear();
 
-        List<Node> nodes = new ArrayList<>();
-        nodes.add(new Label("Hi"));
-        nodes.add(new Label("Bye"));
-        customTable.setRowsBox(tableItems);
-        customTable.setItems(nodes);
-        customTable.execute();
+//        List<Node> nodes = new ArrayList<>();
+//        nodes.add(new Label("Hi"));
+//        nodes.add(new Label("Bye"));
+//        customTable.setRowsBox(tableItems);
+//        customTable.setItems(nodes);
+//        customTable.execute();
     }
 
     /**

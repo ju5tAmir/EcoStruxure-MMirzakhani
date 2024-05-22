@@ -33,6 +33,7 @@ public class Main extends Application {
         Model model = new Model();
 
 
+//        System.out.println(model.getEmployeeHistory(model.getRandomEmployee()));
         Application.launch(args);
     }
 
