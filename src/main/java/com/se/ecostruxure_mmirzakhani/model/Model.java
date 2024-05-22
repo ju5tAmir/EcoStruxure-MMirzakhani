@@ -625,5 +625,14 @@ public class Model {
         this.projectMemberLinker.add(new ProjectMemberLinker(project, projectMember));
     }
 
+    public double getTotalUtil(Employee employee){
+        double total = 0;
+        for (ProjectMemberLinker pml: projectMemberLinker){
+            if (pml.getProjectMember().getEmployee().equals(employee)){
+                total += pml.getProjectMember().getUtilizationPercentage();
+            }
+        }
+        return total;
+    }
 
 }

@@ -11,6 +11,7 @@ import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,6 +43,7 @@ public class EmployeeViewController implements IController<Model> {
     public void setModel(Model model) {
         this.model = model;
         try {
+            Platform.runLater( () -> employeesTable.getScene().getRoot().requestFocus() );
             setEmployeeTable();
             setProjectsTable();
         } catch (ExceptionHandler e){
@@ -82,6 +84,7 @@ public class EmployeeViewController implements IController<Model> {
 
     private void setEmployeeTable() throws ExceptionHandler {
         employeesTable.setItems(model.getAllEmployees());
+
 
         employeesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null){
@@ -149,5 +152,16 @@ public class EmployeeViewController implements IController<Model> {
     }
 
     public void onAssignButton(ActionEvent actionEvent) {
+
+        if (!employeesTable.getSelectionModel().isEmpty()){
+            try {
+                Window.createStage(WindowType.ASSIGN_EMPLOYEE_PROJECT, model, Modality.WINDOW_MODAL, false);
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an employee first in order to assign project.", Alert.AlertType.INFORMATION);
+        }
     }
 }
