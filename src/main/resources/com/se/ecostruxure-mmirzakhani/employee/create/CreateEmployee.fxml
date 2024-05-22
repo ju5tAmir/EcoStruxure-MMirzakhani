@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="578.0" prefWidth="951.0" stylesheets="@create-employee-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.create.CreateEmployeeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="559.0" prefWidth="1050.0" stylesheets="@create-employee-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.create.CreateEmployeeController">
    <children>
       <Label layoutX="39.0" layoutY="108.0" prefHeight="32.0" prefWidth="129.0" text="First Name">
          <font>
@@ -29,64 +29,64 @@
       <TextField fx:id="firstName" layoutX="193.0" layoutY="116.0" />
       <TextField fx:id="lastName" layoutX="193.0" layoutY="168.0" />
       <TextField fx:id="emailAddress" layoutX="193.0" layoutY="222.0" />
-      <Label layoutX="436.0" layoutY="108.0" prefHeight="32.0" prefWidth="129.0" text="Annual Salary">
+      <Label layoutX="517.0" layoutY="109.0" prefHeight="32.0" prefWidth="129.0" text="Annual Salary">
          <font>
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="436.0" layoutY="164.0" prefHeight="32.0" prefWidth="129.0" text="Fixed Amount">
+      <Label layoutX="517.0" layoutY="165.0" prefHeight="32.0" prefWidth="129.0" text="Fixed Amount">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label layoutX="436.0" layoutY="218.0" prefHeight="32.0" prefWidth="170.0" text="Annual Work Hours">
+      <Label layoutX="517.0" layoutY="219.0" prefHeight="32.0" prefWidth="170.0" text="Annual Work Hours">
          <font>
             <Font size="16.0" />
          </font></Label>
-      <TextField fx:id="annualSalary" layoutX="611.0" layoutY="116.0" />
-      <TextField fx:id="fixedAmount" layoutX="611.0" layoutY="168.0" />
-      <TextField fx:id="annualWH" layoutX="611.0" layoutY="222.0" />
-      <Label layoutX="436.0" layoutY="270.0" prefHeight="32.0" prefWidth="129.0" text="Avg Daily WH">
+      <TextField fx:id="annualSalary" layoutX="719.0" layoutY="116.0" />
+      <TextField fx:id="fixedAmount" layoutX="719.0" layoutY="168.0" />
+      <TextField fx:id="annualWH" layoutX="719.0" layoutY="222.0" />
+      <Label layoutX="517.0" layoutY="271.0" prefHeight="32.0" prefWidth="178.0" text="Avg Daily Work Hours">
          <font>
-            <Font size="18.0" />
+            <Font size="16.0" />
          </font>
       </Label>
-      <Label layoutX="436.0" layoutY="326.0" prefHeight="32.0" prefWidth="129.0" text="Overhead %">
+      <Label layoutX="517.0" layoutY="327.0" prefHeight="32.0" prefWidth="129.0" text="Overhead %">
          <font>
-            <Font size="20.0" />
+            <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="436.0" layoutY="388.0" prefHeight="32.0" prefWidth="129.0" text="Labor Type">
+      <Label layoutX="544.0" layoutY="388.0" prefHeight="32.0" prefWidth="129.0" text="Labor Type">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <TextField fx:id="dailyWH" layoutX="611.0" layoutY="274.0" />
-      <TextField fx:id="overheadPercentage" layoutX="611.0" layoutY="330.0" />
+      <TextField fx:id="dailyWH" layoutX="719.0" layoutY="274.0" />
+      <TextField fx:id="overheadPercentage" layoutX="719.0" layoutY="330.0" />
       <Label layoutX="139.0" layoutY="55.0" prefHeight="32.0" prefWidth="129.0" text="Personal ">
          <font>
-            <Font size="21.0" />
+            <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <Label layoutX="546.0" layoutY="55.0" prefHeight="32.0" prefWidth="129.0" text="Contract">
+      <Label layoutX="654.0" layoutY="55.0" prefHeight="32.0" prefWidth="129.0" text="Contract">
          <font>
-            <Font size="21.0" />
+            <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <Button layoutX="696.0" layoutY="488.0" mnemonicParsing="false" onAction="#onSubmitButton" text="Submit">
+      <Button layoutX="804.0" layoutY="488.0" mnemonicParsing="false" onAction="#onSubmitButton" text="Submit">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="606.0" layoutY="489.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel">
+      <Button layoutX="714.0" layoutY="489.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
       <Label fx:id="firstNameMessageLabel" layoutX="193.0" layoutY="140.0" prefHeight="16.0" prefWidth="170.0" />
-      <RadioButton fx:id="overheadRB" layoutX="611.0" layoutY="395.0" mnemonicParsing="false" selected="true" text="Overhead" />
-      <RadioButton fx:id="productionRB" layoutX="721.0" layoutY="395.0" mnemonicParsing="false" text="Production Resource" />
-      <MenuBar layoutX="807.0" layoutY="115.0">
+      <RadioButton fx:id="overheadRB" layoutX="719.0" layoutY="395.0" mnemonicParsing="false" selected="true" text="Overhead" />
+      <RadioButton fx:id="productionRB" layoutX="829.0" layoutY="395.0" mnemonicParsing="false" text="Production Resource" />
+      <MenuBar layoutX="915.0" layoutY="115.0">
         <menus>
           <Menu fx:id="currencyMenu" mnemonicParsing="false" text="EUR" />
         </menus>

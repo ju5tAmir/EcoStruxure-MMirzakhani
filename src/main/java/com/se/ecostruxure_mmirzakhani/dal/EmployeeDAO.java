@@ -229,7 +229,7 @@ public class EmployeeDAO {
         // Projects
         Project p1 = new Project(1, "Project Alpha", Country.DENMARK);
         Project p2 = new Project(2, "Project Beta", Country.UNITED_STATES);
-        Project p3 = new Project(3, "Project Charlie", Country.SWEDEN);
+        Project p3 = new Project(3, "Project Manhattan", Country.SWEDEN);
 
         projects.add(p1);
         projects.add(p2);

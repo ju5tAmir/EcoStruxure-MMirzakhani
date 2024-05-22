@@ -55,7 +55,6 @@ public class Model {
 
             setProjectMembers();
 
-            System.out.println(projectToMembers.size());
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
