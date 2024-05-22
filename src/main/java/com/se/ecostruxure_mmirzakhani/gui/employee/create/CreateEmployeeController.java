@@ -41,6 +41,10 @@ public class CreateEmployeeController implements IController<Model> {
         Employee emp1 = new Employee();
         model.setEmployee(emp1);
 
+        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
+        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
+
+
         initCurrencyButton();
 
         addFocusListener(firstName);
