@@ -30,13 +30,25 @@ public class EmployeeDAO {
         // Initial Teams
         Team it = new Team(1, "IT");
         Team hr = new Team(2, "HR");
+        Team marketing = new Team(3, "Marketing");
+        Team finance = new Team(4, "Finance");
+        Team sales = new Team(5, "Sales");
+        Team operations = new Team(6, "Operations");
+        Team customerService = new Team(7, "Customer Service");
+        Team legal = new Team(8, "Legal");
+        teams.add(marketing);
+        teams.add(finance);
+        teams.add(sales);
+        teams.add(operations);
+        teams.add(customerService);
+        teams.add(legal);
         teams.add(it); teams.add(hr);
 
         Employee employee1 = new Employee();
         employee1.setId(1);
         employee1.setFirstName("Albert");
         employee1.setLastName("Einstein");
-        employee1.setEmail("emc2@gmail.com");
+        employee1.setEmail("Emc2@gmail.com");
 
         Contract contract1 = new Contract();
         contract1.setId(1);
@@ -58,9 +70,9 @@ public class EmployeeDAO {
         // ***** 2 *****
         Employee employee2 = new Employee();
         employee2.setId(2);
-        employee2.setFirstName("Frank");
-        employee2.setLastName("Vallie");
-        employee2.setEmail("FVallie@gmail.com");
+        employee2.setFirstName("Robbert");
+        employee2.setLastName("Closeheimer");
+        employee2.setEmail("Rclose20@gmail.com");
 
         Contract contract2 = new Contract();
         contract2.setId(2);

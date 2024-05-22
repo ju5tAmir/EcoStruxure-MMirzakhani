@@ -552,7 +552,7 @@ public class Model {
     }
 
     public ObservableList<Project> getProjects() {
-        projects.clear();
+//        projects.clear();
         return projects;
     }
 
@@ -674,4 +674,28 @@ public class Model {
    public void setMockRateServices(List<RateService> rateServices){
         this.mockRateServices.setAll(rateServices);
    }
+
+    public double getTotalHourlyRate() {
+        double total = 0;
+        for (RateService rs: rateServices){
+            total += rs.getHourlyRate();
+        }
+        return total;
+    }
+
+    public double getTotalDailyRate() {
+        double total = 0;
+        for (RateService rs: rateServices){
+            total += rs.getDailyRate();
+        }
+        return total;
+    }
+
+    public double getTotalCost() {
+        double total = 0;
+        for (RateService rs: rateServices){
+            total += rs.getTotalCosts();
+        }
+        return total;
+    }
 }

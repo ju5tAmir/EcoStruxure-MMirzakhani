@@ -2,6 +2,7 @@ package com.se.ecostruxure_mmirzakhani.gui.dashboard;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
+import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import javafx.fxml.FXML;
@@ -34,17 +35,8 @@ public class DashboardController implements IController<Model> {
     public void setModel(Model model) {
         this.model = model;
         updateLabel(welcomeLabel,           "Welcome, User!");
+        updateTotalValues();
 
-//        updateTotalValues();
-
-//        tableItems.getChildren().clear();
-
-//        List<Node> nodes = new ArrayList<>();
-//        nodes.add(new Label("Hi"));
-//        nodes.add(new Label("Bye"));
-//        customTable.setRowsBox(tableItems);
-//        customTable.setItems(nodes);
-//        customTable.execute();
     }
 
     /**
@@ -54,17 +46,17 @@ public class DashboardController implements IController<Model> {
         label.setText(text);
     }
 
-//    private void updateTotalValues(){
-//        try {
-//            updateLabel(totalTeamsLabel,            String.valueOf(model.getAllTeams().size()));
-//            updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
-//            updateLabel(totalHourlyRateLabel,   "$" + CurrencyService.currencyFormatter(model.getTotalHourlyRate()));
-//            updateLabel(totalDailyRateLabel,    "$" + CurrencyService.currencyFormatter(model.getTotalDailyRate()));
-//            updateLabel(totalCostLabel,         "$" + CurrencyService.currencyFormatter(model.getTotalCost()));
-//        } catch (ExceptionHandler e){
-//            throw new RuntimeException(e);
-//        }
-//    }
+    private void updateTotalValues(){
+        try {
+            updateLabel(totalTeamsLabel,            String.valueOf(model.getProjects().size()));
+            updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
+            updateLabel(totalHourlyRateLabel, GUIHelper.currencyFormatter(model.getTotalHourlyRate()));
+            updateLabel(totalDailyRateLabel,    GUIHelper.currencyFormatter(model.getTotalDailyRate()));
+            updateLabel(totalCostLabel,         GUIHelper.currencyFormatter(model.getTotalCost()));
+        } catch (ExceptionHandler e){
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

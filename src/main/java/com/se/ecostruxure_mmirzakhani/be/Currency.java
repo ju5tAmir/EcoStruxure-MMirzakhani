@@ -3,6 +3,8 @@ package com.se.ecostruxure_mmirzakhani.be;
 public enum Currency {
     AUD,
     EUR(CurrencySign.EUR),
+    DKK,
+
     CAD,
     CNY,
     GBP,
@@ -24,7 +26,6 @@ public enum Currency {
     BRL,
     CHF,
     CZK,
-    DKK,
     EGP,
     HUF,
     MDL,
