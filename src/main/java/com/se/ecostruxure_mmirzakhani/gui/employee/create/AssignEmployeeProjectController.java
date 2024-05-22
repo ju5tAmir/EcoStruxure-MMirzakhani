@@ -79,7 +79,6 @@ public class AssignEmployeeProjectController implements IController<Model> {
                 AlertHandler.displayAlert("Overall utilization percentage cannot exceed 100", Alert.AlertType.ERROR);
                 return;
             }
-            System.out.println("still here");
             model.addProjectMemberLinker(model.getProject(), projectMember);
             onCancel();
         } catch (RuntimeException e){

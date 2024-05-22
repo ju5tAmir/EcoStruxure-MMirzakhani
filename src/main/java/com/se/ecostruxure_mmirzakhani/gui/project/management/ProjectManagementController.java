@@ -26,7 +26,8 @@ public class ProjectManagementController implements IController<Model> {
     private TableColumn<ProjectMember, String> employeeTeam;
     @FXML
     private TableColumn<ProjectMember, Double> employeeUtilPercentage;
-
+    @FXML
+    private TableColumn<ProjectMember, String> employeeType;
 
 
     private Model model;
@@ -64,6 +65,12 @@ public class ProjectManagementController implements IController<Model> {
             double utilizationPercentage = cellData.getValue().getUtilizationPercentage();
 
             return new SimpleDoubleProperty(utilizationPercentage).asObject();
+        });
+
+        employeeType.setCellValueFactory(cellData -> {
+            String teamName = cellData.getValue().getEmployee().getContract().isOverhead()? "Overhead": "Product Resource";
+
+            return new SimpleStringProperty(teamName);
         });
     }
 

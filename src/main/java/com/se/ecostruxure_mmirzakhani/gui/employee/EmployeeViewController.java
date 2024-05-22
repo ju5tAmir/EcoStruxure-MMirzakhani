@@ -45,41 +45,10 @@ public class EmployeeViewController implements IController<Model> {
         try {
             Platform.runLater( () -> employeesTable.getScene().getRoot().requestFocus() );
             setEmployeeTable();
-            setProjectsTable();
+//            setProjectsTable();
         } catch (ExceptionHandler e){
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
-    }
-
-    private void setProjectsTable() throws ExceptionHandler {
-        projectsTable.setItems(model.getProjectMemberLinker(model.getEmployee()));
-
-
-        projectName.setCellValueFactory(cellData -> {
-
-            String name = cellData.getValue().getProject().getName();
-
-            return new SimpleStringProperty(name);
-        });
-        projectCountry.setCellValueFactory(cellData -> {
-            String name = cellData.getValue().getProject().getCountry().toString();
-
-            return new SimpleStringProperty(name);
-        });
-
-
-        projectTeam.setCellValueFactory(cellData -> {
-            String name = cellData.getValue().getProjectMember().getTeam().getName();
-
-            return new SimpleStringProperty(name);
-        });
-
-        utilizationPercentage.setCellValueFactory(cellData -> {
-            String name = String.valueOf(cellData.getValue().getProjectMember().getUtilizationPercentage());
-
-            return new SimpleStringProperty(name);
-        });
-
     }
 
     private void setEmployeeTable() throws ExceptionHandler {
@@ -140,6 +109,41 @@ public class EmployeeViewController implements IController<Model> {
 
             return new SimpleStringProperty(value);
         });
+    }
+
+
+
+    private void setProjectsTable() throws ExceptionHandler {
+        model.setProjectLinker(model.getEmployee());
+
+        projectsTable.setItems(model.getProjectMemberLinker(model.getEmployee()));
+
+
+        projectName.setCellValueFactory(cellData -> {
+
+            String name = cellData.getValue().getProject().getName();
+
+            return new SimpleStringProperty(name);
+        });
+        projectCountry.setCellValueFactory(cellData -> {
+            String name = cellData.getValue().getProject().getCountry().toString();
+
+            return new SimpleStringProperty(name);
+        });
+
+
+        projectTeam.setCellValueFactory(cellData -> {
+            String name = cellData.getValue().getProjectMember().getTeam().getName();
+
+            return new SimpleStringProperty(name);
+        });
+
+        utilizationPercentage.setCellValueFactory(cellData -> {
+            String name = String.valueOf(cellData.getValue().getProjectMember().getUtilizationPercentage());
+
+            return new SimpleStringProperty(name);
+        });
+
     }
 
     @FXML

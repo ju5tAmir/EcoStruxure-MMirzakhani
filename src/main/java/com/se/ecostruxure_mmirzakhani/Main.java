@@ -40,6 +40,22 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Model model = new Model();
 
+
+
+        model.addProject();
+        Employee e = new Employee();
+        model.setEmployee(e);
+
+        Team t = new Team();
+        model.setTeam(t);
+
+        Project p = new Project();
+        model.setProject(p);
+
+
+        model.createEmployee();
+        model.getSize();
+
         // Create and show a new stage
         Window.createStage(WindowType.MAIN);
 

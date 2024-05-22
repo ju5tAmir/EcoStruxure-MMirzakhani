@@ -36,14 +36,20 @@ public class MainViewController implements IController, Initializable {
         Window.loadPane(pane, WindowType.TEAM, model);
     }
 
+    @FXML
+    private void onProjects() throws ExceptionHandler {
+        Window.loadPane(pane, WindowType.PROJECT_MAIN, model);
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
 //            System.out.println(model);
 //            onDashboard() ;
-            onTeam();
+//            onTeam();
 //            onEmployee();
+            onProjects();
         } catch (ExceptionHandler e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);

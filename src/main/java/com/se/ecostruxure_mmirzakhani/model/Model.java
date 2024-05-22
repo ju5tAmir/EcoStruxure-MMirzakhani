@@ -53,9 +53,8 @@ public class Model {
             setTeams();
 
             setProjectMembers();
-//            setEmployeesProjects();
-//            setTeamsProjects();
-//            updateRates();
+
+            System.out.println(projectToMembers.size());
         } catch (ExceptionHandler e) {
             throw new RuntimeException(e);
         }
@@ -89,7 +88,7 @@ public class Model {
      * Get all the employees
      */
     public ObservableList<Employee> getAllEmployees() throws ExceptionHandler {
-        setEmployees();
+//        setEmployees();
         return employees;
     }
 
@@ -463,20 +462,7 @@ public class Model {
         this.projects.add(project.get());
     }
 
-    /**
-     * Create employee object with projects related to it, if it was successful, return true
-     */
-    public boolean createEmployee() throws ExceptionHandler{
-        // Insert the currently working employee into database.
-        if (employeeService.create(employee.get(), projects)){
-            // If database insert was successful
-            employees.add(employee.get());
 
-            // Clear objects to prevent conflicts with the future creations
-            clearEmployeeObjects();
-        }
-        return false;
-    }
 
 //    /**
 //     * This method will update the teamProjects list with newly created employee or team Projects after their creation.
@@ -499,6 +485,7 @@ public class Model {
     }
 
     public void setAllRates(){
+        rateServices.clear();
         for (Project p: projects){
             this.rateServices.add(new RateService(p, getProjectMembers(p)));
         }
@@ -591,24 +578,12 @@ public class Model {
 
 
     public ObservableList<ProjectMemberLinker> getProjectMemberLinker(Employee employee){
-        setProjectLinker(employee);
 
         return projectMemberLinker;
     }
 
-//    public ObservableList<ProjectMemberLinker> getProjectMemberLinker(Employee employee){
-//
-////        for (ProjectMemberLinker p: projectMemberLinker){
-////            if (p.getProjectMember().getEmployee() == employee){
-////
-////            }
-////        }
-////
-////        return projectMemberLinker;
-//    }
-
     public void setProjectLinker(Employee employee){
-        setProjectMembers();
+
         projectMemberLinker.clear();
         for (Project p: projectToMembers.keySet()){
             for(ProjectMember pm: projectToMembers.get(p)){
@@ -623,9 +598,33 @@ public class Model {
 
     public void addProjectMemberLinker(Project project, ProjectMember projectMember) {
         this.projectMemberLinker.add(new ProjectMemberLinker(project, projectMember));
+
+        if (projectToMembers.containsKey(project)){
+            List<ProjectMember> list = projectToMembers.get(project);
+            list.add(projectMember);
+        }
     }
     public void removeProjectMemberLinker(ProjectMemberLinker projectMemberLinker) {
         this.projectMemberLinker.remove(projectMemberLinker);
+
+
+        if (projectToMembers.containsKey(projectMemberLinker.getProject())){
+            List<ProjectMember> list = projectToMembers.get(projectMemberLinker.getProject());
+
+            list.remove(projectMemberLinker.getProjectMember());
+            // Remove the value from the list if it exists
+//            list.remove(Integer.valueOf(valueToRemove));
+        }
+
+    }
+
+    public void removeValueFromList(Map<String, List<Integer>> map, String key, int valueToRemove) {
+        // Check if the map contains the key
+        if (map.containsKey(key)) {
+            List<Integer> list = map.get(key);
+            // Remove the value from the list if it exists
+            list.remove(Integer.valueOf(valueToRemove));  // Integer.valueOf is used to ensure it matches the object type Integer
+        }
     }
     public double getTotalUtil(Employee employee){
         double total = 0;
@@ -637,4 +636,37 @@ public class Model {
         return total;
     }
 
+
+    /**
+     * Create employee object with projects related to it, if it was successful, return true
+     */
+    public boolean createEmployee() throws ExceptionHandler{
+        // Insert the currently working employee into database.
+        if (employeeService.create(employee.get(), projects)){
+            // If database insert was successful
+            employees.add(employee.get());
+
+//            projects.add(project.get());
+//
+//            if (projectToMembers.containsKey(project.get())){
+//                List<ProjectMember> list = projectToMembers.get(project.get());
+//                list.add(projectMember.get());
+//            }
+
+//            projectToMembers.put(project.get(), projectMembers);
+
+            // Clear objects to prevent conflicts with the future creations
+            clearEmployeeObjects();
+        }
+        return false;
+    }
+
+    public void addProject(){
+//        List<ProjectMember> pms = new ArrayList<>();
+        projectToMembers.put(new Project(), projectMembers);
+    }
+
+    public void getSize(){
+        System.out.println(projectToMembers.size());
+    }
 }

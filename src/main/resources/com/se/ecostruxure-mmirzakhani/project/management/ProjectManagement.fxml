@@ -14,7 +14,7 @@
           <TableColumn fx:id="employeeLastName" prefWidth="171.0" text="Last Name" />
             <TableColumn fx:id="employeeTeam" prefWidth="171.0" text="Team " />
             <TableColumn fx:id="employeeUtilPercentage" prefWidth="171.0" text="Utilization %" />
-            <TableColumn prefWidth="171.0" text="Employee Type" />
+            <TableColumn fx:id="employeeType" prefWidth="171.0" text="Employee Type" />
         </columns>
       </TableView>
       <Label layoutX="61.0" layoutY="410.0" text="Employees">
