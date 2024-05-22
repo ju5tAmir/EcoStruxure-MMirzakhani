@@ -19,7 +19,7 @@ public class ProjectController implements IController<Model> {
     @FXML
     private TableColumn<RateService, String> projectName;
     @FXML
-    private TableColumn<RateService, String> projectHourlyRate, projectDailyRate;
+    private TableColumn<RateService, String> projectHourlyRate, projectDailyRate, projectTotalCost;
 
     private Model model;
 
@@ -56,13 +56,21 @@ public class ProjectController implements IController<Model> {
 
             return new SimpleStringProperty(formattedString);
         });
+
+        projectTotalCost.setCellValueFactory(cellData -> {
+            double totalCost = model.getRate(cellData.getValue().getProject()).getTotalCosts();
+
+            String formattedString = GUIHelper.currencyFormatter(totalCost);
+
+            return new SimpleStringProperty(formattedString);
+        });
     }
 
     private void setListeners(){
         // Project table items listener
-        projectTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null){
-                model.setProject(newValue.getProject());
+        projectTable.setOnMouseClicked(event -> {
+            if (projectTable.getSelectionModel().getSelectedItem() != null){
+                model.setProject(projectTable.getSelectionModel().getSelectedItem().getProject());
                 try {
                     Window.createStage(WindowType.PROJECT_MANAGER, model, Modality.WINDOW_MODAL, false);
                 } catch (ExceptionHandler e) {

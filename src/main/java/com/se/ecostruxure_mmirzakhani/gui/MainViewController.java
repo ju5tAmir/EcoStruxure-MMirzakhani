@@ -42,8 +42,8 @@ public class MainViewController implements IController, Initializable {
         try {
 //            System.out.println(model);
 //            onDashboard() ;
-//            onTeam();
-            onEmployee();
+            onTeam();
+//            onEmployee();
         } catch (ExceptionHandler e) {
             System.out.println(e.getMessage());
             throw new RuntimeException(e);
