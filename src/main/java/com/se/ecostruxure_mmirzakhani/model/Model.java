@@ -34,7 +34,10 @@ public class Model {
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <ProjectMember>             projectMembers      = FXCollections.observableArrayList();
     private final ObservableList        <RateService>               rateServices        = FXCollections.observableArrayList();
-    private final ObservableList        <EmployeeService>           employeeServices    = FXCollections.observableArrayList();
+    private final ObservableList        <ProjectMemberLinker>       projectMemberLinker = FXCollections.observableArrayList();
+
+    private final ObservableList        <ProjectService>            projectServices     = FXCollections.observableArrayList();
+
     private final ObservableMap         <Project, ObservableList<ProjectMember>> projectToMembers  = FXCollections.observableHashMap() ;
 
     private final EmployeeService                                   employeeService     = new EmployeeService(currency.get());
@@ -101,7 +104,7 @@ public class Model {
     /**
      * Get all the Projects
      */
-    public List<Project> getAllProjects() throws ExceptionHandler {
+    public ObservableList<Project> getAllProjects() throws ExceptionHandler {
         setProjects();
         return projects;
     }
@@ -450,16 +453,15 @@ public class Model {
 
 
 
-//    /**
-//     * Assign the project (This is the moment that user clicks on add new project)
-//     */
-//    public void assignProjectToEmployee(){
-//        // Assign this moment as start time
-//        this.project.get().setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
-//
-//        // Validate
-//        this.projects.add(project.get());
-//    }
+    /**
+     * Assign the project (This is the moment that user clicks on add new project)
+     */
+    public void assignProjectToEmployee(){
+        // Assign this moment as start time
+
+        // Validate
+        this.projects.add(project.get());
+    }
 
 //    /**
 //     * Create employee object with projects related to it, if it was successful, return true
@@ -562,5 +564,69 @@ public class Model {
 
     public List<Project> getEmployeeProjects(Employee employee){
         return employeeService.getAllProjects(employee);
+    }
+
+    public ObservableList<Project> getProjects() {
+        projects.clear();
+        return projects;
+    }
+
+    public void setProjectName(Project project){
+        this.project.set(project);
+    }
+
+    public void setProjectMemberEmployee(Employee employee){
+        this.projectMember.get().setEmployee(employee);
+    }
+
+    public void setProjectMemberTeam(Team team){
+        this.projectMember.get().setTeam(team);
+    }
+
+    public void setProjectMemberUtilizationPercentage(double utilizationPercentage){
+        this.projectMember.get().setUtilizationPercentage(utilizationPercentage);
+    }
+
+    public void assignProjectMemberToProject(){
+        projectToMembers.put(this.project.get(), this.projectMembers);
+    }
+
+
+
+
+
+    public ObservableList<ProjectMemberLinker> getProjectMemberLinker(Employee employee){
+        setProjectLinker(employee);
+
+        return projectMemberLinker;
+    }
+
+//    public ObservableList<ProjectMemberLinker> getProjectMemberLinker(Employee employee){
+//
+////        for (ProjectMemberLinker p: projectMemberLinker){
+////            if (p.getProjectMember().getEmployee() == employee){
+////
+////            }
+////        }
+////
+////        return projectMemberLinker;
+//    }
+
+    public void setProjectLinker(Employee employee){
+        setProjectMembers();
+        projectMemberLinker.clear();
+        for (Project p: projectToMembers.keySet()){
+            for(ProjectMember pm: projectToMembers.get(p)){
+
+                if (employee.equals(pm.getEmployee())) {
+
+                    this.projectMemberLinker.add(new ProjectMemberLinker(p, pm));
+                }
+            }
+        }
+    }
+
+    public void addProjectMemberLinker(Project project, ProjectMember projectMember) {
+        this.projectMemberLinker.add(new ProjectMemberLinker(project, projectMember));
     }
 }

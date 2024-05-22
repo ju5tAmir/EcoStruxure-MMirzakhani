@@ -1,26 +1,83 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
+import com.se.ecostruxure_mmirzakhani.be.*;
+import com.se.ecostruxure_mmirzakhani.bll.ProjectService;
+import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 
 public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private TextField firstName, lastName, emailAddress;
+    @FXML
+    private MenuButton currencyMenu;
+
 
     private Model model;
     @Override
     public void setModel(Model model) {
         this.model = model;
 
+        Employee emp1 = new Employee();
+        model.setEmployee(emp1);
+
+        initCurrencyButton();
+
         addFocusListener(firstName);
         addFocusListener(lastName);
         addFocusListener(emailAddress);
+
     }
+
+
+
+    @FXML
+    private void onAssignButton(){
+
+//        Project p = new Project();
+//        p.setName("HHH");
+//        p.setCountry(Country.COLOMBIA);
+//
+//        ProjectMember pm = new ProjectMember();
+//        pm.setTeam(new Team(10, "Dev"));
+//        pm.setEmployee(new Employee());
+//        pm.setUtilizationPercentage(80);
+//        model.addProjectMemberLinker(p, pm);
+        try{
+            Window.createStage(WindowType.ASSIGN_EMPLOYEE_PROJECT, model, Modality.WINDOW_MODAL, false);
+        } catch (ExceptionHandler e){
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+    @FXML
+    private void onSubmitButton(){
+
+    }
+
+    private void initCurrencyButton(){
+
+        Currency[] currencies = Currency.values();
+
+        for (Currency currency: currencies){
+            MenuItem menuItem = new MenuItem(currency.toString());
+            currencyMenu.getItems().add(menuItem);
+        }
+
+    }
+
+
 
     private void addFocusListener(TextField textField) {
         textField.focusedProperty().addListener((observable, oldValue, newValue) -> {

@@ -121,20 +121,6 @@ public class EmployeeDAO {
         return employees;
     }
 
-//    /**
-//     * Retrieve Employees of a requested Team
-//     */
-//    public List<Project> getTeamProjects(Team team){
-//        List<Project> projectList = new ArrayList<>();
-//
-//        for (Project project: projects){
-//            if (project.getTeam().equals(team)){
-//                projectList.add(project);
-//            }
-//        }
-//        return projectList;
-//    }
-
     /**
      * Retrieve all the Teams
      */
