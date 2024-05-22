@@ -11,8 +11,8 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1500.0" stylesheets="@projects-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.project.ProjectController">
    <children>
       <Label layoutX="50.0" layoutY="33.0" styleClass="h1-label" text="Project Management" />
-      <Label layoutX="50.0" layoutY="427.0" styleClass="h2-label" text="Projects" />
-      <TableView fx:id="projectTable" layoutX="50.0" layoutY="478.0" prefHeight="450.0" prefWidth="787.0">
+      <Label layoutX="50.0" layoutY="111.0" styleClass="h2-label" text="Projects" />
+      <TableView fx:id="projectTable" layoutX="50.0" layoutY="162.0" prefHeight="450.0" prefWidth="787.0">
         <columns>
           <TableColumn fx:id="projectName" prefWidth="240.0" text="Project Name" />
             <TableColumn fx:id="projectHourlyRate" prefWidth="141.0" text="Hourly Rate" />
@@ -20,9 +20,9 @@
             <TableColumn fx:id="projectTotalCost" prefWidth="273.0" text="Total Cost" />
         </columns>
       </TableView>
-      <ListView layoutX="1018.0" layoutY="475.0" prefHeight="450.0" prefWidth="433.0" />
-      <Label layoutX="1018.0" layoutY="427.0" styleClass="h2-label" text="Multipliers" />
-      <Button layoutX="758.0" layoutY="429.0" mnemonicParsing="false" onAction="#onCreateProject" text="Create">
+      <ListView layoutX="993.0" layoutY="646.0" prefHeight="321.0" prefWidth="433.0" />
+      <Label layoutX="993.0" layoutY="113.0" styleClass="h2-label" text="Multipliers" />
+      <Button layoutX="758.0" layoutY="646.0" mnemonicParsing="false" onAction="#onCreateProject" text="Create">
          <font>
             <Font size="17.0" />
          </font>

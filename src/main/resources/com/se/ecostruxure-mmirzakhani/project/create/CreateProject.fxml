@@ -26,9 +26,9 @@
       <TextField fx:id="projectName" layoutX="290.0" layoutY="55.0" prefHeight="31.0" prefWidth="168.0" />
       <MenuBar layoutX="297.0" layoutY="149.0">
         <menus>
-          <Menu fx:id="countryMenu" mnemonicParsing="false" text="Denmark">
+          <Menu fx:id="countryMenu" mnemonicParsing="false" text="Country">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" text="Denmark" />
             </items>
           </Menu>
         </menus>
