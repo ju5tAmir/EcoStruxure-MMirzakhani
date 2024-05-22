@@ -49,11 +49,13 @@ public class CreateProjectController implements IController<Model> {
     private void initCountryMenu(){
 
         Country[] countries = Country.values();
-
+        countryMenu.getItems().getFirst().setOnAction(e->{
+            selectedCountry = Country.DENMARK;
+            countryMenu.setText("Denmark");
+        });
         for (Country country: countries){
             MenuItem menuItem = new MenuItem(country.toString());
             menuItem.setOnAction(event -> {
-                System.out.println(menuItem.getText());
                 selectedCountry = Country.valueOf(menuItem.getText().toUpperCase().replace(" ", "_"));
                 countryMenu.setText(menuItem.getText());
             });
