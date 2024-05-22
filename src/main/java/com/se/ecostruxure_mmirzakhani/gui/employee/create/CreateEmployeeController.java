@@ -16,13 +16,21 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private TextField firstName, lastName, emailAddress;
+
     @FXML
-    private MenuButton currencyMenu;
+    private TextField annualSalary, fixedAmount, annualWH, dailyWH, overheadPercentage;
+
+    @FXML
+    private RadioButton overheadRB, productionRB;
+    @FXML
+    private Menu currencyMenu;
+    private Currency selectedCurrency = Currency.EUR;
 
 
     private Model model;
@@ -42,28 +50,39 @@ public class CreateEmployeeController implements IController<Model> {
     }
 
 
-
-    @FXML
-    private void onAssignButton(){
-
-//        Project p = new Project();
-//        p.setName("HHH");
-//        p.setCountry(Country.COLOMBIA);
-//
-//        ProjectMember pm = new ProjectMember();
-//        pm.setTeam(new Team(10, "Dev"));
-//        pm.setEmployee(new Employee());
-//        pm.setUtilizationPercentage(80);
-//        model.addProjectMemberLinker(p, pm);
-        try{
-            Window.createStage(WindowType.ASSIGN_EMPLOYEE_PROJECT, model, Modality.WINDOW_MODAL, false);
-        } catch (ExceptionHandler e){
-            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
     @FXML
     private void onSubmitButton(){
+        try {
+        Employee e = new Employee();
+        Contract c = new Contract();
+        e.setContract(c);
 
+        e.setFirstName(firstName.getText());
+            e.setLastName(lastName.getText());
+            e.setEmail(emailAddress.getText());
+
+            c.setAnnualSalary(Double.parseDouble(annualSalary.getText()));
+            c.setFixedAnnualAmount(Double.parseDouble(fixedAmount.getText()));
+            c.setAnnualWorkHours(Double.parseDouble(annualWH.getText()));
+            c.setAverageDailyWorkHours(Double.parseDouble(dailyWH.getText()));
+            c.setOverheadPercentage(Double.parseDouble(overheadPercentage.getText()));
+            c.setCurrency(selectedCurrency);
+
+            if (overheadRB.isSelected()) {
+                c.setOverhead(true);
+            }
+            model.setEmployee(e);
+            model.createEmployee();
+
+            onCancelButton();
+        } catch (ExceptionHandler | RuntimeException ex) {
+            AlertHandler.displayAlert(ex.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    private void onCancelButton(){
+        Window.closeStage((Stage) firstName.getScene().getWindow());
     }
 
     private void initCurrencyButton(){
@@ -72,6 +91,10 @@ public class CreateEmployeeController implements IController<Model> {
 
         for (Currency currency: currencies){
             MenuItem menuItem = new MenuItem(currency.toString());
+            menuItem.setOnAction(event -> {
+                selectedCurrency = Currency.valueOf(menuItem.getText());
+                currencyMenu.setText(menuItem.getText());
+            });
             currencyMenu.getItems().add(menuItem);
         }
 

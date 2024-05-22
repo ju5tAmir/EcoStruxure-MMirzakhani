@@ -463,26 +463,21 @@ public class Model {
         this.projects.add(project.get());
     }
 
-//    /**
-//     * Create employee object with projects related to it, if it was successful, return true
-//     */
-//    public boolean createEmployee() throws ExceptionHandler{
-//        // Insert the currently working employee into database.
-//        if (employeeService.create(employee.get(), projects)){
-//            // If database insert was successful
-//            employees.add(employee.get());
-//
-//            // Update the HashMap
-//            employeeProjects.put(employee.get(), projects);
-//
-//            updateTeamProjects();
-//
-//            // Clear objects to prevent conflicts with the future creations
-//            clearEmployeeObjects();
-//        }
-//        return false;
-//    }
-//
+    /**
+     * Create employee object with projects related to it, if it was successful, return true
+     */
+    public boolean createEmployee() throws ExceptionHandler{
+        // Insert the currently working employee into database.
+        if (employeeService.create(employee.get(), projects)){
+            // If database insert was successful
+            employees.add(employee.get());
+
+            // Clear objects to prevent conflicts with the future creations
+            clearEmployeeObjects();
+        }
+        return false;
+    }
+
 //    /**
 //     * This method will update the teamProjects list with newly created employee or team Projects after their creation.
 //     * Without requesting from database.
@@ -492,7 +487,7 @@ public class Model {
 //            this.teamProjects.get(p.getTeam()).add(p);
 //        }
 //    }
-//
+
 //    // ****************** LAB *******************
 
 
@@ -629,4 +624,6 @@ public class Model {
     public void addProjectMemberLinker(Project project, ProjectMember projectMember) {
         this.projectMemberLinker.add(new ProjectMemberLinker(project, projectMember));
     }
+
+
 }
