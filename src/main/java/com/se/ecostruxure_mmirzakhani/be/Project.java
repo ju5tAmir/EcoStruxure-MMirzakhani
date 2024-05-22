@@ -4,25 +4,30 @@ import java.util.Objects;
 
 public class Project {
     private int             id;
-    private Employee        employee;
-    private Team            team;
-    private double          utilizationPercentage;
-    private TimeLine        timeLine;
+    private String          name;
+    private Country         country;
 
     // ******************** Constructors **************************************
     public Project(){
-        this.employee =                 new Employee();
-        this.team =                     new Team();
+
     }
 
-    public Project(Employee employee, Team team, double utilizationPercentage, TimeLine timeLine) {
-        this.employee =                 employee;
-        this.team =                     team;
-        this.utilizationPercentage =    utilizationPercentage;
-        this.timeLine =                 timeLine;
+    public Project(String name, Country country){
+        this.name = name;
+        this.country = country;
     }
+
+
+    public Project(int id, String name, Country country) {
+        this.id = id;
+        this.name = name;
+        this.country = country;
+    }
+
 
     // ******************** Methods *******************************************
+
+
     public int getId() {
         return id;
     }
@@ -31,45 +36,28 @@ public class Project {
         this.id = id;
     }
 
-    public Team getTeam() {
-        return team;
+    public String getName() {
+        return name;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public double getUtilizationPercentage() {
-        return utilizationPercentage;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setUtilizationPercentage(double utilizationPercentage) {
-        this.utilizationPercentage = utilizationPercentage;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public TimeLine getTimeLine() {
-        return timeLine;
-    }
-
-    public void setTimeLine(TimeLine timeLine) {
-        this.timeLine = timeLine;
-    }
     @Override
     public String toString() {
         return "Project{" +
                 "id=" + id +
-                ", employee=" + employee +
-                ", team=" + team +
-                ", utilizationPercentage=" + utilizationPercentage +
-                ", timeLine" + timeLine +
+                ", name='" + name + '\'' +
+                ", country=" + country +
                 '}';
     }
 
@@ -77,11 +65,11 @@ public class Project {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Project project)) return false;
-        return getId() == project.getId() && Double.compare(getUtilizationPercentage(), project.getUtilizationPercentage()) == 0 && Objects.equals(getEmployee(), project.getEmployee()) && Objects.equals(getTeam(), project.getTeam());
+        return getId() == project.getId() && Objects.equals(getName(), project.getName()) && getCountry() == project.getCountry();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmployee(), getTeam(), getUtilizationPercentage());
+        return Objects.hash(getId(), getName(), getCountry());
     }
 }

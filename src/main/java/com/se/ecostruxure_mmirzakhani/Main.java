@@ -3,18 +3,22 @@ package com.se.ecostruxure_mmirzakhani;
 import com.se.ecostruxure_mmirzakhani.be.*;
 import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.HistoryService;
+import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 
+import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import com.se.ecostruxure_mmirzakhani.utils.ObjectService;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
 import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
 
 import javafx.application.Application;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 
 public class Main extends Application {
@@ -28,49 +32,15 @@ public class Main extends Application {
     public static void main(String[] args) throws ExceptionHandler {
         Model model = new Model();
 
-        Contract contract1 = new Contract();
-        contract1.setId(1);
-        contract1.setCountry(Country.DENMARK);
-        contract1.setCurrency(Currency.USD);
-        contract1.setAnnualSalary(80_000);     // 80K Salary
-        contract1.setFixedAnnualAmount(5_000);
-        contract1.setAnnualWorkHours(2000);
-        contract1.setAverageDailyWorkHours(8);
-        contract1.setOverhead(true);
-        contract1.setOverheadPercentage(20);
 
-        Contract contract2 = new Contract();
-        contract2.setId(1);
-        contract2.setCountry(Country.DENMARK);
-        contract2.setCurrency(Currency.USD);
-        contract2.setAnnualSalary(90_000);       // Salary increased from 80K to 90K
-        contract2.setFixedAnnualAmount(5_000);
-        contract2.setAnnualWorkHours(2000);
-        contract2.setAverageDailyWorkHours(8);
-        contract2.setOverhead(true);
-        contract2.setOverheadPercentage(20);
-
-        ObjectService.compare(contract1, contract2);
-
-        /*
-         * [+] id: 1 -> 1
-         * [+] country: Denmark -> Denmark
-         * [+] currency: USD -> USD
-         * [+] annualSalary: 80000.0 -> 90000.0         ** Change Detected **
-         * [+] fixedAnnualAmount: 5000.0 -> 5000.0
-         * [+] annualWorkHours: 2000.0 -> 2000.0
-         * [+] averageDailyWorkHours: 8.0 -> 8.0
-         * [+] overallUtilizationPercentage: 0.0 -> 0.0
-         * [+] overheadPercentage: 20.0 -> 20.0
-         * [+] isOverhead: true -> true
-         * [+] timeLine: null -> null
-         */
-//        Application.launch(args);
+//        System.out.println(model.getEmployeeHistory(model.getRandomEmployee()));
+        Application.launch(args);
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         // Create and show a new stage
         Window.createStage(WindowType.MAIN);
 

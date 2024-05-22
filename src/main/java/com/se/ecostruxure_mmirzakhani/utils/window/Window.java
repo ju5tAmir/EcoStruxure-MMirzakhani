@@ -136,16 +136,18 @@ public class Window implements IUtils {
         return switch (windowType){
             case MAIN -> "/com/se/ecostruxure-mmirzakhani/main/MainView.fxml";
             case DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/DashboardView.fxml";
-            case TEAM -> "/com/se/ecostruxure-mmirzakhani/team/TeamView.fxml";
-            case EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/EmployeeView.fxml";
+            case TEAM -> "/com/se/ecostruxure-mmirzakhani/project/TeamView.fxml";
+            case EMPLOYEE_MAIN -> "/com/se/ecostruxure-mmirzakhani/employee/EmployeeMainView.fxml";
             case SCRIPT -> "/com/se/ecostruxure-mmirzakhani/script/ScriptView.fxml";
             case PROGRESS_BAR -> "/com/se/ecostruxure-mmirzakhani/script/ProgressBarView.fxml";
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
             case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/create/CreateEmployee.fxml";
             case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
             case TEAMS -> "/com/se/ecostruxure-mmirzakhani/dashboard/Teams.fxml";
-            case TEST -> "/com/se/ecostruxure-mmirzakhani/sample.fxml";
-
+            case PROJECT_MANAGER -> "/com/se/ecostruxure-mmirzakhani/project/management/ProjectManagement.fxml";
+            case ASSIGN_EMPLOYEE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/employee/create/AssignEmployeeProject.fxml";
+            case PROJECT_MAIN -> "/com/se/ecostruxure-mmirzakhani/project/ProjectMainView.fxml";
+            case CREATE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml";
 
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths

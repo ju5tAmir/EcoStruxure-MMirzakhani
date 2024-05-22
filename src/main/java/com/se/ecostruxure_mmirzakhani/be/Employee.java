@@ -1,5 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
+
+import java.util.Objects;
+
 public class Employee extends User {
     private Contract        contract;
 
@@ -52,5 +55,19 @@ public class Employee extends User {
         return "Employee{" +
                 "contract=" + contract +
                 '}';
+    }
+
+    // ******************** Equals and HashCode ********************************
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Employee employee)) return false;
+        if (!super.equals(o)) return false;
+        return getId() == employee.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getId());
     }
 }

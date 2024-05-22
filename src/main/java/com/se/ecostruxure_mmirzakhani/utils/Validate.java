@@ -57,22 +57,33 @@ public class Validate implements IUtils {
      * @throws ExceptionHandler if the input string does not represent a valid name.
      */
 
-    public static String validateName(String name) throws ExceptionHandler{
+    public static void validateName(String name) throws RuntimeException{
         // Regex pattern to check if user input matches to a name (only letters, min 3 and max 50)
         Pattern pattern = Pattern.compile("^[a-zA-Z]{3,50}$");
 
         // Matches the provided name with the pattern
         Matcher matcher = pattern.matcher(name);
 
-        // If the input matches to the pattern, which means it's an eligible name
-        if (matcher.find()){
-            // Returns the name, here we could have return boolean, but I thought it would be easier to handle this in the model (This way we reduce complexity in the Model)
-            return name;
-        } else {
-            // Throw an Exception if the input is not a valid name
-            throw new ExceptionHandler(ExceptionMessage.INVALID_NAME.getValue());
+        // If the input not matches to the pattern, which means it's an illegal input
+        if (!matcher.find()){
+            throw new RuntimeException(ExceptionMessage.INVALID_NAME.getValue());
         }
     }
+
+
+    public static void validateEmail(String input) throws RuntimeException{
+        // Regex pattern to check if user input matches to an email
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+
+        // Matches the provided input with the pattern
+        Matcher matcher = pattern.matcher(input);
+
+        // If the input not matches to the pattern, which means it's an illegal input
+        if (!matcher.find()){
+            throw new RuntimeException(ExceptionMessage.INVALID_EMAIL.getValue());
+        }
+    }
+
 
     /**
      * Checks if a contract's values for annual salary, annual work hours, and average daily work hours

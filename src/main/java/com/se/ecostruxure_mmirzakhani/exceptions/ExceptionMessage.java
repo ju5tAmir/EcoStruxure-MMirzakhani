@@ -10,6 +10,7 @@ public enum ExceptionMessage {
     // ** Invalid inputs ** \\
     INVALID_DOUBLE("The provided number is not a valid number."),
     INVALID_NAME("First name or Last name must be only letters.\nMinimum: 3\nMaximum: 50"),
+    INVALID_EMAIL("Please enter a valid email address. An email address should be in the format 'example@domain.com'."),
 
 
     // ** GUI Exceptions ** \\

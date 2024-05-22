@@ -2,7 +2,9 @@ package com.se.ecostruxure_mmirzakhani.be;
 
 public enum Currency {
     AUD,
-    EUR,
+    EUR(CurrencySign.EUR),
+    DKK,
+
     CAD,
     CNY,
     GBP,
@@ -24,7 +26,6 @@ public enum Currency {
     BRL,
     CHF,
     CZK,
-    DKK,
     EGP,
     HUF,
     MDL,
@@ -147,5 +148,15 @@ public enum Currency {
     XOF,
     XPF,
     YER,
-    ZMW
+    ZMW;
+
+    private CurrencySign currencySign;
+    Currency(CurrencySign currencySign) {
+        this.currencySign = currencySign;
+    }
+    Currency(){}
+
+    public CurrencySign getCurrencySign() {
+        return currencySign;
+    }
 }
