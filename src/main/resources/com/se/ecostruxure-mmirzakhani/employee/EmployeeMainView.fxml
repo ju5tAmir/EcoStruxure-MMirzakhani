@@ -37,7 +37,7 @@
          </columns>
       </TableView>
       <Button layoutX="350.0" layoutY="866.0" mnemonicParsing="false" onAction="#onAssignButton" text="Assign" />
-      <Button layoutX="263.0" layoutY="866.0" mnemonicParsing="false" text="Remove" />
+      <Button layoutX="263.0" layoutY="866.0" mnemonicParsing="false" onAction="#onRemoveButton" text="Remove" />
       <Label layoutX="33.0" layoutY="9.0" prefHeight="32.0" prefWidth="129.0" text="Employees">
          <font>
             <Font size="21.0" />

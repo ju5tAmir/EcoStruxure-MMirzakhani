@@ -624,7 +624,9 @@ public class Model {
     public void addProjectMemberLinker(Project project, ProjectMember projectMember) {
         this.projectMemberLinker.add(new ProjectMemberLinker(project, projectMember));
     }
-
+    public void removeProjectMemberLinker(ProjectMemberLinker projectMemberLinker) {
+        this.projectMemberLinker.remove(projectMemberLinker);
+    }
     public double getTotalUtil(Employee employee){
         double total = 0;
         for (ProjectMemberLinker pml: projectMemberLinker){

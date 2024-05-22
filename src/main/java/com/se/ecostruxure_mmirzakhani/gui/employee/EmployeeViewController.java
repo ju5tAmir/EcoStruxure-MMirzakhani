@@ -151,6 +151,19 @@ public class EmployeeViewController implements IController<Model> {
         }
     }
 
+    @FXML
+    private void onRemoveButton(){
+        if (!projectsTable.getSelectionModel().isEmpty()){
+            try {
+                model.removeProjectMemberLinker(projectsTable.getSelectionModel().getSelectedItem());
+            } catch (RuntimeException e) {
+                AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an assignment first in order to remove it.", Alert.AlertType.INFORMATION);
+        }
+    }
     public void onAssignButton(ActionEvent actionEvent) {
 
         if (!employeesTable.getSelectionModel().isEmpty()){
