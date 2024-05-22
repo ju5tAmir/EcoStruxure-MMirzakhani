@@ -79,6 +79,14 @@ public class ProjectController implements IController<Model> {
             }
         });
 
+    }
 
+    @FXML
+    private void onCreateProject(){
+        try {
+            Window.createStage(WindowType.CREATE_PROJECT, model, Modality.WINDOW_MODAL, false);
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -147,6 +147,7 @@ public class Window implements IUtils {
             case PROJECT_MANAGER -> "/com/se/ecostruxure-mmirzakhani/project/management/ProjectManagement.fxml";
             case ASSIGN_EMPLOYEE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/employee/create/AssignEmployeeProject.fxml";
             case PROJECT_MAIN -> "/com/se/ecostruxure-mmirzakhani/project/ProjectMainView.fxml";
+            case CREATE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml";
 
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths

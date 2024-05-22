@@ -30,6 +30,7 @@ public class Main extends Application {
     //  : Observer pattern for currency system. so when it's changed in model, it changes in all the classes.
 
     public static void main(String[] args) throws ExceptionHandler {
+        Model model = new Model();
 
 
         Application.launch(args);
@@ -38,23 +39,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Model model = new Model();
-
-
-
-        model.addProject();
-        Employee e = new Employee();
-        model.setEmployee(e);
-
-        Team t = new Team();
-        model.setTeam(t);
-
-        Project p = new Project();
-        model.setProject(p);
-
-
-        model.createEmployee();
-        model.getSize();
 
         // Create and show a new stage
         Window.createStage(WindowType.MAIN);

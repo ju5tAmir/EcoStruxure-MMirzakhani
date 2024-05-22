@@ -96,7 +96,7 @@ public class Model {
      * Get all the Teams
      */
     public List<Team> getAllTeams() throws ExceptionHandler {
-        setTeams();
+//        setTeams();
         return teams;
     }
 
@@ -104,7 +104,7 @@ public class Model {
      * Get all the Projects
      */
     public ObservableList<Project> getAllProjects() throws ExceptionHandler {
-        setProjects();
+//        setProjects();
         return projects;
     }
 
@@ -599,6 +599,7 @@ public class Model {
     public void addProjectMemberLinker(Project project, ProjectMember projectMember) {
         this.projectMemberLinker.add(new ProjectMemberLinker(project, projectMember));
 
+//        System.out.println(projectMembers.getLast());
         if (projectToMembers.containsKey(project)){
             List<ProjectMember> list = projectToMembers.get(project);
             list.add(projectMember);
@@ -646,27 +647,21 @@ public class Model {
             // If database insert was successful
             employees.add(employee.get());
 
-//            projects.add(project.get());
-//
-//            if (projectToMembers.containsKey(project.get())){
-//                List<ProjectMember> list = projectToMembers.get(project.get());
-//                list.add(projectMember.get());
-//            }
-
-//            projectToMembers.put(project.get(), projectMembers);
-
             // Clear objects to prevent conflicts with the future creations
             clearEmployeeObjects();
         }
         return false;
     }
 
-    public void addProject(){
-//        List<ProjectMember> pms = new ArrayList<>();
-        projectToMembers.put(new Project(), projectMembers);
+    public void createProject(){
+        ObservableList<ProjectMember> list = FXCollections.observableArrayList();
+
+        projectToMembers.put(project.get(), list);
+
+        projects.add(project.get());
+
+        rateServices.add(new RateService(project.get(), list));
     }
 
-    public void getSize(){
-        System.out.println(projectToMembers.size());
-    }
+
 }
