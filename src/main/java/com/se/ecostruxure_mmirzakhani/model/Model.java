@@ -44,6 +44,7 @@ public class Model {
     private final TeamService                                       teamService         = new TeamService(currency.get());
     private final CountryService                                    countryService      = new CountryService(currency.get());
 
+    private final ObservableList<RateService> mockRateServices = FXCollections.observableArrayList();
 
     // ************************ Constructor ************************
     public Model(){
@@ -63,6 +64,8 @@ public class Model {
 
     // ************************ Methods *****************************
     // ************************ Getters *****************************
+
+
     /**
      * Get currently working employee object
      */
@@ -664,4 +667,11 @@ public class Model {
     }
 
 
+    public ObservableList<RateService> getMockRateServices(){
+        return mockRateServices;
+    }
+
+   public void setMockRateServices(List<RateService> rateServices){
+        this.mockRateServices.setAll(rateServices);
+   }
 }
