@@ -1,21 +1,15 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.bll.ProjectService;
 import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.window.Window;
-import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class CreateEmployeeController implements IController<Model> {
@@ -40,6 +34,10 @@ public class CreateEmployeeController implements IController<Model> {
 
         Employee emp1 = new Employee();
         model.setEmployee(emp1);
+
+        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
+        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
+
 
         initCurrencyButton();
 

@@ -184,15 +184,24 @@ public class ProjectController implements IController<Model> {
     }
 
     public double hourlyRate(double hourlyRate, double gmPercentage) {
-        double gmMultiplier = 1 + (gmPercentage / 100);
+        double gmMultiplier = 1 - (gmPercentage / 100);
         return hourlyRate * gmMultiplier;
     }
 
     public double dailyRate(double dailyRate, double gmPercentage) {
-        double gmMultiplier = 1 + (gmPercentage / 100);
+        double gmMultiplier = 1 - (gmPercentage / 100);
         return dailyRate * gmMultiplier;
     }
 
+    public double hourlyRate(double hourlyRate, double gmPercentage, boolean isMarkup) {
+        double gmMultiplier = 1 + (gmPercentage / 100);
+        return hourlyRate * gmMultiplier;
+    }
+
+    public double dailyRate(double dailyRate, double gmPercentage, boolean isMarkup) {
+        double gmMultiplier = 1 + (gmPercentage / 100);
+        return dailyRate * gmMultiplier;
+    }
 
 
     @FXML
@@ -207,7 +216,7 @@ public class ProjectController implements IController<Model> {
             });
 
             projectHourlyRate1.setCellValueFactory(cellData -> {
-                double markupHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField));
+                double markupHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField), true);
                 double gmHourlyRate = hourlyRate(markupHourlyRate, getMultiplier(gmTextField));
 
 
@@ -217,7 +226,7 @@ public class ProjectController implements IController<Model> {
             });
 
             projectDailyRate1.setCellValueFactory(cellData -> {
-                double markupDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField));
+                double markupDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField), true);
                 double gmDailyRate = dailyRate(markupDailyRate, getMultiplier(gmTextField));
 
                 String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
@@ -226,7 +235,7 @@ public class ProjectController implements IController<Model> {
             });
 
             projectTotalCost1.setCellValueFactory(cellData -> {
-                double markupCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField));
+                double markupCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField), true);
                 double gmCost = hourlyRate(markupCost, getMultiplier(gmTextField));
 
                 String formattedString = GUIHelper.currencyFormatter(gmCost);
@@ -271,7 +280,7 @@ public class ProjectController implements IController<Model> {
             });
 
             projectHourlyRate1.setCellValueFactory(cellData -> {
-                double gmHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField));
+                double gmHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField), true);
 
                 String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
 
@@ -279,7 +288,7 @@ public class ProjectController implements IController<Model> {
             });
 
             projectDailyRate1.setCellValueFactory(cellData -> {
-                double gmDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField));
+                double gmDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField), true);
 
                 String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
 
@@ -287,7 +296,7 @@ public class ProjectController implements IController<Model> {
             });
 
             projectTotalCost1.setCellValueFactory(cellData -> {
-                double gmCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField));
+                double gmCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField), true);
 
                 String formattedString = GUIHelper.currencyFormatter(gmCost);
 

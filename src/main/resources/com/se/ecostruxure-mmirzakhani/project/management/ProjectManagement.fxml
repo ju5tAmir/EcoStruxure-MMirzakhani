@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="838.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.project.management.ProjectManagementController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="838.0" prefWidth="1500.0" stylesheets="@project-management-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.project.management.ProjectManagementController">
    <children>
       <TableView fx:id="employeesTable" layoutX="61.0" layoutY="445.0" prefHeight="358.0" prefWidth="806.0">
         <columns>
@@ -17,16 +20,16 @@
             <TableColumn fx:id="employeeType" prefWidth="171.0" text="Employee Type" />
         </columns>
       </TableView>
-      <Label layoutX="61.0" layoutY="410.0" text="Employees">
+      <Label layoutX="59.0" layoutY="399.0" styleClass="h1" text="Employees">
          <font>
-            <Font size="19.0" />
+            <Font size="32.0" />
          </font></Label>
       <Label layoutX="61.0" layoutY="79.0" text="Project:">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="projectName" layoutX="236.0" layoutY="80.0" text="Label">
+      <Label fx:id="projectName" layoutX="236.0" layoutY="80.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
@@ -66,48 +69,41 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="totalTeams" layoutX="236.0" layoutY="298.0" text="Label">
+      <Label fx:id="totalTeams" layoutX="236.0" layoutY="298.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="totalEmployees" layoutX="236.0" layoutY="180.0" text="Label">
+      <Label fx:id="totalEmployees" layoutX="236.0" layoutY="180.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="hourlyRate" layoutX="642.0" layoutY="81.0" text="Label">
+      <Label fx:id="hourlyRate" layoutX="642.0" layoutY="81.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="dailyRate" layoutX="642.0" layoutY="131.0" text="Label">
+      <Label fx:id="dailyRate" layoutX="642.0" layoutY="131.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="directCosts" layoutX="1065.0" layoutY="84.0" text="Label">
+      <Label fx:id="directCosts" layoutX="1065.0" layoutY="84.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="totalCosts" layoutX="1065.0" layoutY="175.0" text="Label">
+      <Label fx:id="totalCosts" layoutX="1065.0" layoutY="175.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="overheadCosts" layoutX="1065.0" layoutY="134.0" text="Label">
+      <Label fx:id="overheadCosts" layoutX="1065.0" layoutY="134.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
       </Label>
-      <TableView fx:id="employeesTable1" layoutX="902.0" layoutY="445.0" prefHeight="358.0" prefWidth="537.0">
-         <columns>
-            <TableColumn fx:id="employeeFirstName1" prefWidth="122.0" text="Team Name" />
-            <TableColumn fx:id="employeeLastName1" prefWidth="130.0" text="Members" />
-            <TableColumn fx:id="employeeTeam1" prefWidth="212.0" text="Team " />
-         </columns>
-      </TableView>
       <Label layoutX="62.0" layoutY="253.0" text="Production">
          <font>
             <Font size="14.0" />
@@ -118,12 +114,12 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="overheadEmployees" layoutX="236.0" layoutY="224.0" text="Label">
+      <Label fx:id="overheadEmployees" layoutX="236.0" layoutY="224.0" styleClass="title" text="Label">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="productionEmployees" layoutX="236.0" layoutY="253.0" text="Label">
+      <Label fx:id="productionEmployees" layoutX="236.0" layoutY="253.0" styleClass="title" text="Label">
          <font>
             <Font size="14.0" />
          </font>
@@ -133,7 +129,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="countryLabel" layoutX="236.0" layoutY="130.0" text="Label">
+      <Label fx:id="countryLabel" layoutX="236.0" layoutY="130.0" styleClass="title" text="Label">
          <font>
             <Font size="19.0" />
          </font>
@@ -141,6 +137,19 @@
       <Label layoutX="51.0" layoutY="14.0" text="Project Profile">
          <font>
             <Font name="System Bold" size="38.0" />
+         </font>
+      </Label>
+      <LineChart disable="true" layoutX="901.0" layoutY="442.0" prefHeight="368.0" prefWidth="489.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Label disable="true" layoutX="945.0" layoutY="399.0" styleClass="h1" text="History">
+         <font>
+            <Font name="System Bold" size="32.0" />
          </font>
       </Label>
    </children>

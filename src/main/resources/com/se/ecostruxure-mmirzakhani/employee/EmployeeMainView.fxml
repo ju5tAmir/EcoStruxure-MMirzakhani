@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.EmployeeViewController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1600.0" stylesheets="@employee-view-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.EmployeeViewController">
    <children>
       <TableView fx:id="employeesTable" layoutX="33.0" layoutY="52.0" prefHeight="411.0" prefWidth="1222.0">
          <columns>
@@ -23,12 +23,12 @@
          </columns>
       </TableView>
       <Button layoutX="1193.0" layoutY="470.0" mnemonicParsing="false" onAction="#onCreateButton" text="Create" />
-      <Label layoutX="41.0" layoutY="515.0" prefHeight="32.0" prefWidth="129.0" text="Projects">
+      <Label layoutX="369.0" layoutY="500.0" prefHeight="32.0" prefWidth="129.0" text="Projects">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView fx:id="projectsTable" layoutX="41.0" layoutY="553.0" prefHeight="296.0" prefWidth="551.0">
+      <TableView fx:id="projectsTable" layoutX="369.0" layoutY="538.0" prefHeight="296.0" prefWidth="551.0">
          <columns>
             <TableColumn fx:id="projectName" prefWidth="138.0" text="Project Name" />
             <TableColumn fx:id="projectCountry" prefWidth="114.0" text="Country" />
@@ -36,8 +36,8 @@
             <TableColumn fx:id="utilizationPercentage" prefWidth="130.0" text="Utilization %" />
          </columns>
       </TableView>
-      <Button layoutX="350.0" layoutY="866.0" mnemonicParsing="false" onAction="#onAssignButton" text="Assign" />
-      <Button layoutX="263.0" layoutY="866.0" mnemonicParsing="false" onAction="#onRemoveButton" text="Remove" />
+      <Button layoutX="678.0" layoutY="851.0" mnemonicParsing="false" onAction="#onAssignButton" text="Assign" />
+      <Button layoutX="591.0" layoutY="851.0" mnemonicParsing="false" onAction="#onRemoveButton" text="Remove" />
       <Label layoutX="33.0" layoutY="9.0" prefHeight="32.0" prefWidth="129.0" text="Employees">
          <font>
             <Font size="21.0" />
