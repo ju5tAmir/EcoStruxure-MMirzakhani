@@ -1,18 +1,20 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
 public class Change {
-    private String object;
-    private String property;
-    private Object previousState;
+    private String              object;
+    private String              property;
+    private Object              previousState;
+    private Object              currentState;
+    private ChangeState         changeState;
 
-    private Object currentState;
-    private ChangeState changeState;
 
+    // ******************** Constructors *********************************
     public Change(){
 
     }
 
 
+    // ******************** Methods **************************************
     public String getProperty() {
         return property;
     }

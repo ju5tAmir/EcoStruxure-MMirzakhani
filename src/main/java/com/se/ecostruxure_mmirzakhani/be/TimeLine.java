@@ -3,40 +3,45 @@ package com.se.ecostruxure_mmirzakhani.be;
 import java.time.LocalDateTime;
 
 public class TimeLine {
-    private LocalDateTime validFrom;
-    private LocalDateTime validUntil;
+    private LocalDateTime from;
+    private LocalDateTime to;
 
+
+    // ******************** Constructors *********************************
     public TimeLine(){
 
     }
 
-    public TimeLine(LocalDateTime validFrom, LocalDateTime validUntil) {
-        this.validFrom = validFrom;
-        this.validUntil = validUntil;
+
+    // ******************** Methods **************************************
+    public TimeLine(LocalDateTime from, LocalDateTime to) {
+        this.from = from;
+        this.to = to;
     }
 
-
-    public LocalDateTime getValidFrom() {
-        return validFrom;
+    public LocalDateTime getFrom() {
+        return from;
     }
 
-    public void setValidFrom(LocalDateTime validFrom) {
-        this.validFrom = validFrom;
+    public void setFrom(LocalDateTime from) {
+        this.from = from;
     }
 
-    public LocalDateTime getValidUntil() {
-        return validUntil;
+    public LocalDateTime getTo() {
+        return to;
     }
 
-    public void setValidUntil(LocalDateTime validUntil) {
-        this.validUntil = validUntil;
+    public void setTo(LocalDateTime to) {
+        this.to = to;
     }
 
     @Override
     public String toString() {
         return "TimeLine{" +
-                "validFrom=" + validFrom +
-                ", validUntil=" + validUntil +
+                "from=" + from +
+                ", to=" + to +
                 '}';
     }
+
+
 }

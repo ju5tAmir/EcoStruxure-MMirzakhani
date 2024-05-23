@@ -4,7 +4,6 @@ public enum Currency {
     AUD,
     EUR(CurrencySign.EUR),
     DKK,
-
     CAD,
     CNY,
     GBP,

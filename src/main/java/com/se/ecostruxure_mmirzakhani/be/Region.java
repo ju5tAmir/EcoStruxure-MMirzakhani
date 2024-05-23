@@ -1,9 +1,11 @@
 package com.se.ecostruxure_mmirzakhani.be;
 
-public class Region {
-    private int         id;
-    private String      name;
+import java.util.Set;
 
+public class Region {
+    private int                 id;
+    private String              name;
+    private Set<Country>        countries;
 
     // ******************** Constructors *********************************
     public Region(){
@@ -27,5 +29,12 @@ public class Region {
         this.name = name;
     }
 
+    public Set<Country> getCountries() {
+        return countries;
+    }
+
+    public void setCountries(Set<Country> countries) {
+        this.countries = countries;
+    }
 }
 

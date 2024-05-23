@@ -7,16 +7,15 @@ public class Contract {
     private double              annualWorkHours;
     private double              averageDailyWorkHours;
     private double              overheadPercentage;
-    private boolean             isOverhead;
     private Currency            currency;
     private TimeLine            timeLine;
-
 
 
     // ******************** Constructors *********************************
     public Contract(){
 
     }
+
 
     // ******************** Methods **************************************
     public int getId() {
@@ -75,14 +74,6 @@ public class Contract {
         this.overheadPercentage = overheadPercentage;
     }
 
-    public boolean isOverhead() {
-        return isOverhead;
-    }
-
-    public void setOverhead(boolean overhead) {
-        isOverhead = overhead;
-    }
-
 
     public TimeLine getTimeLine() {
         return timeLine;
@@ -104,7 +95,6 @@ public class Contract {
                 ", annualWorkHours=" + annualWorkHours +
                 ", averageDailyWorkHours=" + averageDailyWorkHours +
                 ", overheadPercentage=" + overheadPercentage +
-                ", isOverhead=" + isOverhead +
                 ", currency=" + currency +
                 ", timeLine=" + timeLine +
                 '}';

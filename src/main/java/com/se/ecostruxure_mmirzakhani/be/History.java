@@ -7,11 +7,15 @@ public class History {
     private List<Contract>      contracts;
     private List<Project>       projects;
 
+
+    // ******************** Constructors *********************************
     public History(){
         this.contracts = new ArrayList<>();
         this.projects  = new ArrayList<>();
     }
 
+
+    // ******************** Methods **************************************
     public List<Contract> getContracts() {
         return contracts;
     }
