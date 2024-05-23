@@ -1,10 +1,10 @@
-package com.se.ecostruxure_mmirzakhani.gui;
+package com.se.ecostruxure_mmirzakhani.gui.main;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 //import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
-import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
+import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
@@ -12,15 +12,10 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainViewController implements IController, Initializable {
+public class MainViewController implements Initializable {
     @FXML
     private Pane pane;
     private final Model model = new Model();
-
-    @Override
-    public void setModel(Object model) {
-
-    }
 
     @FXML
     private void onDashboard() throws ExceptionHandler {
@@ -45,12 +40,9 @@ public class MainViewController implements IController, Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-
-            model.setAllRates();
             onDashboard() ;
 
         } catch (ExceptionHandler e) {
-            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         }
     }

@@ -1,16 +1,13 @@
-package com.se.ecostruxure_mmirzakhani.gui.employee;
+package com.se.ecostruxure_mmirzakhani.gui.employee.view;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
 import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.ProjectMemberLinker;
-import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
-import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
+import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;

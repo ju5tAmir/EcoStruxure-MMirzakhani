@@ -1,6 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.management;
 
-import com.se.ecostruxure_mmirzakhani.be.ProjectMember;
+import com.se.ecostruxure_mmirzakhani.be.Assignment;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
@@ -17,17 +17,17 @@ public class ProjectManagementController implements IController<Model> {
     private Label projectName, countryLabel, totalEmployees, overheadEmployees, productionEmployees, totalTeams, hourlyRate, dailyRate, directCosts, overheadCosts, totalCosts;
 
     @FXML
-    private TableView<ProjectMember> employeesTable;
+    private TableView<Assignment> employeesTable;
     @FXML
-    private TableColumn<ProjectMember, String> employeeFirstName;
+    private TableColumn<Assignment, String> employeeFirstName;
     @FXML
-    private TableColumn<ProjectMember, String> employeeLastName;
+    private TableColumn<Assignment, String> employeeLastName;
     @FXML
-    private TableColumn<ProjectMember, String> employeeTeam;
+    private TableColumn<Assignment, String> employeeTeam;
     @FXML
-    private TableColumn<ProjectMember, Double> employeeUtilPercentage;
+    private TableColumn<Assignment, Double> employeeUtilPercentage;
     @FXML
-    private TableColumn<ProjectMember, String> employeeType;
+    private TableColumn<Assignment, String> employeeType;
 
 
     private Model model;

@@ -1,9 +1,8 @@
-package com.se.ecostruxure_mmirzakhani.utils.window;
+package com.se.ecostruxure_mmirzakhani.utils;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
-import com.se.ecostruxure_mmirzakhani.utils.IUtils;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -137,7 +136,7 @@ public class Window implements IUtils {
             case MAIN -> "/com/se/ecostruxure-mmirzakhani/main/MainView.fxml";
             case DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/DashboardView.fxml";
             case TEAM -> "/com/se/ecostruxure-mmirzakhani/project/TeamView.fxml";
-            case EMPLOYEE_MAIN -> "/com/se/ecostruxure-mmirzakhani/employee/EmployeeMainView.fxml";
+            case EMPLOYEE_MAIN -> "/com/se/ecostruxure-mmirzakhani/employee/view/EmployeeMainView.fxml";
             case SCRIPT -> "/com/se/ecostruxure-mmirzakhani/script/ScriptView.fxml";
             case PROGRESS_BAR -> "/com/se/ecostruxure-mmirzakhani/script/ProgressBarView.fxml";
             case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
@@ -146,7 +145,7 @@ public class Window implements IUtils {
             case TEAMS -> "/com/se/ecostruxure-mmirzakhani/dashboard/Teams.fxml";
             case PROJECT_MANAGER -> "/com/se/ecostruxure-mmirzakhani/project/management/ProjectManagement.fxml";
             case ASSIGN_EMPLOYEE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/employee/create/AssignEmployeeProject.fxml";
-            case PROJECT_MAIN -> "/com/se/ecostruxure-mmirzakhani/project/ProjectMainView.fxml";
+            case PROJECT_MAIN -> "/com/se/ecostruxure-mmirzakhani/project/view/ProjectMainView.fxml";
             case CREATE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml";
 
 

@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.exceptions;
+package com.se.ecostruxure_mmirzakhani.utils;
 
 import javafx.scene.control.Alert;
 

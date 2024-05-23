@@ -1,12 +1,12 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;

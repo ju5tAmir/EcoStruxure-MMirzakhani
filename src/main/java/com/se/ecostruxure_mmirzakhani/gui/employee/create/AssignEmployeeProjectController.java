@@ -1,13 +1,13 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
 import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.ProjectMember;
+import com.se.ecostruxure_mmirzakhani.be.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.Team;
-import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
@@ -70,16 +70,16 @@ public class AssignEmployeeProjectController implements IController<Model> {
         double totalUtil = model.getTotalUtil(model.getEmployee());
         System.out.println(totalUtil);
         try {
-            ProjectMember projectMember = new ProjectMember();
-            projectMember.setEmployee(model.getEmployee());
-            projectMember.setTeam(model.getTeam());
-            projectMember.setUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
+            Assignment assignment = new Assignment();
+            assignment.setEmployee(model.getEmployee());
+            assignment.setTeam(model.getTeam());
+            assignment.setUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
 
             if (totalUtil + Double.parseDouble(utilizationPercentage.getText()) > 100){
                 AlertHandler.displayAlert("Overall utilization percentage cannot exceed 100", Alert.AlertType.ERROR);
                 return;
             }
-            model.addProjectMemberLinker(model.getProject(), projectMember);
+            model.addProjectMemberLinker(model.getProject(), assignment);
             onCancel();
         } catch (RuntimeException e){
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);

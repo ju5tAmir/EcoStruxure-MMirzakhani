@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.dal;
+package com.se.ecostruxure_mmirzakhani.dal.team;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Team;

@@ -1,9 +1,8 @@
-package com.se.ecostruxure_mmirzakhani.bll;
+package com.se.ecostruxure_mmirzakhani.bll.employee;
 
 import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
+import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
-import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class EmployeeService {
     private static Currency systemCurrency = CurrencyService.getSystemCurrency();
     private Employee employee;
     private List<Project> projects;
-    private List<ProjectMember> projectMembers;
+    private List<Assignment> assignments;
 
     public EmployeeService(){
 

@@ -27,14 +27,13 @@ public class DashboardController implements IController<Model> {
     @FXML
     private VBox    table, tableItems;
 
-    private final CustomTable customTable = new CustomTable();
     private Model model;
 
     // ToDo: Currency sign
     @Override
     public void setModel(Model model) {
         this.model = model;
-        updateLabel(welcomeLabel,           "Welcome, User!");
+        updateLabel(welcomeLabel, "Welcome, User!"); // As program grows, it should be changes with username
         updateTotalValues();
 
     }

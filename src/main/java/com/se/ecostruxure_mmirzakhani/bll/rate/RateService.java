@@ -2,8 +2,8 @@ package com.se.ecostruxure_mmirzakhani.bll.rate;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.ProjectMember;
-import com.se.ecostruxure_mmirzakhani.bll.EmployeeService;
+import com.se.ecostruxure_mmirzakhani.be.Assignment;
+import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import java.util.ArrayList;
@@ -11,11 +11,11 @@ import java.util.List;
 
 public class RateService implements IRateService{
     private final Project project;
-    private final List<ProjectMember> projectMembers;
+    private final List<Assignment> assignments;
 
-    public RateService(Project project, List<ProjectMember> projectMembers){
+    public RateService(Project project, List<Assignment> assignments){
         this.project = project;
-        this.projectMembers = projectMembers;
+        this.assignments = assignments;
     }
 
 
@@ -25,16 +25,16 @@ public class RateService implements IRateService{
         double totalRate = 0;
 
         // if project doesn't have any member, return 0
-        if (projectMembers == null){
+        if (assignments == null){
             return 0;
         }
 
         // Iterate through each project member to calculate the hourly rate for the employee assigned to the project
-        for (ProjectMember projectMember : projectMembers) {
-            Employee    employee                        = projectMember.getEmployee();
+        for (Assignment assignment : assignments) {
+            Employee    employee                        = assignment.getEmployee();
             double      employeeTotalCost               = EmployeeService.getTotalCost(employee);
             double      employeeAnnualWorkHours         = employee.getContract().getAnnualWorkHours();
-            double      employeeUtilizationPercentage   = projectMember.getUtilizationPercentage(); // Utilization percentage for this project of the employee
+            double      employeeUtilizationPercentage   = assignment.getUtilizationPercentage(); // Utilization percentage for this project of the employee
             double      employeeEffectiveWorkHours      = employeeAnnualWorkHours * employeeUtilizationPercentage / 100;
 
             double      employeeRate                    = employeeTotalCost / employeeEffectiveWorkHours;
@@ -52,17 +52,17 @@ public class RateService implements IRateService{
         double totalRate = 0;
 
         // Return zero if project doesn't have any member
-        if (projectMembers == null) {
+        if (assignments == null) {
             return 0;
         }
 
         // Iterate through each project to calculate the daily rate for the employee assigned to the project
-        for (ProjectMember projectMember : projectMembers) {
-            Employee    employee                        = projectMember.getEmployee();
+        for (Assignment assignment : assignments) {
+            Employee    employee                        = assignment.getEmployee();
             double      employeeTotalCost               = EmployeeService.getTotalCost(employee);
             double      employeeAnnualWorkHours         = employee.getContract().getAnnualWorkHours();
             double      employeeAverageDailyWorkHours   = employee.getContract().getAverageDailyWorkHours();
-            double      employeeUtilizationPercentage   = projectMember.getUtilizationPercentage(); // Utilization percentage for this project of the employee
+            double      employeeUtilizationPercentage   = assignment.getUtilizationPercentage(); // Utilization percentage for this project of the employee
             double      employeeEffectiveWorkHours      = employeeAnnualWorkHours * employeeUtilizationPercentage / 100;
 
 
@@ -86,17 +86,17 @@ public class RateService implements IRateService{
         double totalRate = 0;
 
         // if project doesn't have any member, return 0
-        if (projectMembers == null) {
+        if (assignments == null) {
             return 0;
         }
 
         // Iterate through each project member to calculate
-        for (ProjectMember projectMember : projectMembers) {
-            Employee employee = projectMember.getEmployee();
+        for (Assignment assignment : assignments) {
+            Employee employee = assignment.getEmployee();
             // If the employee is NOT considered as overhead resource
             if (!employee.getContract().isOverhead()) {
                 double employeeTotalCost = EmployeeService.getTotalCost(employee);
-                double employeeUtilizationPercentage = projectMember.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
+                double employeeUtilizationPercentage = assignment.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
 
                 double cost = employeeTotalCost * employeeUtilizationPercentage;
                 totalRate += cost;
@@ -115,17 +115,17 @@ public class RateService implements IRateService{
         double totalRate = 0;
 
         // if project doesn't have any member, return 0
-        if (projectMembers == null){
+        if (assignments == null){
             return 0;
         }
 
         // Iterate through each project member to calculate
-        for (ProjectMember projectMember : projectMembers) {
-            Employee    employee                        = projectMember.getEmployee();
+        for (Assignment assignment : assignments) {
+            Employee    employee                        = assignment.getEmployee();
             // If the employee is considered as overhead resource
             if (employee.getContract().isOverhead()) {
                 double employeeTotalCost = EmployeeService.getTotalCost(employee);
-                double employeeUtilizationPercentage = projectMember.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
+                double employeeUtilizationPercentage = assignment.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
 
                 double cost = employeeTotalCost * employeeUtilizationPercentage;
                 totalRate += cost;
@@ -146,15 +146,15 @@ public class RateService implements IRateService{
         double totalRate = 0;
 
         // if project doesn't have any member, return 0
-        if (projectMembers == null){
+        if (assignments == null){
             return 0;
         }
 
         // Iterate through each project member to calculate
-        for (ProjectMember projectMember : projectMembers) {
-            Employee    employee                        = projectMember.getEmployee();
+        for (Assignment assignment : assignments) {
+            Employee    employee                        = assignment.getEmployee();
             double employeeTotalCost = EmployeeService.getTotalCost(employee);
-            double employeeUtilizationPercentage = projectMember.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
+            double employeeUtilizationPercentage = assignment.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
 
             double cost = employeeTotalCost * employeeUtilizationPercentage;
             totalRate += cost;
@@ -164,23 +164,23 @@ public class RateService implements IRateService{
         return CurrencyService.doubleFormatter(totalRate);
     }
 
-    public List<ProjectMember> getOverheadEmployees(){
-        List<ProjectMember> overheadEmployees = new ArrayList<>();
+    public List<Assignment> getOverheadEmployees(){
+        List<Assignment> overheadEmployees = new ArrayList<>();
 
-        for (ProjectMember projectMember: projectMembers){
-            if (projectMember.getEmployee().getContract().isOverhead()){
-                overheadEmployees.add(projectMember);
+        for (Assignment assignment : assignments){
+            if (assignment.getEmployee().getContract().isOverhead()){
+                overheadEmployees.add(assignment);
             }
         }
         return overheadEmployees;
     }
 
-    public List<ProjectMember> getProductionEmployees(){
-        List<ProjectMember> overheadEmployees = new ArrayList<>();
+    public List<Assignment> getProductionEmployees(){
+        List<Assignment> overheadEmployees = new ArrayList<>();
 
-        for (ProjectMember projectMember: projectMembers){
-            if (!projectMember.getEmployee().getContract().isOverhead()){
-                overheadEmployees.add(projectMember);
+        for (Assignment assignment : assignments){
+            if (!assignment.getEmployee().getContract().isOverhead()){
+                overheadEmployees.add(assignment);
             }
         }
         return overheadEmployees;
@@ -190,7 +190,7 @@ public class RateService implements IRateService{
     public String toString() {
         return "RateService{" +
                 "project=" + project +
-                ", projectMembers=" + projectMembers +
+                ", projectMembers=" + assignments +
                 '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.utils.window;
+package com.se.ecostruxure_mmirzakhani.utils;
 
 public enum WindowType {
     LOADING,

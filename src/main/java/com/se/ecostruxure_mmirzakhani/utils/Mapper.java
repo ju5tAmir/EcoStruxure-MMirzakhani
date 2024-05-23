@@ -1,12 +1,8 @@
-package com.se.ecostruxure_mmirzakhani.bll;
+package com.se.ecostruxure_mmirzakhani.utils;
 
 import com.se.ecostruxure_mmirzakhani.be.Employee;
 import com.se.ecostruxure_mmirzakhani.be.Project;
 import com.se.ecostruxure_mmirzakhani.be.Assignment;
-import com.se.ecostruxure_mmirzakhani.be.Team;
-import com.se.ecostruxure_mmirzakhani.dal.EmployeeDAO;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 
 import java.util.*;
 import java.util.stream.Collectors;

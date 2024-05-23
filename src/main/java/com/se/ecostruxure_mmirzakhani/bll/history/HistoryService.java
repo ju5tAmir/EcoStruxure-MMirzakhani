@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.bll;
+package com.se.ecostruxure_mmirzakhani.bll.history;
 
 import com.se.ecostruxure_mmirzakhani.be.Change;
 
