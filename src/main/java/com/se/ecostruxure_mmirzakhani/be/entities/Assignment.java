@@ -8,7 +8,7 @@ public class Assignment {
     private Project                 project;
     private Team                    team;
     private double                  utilizationPercentage;
-    private EmployeeType employeeType;
+    private EmployeeType            employeeType;
     private TimeLine                timeLine;
 
 
