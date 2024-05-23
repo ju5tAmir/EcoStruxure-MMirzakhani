@@ -30,7 +30,7 @@ public class EmployeeDAO {
      */
     public EmployeeDAO() {
         //initMockData();
-        dbConnection=new DBConnection();
+        dbConnection = new DBConnection();
     }
 
     /*private void initMockData(){
@@ -126,359 +126,394 @@ public class EmployeeDAO {
 
     public List<Employee> getAllEmployees(){
         return employees;
-    }*/
-
-//    /**
-//     * Retrieve Employees of a requested Team
-//     */
-//    public List<Project> getTeamProjects(Team team){
-//        List<Project> projectList = new ArrayList<>();
-//
-//        for (Project project: projects){
-//            if (project.getTeam().equals(team)){
-//                projectList.add(project);
-//            }
-//        }
-//        return projectList;
-//    }
+    } */
 
     /**
-     * Retrieve all the Teams
+     * Retrieve Employees of a requested Team
      */
-    public List<Team> getAllTeams(){
-        return teams;
-    }
+    /*public List<Project> getTeamProjects(Team team){
+        List<Project> projectList = new ArrayList<>();
 
-    public List<Project> getAllProjects(){
-        return projects;
-    }
+        for (Project project: projects){
+            if (project.getTeam().equals(team)){
+                projectList.add(project);
+            }
+        }
+        return projectList;
+    }   */
 
 
     //Todo: handle all exceptions
-    public boolean createEmployee(Employee employee) {
-        String userSql = "INSERT INTO Users (first_name, last_name, email) VALUES (?, ?, ?)";
-        String contractSql = "INSERT INTO Contracts (annual_salary, fixed_annual_amount, annual_work_hours, average_daily_work_hours, overhead_percentage, is_overhead, currency, valid_from, valid_until) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        String employeeSql = "INSERT INTO Employees (id, contract_id) VALUES (?, ?)";
-
-        try (Connection conn = dbConnection.getConnection()) {
-            conn.setAutoCommit(false); // Start transaction
-
-            try (PreparedStatement userStmt = conn.prepareStatement(userSql, Statement.RETURN_GENERATED_KEYS);
-                 PreparedStatement contractStmt = conn.prepareStatement(contractSql, Statement.RETURN_GENERATED_KEYS);
-                 PreparedStatement employeeStmt = conn.prepareStatement(employeeSql)) {
-
-                // Insert into Users table
-                userStmt.setString(1, employee.getFirstName());
-                userStmt.setString(2, employee.getLastName());
-                userStmt.setString(3, employee.getEmail());
-                userStmt.executeUpdate();
-
-                ResultSet userRs = userStmt.getGeneratedKeys();
-                if (userRs.next()) {
-                    employee.setId(userRs.getInt(1));
-                }
-
-                // Insert into Contracts table
-                Contract contract = employee.getContract();
-                contractStmt.setDouble(1, contract.getAnnualSalary());
-                contractStmt.setDouble(2, contract.getFixedAnnualAmount());
-                contractStmt.setDouble(3, contract.getAnnualWorkHours());
-                contractStmt.setDouble(4, contract.getAverageDailyWorkHours());
-                contractStmt.setDouble(5, contract.getOverheadPercentage());
-                contractStmt.setBoolean(6, contract.isOverhead());
-                contractStmt.setString(7, contract.getCurrency().toString());
-                contractStmt.setTimestamp(8, Timestamp.valueOf(contract.getTimeLine().getValidFrom()));
-                contractStmt.setTimestamp(9, Timestamp.valueOf(contract.getTimeLine().getValidUntil()));
-                contractStmt.executeUpdate();
-
-                ResultSet contractRs = contractStmt.getGeneratedKeys();
-                if (contractRs.next()) {
-                    contract.setId(contractRs.getInt(1));
-                }
-
-                // Insert into Employees table
-                employeeStmt.setInt(1, employee.getId());
-                employeeStmt.setInt(2, contract.getId());
-                employeeStmt.executeUpdate();
-
-                conn.commit(); // Commit transaction
-                return true; // Success
-            } catch (SQLException e) {
-                conn.rollback(); // Rollback transaction on error
-                throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
-            } finally {
-                conn.setAutoCommit(true); // Reset auto-commit to default state
-            }
-        } catch (ExceptionHandler | SQLException e) {
-            e.printStackTrace(); // Or log the exception
-            return false; // Failure
-        }
-    }
-
-    public boolean updateEmployee(Employee employee) {
-        String userSql = "UPDATE Users SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
-        String contractSql = "UPDATE Contracts SET annual_salary = ?, fixed_annual_amount = ?, annual_work_hours = ?, average_daily_work_hours = ?, overhead_percentage = ?, is_overhead = ?, currency = ?, valid_from = ?, valid_until = ? WHERE id = ?";
-        String employeeSql = "UPDATE Employees SET contract_id = ? WHERE id = ?";
-
-        try (Connection conn = dbConnection.getConnection()) {
-            conn.setAutoCommit(false); // Start transaction
-
-            try (PreparedStatement userStmt = conn.prepareStatement(userSql);
-                 PreparedStatement contractStmt = conn.prepareStatement(contractSql);
-                 PreparedStatement employeeStmt = conn.prepareStatement(employeeSql)) {
-
-                // Update Users table
-                userStmt.setString(1, employee.getFirstName());
-                userStmt.setString(2, employee.getLastName());
-                userStmt.setString(3, employee.getEmail());
-                userStmt.setInt(4, employee.getId());
-                userStmt.executeUpdate();
-
-                // Update Contracts table
-                Contract contract = employee.getContract();
-                contractStmt.setDouble(1, contract.getAnnualSalary());
-                contractStmt.setDouble(2, contract.getFixedAnnualAmount());
-                contractStmt.setDouble(3, contract.getAnnualWorkHours());
-                contractStmt.setDouble(4, contract.getAverageDailyWorkHours());
-                contractStmt.setDouble(5, contract.getOverheadPercentage());
-                contractStmt.setBoolean(6, contract.isOverhead());
-                contractStmt.setString(7, contract.getCurrency().toString());
-                contractStmt.setTimestamp(8, Timestamp.valueOf(contract.getTimeLine().getValidFrom()));
-                contractStmt.setTimestamp(9, Timestamp.valueOf(contract.getTimeLine().getValidUntil()));
-                contractStmt.setInt(10, contract.getId());
-                contractStmt.executeUpdate();
-
-                // Update Employees table
-                employeeStmt.setInt(1, contract.getId());
-                employeeStmt.setInt(2, employee.getId());
-                employeeStmt.executeUpdate();
-
-                conn.commit(); // Commit transaction
-                return true; // Success
-            } catch (SQLException e) {
-                conn.rollback(); // Rollback transaction on error
-                throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
-            } finally {
-                conn.setAutoCommit(true); // Reset auto-commit to default state
-            }
-        } catch (ExceptionHandler | SQLException e) {
-            e.printStackTrace(); // Or log the exception
-            return false; // Failure
-        }
-    }
-
-    public List<Employee> getEmployeesByTeam(int teamId) throws ExceptionHandler {
-        List<Employee> employeesByTeam = new ArrayList<>();
-        String getEmployees = "SELECT * FROM Employees WHERE team_id = ?";
+    public boolean createEmployee(Employee employee) throws ExceptionHandler {
+        String insertEmployeeSql = "INSERT INTO Employees (FirstName, LastName, Email) VALUES (?, ?, ?)";
+        String insertContractSql = "INSERT INTO Contract (EmployeeID, AnnualSalary, FixedAnnualAmount, AnnualWorkHours, AverageDailyWorkHours, OverheadPercentage, Currency) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = dbConnection.getConnection()) {
             conn.setAutoCommit(false);
-            conn.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
 
-            try (PreparedStatement stmt = conn.prepareStatement(getEmployees)) {
-                stmt.setInt(1, teamId);
+            try (PreparedStatement insertEmployeeStmt = conn.prepareStatement(insertEmployeeSql, Statement.RETURN_GENERATED_KEYS);
+                 PreparedStatement insertContractStmt = conn.prepareStatement(insertContractSql)) {
 
-                ResultSet rs = stmt.executeQuery();
-                while (rs.next()) {
-                    Employee employee = new Employee();
-                    employee.setId(rs.getInt("id"));
-                    employee.setFirstName(rs.getString("first_name"));
-                    employee.setLastName(rs.getString("last_name"));
-                    employee.setEmail(rs.getString("email"));
+                // Insert into Employees
+                insertEmployeeStmt.setString(1, employee.getFirstName());
+                insertEmployeeStmt.setString(2, employee.getLastName());
+                insertEmployeeStmt.setString(3, employee.getEmail());
+                insertEmployeeStmt.executeUpdate();
 
-                    Contract contract = new Contract();
-                    contract.setId(rs.getInt("contract_id"));
-                    contract.setAnnualSalary(rs.getDouble("annual_salary"));
-                    contract.setFixedAnnualAmount(rs.getDouble("fixed_annual_amount"));
-                    contract.setAnnualWorkHours(rs.getDouble("annual_work_hours"));
-                    contract.setAverageDailyWorkHours(rs.getDouble("average_daily_work_hours"));
-                    contract.setOverheadPercentage(rs.getDouble("overhead_percentage"));
-                    contract.setOverhead(rs.getBoolean("is_overhead"));
-                    contract.setCurrency(Currency.valueOf(rs.getString("currency")));
-                    contract.setTimeLine(new TimeLine(rs.getTimestamp("valid_from").toLocalDateTime(), rs.getTimestamp("valid_until").toLocalDateTime()));
-
-                    employee.setContract(contract);
-                    employeesByTeam.add(employee);
+                // Retrieve the generated EmployeeID
+                ResultSet rs = insertEmployeeStmt.getGeneratedKeys();
+                if (rs.next()) {
+                    int employeeId = rs.getInt(1);
+                    employee.setId(employeeId);
+                } else {
+                    throw new SQLException("Creating employee failed, no ID obtained.");
                 }
 
-                rs.close();
+                // Insert into Contract
+                Contract contract = employee.getContract();
+                if (contract != null) {
+                    insertContractStmt.setInt(1, employee.getId());
+                    insertContractStmt.setDouble(2, contract.getAnnualSalary());
+                    insertContractStmt.setDouble(3, contract.getFixedAnnualAmount());
+                    insertContractStmt.setDouble(4, contract.getAnnualWorkHours());
+                    insertContractStmt.setDouble(5, contract.getAverageDailyWorkHours());
+                    insertContractStmt.setDouble(6, contract.getOverheadPercentage());
+                    insertContractStmt.setString(7, contract.getCurrency().name());
+                    insertContractStmt.executeUpdate();
+                }
+
+                conn.commit();
+                return true;
+
             } catch (SQLException e) {
                 conn.rollback();
-                throw new ExceptionHandler(e.getMessage());
+                e.printStackTrace();
+                return false;
             }
-        } catch (SQLException ex) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), ex.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
-
-        return employeesByTeam;
     }
-    public boolean deleteEmployee(int id) throws ExceptionHandler {
-        String userSql = "DELETE FROM Users WHERE id = ?";
-        String contractSql = "DELETE FROM Contracts WHERE id = ?";
-        String employeeSql = "DELETE FROM Employees WHERE id = ?";
+
+    public boolean updateEmployee(Employee employee) throws ExceptionHandler {
+        String updateEmployeeSql = "UPDATE Employees SET FirstName = ?, LastName = ?, Email = ? WHERE EmployeeID = ?";
+        String updateContractSql = "UPDATE Contract SET AnnualSalary = ?, FixedAnnualAmount = ?, AnnualWorkHours = ?, AverageDailyWorkHours = ?, OverheadPercentage = ?, Currency = ? WHERE EmployeeID = ?";
 
         try (Connection conn = dbConnection.getConnection()) {
-            conn.setAutoCommit(false); // Start transaction
+            conn.setAutoCommit(false);
 
-            try (PreparedStatement employeeStmt = conn.prepareStatement(employeeSql);
-                 PreparedStatement userStmt = conn.prepareStatement(userSql);
-                 PreparedStatement contractStmt = conn.prepareStatement(contractSql)) {
+            try (PreparedStatement updateEmployeeStmt = conn.prepareStatement(updateEmployeeSql);
+                 PreparedStatement updateContractStmt = conn.prepareStatement(updateContractSql)) {
 
-                // Delete from Employees table
-                employeeStmt.setInt(1, id);
-                employeeStmt.executeUpdate();
+                // Update Employees
+                updateEmployeeStmt.setString(1, employee.getFirstName());
+                updateEmployeeStmt.setString(2, employee.getLastName());
+                updateEmployeeStmt.setString(3, employee.getEmail());
+                updateEmployeeStmt.setInt(4, employee.getId());
+                updateEmployeeStmt.executeUpdate();
 
-                // To delete from Users table, delete the user associated with the employee
-                userStmt.setInt(1, id);
-                userStmt.executeUpdate();
-
-                // To delete from Contracts table, find the contract ID associated with the employee
-                int contractId = getContractIdByEmployeeId(id);
-                if (contractId != -1) {
-                    contractStmt.setInt(1, contractId);
-                    contractStmt.executeUpdate();
+                // Update Contract
+                Contract contract = employee.getContract();
+                if (contract != null) {
+                    updateContractStmt.setDouble(1, contract.getAnnualSalary());
+                    updateContractStmt.setDouble(2, contract.getFixedAnnualAmount());
+                    updateContractStmt.setDouble(3, contract.getAnnualWorkHours());
+                    updateContractStmt.setDouble(4, contract.getAverageDailyWorkHours());
+                    updateContractStmt.setDouble(5, contract.getOverheadPercentage());
+                    updateContractStmt.setString(6, contract.getCurrency().name());
+                    updateContractStmt.setInt(7, employee.getId());
+                    updateContractStmt.executeUpdate();
                 }
 
-                conn.commit(); // Commit transaction
-                return true; // Success
+                conn.commit();
+                return true;
+
             } catch (SQLException e) {
-                conn.rollback(); // Rollback transaction on error
-                throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
-            } finally {
-                conn.setAutoCommit(true); // Reset auto-commit to default state
+                conn.rollback();
+                e.printStackTrace();
+                return false;
             }
-        } catch (ExceptionHandler | SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
     public List<Employee> getAllEmployees() throws ExceptionHandler {
         List<Employee> employees = new ArrayList<>();
-        String sql = "SELECT e.id, u.first_name, u.last_name, u.email, " +
-                "c.id AS contract_id, c.annual_salary, c.fixed_annual_amount, c.annual_work_hours, " +
-                "c.average_daily_work_hours, c.overhead_percentage, c.is_overhead, c.currency, " +
-                "c.valid_from, c.valid_until " +
+        String sql = "SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, " +
+                "c.ContractID, c.AnnualSalary, c.FixedAnnualAmount, c.AnnualWorkHours, " +
+                "c.AverageDailyWorkHours, c.OverheadPercentage, c.Currency " +
                 "FROM Employees e " +
-                "JOIN Users u ON e.id = u.id " +
-                "JOIN Contracts c ON e.contract_id = c.id";
+                "INNER JOIN Contract c ON e.EmployeeID = c.EmployeeID";
 
         try (Connection conn = dbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            ResultSet rs = pstmt.executeQuery();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
             while (rs.next()) {
                 Employee employee = new Employee();
-                employee.setId(rs.getInt("id"));
-                employee.setFirstName(rs.getString("first_name"));
-                employee.setLastName(rs.getString("last_name"));
-                employee.setEmail(rs.getString("email"));
+                employee.setId(rs.getInt("EmployeeID"));
+                employee.setFirstName(rs.getString("FirstName"));
+                employee.setLastName(rs.getString("LastName"));
+                employee.setEmail(rs.getString("Email"));
 
                 Contract contract = new Contract();
-                contract.setId(rs.getInt("contract_id"));
-                contract.setAnnualSalary(rs.getDouble("annual_salary"));
-                contract.setFixedAnnualAmount(rs.getDouble("fixed_annual_amount"));
-                contract.setAnnualWorkHours(rs.getDouble("annual_work_hours"));
-                contract.setAverageDailyWorkHours(rs.getDouble("average_daily_work_hours"));
-                contract.setOverheadPercentage(rs.getDouble("overhead_percentage"));
-                contract.setOverhead(rs.getBoolean("is_overhead"));
-                contract.setCurrency(Currency.valueOf(rs.getString("currency")));
-                contract.setTimeLine(new TimeLine(rs.getTimestamp("valid_from").toLocalDateTime(), rs.getTimestamp("valid_until").toLocalDateTime()));
+                contract.setId(rs.getInt("ContractID"));
+                contract.setAnnualSalary(rs.getFloat("AnnualSalary"));
+                contract.setFixedAnnualAmount(rs.getFloat("FixedAnnualAmount"));
+                contract.setAnnualWorkHours(rs.getFloat("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(rs.getFloat("AverageDailyWorkHours"));
+                contract.setOverheadPercentage(rs.getFloat("OverheadPercentage"));
+                contract.setCurrency(Currency.valueOf(rs.getString("Currency")));
 
                 employee.setContract(contract);
+
                 employees.add(employee);
             }
+        } catch (Exception e) {
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+        }
+
+        return employees;
+    }
+
+    public boolean deleteEmployee(int employeeId) throws ExceptionHandler {
+        String deleteAssignmentSql = "DELETE FROM Assignment WHERE EmployeeID = ?";
+        String deleteContractSql = "DELETE FROM Contract WHERE EmployeeID = ?";
+        String deleteEmployeeSql = "DELETE FROM Employees WHERE EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement deleteAssignmentStmt = conn.prepareStatement(deleteAssignmentSql);
+                 PreparedStatement deleteContractStmt = conn.prepareStatement(deleteContractSql);
+                 PreparedStatement deleteEmployeeStmt = conn.prepareStatement(deleteEmployeeSql)) {
+
+                // Delete from Assignment
+                deleteAssignmentStmt.setInt(1, employeeId);
+                deleteAssignmentStmt.executeUpdate();
+
+                // Delete from Contract
+                deleteContractStmt.setInt(1, employeeId);
+                deleteContractStmt.executeUpdate();
+
+                // Delete from Employees
+                deleteEmployeeStmt.setInt(1, employeeId);
+                deleteEmployeeStmt.executeUpdate();
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                e.printStackTrace();
+                return false;
+            }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception
+            e.printStackTrace();
+            return false;
         } catch (ExceptionHandler e) {
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
         }
-        return employees;
-    }
-    private int getContractIdByEmployeeId(int employeeId) throws SQLException, ExceptionHandler {
-        String sql = "SELECT contract_id FROM Employees WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.getConnection().prepareStatement(sql)) {
-            stmt.setInt(1, employeeId);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return rs.getInt("contract_id");
-            }
-            return -1; // Return -1 if no contract found for the given employee
-        } catch (ExceptionHandler e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
-
-        }
     }
 
-
-
-
-
-    /*public History getEmployeeHistory(Employee employee){
-        // Fake History ToDo: Must be replaced with real history from db
-
-        Contract c1 =new Contract();
-        c1.setAnnualSalary(50000);
-        c1.setId(3);
-        c1.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(4), LocalDateTime.now().minusYears(3)));
-
-
-        Contract c2 = new Contract();
-        c2.setAnnualSalary(80000);
-        c2.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(2), LocalDateTime.now().minusYears(1)));
-
-
-        Contract c3 = new Contract();
-        c3.setAnnualSalary(99000);
-        c3.setTimeLine(new TimeLine(LocalDateTime.now().minusYears(1), LocalDateTime.MAX));
-
-
-        // ToDo: Don't forget to get also the latest item for Contract or Project which will not be in the History table in DB.
-        List<Contract> listOfContracts = new ArrayList<>();
-
-        listOfContracts.add(c1); listOfContracts.add(c2); listOfContracts.add(c3);
-
-        History history = new History();
-        history.setContracts(listOfContracts);
-
-        return history;
-    }*/
-
-    public History getEmployeeHistory(Employee employee) throws ExceptionHandler {
-        List<Contract> listOfContracts = new ArrayList<>();
-        String sql = "SELECT * FROM Contracts WHERE employee_id = ?";
+    public List<Employee> getEmployeesByTeam(int teamId) throws ExceptionHandler {
+        List<Employee> employees = new ArrayList<>();
+        String sql = "SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, " +
+                "c.ContractID, c.AnnualSalary, c.FixedAnnualAmount, c.AnnualWorkHours, " +
+                "c.AverageDailyWorkHours, c.OverheadPercentage, c.Currency " +
+                "FROM Employees e " +
+                "JOIN Assignment a ON e.EmployeeID = a.EmployeeID " +
+                "JOIN Contract c ON e.EmployeeID = c.EmployeeID " +
+                "WHERE a.TeamID = ?";
 
         try (Connection conn = dbConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, employee.getId());
-            ResultSet rs = pstmt.executeQuery();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            while (rs.next()) {
-                Contract contract = new Contract();
-                contract.setId(rs.getInt("id"));
-                contract.setAnnualSalary(rs.getDouble("annual_salary"));
-                contract.setFixedAnnualAmount(rs.getDouble("fixed_annual_amount"));
-                contract.setAnnualWorkHours(rs.getDouble("annual_work_hours"));
-                contract.setAverageDailyWorkHours(rs.getDouble("average_daily_work_hours"));
-                contract.setOverheadPercentage(rs.getDouble("overhead_percentage"));
-                contract.setOverhead(rs.getBoolean("is_overhead"));
-                contract.setCurrency(Currency.valueOf(rs.getString("currency")));
+            stmt.setInt(1, teamId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Employee employee = new Employee();
+                    employee.setId(rs.getInt("EmployeeID"));
+                    employee.setFirstName(rs.getString("FirstName"));
+                    employee.setLastName(rs.getString("LastName"));
+                    employee.setEmail(rs.getString("Email"));
 
-                // Set contract timeline
-                LocalDateTime validFrom = rs.getTimestamp("valid_from").toLocalDateTime();
-                LocalDateTime validUntil = rs.getTimestamp("valid_until").toLocalDateTime();
-                contract.setTimeLine(new TimeLine(validFrom, validUntil));
+                    Contract contract = new Contract();
+                    contract.setId(rs.getInt("ContractID"));
+                    contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                    contract.setFixedAnnualAmount(rs.getDouble("FixedAnnualAmount"));
+                    contract.setAnnualWorkHours(rs.getDouble("AnnualWorkHours"));
+                    contract.setAverageDailyWorkHours(rs.getDouble("AverageDailyWorkHours"));
+                    contract.setOverheadPercentage(rs.getDouble("OverheadPercentage"));
+                    contract.setCurrency(Currency.valueOf(rs.getString("Currency")));
 
-                listOfContracts.add(contract);
+                    employee.setContract(contract);
+
+                    employees.add(employee);
+                }
             }
         } catch (SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
+            e.printStackTrace();
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
         }
 
-        // Construct history object
+        return employees;
+    }
+
+
+    public History getEmployeeHistory(Employee employee) throws ExceptionHandler {
+        List<Contract> contracts = new ArrayList<>();
+        List<Project> projects = new ArrayList<>();
+        String contractSql = "SELECT ContractID, AnnualSalary, FromDate, ToDate " +
+                "FROM Contract " +
+                "WHERE EmployeeID = ?";
+        String projectSql = "SELECT ProjectID, ProjectName, Country " +
+                "FROM Assignment AS a " +
+                "JOIN Projects AS p ON a.ProjectID = p.ProjectID " +
+                "WHERE a.EmployeeID = ?";
+
+        try (Connection conn = dbConnection.getConnection();
+             PreparedStatement contractStmt = conn.prepareStatement(contractSql);
+             PreparedStatement projectStmt = conn.prepareStatement(projectSql)) {
+
+            // Retrieve contract history
+            contractStmt.setInt(1, employee.getId());
+            try (ResultSet rs = contractStmt.executeQuery()) {
+                while (rs.next()) {
+                    Contract contract = new Contract();
+                    contract.setId(rs.getInt("ContractID"));
+                    contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+
+                    // Construct the time line from FromDate to ToDate
+                    LocalDateTime fromDate = rs.getTimestamp("FromDate").toLocalDateTime();
+                    LocalDateTime toDate = rs.getTimestamp("ToDate").toLocalDateTime();
+                    TimeLine timeLine = new TimeLine(fromDate, toDate);
+                    contract.setTimeLine(timeLine);
+
+                    contracts.add(contract);
+                }
+            }
+
+            // Retrieve project history
+            projectStmt.setInt(1, employee.getId());
+            try (ResultSet rs = projectStmt.executeQuery()) {
+                while (rs.next()) {
+                    Project project = new Project();
+                    project.setId(rs.getInt("ProjectID"));
+                    project.setName(rs.getString("ProjectName"));
+                    project.setCountry(Country.valueOf(rs.getString("Country")));
+                    projects.add(project);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+        }
+
+        // ToDo: Don't forget to get also the latest item for Contract or Project which will not be in the History table in DB.
+        // For this ToDo: I have implemented a second version of getEmployeeHistory below
         History history = new History();
-        history.setContracts(listOfContracts);
+        history.setContracts(contracts);
+        history.setProjects(projects);
 
         return history;
     }
 
+        /*public History getEmployeeHistory(Employee employee) throws ExceptionHandler {
+            List<Contract> contracts = new ArrayList<>();
+            List<Project> projects = new ArrayList<>();
+            String contractSql = "SELECT TOP 1 ContractID, AnnualSalary, FromDate, ToDate " +
+                    "FROM Contract " +
+                    "WHERE EmployeeID = ? " +
+                    "ORDER BY ToDate DESC"; // Retrieve the latest contract based on ToDate
 
+            String projectSql = "SELECT TOP 1 p.ProjectID, p.ProjectName, p.Country " +
+                    "FROM Assignment AS a " +
+                    "JOIN Projects AS p ON a.ProjectID = p.ProjectID " +
+                    "WHERE a.EmployeeID = ? " +
+                    "ORDER BY p.ProjectID DESC"; // Retrieve the latest project based on ProjectID
+
+            try (Connection conn = dbConnection.getConnection();
+                 PreparedStatement contractStmt = conn.prepareStatement(contractSql);
+                 PreparedStatement projectStmt = conn.prepareStatement(projectSql)) {
+
+                // Retrieve contract history
+                contractStmt.setInt(1, employee.getId());
+                try (ResultSet rs = contractStmt.executeQuery()) {
+                    while (rs.next()) {
+                        Contract contract = new Contract();
+                        contract.setId(rs.getInt("ContractID"));
+                        contract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+
+                        // Construct the time line from FromDate to ToDate
+                        LocalDateTime fromDate = rs.getTimestamp("FromDate").toLocalDateTime();
+                        LocalDateTime toDate = rs.getTimestamp("ToDate").toLocalDateTime();
+                        TimeLine timeLine = new TimeLine(fromDate, toDate);
+                        contract.setTimeLine(timeLine);
+
+                        contracts.add(contract);
+                    }
+                }
+
+                // Retrieve project history
+                projectStmt.setInt(1, employee.getId());
+                try (ResultSet rs = projectStmt.executeQuery()) {
+                    while (rs.next()) {
+                        Project project = new Project();
+                        project.setId(rs.getInt("ProjectID"));
+                        project.setName(rs.getString("ProjectName"));
+                        project.setCountry(Country.valueOf(rs.getString("Country")));
+                        projects.add(project);
+                    }
+                }
+
+                // Fetch the latest contract
+                try (PreparedStatement latestContractStmt = conn.prepareStatement(contractSql)) {
+                    latestContractStmt.setInt(1, employee.getId());
+                    try (ResultSet rs = latestContractStmt.executeQuery()) {
+                        if (rs.next()) {
+                            Contract latestContract = new Contract();
+                            latestContract.setId(rs.getInt("ContractID"));
+                            latestContract.setAnnualSalary(rs.getDouble("AnnualSalary"));
+                            LocalDateTime fromDate = rs.getTimestamp("FromDate").toLocalDateTime();
+                            LocalDateTime toDate = rs.getTimestamp("ToDate").toLocalDateTime();
+                            TimeLine timeLine = new TimeLine(fromDate, toDate);
+                            latestContract.setTimeLine(timeLine);
+                            contracts.add(latestContract);
+                        }
+                    }
+                }
+
+                // Fetch the latest project
+                try (PreparedStatement latestProjectStmt = conn.prepareStatement(projectSql)) {
+                    latestProjectStmt.setInt(1, employee.getId());
+                    try (ResultSet rs = latestProjectStmt.executeQuery()) {
+                        if (rs.next()) {
+                            Project latestProject = new Project();
+                            latestProject.setId(rs.getInt("ProjectID"));
+                            latestProject.setName(rs.getString("ProjectName"));
+                            latestProject.setCountry(Country.valueOf(rs.getString("Country")));
+                            projects.add(latestProject);
+                        }
+                    }
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+            }
+
+            History history = new History();
+            history.setContracts(contracts);
+            history.setProjects(projects);
+
+            return history;
+        }*/
 }
+
+
+

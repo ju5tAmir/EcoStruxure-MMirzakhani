@@ -36,9 +36,9 @@ public class EmployeeService {
 
 
 
-    public List<Project> getAllProjects() {
+    /*public List<Project> getAllProjects() {
         return dao.getAllProjects();
-    }
+    }*/
 
     /**
      * Calculate the total cost for the given employee
@@ -61,7 +61,7 @@ public class EmployeeService {
         return totalCostInSystemCurrency;
     }
 
-    public boolean create(Employee employee) throws SQLException {
+    public boolean create(Employee employee) throws SQLException, ExceptionHandler {
         return dao.createEmployee(employee);
     }
 

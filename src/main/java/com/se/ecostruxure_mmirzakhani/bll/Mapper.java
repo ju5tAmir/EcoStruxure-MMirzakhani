@@ -16,13 +16,15 @@ public class Mapper {
     private static final EmployeeDAO dao = new EmployeeDAO();
 
     public static HashMap<Project, List<ProjectMember>> mapAllTheProjectsToMembers(){
-        return dao.getAllProjectsWithTheirMembers();
+        //return dao.getAllProjectsWithTheirMembers();
+        return null;
     }
 
     public static List<ProjectMember> projectToMembersMapper(Project project){
         List<ProjectMember> projectMembers = new ArrayList<>();
 
-        return dao.getProjectMembers(project);
+        return null;
+                //dao.getProjectMembers(project);
     }
 
     /**
