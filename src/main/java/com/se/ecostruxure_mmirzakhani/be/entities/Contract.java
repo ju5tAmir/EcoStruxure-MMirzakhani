@@ -1,4 +1,6 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.entities;
+
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 
 public class Contract {
     private int                 id;
@@ -7,7 +9,7 @@ public class Contract {
     private double              annualWorkHours;
     private double              averageDailyWorkHours;
     private double              overheadPercentage;
-    private Currency            currency;
+    private Currency currency;
     private TimeLine            timeLine;
 
 

@@ -1,7 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
-import com.se.ecostruxure_mmirzakhani.be.Currency;
-import com.se.ecostruxure_mmirzakhani.be.CurrencySign;
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Document;
@@ -15,9 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Properties;
 
 public class CurrencyService {

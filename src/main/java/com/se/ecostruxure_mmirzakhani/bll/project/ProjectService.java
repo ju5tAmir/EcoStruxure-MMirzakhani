@@ -1,7 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.bll.project;
 
-import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
+import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 
 import java.util.List;
 

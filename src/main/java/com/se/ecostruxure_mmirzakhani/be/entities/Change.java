@@ -1,11 +1,13 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.entities;
+
+import com.se.ecostruxure_mmirzakhani.be.enums.ChangeState;
 
 public class Change {
     private String              object;
     private String              property;
     private Object              previousState;
     private Object              currentState;
-    private ChangeState         changeState;
+    private ChangeState changeState;
 
 
     // ******************** Constructors *********************************

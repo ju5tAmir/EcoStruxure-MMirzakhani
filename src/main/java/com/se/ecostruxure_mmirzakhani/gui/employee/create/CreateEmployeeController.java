@@ -1,6 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
-import com.se.ecostruxure_mmirzakhani.be.*;
+import com.se.ecostruxure_mmirzakhani.be.entities.Contract;
+import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;

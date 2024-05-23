@@ -1,11 +1,13 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.entities;
+
+import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 
 import java.util.Objects;
 
 public class Project {
     private int             id;
     private String          name;
-    private Country         country;
+    private Country country;
 
     // ******************** Constructors **************************************
     public Project(){

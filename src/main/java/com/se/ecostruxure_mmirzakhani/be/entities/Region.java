@@ -1,4 +1,6 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.entities;
+
+import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 
 import java.util.Set;
 

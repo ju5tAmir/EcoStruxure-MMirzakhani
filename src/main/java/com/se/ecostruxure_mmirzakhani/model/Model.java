@@ -1,7 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
-import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.be.Currency;
+import com.se.ecostruxure_mmirzakhani.be.entities.*;
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.bll.assignment.AssignmentService;
 import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
@@ -9,7 +9,6 @@ import com.se.ecostruxure_mmirzakhani.bll.team.TeamService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
-import com.se.ecostruxure_mmirzakhani.utils.Mapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

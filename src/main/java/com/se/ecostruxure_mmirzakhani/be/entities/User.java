@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.entities;
 
 /**
  * Represent a user in the application.

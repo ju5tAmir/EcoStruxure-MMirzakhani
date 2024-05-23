@@ -1,4 +1,6 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.entities;
+
+import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 
 public class Assignment {
     private int                     id;
@@ -6,7 +8,7 @@ public class Assignment {
     private Project                 project;
     private Team                    team;
     private double                  utilizationPercentage;
-    private EmployeeType            employeeType;
+    private EmployeeType employeeType;
     private TimeLine                timeLine;
 
 

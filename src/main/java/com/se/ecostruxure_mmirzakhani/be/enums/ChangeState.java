@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.enums;
 
 public enum ChangeState {
     INCREASED,      // for numerical changes

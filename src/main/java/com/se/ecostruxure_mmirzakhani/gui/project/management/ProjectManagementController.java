@@ -1,6 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.management;
 
-import com.se.ecostruxure_mmirzakhani.be.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;

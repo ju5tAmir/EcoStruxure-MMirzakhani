@@ -1,7 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
-import com.se.ecostruxure_mmirzakhani.be.Change;
-import com.se.ecostruxure_mmirzakhani.be.ChangeState;
+import com.se.ecostruxure_mmirzakhani.be.entities.Change;
+import com.se.ecostruxure_mmirzakhani.be.enums.ChangeState;
 
 import java.util.ArrayList;
 import java.util.Collections;

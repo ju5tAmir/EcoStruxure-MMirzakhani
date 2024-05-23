@@ -1,8 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
-import com.se.ecostruxure_mmirzakhani.be.Employee;
-import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
+import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 
 import java.util.*;
 import java.util.stream.Collectors;

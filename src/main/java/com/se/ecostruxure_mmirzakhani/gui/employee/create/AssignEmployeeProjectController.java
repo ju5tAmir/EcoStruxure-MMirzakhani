@@ -1,8 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
-import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.be.Assignment;
-import com.se.ecostruxure_mmirzakhani.be.Team;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
+import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Team;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;

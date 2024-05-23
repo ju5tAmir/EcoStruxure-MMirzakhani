@@ -1,7 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.create;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Project;
+import com.se.ecostruxure_mmirzakhani.be.enums.Country;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;

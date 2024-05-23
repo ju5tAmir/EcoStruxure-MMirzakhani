@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.be;
+package com.se.ecostruxure_mmirzakhani.be.enums;
 
 /**
  * Source: <a href="https://github.com/hampusborgos/country-flags</a>
