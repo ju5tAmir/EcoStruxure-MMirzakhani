@@ -1,12 +1,15 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.management;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -34,14 +37,16 @@ public class ProjectManagementController implements IController<Model> {
     @Override
     public void setModel(Model model) {
         this.model = model;
-
-        setLabels();
-        setEmployeeTable();
-
+        try {
+            setLabels();
+            setEmployeeTable();
+        } catch (ExceptionHandler | RuntimeException e){
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
-    private void setEmployeeTable(){
-        employeesTable.setItems(model.getProjectMembers(model.getProject()));
+    private void setEmployeeTable() throws ExceptionHandler {
+        employeesTable.setItems(model.getAssignments());
 
         employeeFirstName.setCellValueFactory(cellData -> {
             String firstName = cellData.getValue().getEmployee().getFirstName();
@@ -68,7 +73,7 @@ public class ProjectManagementController implements IController<Model> {
         });
 
         employeeType.setCellValueFactory(cellData -> {
-            String teamName = cellData.getValue().getEmployee().getContract().isOverhead()? "Overhead": "Product Resource";
+            String teamName = cellData.getValue().getEmployeeType().name(); // Gets the enum string value of employee type
 
             return new SimpleStringProperty(teamName);
         });

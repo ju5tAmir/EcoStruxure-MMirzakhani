@@ -34,12 +34,8 @@ public class CreateEmployeeController implements IController<Model> {
     public void setModel(Model model) {
         this.model = model;
 
-        Employee emp1 = new Employee();
-        model.setEmployee(emp1);
 
-        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
-        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
-
+        setRadioButtons();
 
         initCurrencyButton();
 
@@ -49,29 +45,27 @@ public class CreateEmployeeController implements IController<Model> {
 
     }
 
+    private void setRadioButtons() {
+        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
+        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
+    }
+
 
     @FXML
     private void onSubmitButton(){
         try {
-        Employee e = new Employee();
-        Contract c = new Contract();
-        e.setContract(c);
 
-        e.setFirstName(firstName.getText());
-            e.setLastName(lastName.getText());
-            e.setEmail(emailAddress.getText());
+            model.setEmployeeFirstName(firstName.getText());
+            model.setEmployeeLastName(lastName.getText());
+            model.setEmployeeEmail(emailAddress.getText());
 
-            c.setAnnualSalary(Double.parseDouble(annualSalary.getText()));
-            c.setFixedAnnualAmount(Double.parseDouble(fixedAmount.getText()));
-            c.setAnnualWorkHours(Double.parseDouble(annualWH.getText()));
-            c.setAverageDailyWorkHours(Double.parseDouble(dailyWH.getText()));
-            c.setOverheadPercentage(Double.parseDouble(overheadPercentage.getText()));
-            c.setCurrency(selectedCurrency);
+            model.setContractAnnualSalary(Double.parseDouble(annualSalary.getText()));
+            model.setContractFixedAnnualAmount(Double.parseDouble(fixedAmount.getText()));
+            model.setContractAnnualWorkHours(Double.parseDouble(annualWH.getText()));
+            model.setContractAverageDailyWorkHours(Double.parseDouble(dailyWH.getText()));
+            model.setContractOverheadPercentage(Double.parseDouble(overheadPercentage.getText()));
+            model.setContractCurrency(selectedCurrency);
 
-            if (overheadRB.isSelected()) {
-                c.setOverhead(true);
-            }
-            model.setEmployee(e);
             model.createEmployee();
 
             onCancelButton();

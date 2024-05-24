@@ -166,7 +166,6 @@ public class Model {
         this.assignment.set(assignment);
     }
 
-
     /**
      * Retrieve and updates the latest Employees list
      */
@@ -205,7 +204,7 @@ public class Model {
     /**
      * Set Employee's first name
      */
-    public void setFirstName(String firstName) throws ExceptionHandler {
+    public void setEmployeeFirstName(String firstName) throws ExceptionHandler {
         employee.get()
                 .setFirstName(firstName);
     }
@@ -213,11 +212,18 @@ public class Model {
     /**
      * Set Employee's last name
      */
-    public void setLastName(String lastName) throws ExceptionHandler {
+    public void setEmployeeLastName(String lastName) throws ExceptionHandler {
         employee.get()
                 .setLastName(lastName);
     }
 
+    /**
+     * Set Employee's email
+     */
+    public void setEmployeeEmail(String email) throws ExceptionHandler {
+        employee.get()
+                .setEmail(email);
+    }
     /**
      * Set Currency for the currently working contract
      */
@@ -320,6 +326,16 @@ public class Model {
      */
     public void createProject() throws ExceptionHandler{
         projectService.create(this.project.get());
+    }
+
+
+    /**
+     * Create employee based on the currently working object
+     */
+    public void createEmployee() throws ExceptionHandler{
+        this.employee.get().setContract(this.contract.get()); // Setting currently filled contract to the currently working employee
+
+        employeeService.create(employee.get());
     }
 
 

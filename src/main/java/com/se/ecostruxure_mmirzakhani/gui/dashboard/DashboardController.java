@@ -41,11 +41,11 @@ public class DashboardController implements IController<Model> {
 
     private void updateTotalValues(){
         try {
-            updateLabel(totalTeamsLabel,            String.valueOf(model.getProjects().size()));
+            updateLabel(totalTeamsLabel,            String.valueOf(model.getAllProjects().size()));
             updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
-            updateLabel(totalHourlyRateLabel, GUIHelper.currencyFormatter(model.getTotalHourlyRate()));
-            updateLabel(totalDailyRateLabel,    GUIHelper.currencyFormatter(model.getTotalDailyRate()));
-            updateLabel(totalCostLabel,         GUIHelper.currencyFormatter(model.getTotalCost()));
+            updateLabel(totalHourlyRateLabel,       GUIHelper.currencyFormatter(model.getTotalHourlyRate()));
+            updateLabel(totalDailyRateLabel,        GUIHelper.currencyFormatter(model.getTotalDailyRate()));
+            updateLabel(totalCostLabel,             GUIHelper.currencyFormatter(model.getTotalCost()));
         } catch (ExceptionHandler e){
             throw new RuntimeException(e);
         }

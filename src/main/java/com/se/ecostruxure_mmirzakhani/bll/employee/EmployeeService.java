@@ -5,13 +5,14 @@ import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.entities.History;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
+import com.se.ecostruxure_mmirzakhani.bll.IService;
 import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import java.util.List;
 
-public class EmployeeService {
+public class EmployeeService implements IService<Employee> {
 
     private final static EmployeeDAO dao = new EmployeeDAO();;
     private Employee employee;
@@ -72,8 +73,24 @@ public class EmployeeService {
         return totalCostInSystemCurrency;
     }
 
-    public boolean create(Employee employee) throws ExceptionHandler {
-        return dao.createEmployee(employee);
+    @Override
+    public void create(Employee employee) throws ExceptionHandler {
+        dao.createEmployee(employee);
+    }
+
+    @Override
+    public void remove(Employee object) throws ExceptionHandler {
+
+    }
+
+    @Override
+    public void update(Employee object) throws ExceptionHandler {
+
+    }
+
+    @Override
+    public void delete(Employee object) throws ExceptionHandler {
+
     }
 
     /**
