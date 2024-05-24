@@ -23,7 +23,17 @@ public enum ExceptionMessage {
     // ** Database Exceptions ** \\
     DB_CONNECTION_FAILURE("An error occurred while trying to connect to the database"),
     EMPLOYEE_INSERT_FAILED("Failure in inserting the employee information into database occurred."),
+    EMPLOYEE_RETRIEVAL_FAILED("Failure in retrieving the employee information from the database occurred."),
+    EMPLOYEE_UPDATE_FAILED("Failure in updating the employee information in the database occurred."),
+    EMPLOYEE_DELETE_FAILED("Failure in deleting the employee information from the database occurred."),
     TEAM_INSERT_FAILED("Failure in inserting the team information into database occurred."),
+    TEAM_UPDATE_FAILED("Failure in updating the team information in the database occurred."),
+    TEAM_RETRIEVAL_FAILED("Failure in retrieving the team information from the database occurred."),
+    TEAM_DELETE_FAILED("Failure in deleting the team information from the database occurred."),
+    PROJECT_INSERT_FAILED("Failure in inserting the project information into the database occurred."),
+    PROJECT_RETRIEVAL_FAILED("Failure in retrieving the project information from the database occurred."),
+    PROJECT_UPDATE_FAILED("Failure in updating the project information in the database occurred."),
+    PROJECT_DELETE_FAILED("Failure in deleting the project information from the database occurred."),
     KEY_GENERATION_FAILURE("Failure in generating key to the employee.");
 
 
