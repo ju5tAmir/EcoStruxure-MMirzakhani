@@ -133,20 +133,15 @@ public class Window implements IUtils {
      */
     private static String getResourcePath(WindowType windowType) throws ExceptionHandler{
         return switch (windowType){
-            case MAIN -> "/com/se/ecostruxure-mmirzakhani/main/MainView.fxml";
-            case DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/DashboardView.fxml";
-            case TEAM -> "/com/se/ecostruxure-mmirzakhani/project/TeamView.fxml";
-            case EMPLOYEE_MAIN -> "/com/se/ecostruxure-mmirzakhani/employee/view/EmployeeMainView.fxml";
-            case SCRIPT -> "/com/se/ecostruxure-mmirzakhani/script/ScriptView.fxml";
-            case PROGRESS_BAR -> "/com/se/ecostruxure-mmirzakhani/script/ProgressBarView.fxml";
-            case EMPLOYEE_DASHBOARD -> "/com/se/ecostruxure-mmirzakhani/dashboard/EmployeeDashboard.fxml";
-            case CREATE_EMPLOYEE -> "/com/se/ecostruxure-mmirzakhani/employee/create/CreateEmployee.fxml";
-            case CALCULATOR -> "/com/se/ecostruxure-mmirzakhani/calculations/Calculator.fxml";
-            case TEAMS -> "/com/se/ecostruxure-mmirzakhani/dashboard/Teams.fxml";
-            case PROJECT_MANAGER -> "/com/se/ecostruxure-mmirzakhani/project/management/ProjectManagement.fxml";
-            case ASSIGN_EMPLOYEE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/employee/create/AssignEmployeeProject.fxml";
-            case PROJECT_MAIN -> "/com/se/ecostruxure-mmirzakhani/project/view/ProjectMainView.fxml";
-            case CREATE_PROJECT -> "/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml";
+            case MAIN               -> WindowType.MAIN.getPath();
+            case DASHBOARD          -> WindowType.DASHBOARD.getPath();
+            case EMPLOYEE_MAIN      -> WindowType.EMPLOYEE_MAIN.getPath();
+            case TEAM_MAIN          -> WindowType.TEAM_MAIN.getPath();
+            case PROJECT_MANAGER    -> WindowType.PROJECT_MANAGER.getPath();
+            case CREATE_EMPLOYEE    -> WindowType.CREATE_EMPLOYEE.getPath();
+            case ASSIGNMENT         -> WindowType.ASSIGNMENT.getPath();
+            case PROJECT_MAIN       -> WindowType.PROJECT_MAIN.getPath();
+            case CREATE_PROJECT     -> WindowType.CREATE_PROJECT.getPath();
 
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths
