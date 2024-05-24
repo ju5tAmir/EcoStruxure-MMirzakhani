@@ -1,6 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.view;
 
+import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -22,33 +24,34 @@ public class EmployeeViewController implements IController<Model> {
     @FXML
     private TableView<Employee> employeesTable;
     @FXML
-    private TableColumn<Employee, String> employeeFirstName, employeeLastName, employeeEmail, employeeAnnualSalary, employeeFixedAmount, employeeAnnualWorkHours, employeeAverageDailyWorkHour, employeeOverheadPercentage, employeeType;
+    private TableColumn<Employee, String> employeeFirstName, employeeLastName, employeeEmail, employeeAnnualSalary, employeeFixedAmount, employeeAnnualWorkHours, employeeAverageDailyWorkHour, employeeOverheadPercentage;
     @FXML
-    private TableView<ProjectMemberLinker> projectsTable;
-
+    private TableView<Assignment> assignmentTable;
     @FXML
-    private TableColumn<ProjectMemberLinker, String> projectName;
+    private TableColumn<Assignment, String> projectName;
     @FXML
-    private TableColumn<ProjectMemberLinker, String> projectCountry;
+    private TableColumn<Assignment, String> projectCountry;
     @FXML
-    private TableColumn<ProjectMemberLinker, String> projectTeam;
+    private TableColumn<Assignment, String> projectTeam;
     @FXML
-    private TableColumn<ProjectMemberLinker, String> utilizationPercentage;
+    private TableColumn<Assignment, String> utilizationPercentage;
 
     private Model model;
     @Override
     public void setModel(Model model) {
         this.model = model;
         try {
-            Platform.runLater( () -> employeesTable.getScene().getRoot().requestFocus() );
+
             setEmployeeTable();
-//            setProjectsTable();
         } catch (ExceptionHandler e){
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     private void setEmployeeTable() throws ExceptionHandler {
+        // Remove the employee's table initial focus
+        Platform.runLater( () -> employeesTable.getScene().getRoot().requestFocus() );
+
         employeesTable.setItems(model.getAllEmployees());
 
 
@@ -56,7 +59,7 @@ public class EmployeeViewController implements IController<Model> {
             if (newValue != null){
                 model.setEmployee(newValue);
                 try {
-                    setProjectsTable();
+                    setAssignmentTable();
                 } catch (ExceptionHandler e) {
                     throw new RuntimeException(e);
                 }
@@ -68,52 +71,47 @@ public class EmployeeViewController implements IController<Model> {
         employeeLastName.setCellValueFactory(new PropertyValueFactory<>("lastName"));
         employeeEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         employeeAnnualSalary.setCellValueFactory(cellData -> {
-            double annualSalary = cellData.getValue().getContract().getAnnualSalary();
+            double      annualSalary            = cellData.getValue().getContract().getAnnualSalary();    // In local currency
+            Currency    localCurrency           = cellData.getValue().getContract().getCurrency();        // Local currency index
+            double      convertedAnnualSalary   = model.getConvertedValue(localCurrency, annualSalary);   // Converted value
 
-            String formattedString = GUIHelper.currencyFormatter(model.convertToSystemCurrency(cellData.getValue().getContract().getCurrency(), annualSalary));
+            String      formattedString         = GUIHelper.currencyFormatter(convertedAnnualSalary);
 
             return new SimpleStringProperty(formattedString);
         });
         employeeFixedAmount.setCellValueFactory(cellData -> {
-            double fixedAmount = cellData.getValue().getContract().getFixedAnnualAmount();
+            double      fixedAmount             = cellData.getValue().getContract().getFixedAnnualAmount();
+            Currency    localCurrency           = cellData.getValue().getContract().getCurrency();
+            double      convertedFixedAmount    = model.getConvertedValue(localCurrency, fixedAmount);
 
-            String formattedString = GUIHelper.currencyFormatter(model.convertToSystemCurrency(cellData.getValue().getContract().getCurrency(), fixedAmount));
+            String formattedString              = GUIHelper.currencyFormatter(convertedFixedAmount);
 
             return new SimpleStringProperty(formattedString);
         });
         employeeAnnualWorkHours.setCellValueFactory(cellData -> {
-            double annualWorkHours = cellData.getValue().getContract().getAnnualWorkHours();
+            double annualWorkHours              = cellData.getValue().getContract().getAnnualWorkHours();
 
             return new SimpleStringProperty(GUIHelper.simpleDoubleFormatter(annualWorkHours));
         });
 
         employeeAverageDailyWorkHour.setCellValueFactory(cellData -> {
-            double averageDailyWorkHour = cellData.getValue().getContract().getAverageDailyWorkHours();
+            double averageDailyWorkHour         = cellData.getValue().getContract().getAverageDailyWorkHours();
 
             return new SimpleStringProperty(GUIHelper.simpleDoubleFormatter(averageDailyWorkHour));
         });
 
         employeeOverheadPercentage.setCellValueFactory(cellData -> {
-            double employeeOverheadPercentage = cellData.getValue().getContract().getOverheadPercentage();
+            double employeeOverheadPercentage   = cellData.getValue().getContract().getOverheadPercentage();
 
             return new SimpleStringProperty(GUIHelper.simpleDoubleFormatter(employeeOverheadPercentage));
         });
 
-        employeeType.setCellValueFactory(cellData -> {
-            boolean employeeType = cellData.getValue().getContract().isOverhead();
-
-            String value = employeeType ? "Overhead": "Product Resource";
-
-            return new SimpleStringProperty(value);
-        });
     }
 
 
 
-    private void setProjectsTable() throws ExceptionHandler {
-        model.setProjectLinker(model.getEmployee());
-
-        projectsTable.setItems(model.getProjectMemberLinker(model.getEmployee()));
+    private void setAssignmentTable() throws ExceptionHandler {
+        assignmentTable.setItems(model.getAssignments());
 
 
         projectName.setCellValueFactory(cellData -> {
@@ -130,13 +128,13 @@ public class EmployeeViewController implements IController<Model> {
 
 
         projectTeam.setCellValueFactory(cellData -> {
-            String name = cellData.getValue().getProjectMember().getTeam().getName();
+            String name = cellData.getValue().getTeam().getName();
 
             return new SimpleStringProperty(name);
         });
 
         utilizationPercentage.setCellValueFactory(cellData -> {
-            String name = String.valueOf(cellData.getValue().getProjectMember().getUtilizationPercentage());
+            String name = String.valueOf(cellData.getValue().getUtilizationPercentage());
 
             return new SimpleStringProperty(name);
         });
@@ -154,10 +152,10 @@ public class EmployeeViewController implements IController<Model> {
 
     @FXML
     private void onRemoveButton(){
-        if (!projectsTable.getSelectionModel().isEmpty()){
+        if (!assignmentTable.getSelectionModel().isEmpty()){
             try {
-                model.removeProjectMemberLinker(projectsTable.getSelectionModel().getSelectedItem());
-            } catch (RuntimeException e) {
+                model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem());
+            } catch (ExceptionHandler e) {
                 AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
             }
 
@@ -169,7 +167,7 @@ public class EmployeeViewController implements IController<Model> {
 
         if (!employeesTable.getSelectionModel().isEmpty()){
             try {
-                Window.createStage(WindowType.ASSIGN_EMPLOYEE_PROJECT, model, Modality.WINDOW_MODAL, false);
+                Window.createStage(WindowType.ASSIGNMENT, model, Modality.WINDOW_MODAL, false);
             } catch (ExceptionHandler e) {
                 throw new RuntimeException(e);
             }
