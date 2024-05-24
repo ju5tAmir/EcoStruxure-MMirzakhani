@@ -7,28 +7,28 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 
 public class AssignmentService implements IService<Assignment> {
 
-    private AssignmentDAO dao;
-    public AssignmentService(){
+    private final AssignmentDAO dao;
+    public AssignmentService() {
         this.dao = new AssignmentDAO();
     }
 
     @Override
-    public void create(Assignment object) {
+    public void create(Assignment assignment) throws ExceptionHandler{
 
     }
 
     @Override
-    public void remove(Assignment object) throws ExceptionHandler{
-        dao.removeAssignment();
+    public void remove(Assignment assignment) throws ExceptionHandler{
+        dao.deleteAssignment(assignment);
     }
 
     @Override
-    public void update(Assignment object) {
+    public void update(Assignment assignment) throws ExceptionHandler{
 
     }
 
     @Override
-    public void delete(Assignment object) {
+    public void delete(Assignment assignment) throws ExceptionHandler{
 
     }
 }

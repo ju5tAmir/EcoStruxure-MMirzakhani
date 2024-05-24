@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class AssignEmployeeProjectController implements IController<Model> {
+public class EmployeeAssignmentController implements IController<Model> {
     @FXML
     private Menu teamMenu, projectMenu;
     @FXML
@@ -38,9 +38,8 @@ public class AssignEmployeeProjectController implements IController<Model> {
     }
 
     private void setTeamMenu() throws ExceptionHandler {
-        List<Team> teamList = model.getAllTeams();
 
-        for (Team team: teamList){
+        for (Team team: model.getAllTeams()){
             MenuItem menuItem = new MenuItem(team.getName());
             menuItem.setOnAction(event -> {
                 teamMenu.setText(team.getName());
@@ -52,9 +51,8 @@ public class AssignEmployeeProjectController implements IController<Model> {
     }
 
     private void setProjectMenu() throws ExceptionHandler {
-        List<Project> projects = model.getAllProjects();
 
-        for (Project project: projects){
+        for (Project project: model.getAllProjects()){
             MenuItem menuItem = new MenuItem(project.getName());
             menuItem.setOnAction(event -> {
                 projectMenu.setText(project.getName());
@@ -68,7 +66,7 @@ public class AssignEmployeeProjectController implements IController<Model> {
     private void onAssign(){
 
         double totalUtil = model.getTotalUtil(model.getEmployee());
-        System.out.println(totalUtil);
+
         try {
             Assignment assignment = new Assignment();
             assignment.setEmployee(model.getEmployee());

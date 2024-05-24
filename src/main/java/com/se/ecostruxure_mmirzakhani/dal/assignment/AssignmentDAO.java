@@ -3,9 +3,6 @@ package com.se.ecostruxure_mmirzakhani.dal.assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.*;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
-import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
-import com.se.ecostruxure_mmirzakhani.dal.project.ProjectDAO;
-import com.se.ecostruxure_mmirzakhani.dal.team.TeamDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
@@ -19,10 +16,10 @@ public class AssignmentDAO {
     /**
      * Constructor
      */
-    public AssignmentDAO() throws ExceptionHandler {
+    public AssignmentDAO() {
         dbConnection = new DBConnection();
     }
-    public boolean createAssignment(Assignment assignment) throws SQLException, ExceptionHandler {
+    public boolean createAssignment(Assignment assignment) throws ExceptionHandler {
         String sql = "INSERT INTO Assignment (EmployeeID, ProjectID, TeamID, UtilizationPercentage, EmployeeType, FromDate, ToDate) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -47,7 +44,7 @@ public class AssignmentDAO {
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
         }
     }
-    public List<Assignment> getAllAssignments() throws SQLException, ExceptionHandler {
+    public List<Assignment> getAllAssignments() throws ExceptionHandler {
         List<Assignment> assignments = new ArrayList<>();
         String sql = "SELECT * FROM Assignment";
         try (Connection connection = dbConnection.getConnection();
@@ -83,7 +80,7 @@ public class AssignmentDAO {
         }
         return assignments;
     }
-    public boolean updateAssignment(Assignment assignment) throws SQLException, ExceptionHandler {
+    public boolean updateAssignment(Assignment assignment) throws ExceptionHandler {
         String sql = "UPDATE Assignment " +
                 "SET EmployeeID = ?, " +
                 "    ProjectID = ?, " +
@@ -116,14 +113,14 @@ public class AssignmentDAO {
             throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
         }
     }
-    public boolean deleteAssignment(int assignmentId) throws SQLException, ExceptionHandler {
+    public boolean deleteAssignment(Assignment assignment) throws ExceptionHandler {
         String deleteAssignmentSql = "DELETE FROM Assignment WHERE AssignmentID = ?";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement deleteAssignmentStmt = connection.prepareStatement(deleteAssignmentSql)) {
 
             // Delete from Assignment table
-            deleteAssignmentStmt.setInt(1, assignmentId);
+            deleteAssignmentStmt.setInt(1, assignment.getId());
             int rowsDeleted = deleteAssignmentStmt.executeUpdate();
 
             // Check if deletion was successful
