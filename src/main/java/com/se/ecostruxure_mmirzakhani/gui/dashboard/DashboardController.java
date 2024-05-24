@@ -4,18 +4,12 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+
 
 public class DashboardController implements IController<Model> {
     @FXML

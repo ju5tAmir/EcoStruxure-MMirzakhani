@@ -1,10 +1,10 @@
 package com.se.ecostruxure_mmirzakhani.gui.main;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-//import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
 import com.se.ecostruxure_mmirzakhani.utils.WindowType;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
@@ -28,7 +28,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     private void onTeam() throws ExceptionHandler {
-        Window.loadPane(pane, WindowType.TEAM, model);
+        Window.loadPane(pane, WindowType.TEAM_MAIN, model);
     }
 
     @FXML

@@ -30,6 +30,7 @@ public class Model {
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <Assignment>                assignments         = FXCollections.observableArrayList();
 
+    private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
     private final EmployeeService                                   employeeService;
     private final TeamService                                       teamService;
     private final ProjectService                                    projectService;
@@ -122,7 +123,7 @@ public class Model {
     /**
      * Set Employee object
      */
-    private void setEmployee(Employee employee){
+    public void setEmployee(Employee employee){
         this.employee.set(employee);
     }
 
@@ -279,6 +280,17 @@ public class Model {
 
         // Validate
         this.projects.add(project.get());
+    }
+
+    /**
+     * Convert an amount of money from local currency to system preferred currency
+     */
+    public double getConvertedValue(Currency localCurrency, double amount) {
+        return CurrencyService.convert(localCurrency, systemCurrency, amount);
+    }
+
+    public void removeAssignment(Assignment assignment) throws ExceptionHandler {
+        assignmentService.remove(assignment);
     }
 
 

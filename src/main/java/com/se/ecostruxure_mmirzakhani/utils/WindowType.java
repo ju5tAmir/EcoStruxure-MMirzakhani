@@ -9,7 +9,7 @@ public enum WindowType {
     CREATE_EMPLOYEE("/com/se/ecostruxure-mmirzakhani/employee/create/CreateEmployee.fxml"),
     ASSIGNMENT("/com/se/ecostruxure-mmirzakhani/employee/create/AssignEmployeeProject.fxml"),
     PROJECT_MAIN("/com/se/ecostruxure-mmirzakhani/project/view/ProjectMainView.fxml"),
-    CREATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml"),
+    CREATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml");
 
     private final String path;
 

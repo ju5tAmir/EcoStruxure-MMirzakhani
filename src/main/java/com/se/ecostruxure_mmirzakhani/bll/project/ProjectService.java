@@ -6,11 +6,7 @@ import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import java.util.List;
 
 public class ProjectService {
-    private final Project project;
-    private final List<Assignment> assignments;
+    public ProjectService(){
 
-    public ProjectService(Project project, List<Assignment> assignments){
-        this.project = project;
-        this.assignments = assignments;
     }
 }

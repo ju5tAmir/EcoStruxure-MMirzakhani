@@ -23,12 +23,12 @@
          </columns>
       </TableView>
       <Button layoutX="1193.0" layoutY="470.0" mnemonicParsing="false" onAction="#onCreateButton" text="Create" />
-      <Label layoutX="369.0" layoutY="500.0" prefHeight="32.0" prefWidth="129.0" text="Projects">
+      <Label layoutX="369.0" layoutY="500.0" prefHeight="32.0" prefWidth="197.0" text="Assignments">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView fx:id="projectsTable" layoutX="369.0" layoutY="538.0" prefHeight="296.0" prefWidth="551.0">
+      <TableView fx:id="assignmentTable" layoutX="369.0" layoutY="538.0" prefHeight="296.0" prefWidth="551.0">
          <columns>
             <TableColumn fx:id="projectName" prefWidth="138.0" text="Project Name" />
             <TableColumn fx:id="projectCountry" prefWidth="114.0" text="Country" />
