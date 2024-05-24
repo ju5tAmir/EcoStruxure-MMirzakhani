@@ -6,6 +6,7 @@ import com.se.ecostruxure_mmirzakhani.be.entities.History;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public class EmployeeService {
         this.systemCurrency = systemCurrency;
     }
 
-    public List<Employee> getAllEmployees(){
+    public List<Employee> getAllEmployees() throws ExceptionHandler {
         return dao.getAllEmployees();
     }
 
@@ -73,14 +74,14 @@ public class EmployeeService {
         return totalCostInSystemCurrency;
     }
 
-    public boolean create(Employee employee, List<Project> projects) {
-        return dao.createEmployee(employee, projects);
+    public boolean create(Employee employee) throws ExceptionHandler {
+        return dao.createEmployee(employee);
     }
 
     /**
      * Get employee contract and projects changes
      */
-    public History getEmployeeHistory(Employee employee){
+    public History getEmployeeHistory(Employee employee) throws ExceptionHandler {
         return dao.getEmployeeHistory(employee);
     }
 }
