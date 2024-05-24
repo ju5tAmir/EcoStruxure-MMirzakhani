@@ -14,8 +14,8 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
     @FXML
-    private Pane pane;
-    private final Model model = new Model();
+    private Pane pane; // Main pane to replace new windows content with it
+    private Model model;
 
     @FXML
     private void onDashboard() throws ExceptionHandler {
@@ -40,6 +40,7 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            this.model = new Model();
             onDashboard() ;
 
         } catch (ExceptionHandler e) {

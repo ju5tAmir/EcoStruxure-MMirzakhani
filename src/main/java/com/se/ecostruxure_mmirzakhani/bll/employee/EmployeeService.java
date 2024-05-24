@@ -14,8 +14,6 @@ import java.util.List;
 public class EmployeeService {
 
     private final static EmployeeDAO dao = new EmployeeDAO();;
-
-    private static Currency systemCurrency = CurrencyService.getSystemCurrency();
     private Employee employee;
     private List<Project> projects;
     private List<Assignment> assignments;

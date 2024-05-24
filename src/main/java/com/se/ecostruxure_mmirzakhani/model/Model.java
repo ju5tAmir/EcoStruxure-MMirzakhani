@@ -1,12 +1,15 @@
 package com.se.ecostruxure_mmirzakhani.model;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.*;
+import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.bll.assignment.AssignmentService;
 import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
 import com.se.ecostruxure_mmirzakhani.bll.team.TeamService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import javafx.beans.property.SimpleObjectProperty;
@@ -38,11 +41,12 @@ public class Model {
 
 
     // ************************ Constructor ************************
-    public Model(){
-        this.employeeService    = new EmployeeService();
-        this.teamService        = new TeamService();
-        this.projectService     = new ProjectService();
-        this.assignmentService  = new AssignmentService();
+    public Model() throws ExceptionHandler{
+        this.employeeService = new EmployeeService();
+        this.teamService = new TeamService();
+        this.projectService = new ProjectService();
+        this.assignmentService = new AssignmentService();
+
     }
 
 
@@ -130,15 +134,29 @@ public class Model {
     /**
      * Set Team object
      */
-    private void setTeam(Team team){
+    public void setTeam(Team team){
         this.team.set(team);
     }
 
     /**
      * Set Project object
      */
-    private void setProject(Project project){
+    public void setProject(Project project){
         this.project.set(project);
+    }
+
+    /**
+     * Set the currently working project name
+     */
+    public void setProjectName(String name){
+        this.project.get().setName(name);
+    }
+
+    /**
+     * Set the currently working project country
+     */
+    public void setProjectCountry(Country country){
+        this.project.get().setCountry(country);
     }
 
     /**
@@ -289,8 +307,19 @@ public class Model {
         return CurrencyService.convert(localCurrency, systemCurrency, amount);
     }
 
+    /**
+     * Removes an assignment from an employee (employee object is inside the assignment object)
+     */
     public void removeAssignment(Assignment assignment) throws ExceptionHandler {
         assignmentService.remove(assignment);
+    }
+
+    /**
+     * Creates a project based on the currently working project object
+     * @throws ExceptionHandler if something goes wrong in the creation process.
+     */
+    public void createProject() throws ExceptionHandler{
+        projectService.create(this.project.get());
     }
 
 

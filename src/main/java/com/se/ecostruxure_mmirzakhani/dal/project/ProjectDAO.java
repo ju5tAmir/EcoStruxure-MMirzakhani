@@ -18,7 +18,7 @@ public class ProjectDAO {
     /**
      * Constructor
      */
-    public ProjectDAO() throws ExceptionHandler {
+    public ProjectDAO() {
         dbConnection = new DBConnection();
     }
     public boolean createProject(Project project) throws ExceptionHandler {
