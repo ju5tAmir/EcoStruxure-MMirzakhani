@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.utils;
 import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Team;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -30,4 +31,13 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Maps the teams of a given project
+     */
+    public static List<Team> projectTeamMapper(Project project, List<Assignment> assignments) {
+        return assignments.stream()
+                .filter(assignment -> assignment.getProject().equals(project))
+                .map(Assignment::getTeam)
+                .collect(Collectors.toList());
+    }
 }
