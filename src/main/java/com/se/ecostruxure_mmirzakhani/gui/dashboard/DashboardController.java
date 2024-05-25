@@ -45,7 +45,7 @@ public class DashboardController implements IController<Model> {
             updateLabel(totalEmployeesLabel,        String.valueOf(model.getAllEmployees().size()));
             updateLabel(totalHourlyRateLabel,       GUIHelper.currencyFormatter(model.getTotalHourlyRate()));
             updateLabel(totalDailyRateLabel,        GUIHelper.currencyFormatter(model.getTotalDailyRate()));
-            updateLabel(totalCostLabel,             GUIHelper.currencyFormatter(model.getTotalCost()));
+            updateLabel(totalCostLabel,             GUIHelper.currencyFormatter(model.getTotalCosts()));
         } catch (ExceptionHandler e){
             throw new RuntimeException(e);
         }
