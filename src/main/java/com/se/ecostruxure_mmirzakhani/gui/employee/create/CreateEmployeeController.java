@@ -69,11 +69,11 @@ public class CreateEmployeeController implements IController<Model> {
 
             if (model.createEmployee()){
                 AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                closeTheWindow();
             } else {
                 AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
             }
 
-            onCancelButton();
         } catch (ExceptionHandler | RuntimeException ex) {
             AlertHandler.displayAlert(ex.getMessage(), Alert.AlertType.ERROR);
         }
@@ -81,7 +81,7 @@ public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private void onCancelButton(){
-        Window.closeStage((Stage) firstName.getScene().getWindow());
+        closeTheWindow();
     }
 
     private void initCurrencyButton(){
@@ -184,6 +184,9 @@ public class CreateEmployeeController implements IController<Model> {
         displaySuccessFlag(textField);
     }
 
+    private void closeTheWindow(){
+        Window.closeStage((Stage) firstName.getScene().getWindow());
     }
+}
 
 
