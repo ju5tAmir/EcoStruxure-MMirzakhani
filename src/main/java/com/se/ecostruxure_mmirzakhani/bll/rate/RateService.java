@@ -79,6 +79,7 @@ public class RateService implements IRateService{
     /**
      * Get direct costs of a project (non-overhead or production resource)
      */
+    @Override
     public double getDirectCosts() {
         // Initialize the total rate to accumulate the hourly rates of all employees
         double totalRate = 0;

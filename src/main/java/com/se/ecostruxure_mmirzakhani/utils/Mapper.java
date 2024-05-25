@@ -4,6 +4,8 @@ import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Team;
+import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
+import javafx.collections.ObservableList;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -40,4 +42,6 @@ public class Mapper {
                 .map(Assignment::getTeam)
                 .collect(Collectors.toList());
     }
+
+
 }

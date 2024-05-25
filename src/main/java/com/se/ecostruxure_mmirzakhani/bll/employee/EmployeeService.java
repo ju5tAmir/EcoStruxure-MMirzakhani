@@ -9,12 +9,14 @@ import com.se.ecostruxure_mmirzakhani.bll.IService;
 import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
+import javafx.collections.ObservableList;
 
 import java.util.List;
 
 public class EmployeeService implements IService<Employee> {
 
     private final static EmployeeDAO dao = new EmployeeDAO();;
+    private final static Currency systemCurrency = CurrencyService.getSystemCurrency();
     private Employee employee;
     private List<Project> projects;
     private List<Assignment> assignments;
@@ -28,29 +30,17 @@ public class EmployeeService implements IService<Employee> {
         this.employee = employee;
     }
 
-    public EmployeeService(Currency systemCurrency){
-        this.systemCurrency = systemCurrency;
+
+    /**
+     * Get total utilization percentage for an employee
+     */
+    public static double getTotalUtilizationPercentage(Employee employee, List<Assignment> assignments) {
+        return assignments.stream()
+                .filter(a -> a.getEmployee().equals(employee))
+                .mapToDouble(Assignment::getUtilizationPercentage)
+                .sum();
     }
 
-
-
-    public boolean setCurrency(Currency systemCurrency) {
-        this.systemCurrency = systemCurrency;
-    }
-
-    public List<Employee> getAllEmployees() throws ExceptionHandler {
-        return dao.getAllEmployees();
-    }
-
-
-
-    public List<Project> getAllProjects(Employee employee) {
-        return dao.getAllProjects(employee);
-    }
-
-    public List<Project> getAllProjects(){
-        return dao.getAllProjects();
-    }
 
     /**
      * Calculate the total cost for the given employee

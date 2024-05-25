@@ -3,20 +3,26 @@ package com.se.ecostruxure_mmirzakhani.model;
 import com.se.ecostruxure_mmirzakhani.be.entities.*;
 import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
+import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.bll.assignment.AssignmentService;
 import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
+import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.bll.team.TeamService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
+import com.se.ecostruxure_mmirzakhani.utils.Mapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Model {
     // SimpleObjectProperty attributes to handle the current instance of objects for each category.
@@ -121,6 +127,122 @@ public class Model {
         return CurrencyService.getSystemCurrency();
     }
 
+    /**
+     * Get hourly rate of a project
+     */
+    public double getHourlyRate(Project project){
+        // List of assignments related to the provided project
+        List<Assignment> assignmentList = Mapper.projectAssignmentMapper(project, assignments);
+
+        return new RateService(project, assignmentList).getHourlyRate();
+    }
+
+
+
+    /**
+     * Get daily rate of a project
+     */
+    public double getDailyRate(Project project){
+        // List of assignments related to the provided project
+        List<Assignment> assignmentList = Mapper.projectAssignmentMapper(project, assignments);
+
+        return new RateService(project, assignmentList).getDailyRate();
+    }
+
+    /**
+     * Get direct costs of a project (production resource employees)
+     */
+    public double getDirectCosts(Project project) {
+        // List of assignments related to the provided project
+        List<Assignment> assignmentList = Mapper.projectAssignmentMapper(project, assignments);
+
+        return new RateService(project, assignmentList).getDirectCosts();
+    }
+
+    /**
+     * Get overhead costs of a project (overhead employees)
+     */
+    public double getOverheadCosts(Project project) {
+        // List of assignments related to the provided project
+        List<Assignment> assignmentList = Mapper.projectAssignmentMapper(project, assignments);
+
+        return new RateService(project, assignmentList).getOverheadCosts();
+    }
+
+    /**
+     * Get total costs for a project
+     */
+    public double getTotalCosts(Project project){
+        // List of assignments related to the provided project
+        List<Assignment> assignmentList = Mapper.projectAssignmentMapper(project, assignments);
+
+        return new RateService(project, assignmentList).getTotalCosts();
+    }
+
+    /**
+     * Get overall hourly rates of all the projects
+     */
+    public double getTotalHourlyRate(){
+        return projects.stream()
+                .mapToDouble(this::getHourlyRate)
+                .sum();
+    }
+
+    /**
+     * Get overall daily rates of all the projects
+     */
+    public double getTotalDailyRate(){
+        return projects.stream()
+                .mapToDouble(this::getDailyRate)
+                .sum();
+    }
+
+
+    /**
+     * Get total costs of all the projects
+     */
+    public double getTotalCosts(){
+        return projects.stream()
+                .mapToDouble(this::getTotalCosts)
+                .sum();
+    }
+
+    /**
+     * Calculate total utilization percentage for an employee
+     */
+    public double getTotalUtils(Employee employee){
+        return EmployeeService.getTotalUtilizationPercentage(employee, assignments);
+    }
+
+
+    /**
+     * Get list of assignments for a project
+     */
+    public List<Assignment> getProjectAssignments(Project project) {
+        return Mapper.projectAssignmentMapper(project, assignments);
+    }
+
+
+    /**
+     * Get the list of teams for a project
+     */
+    public List<Team> getProjectTeams(Project project) {
+        return Mapper.projectTeamMapper(project, assignments);
+    }
+
+    /**
+     * List of assignments which their linked employees are overhead
+     */
+    public List<Assignment> getOverheadAssignments(Project project) {
+        return ProjectService.projectOverheadAssignments(project, assignments);
+    }
+
+    /**
+     * List of assignments which their linked employees are considered as production resource
+     */
+    public List<Assignment> getProductionResourceAssignments(Project project) {
+        return ProjectService.projectProductResourceAssignments(project, assignments);
+    }
 
 
     // ************************ Setters *****************************
@@ -317,7 +439,16 @@ public class Model {
      * Removes an assignment from an employee (employee object is inside the assignment object)
      */
     public boolean removeAssignment(Assignment assignment) throws ExceptionHandler {
-        return assignmentService.remove(assignment);
+        // If succeed
+        if (assignmentService.remove(assignment)){
+            // Remove the assignment from the assignments list
+            assignments.remove(assignment);
+
+            return true;
+        }
+
+        // If failed
+        return false;
     }
 
     /**
@@ -325,7 +456,16 @@ public class Model {
      * @throws ExceptionHandler if something goes wrong in the creation process.
      */
     public boolean createProject() throws ExceptionHandler{
-        return projectService.create(this.project.get());
+        // If succeed to create
+        if (projectService.create(this.project.get())) {
+            // Adds the project to the list
+            projects.add(project.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
     }
 
 
@@ -335,7 +475,7 @@ public class Model {
     public boolean createEmployee() throws ExceptionHandler{
         this.employee.get().setContract(this.contract.get()); // Setting currently filled contract to the currently working employee
 
-        // If successful to create
+        // If succeed to create
         if (employeeService.create(employee.get())){
             // Employee creation was successful, add new object to the employees list without reloading it from database
             // However, ID of contract and employee object has been updated after creation in database
@@ -350,17 +490,6 @@ public class Model {
 
 
 //    // ****************** LAB *******************
-
-
-
-
-
-
-
-
-
-
-
 
 
 

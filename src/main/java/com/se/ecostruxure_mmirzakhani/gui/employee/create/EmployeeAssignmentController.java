@@ -65,7 +65,7 @@ public class EmployeeAssignmentController implements IController<Model> {
     @FXML
     private void onAssign(){
 
-        double totalUtil = model.getTotalUtil(model.getEmployee());
+        double totalUtil = model.getTotalUtils(model.getEmployee());
 
         try {
             Assignment assignment = new Assignment();

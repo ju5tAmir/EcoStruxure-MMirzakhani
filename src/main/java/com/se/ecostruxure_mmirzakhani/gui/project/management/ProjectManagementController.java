@@ -84,19 +84,19 @@ public class ProjectManagementController implements IController<Model> {
         projectName.setText(model.getProject().getName());
         countryLabel.setText(model.getProject().getCountry().getValue());;
 
-        totalEmployees.setText(String.valueOf(model.getProjectMembers(model.getProject()).size()));
-        overheadEmployees.setText(String.valueOf(model.getRate(model.getProject()).getOverheadEmployees().size()));
-        productionEmployees.setText(String.valueOf(model.getRate(model.getProject()).getProductionEmployees().size()));
+        totalEmployees.setText(String.valueOf(model.getProjectAssignments(model.getProject()).size()));
+        overheadEmployees.setText(String.valueOf(model.getOverheadAssignments(model.getProject()).size()));
+        productionEmployees.setText(String.valueOf(model.getProductionResourceAssignments(model.getProject()).size()));
 
         totalTeams.setText(String.valueOf(model.getProjectTeams(model.getProject()).size()));
         // We use stringFormatter method because we need to show it pretty in the GUI :D
-        hourlyRate.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getHourlyRate()));
-        dailyRate.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getDailyRate()));
+        hourlyRate.setText(GUIHelper.currencyFormatter(model.getHourlyRate(model.getProject())));
+        dailyRate.setText(GUIHelper.currencyFormatter(model.getDailyRate(model.getProject())));
 
         // Costs
-        directCosts.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getDirectCosts()));
-        overheadCosts.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getOverheadCosts()));
-        totalCosts.setText(GUIHelper.currencyFormatter(model.getRate(model.getProject()).getTotalCosts()));
+        directCosts.setText(GUIHelper.currencyFormatter(model.getDirectCosts(model.getProject())));
+        overheadCosts.setText(GUIHelper.currencyFormatter(model.getOverheadCosts(model.getProject())));
+        totalCosts.setText(GUIHelper.currencyFormatter(model.getTotalCosts(model.getProject())));
 
     }
 }
