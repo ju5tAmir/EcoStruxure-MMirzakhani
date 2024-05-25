@@ -17,22 +17,25 @@ public class ProjectService implements IService<Project> {
     }
 
     @Override
-    public void create(Project project) throws ExceptionHandler {
-        dao.createProject(project);
+    public boolean create(Project project) throws ExceptionHandler {
+        return dao.createProject(project);
     }
 
     @Override
-    public void remove(Project project) throws ExceptionHandler {
-
-    }
-
-    @Override
-    public void update(Project project) throws ExceptionHandler {
+    public boolean remove(Project project) throws ExceptionHandler {
+        return false;
 
     }
 
     @Override
-    public void delete(Project project) throws ExceptionHandler {
+    public boolean update(Project project) throws ExceptionHandler {
+        return false;
+
+    }
+
+    @Override
+    public boolean delete(Project project) throws ExceptionHandler {
+        return false;
 
     }
 }

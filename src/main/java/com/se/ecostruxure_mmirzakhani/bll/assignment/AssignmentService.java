@@ -13,22 +13,22 @@ public class AssignmentService implements IService<Assignment> {
     }
 
     @Override
-    public void create(Assignment assignment) throws ExceptionHandler{
-
+    public boolean create(Assignment assignment) throws ExceptionHandler{
+        return false;
     }
 
     @Override
-    public void remove(Assignment assignment) throws ExceptionHandler{
-        dao.deleteAssignment(assignment);
+    public boolean remove(Assignment assignment) throws ExceptionHandler{
+        return dao.deleteAssignment(assignment);
     }
 
     @Override
-    public void update(Assignment assignment) throws ExceptionHandler{
-
+    public boolean update(Assignment assignment) throws ExceptionHandler{
+        return false;
     }
 
     @Override
-    public void delete(Assignment assignment) throws ExceptionHandler{
-
+    public boolean delete(Assignment assignment) throws ExceptionHandler{
+        return false;
     }
 }

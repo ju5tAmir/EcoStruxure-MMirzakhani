@@ -34,7 +34,7 @@ public class EmployeeService implements IService<Employee> {
 
 
 
-    public void setCurrency(Currency systemCurrency) {
+    public boolean setCurrency(Currency systemCurrency) {
         this.systemCurrency = systemCurrency;
     }
 
@@ -74,22 +74,25 @@ public class EmployeeService implements IService<Employee> {
     }
 
     @Override
-    public void create(Employee employee) throws ExceptionHandler {
-        dao.createEmployee(employee);
+    public boolean create(Employee employee) throws ExceptionHandler {
+        return dao.createEmployee(employee);
     }
 
     @Override
-    public void remove(Employee object) throws ExceptionHandler {
-
-    }
-
-    @Override
-    public void update(Employee object) throws ExceptionHandler {
+    public boolean remove(Employee object) throws ExceptionHandler {
+        return false;
 
     }
 
     @Override
-    public void delete(Employee object) throws ExceptionHandler {
+    public boolean update(Employee object) throws ExceptionHandler {
+        return false;
+
+    }
+
+    @Override
+    public boolean delete(Employee object) throws ExceptionHandler {
+        return false;
 
     }
 

@@ -316,26 +316,36 @@ public class Model {
     /**
      * Removes an assignment from an employee (employee object is inside the assignment object)
      */
-    public void removeAssignment(Assignment assignment) throws ExceptionHandler {
-        assignmentService.remove(assignment);
+    public boolean removeAssignment(Assignment assignment) throws ExceptionHandler {
+        return assignmentService.remove(assignment);
     }
 
     /**
      * Creates a project based on the currently working project object
      * @throws ExceptionHandler if something goes wrong in the creation process.
      */
-    public void createProject() throws ExceptionHandler{
-        projectService.create(this.project.get());
+    public boolean createProject() throws ExceptionHandler{
+        return projectService.create(this.project.get());
     }
 
 
     /**
      * Create employee based on the currently working object
      */
-    public void createEmployee() throws ExceptionHandler{
+    public boolean createEmployee() throws ExceptionHandler{
         this.employee.get().setContract(this.contract.get()); // Setting currently filled contract to the currently working employee
 
-        employeeService.create(employee.get());
+        // If successful to create
+        if (employeeService.create(employee.get())){
+            // Employee creation was successful, add new object to the employees list without reloading it from database
+            // However, ID of contract and employee object has been updated after creation in database
+            employees.add(employee.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
     }
 
 

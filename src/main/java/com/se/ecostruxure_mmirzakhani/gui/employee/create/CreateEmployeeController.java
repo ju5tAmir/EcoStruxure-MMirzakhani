@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 import com.se.ecostruxure_mmirzakhani.be.entities.Contract;
 import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -66,7 +67,11 @@ public class CreateEmployeeController implements IController<Model> {
             model.setContractOverheadPercentage(Double.parseDouble(overheadPercentage.getText()));
             model.setContractCurrency(selectedCurrency);
 
-            model.createEmployee();
+            if (model.createEmployee()){
+                AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+            } else {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
 
             onCancelButton();
         } catch (ExceptionHandler | RuntimeException ex) {

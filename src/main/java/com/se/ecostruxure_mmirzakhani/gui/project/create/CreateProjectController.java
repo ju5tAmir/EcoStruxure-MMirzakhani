@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.project.create;
 import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
@@ -34,7 +35,12 @@ public class CreateProjectController implements IController<Model> {
         try {
             model.setProjectName(projectName.getText());
             model.setProjectCountry(selectedCountry);
-            model.createProject();
+            if (model.createProject()){
+                AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+            } else {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
         } catch (RuntimeException | ExceptionHandler r){
             AlertHandler.displayAlert(r.getMessage(), Alert.AlertType.ERROR);
         }

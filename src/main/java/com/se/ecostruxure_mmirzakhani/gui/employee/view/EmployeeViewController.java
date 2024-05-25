@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.employee.view;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -19,6 +20,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class EmployeeViewController implements IController<Model> {
     @FXML
@@ -151,13 +153,15 @@ public class EmployeeViewController implements IController<Model> {
     }
 
     @FXML
-    private void onRemoveButton(){
+    private void onRemoveButton() throws ExceptionHandler {
         if (!assignmentTable.getSelectionModel().isEmpty()){
-            try {
-                model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem());
-            } catch (ExceptionHandler e) {
-                AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+            if (model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
+                AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+
+            } else {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
             }
+
 
         } else {
             AlertHandler.displayAlert("Please select an assignment first in order to remove it.", Alert.AlertType.INFORMATION);
