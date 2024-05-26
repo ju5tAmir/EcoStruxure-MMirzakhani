@@ -1,12 +1,15 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
-import com.se.ecostruxure_mmirzakhani.be.*;
-import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
+import com.se.ecostruxure_mmirzakhani.be.entities.Contract;
+import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -32,12 +35,8 @@ public class CreateEmployeeController implements IController<Model> {
     public void setModel(Model model) {
         this.model = model;
 
-        Employee emp1 = new Employee();
-        model.setEmployee(emp1);
 
-        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
-        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
-
+        setRadioButtons();
 
         initCurrencyButton();
 
@@ -47,32 +46,34 @@ public class CreateEmployeeController implements IController<Model> {
 
     }
 
+    private void setRadioButtons() {
+        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
+        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
+    }
+
 
     @FXML
     private void onSubmitButton(){
         try {
-        Employee e = new Employee();
-        Contract c = new Contract();
-        e.setContract(c);
 
-        e.setFirstName(firstName.getText());
-            e.setLastName(lastName.getText());
-            e.setEmail(emailAddress.getText());
+            model.setEmployeeFirstName(firstName.getText());
+            model.setEmployeeLastName(lastName.getText());
+            model.setEmployeeEmail(emailAddress.getText());
 
-            c.setAnnualSalary(Double.parseDouble(annualSalary.getText()));
-            c.setFixedAnnualAmount(Double.parseDouble(fixedAmount.getText()));
-            c.setAnnualWorkHours(Double.parseDouble(annualWH.getText()));
-            c.setAverageDailyWorkHours(Double.parseDouble(dailyWH.getText()));
-            c.setOverheadPercentage(Double.parseDouble(overheadPercentage.getText()));
-            c.setCurrency(selectedCurrency);
+            model.setContractAnnualSalary(Double.parseDouble(annualSalary.getText()));
+            model.setContractFixedAnnualAmount(Double.parseDouble(fixedAmount.getText()));
+            model.setContractAnnualWorkHours(Double.parseDouble(annualWH.getText()));
+            model.setContractAverageDailyWorkHours(Double.parseDouble(dailyWH.getText()));
+            model.setContractOverheadPercentage(Double.parseDouble(overheadPercentage.getText()));
+            model.setContractCurrency(selectedCurrency);
 
-            if (overheadRB.isSelected()) {
-                c.setOverhead(true);
+            if (model.createEmployee()){
+                AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                closeTheWindow();
+            } else {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
             }
-            model.setEmployee(e);
-            model.createEmployee();
 
-            onCancelButton();
         } catch (ExceptionHandler | RuntimeException ex) {
             AlertHandler.displayAlert(ex.getMessage(), Alert.AlertType.ERROR);
         }
@@ -80,7 +81,7 @@ public class CreateEmployeeController implements IController<Model> {
 
     @FXML
     private void onCancelButton(){
-        Window.closeStage((Stage) firstName.getScene().getWindow());
+        closeTheWindow();
     }
 
     private void initCurrencyButton(){
@@ -183,6 +184,9 @@ public class CreateEmployeeController implements IController<Model> {
         displaySuccessFlag(textField);
     }
 
+    private void closeTheWindow(){
+        Window.closeStage((Stage) firstName.getScene().getWindow());
     }
+}
 
 

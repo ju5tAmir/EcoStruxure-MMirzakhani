@@ -1,6 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.gui.gui_utils;
 
-import com.se.ecostruxure_mmirzakhani.be.CurrencySign;
+import com.se.ecostruxure_mmirzakhani.be.enums.CurrencySign;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 import com.se.ecostruxure_mmirzakhani.utils.Validate;
 

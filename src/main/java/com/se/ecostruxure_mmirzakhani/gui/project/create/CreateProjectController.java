@@ -1,12 +1,13 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.create;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Currency;
-import com.se.ecostruxure_mmirzakhani.be.Project;
-import com.se.ecostruxure_mmirzakhani.exceptions.AlertHandler;
+import com.se.ecostruxure_mmirzakhani.be.enums.Country;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
@@ -30,12 +31,17 @@ public class CreateProjectController implements IController<Model> {
     }
 
     @FXML
-    private void onSubmitButton(){
+    private void onSubmitButton() throws RuntimeException{
         try {
-            model.setProject(new Project(10, projectName.getText(), selectedCountry));
-            model.createProject();
-            onCancelButton();
-        } catch (RuntimeException r){
+            model.setProjectName(projectName.getText());
+            model.setProjectCountry(selectedCountry);
+            if (model.createProject()){
+                AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+            } else {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
+        } catch (RuntimeException | ExceptionHandler r){
             AlertHandler.displayAlert(r.getMessage(), Alert.AlertType.ERROR);
         }
     }
@@ -46,17 +52,13 @@ public class CreateProjectController implements IController<Model> {
     }
 
 
-    private void initCountryMenu(){
+    private void initCountryMenu() throws RuntimeException {
 
-        Country[] countries = Country.values();
-        countryMenu.getItems().getFirst().setOnAction(e->{
-            selectedCountry = Country.DENMARK;
-            countryMenu.setText("Denmark");
-        });
-        for (Country country: countries){
+        // Iterate over countries to create a list for the country menu
+        for (Country country: Country.values()){
             MenuItem menuItem = new MenuItem(country.toString());
             menuItem.setOnAction(event -> {
-                selectedCountry = Country.valueOf(menuItem.getText().toUpperCase().replace(" ", "_"));
+                selectedCountry = Country.valueOf(menuItem.getText());
                 countryMenu.setText(menuItem.getText());
             });
             countryMenu.getItems().add(menuItem);

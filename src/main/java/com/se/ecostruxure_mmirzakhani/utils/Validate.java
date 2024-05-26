@@ -1,6 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.utils;
 
-import com.se.ecostruxure_mmirzakhani.be.Contract;
+import com.se.ecostruxure_mmirzakhani.be.entities.Contract;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 

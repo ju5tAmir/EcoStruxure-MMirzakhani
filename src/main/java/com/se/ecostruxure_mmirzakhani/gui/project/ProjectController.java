@@ -1,22 +1,18 @@
 package com.se.ecostruxure_mmirzakhani.gui.project;
 
-import com.se.ecostruxure_mmirzakhani.be.Country;
-import com.se.ecostruxure_mmirzakhani.be.Project;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
-import com.se.ecostruxure_mmirzakhani.utils.window.Window;
-import com.se.ecostruxure_mmirzakhani.utils.window.WindowType;
+import com.se.ecostruxure_mmirzakhani.utils.Window;
+import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProjectController implements IController<Model> {
     @FXML
@@ -27,25 +23,23 @@ public class ProjectController implements IController<Model> {
     private TextField markupTextField, gmTextField;
 
     @FXML
-    private TableView<RateService> projectTable;
+    private TableView<Project> projectTable;
     @FXML
-    private TableColumn<RateService, String> projectName;
+    private TableColumn<Project, String> projectName;
     @FXML
-    private TableColumn<RateService, String> projectHourlyRate, projectDailyRate, projectTotalCost;
+    private TableColumn<Project, String> projectHourlyRate, projectDailyRate, projectTotalCost;
 
-    @FXML
-    private TableView<RateService> projectTable1;
-    @FXML
-    private TableColumn<RateService, String> projectName1;
-    @FXML
-    private TableColumn<RateService, String> projectHourlyRate1, projectDailyRate1, projectTotalCost1;
+//    @FXML
+//    private TableView<Project> projectTable1;
+//    @FXML
+//    private TableColumn<Project, String> projectName1;
+//    @FXML
+//    private TableColumn<Project, String> projectHourlyRate1, projectDailyRate1, projectTotalCost1;
     private Model model;
 
     @Override
     public void setModel(Model model) {
         this.model = model;
-
-        projectTable.setItems(model.getAllRates());
 
         setColumns();
         setListeners();
@@ -55,13 +49,13 @@ public class ProjectController implements IController<Model> {
 
     private void setColumns(){
         projectName.setCellValueFactory(cellData -> {
-            String projectName = cellData.getValue().getProject().getName();
+            String projectName = cellData.getValue().getName();
 
             return new SimpleStringProperty(projectName);
         });
 
         projectHourlyRate.setCellValueFactory(cellData -> {
-            double hourlyRate = cellData.getValue().getHourlyRate();
+            double hourlyRate = model.getHourlyRate(cellData.getValue());
 
             String formattedString = GUIHelper.currencyFormatter(hourlyRate);
 
@@ -69,7 +63,7 @@ public class ProjectController implements IController<Model> {
         });
 
         projectDailyRate.setCellValueFactory(cellData -> {
-            double dailyRate = cellData.getValue().getDailyRate();
+            double dailyRate = model.getDailyRate(cellData.getValue());
 
             String formattedString = GUIHelper.currencyFormatter(dailyRate);
 
@@ -77,7 +71,7 @@ public class ProjectController implements IController<Model> {
         });
 
         projectTotalCost.setCellValueFactory(cellData -> {
-            double totalCost = model.getRate(cellData.getValue().getProject()).getTotalCosts();
+            double totalCost = model.getTotalCosts(cellData.getValue());
 
             String formattedString = GUIHelper.currencyFormatter(totalCost);
 
@@ -89,7 +83,7 @@ public class ProjectController implements IController<Model> {
         // Project table items listener
         projectTable.setOnMouseClicked(event -> {
             if (projectTable.getSelectionModel().getSelectedItem() != null){
-                model.setProject(projectTable.getSelectionModel().getSelectedItem().getProject());
+                model.setProject(projectTable.getSelectionModel().getSelectedItem());
                 try {
                     Window.createStage(WindowType.PROJECT_MANAGER, model, Modality.WINDOW_MODAL, false);
                 } catch (ExceptionHandler e) {
@@ -203,107 +197,108 @@ public class ProjectController implements IController<Model> {
         return dailyRate * gmMultiplier;
     }
 
-
+//
     @FXML
-    private void onCalculate(){
-        projectTable1.setItems(model.getAllRates());
-
-        if (markupCheckBox.isSelected() && gmCheckBox.isSelected()) {
-            projectName1.setCellValueFactory(cellData -> {
-                String projectName = cellData.getValue().getProject().getName();
-
-                return new SimpleStringProperty(projectName);
-            });
-
-            projectHourlyRate1.setCellValueFactory(cellData -> {
-                double markupHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField), true);
-                double gmHourlyRate = hourlyRate(markupHourlyRate, getMultiplier(gmTextField));
-
-
-                String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
-
-                return new SimpleStringProperty(formattedString);
-            });
-
-            projectDailyRate1.setCellValueFactory(cellData -> {
-                double markupDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField), true);
-                double gmDailyRate = dailyRate(markupDailyRate, getMultiplier(gmTextField));
-
-                String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
-
-                return new SimpleStringProperty(formattedString);
-            });
-
-            projectTotalCost1.setCellValueFactory(cellData -> {
-                double markupCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField), true);
-                double gmCost = hourlyRate(markupCost, getMultiplier(gmTextField));
-
-                String formattedString = GUIHelper.currencyFormatter(gmCost);
-
-                return new SimpleStringProperty(formattedString);
-            });
-        } else if (gmCheckBox.isSelected()) {
-            projectName1.setCellValueFactory(cellData -> {
-                String projectName = cellData.getValue().getProject().getName();
-
-                return new SimpleStringProperty(projectName);
-            });
-
-            projectHourlyRate1.setCellValueFactory(cellData -> {
-                double gmHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(gmTextField));
-
-                String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
-
-                return new SimpleStringProperty(formattedString);
-            });
-
-            projectDailyRate1.setCellValueFactory(cellData -> {
-                double gmDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(gmTextField));
-
-                String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
-
-                return new SimpleStringProperty(formattedString);
-            });
-
-            projectTotalCost1.setCellValueFactory(cellData -> {
-                double gmCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(gmTextField));
-
-                String formattedString = GUIHelper.currencyFormatter(gmCost);
-
-                return new SimpleStringProperty(formattedString);
-            });
-        } else if (markupCheckBox.isSelected()) {
-            projectName1.setCellValueFactory(cellData -> {
-                String projectName = cellData.getValue().getProject().getName();
-
-                return new SimpleStringProperty(projectName);
-            });
-
-            projectHourlyRate1.setCellValueFactory(cellData -> {
-                double gmHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField), true);
-
-                String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
-
-                return new SimpleStringProperty(formattedString);
-            });
-
-            projectDailyRate1.setCellValueFactory(cellData -> {
-                double gmDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField), true);
-
-                String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
-
-                return new SimpleStringProperty(formattedString);
-            });
-
-            projectTotalCost1.setCellValueFactory(cellData -> {
-                double gmCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField), true);
-
-                String formattedString = GUIHelper.currencyFormatter(gmCost);
-
-                return new SimpleStringProperty(formattedString);
-            });
-        }
+    private void onCalculate() {
     }
+//        projectTable1.setItems(model.getAllRates());
+//
+//        if (markupCheckBox.isSelected() && gmCheckBox.isSelected()) {
+//            projectName1.setCellValueFactory(cellData -> {
+//                String projectName = cellData.getValue().getProject().getName();
+//
+//                return new SimpleStringProperty(projectName);
+//            });
+//
+//            projectHourlyRate1.setCellValueFactory(cellData -> {
+//                double markupHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField), true);
+//                double gmHourlyRate = hourlyRate(markupHourlyRate, getMultiplier(gmTextField));
+//
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//
+//            projectDailyRate1.setCellValueFactory(cellData -> {
+//                double markupDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField), true);
+//                double gmDailyRate = dailyRate(markupDailyRate, getMultiplier(gmTextField));
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//
+//            projectTotalCost1.setCellValueFactory(cellData -> {
+//                double markupCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField), true);
+//                double gmCost = hourlyRate(markupCost, getMultiplier(gmTextField));
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmCost);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//        } else if (gmCheckBox.isSelected()) {
+//            projectName1.setCellValueFactory(cellData -> {
+//                String projectName = cellData.getValue().getProject().getName();
+//
+//                return new SimpleStringProperty(projectName);
+//            });
+//
+//            projectHourlyRate1.setCellValueFactory(cellData -> {
+//                double gmHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(gmTextField));
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//
+//            projectDailyRate1.setCellValueFactory(cellData -> {
+//                double gmDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(gmTextField));
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//
+//            projectTotalCost1.setCellValueFactory(cellData -> {
+//                double gmCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(gmTextField));
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmCost);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//        } else if (markupCheckBox.isSelected()) {
+//            projectName1.setCellValueFactory(cellData -> {
+//                String projectName = cellData.getValue().getProject().getName();
+//
+//                return new SimpleStringProperty(projectName);
+//            });
+//
+//            projectHourlyRate1.setCellValueFactory(cellData -> {
+//                double gmHourlyRate = hourlyRate(cellData.getValue().getHourlyRate(), getMultiplier(markupTextField), true);
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmHourlyRate);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//
+//            projectDailyRate1.setCellValueFactory(cellData -> {
+//                double gmDailyRate = dailyRate(cellData.getValue().getDailyRate(), getMultiplier(markupTextField), true);
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmDailyRate);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//
+//            projectTotalCost1.setCellValueFactory(cellData -> {
+//                double gmCost = hourlyRate(model.getRate(cellData.getValue().getProject()).getTotalCosts(), getMultiplier(markupTextField), true);
+//
+//                String formattedString = GUIHelper.currencyFormatter(gmCost);
+//
+//                return new SimpleStringProperty(formattedString);
+//            });
+//        }
+//    }
 
     @FXML
     private void onReset(){
