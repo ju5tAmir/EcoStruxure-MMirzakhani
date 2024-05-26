@@ -45,9 +45,8 @@ public class ProjectService implements IService<Project> {
     }
 
     @Override
-    public boolean remove(Project project) throws ExceptionHandler {
+    public boolean read(Project project) throws ExceptionHandler {
         return false;
-
     }
 
     @Override
@@ -60,5 +59,9 @@ public class ProjectService implements IService<Project> {
     public boolean delete(Project project) throws ExceptionHandler {
         return false;
 
+    }
+
+    public List<Project> getAllProjects() throws ExceptionHandler{
+        return dao.getAllProjects();
     }
 }
