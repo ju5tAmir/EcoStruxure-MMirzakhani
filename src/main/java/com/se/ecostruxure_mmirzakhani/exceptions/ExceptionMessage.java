@@ -18,8 +18,10 @@ public enum ExceptionMessage {
     // ** GUI Exceptions ** \\
 
 
+
     // ** Logical Exceptions ** \\
     CALCULATION_ERROR("An error occurred while trying to calculate the rates."),
+    UTILIZATION_EXCEPTION("Overall utilization percentage cannot exceed 100%"),
 
 
     // ** Database Exceptions ** \\

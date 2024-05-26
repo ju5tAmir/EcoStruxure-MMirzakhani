@@ -388,12 +388,12 @@ public class Model {
         this.contract.get().setOverheadPercentage(overheadPercentage);
     }
 
-    /**
-     * Retrieve latest employee changes for Contract and Projects
-     */
-    private void setEmployeeHistory(Employee employee) throws ExceptionHandler{
-        this.history.set(employeeService.getEmployeeHistory(employee));
-    }
+//    /**
+//     * Retrieve latest employee changes for Contract and Projects
+//     */
+//    private void setEmployeeHistory(Employee employee) throws ExceptionHandler{
+//        this.history.set(employeeService.getEmployeeHistory(employee));
+//    }
 
 
     // ************************ Utilities *****************************
@@ -419,12 +419,18 @@ public class Model {
 
 
     /**
-     * Assign the project (This is the moment that user clicks on add new project)
+     * Assign the assignment (This is the moment that user clicks on add new project)
      */
-    public void assignProjectToEmployee(){
-        // Assign this moment as start time
+    public void assignAssignmentToEmployee() throws ExceptionHandler{
+        List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee.get(), assignments);
 
-        // Validate
+        // Validating utilization percentage for new assignment
+        assignmentService.checkIllegalUtilization(this.assignment.get().getUtilizationPercentage(), assignmentList);
+
+        // if no exception occurred, insert the assignment to the database
+        assignmentService.create(this.assignment.get());
+
+        // Update the list of assignments without reloading from database (caching)
         this.projects.add(project.get());
     }
 
@@ -440,7 +446,7 @@ public class Model {
      */
     public boolean removeAssignment(Assignment assignment) throws ExceptionHandler {
         // If succeed
-        if (assignmentService.remove(assignment)){
+        if (assignmentService.delete(assignment)){
             // Remove the assignment from the assignments list
             assignments.remove(assignment);
 
@@ -486,6 +492,22 @@ public class Model {
 
         // If failed to create
         return false;
+    }
+
+    public void setAssignmentEmployee(Employee employee) {
+        this.assignment.get().setEmployee(employee);
+    }
+
+    public void setAssignmentProject(Project project) {
+        this.assignment.get().setProject(project);
+    }
+
+    public void setAssignmentEmployeeType(EmployeeType employeeType) {
+        this.assignment.get().setEmployeeType(employeeType);
+    }
+
+    public void setAssignmentUtilizationPercentage(double amount) {
+        this.assignment.get().setUtilizationPercentage(amount);
     }
 
 
