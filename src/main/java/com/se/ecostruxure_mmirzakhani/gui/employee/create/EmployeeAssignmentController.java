@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Team;
+import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -15,11 +16,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.List;
 
 public class EmployeeAssignmentController implements IController<Model> {
     @FXML
-    private Menu teamMenu, projectMenu;
+    private Menu teamMenu, projectMenu, employeeTypeMenu;
     @FXML
     private TextField utilizationPercentage;
     @FXML
@@ -68,17 +68,20 @@ public class EmployeeAssignmentController implements IController<Model> {
         double totalUtil = model.getTotalUtils(model.getEmployee());
 
         try {
-            Assignment assignment = new Assignment();
-            assignment.setEmployee(model.getEmployee());
-            assignment.setTeam(model.getTeam());
-            assignment.setUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
 
-            if (totalUtil + Double.parseDouble(utilizationPercentage.getText()) > 100){
-                AlertHandler.displayAlert("Overall utilization percentage cannot exceed 100", Alert.AlertType.ERROR);
-                return;
+            model.setAssignmentEmployee(model.getEmployee());
+            model.setAssignmentProject(model.getProject());
+            model.setAssignmentEmployeeType(EmployeeType.OVERHEAD);
+            model.setAssignmentUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
+            try {
+                // If assignment is legal to create
+                model.assignAssignmentToEmployee();
+            } catch (ExceptionHandler e){
+                // if something goes wrong, like overall exceeds 100%
+                AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
             }
-            model.addProjectMemberLinker(model.getProject(), assignment);
-            onCancel();
+
+            closeWindow();
         } catch (RuntimeException e){
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -87,6 +90,10 @@ public class EmployeeAssignmentController implements IController<Model> {
 
     @FXML
     private void onCancel(){
+        closeWindow();
+    }
+
+    private void closeWindow(){
         Window.closeStage((Stage) utilizationPercentage.getScene().getWindow());
     }
 }
