@@ -47,7 +47,7 @@ public class Model {
 
 
     // ************************ Constructor ************************
-    public Model() throws ExceptionHandler{
+    public Model() {
         this.employeeService = new EmployeeService();
         this.teamService = new TeamService();
         this.projectService = new ProjectService();

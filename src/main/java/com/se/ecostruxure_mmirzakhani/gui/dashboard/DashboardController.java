@@ -4,8 +4,10 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import javafx.fxml.FXML;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
@@ -47,7 +49,7 @@ public class DashboardController implements IController<Model> {
             updateLabel(totalDailyRateLabel,        GUIHelper.currencyFormatter(model.getTotalDailyRate()));
             updateLabel(totalCostLabel,             GUIHelper.currencyFormatter(model.getTotalCosts()));
         } catch (ExceptionHandler e){
-            throw new RuntimeException(e);
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 

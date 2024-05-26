@@ -198,8 +198,9 @@ public class ProjectController implements IController<Model> {
     }
 
 //
-//    @FXML
-//    private void onCalculate(){
+    @FXML
+    private void onCalculate() {
+    }
 //        projectTable1.setItems(model.getAllRates());
 //
 //        if (markupCheckBox.isSelected() && gmCheckBox.isSelected()) {
