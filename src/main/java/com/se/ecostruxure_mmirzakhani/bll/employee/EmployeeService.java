@@ -15,21 +15,11 @@ import java.util.List;
 
 public class EmployeeService implements IService<Employee> {
 
-    private final static EmployeeDAO dao = new EmployeeDAO();;
-    private final static Currency systemCurrency = CurrencyService.getSystemCurrency();
-    private Employee employee;
-    private List<Project> projects;
-    private List<Assignment> assignments;
+    private EmployeeDAO dao;
 
     public EmployeeService(){
-
+        this.dao = new EmployeeDAO();
     }
-
-
-    public EmployeeService(Employee employee){
-        this.employee = employee;
-    }
-
 
     /**
      * Get total utilization percentage for an employee
@@ -59,7 +49,7 @@ public class EmployeeService implements IService<Employee> {
         double totalCostInLocalCurrency = employeeAnnualSalary + employeeAnnualFixedAmount + overheadAmount;
 
         // Convert the total cost to the system's currency using the CurrencyService
-        double totalCostInSystemCurrency = CurrencyService.convert(employeeLocalCurrency, systemCurrency, totalCostInLocalCurrency);
+        double totalCostInSystemCurrency = CurrencyService.convert(employeeLocalCurrency, CurrencyService.getSystemCurrency(), totalCostInLocalCurrency);
         return totalCostInSystemCurrency;
     }
 
@@ -69,7 +59,7 @@ public class EmployeeService implements IService<Employee> {
     }
 
     @Override
-    public boolean remove(Employee object) throws ExceptionHandler {
+    public boolean read(Employee object) throws ExceptionHandler {
         return false;
 
     }
@@ -91,5 +81,12 @@ public class EmployeeService implements IService<Employee> {
      */
     public History getEmployeeHistory(Employee employee) throws ExceptionHandler {
         return dao.getEmployeeHistory(employee);
+    }
+
+    /**
+     * Get all the employees
+     */
+    public List<Employee> getAllEmployees() throws ExceptionHandler{
+        return dao.getAllEmployees();
     }
 }
