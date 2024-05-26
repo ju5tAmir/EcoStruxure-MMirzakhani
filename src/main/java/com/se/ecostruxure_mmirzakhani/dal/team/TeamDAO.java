@@ -16,7 +16,7 @@ public class TeamDAO {
     /**
      * Constructor
      */
-    public TeamDAO() throws ExceptionHandler {
+    public TeamDAO() {
         dbConnection = new DBConnection();
     }
 
