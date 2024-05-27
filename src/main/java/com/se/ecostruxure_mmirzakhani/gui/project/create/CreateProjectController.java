@@ -56,7 +56,7 @@ public class CreateProjectController implements IController<Model> {
 
         // Iterate over countries to create a list for the country menu
         for (Country country: Country.values()){
-            MenuItem menuItem = new MenuItem(country.toString());
+            MenuItem menuItem = new MenuItem(country.name());
             menuItem.setOnAction(event -> {
                 selectedCountry = Country.valueOf(menuItem.getText());
                 countryMenu.setText(menuItem.getText());

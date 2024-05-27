@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable, IController {
+public class MainViewController implements Initializable, IController<Model> {
     @FXML
     private Pane pane; // Main pane to replace new windows content with it
     private Model model;
@@ -43,14 +43,16 @@ public class MainViewController implements Initializable, IController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            setModel(model);
             onDashboard() ;
         } catch (ExceptionHandler e) {
+            System.out.println(e.getMessage());
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 
     @Override
-    public void setModel(Object model) {
+    public void setModel(Model model) {
         this.model = new Model();
     }
 }

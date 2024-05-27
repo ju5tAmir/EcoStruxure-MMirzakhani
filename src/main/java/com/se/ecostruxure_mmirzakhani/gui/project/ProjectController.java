@@ -6,6 +6,7 @@ import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
 import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,13 +42,19 @@ public class ProjectController implements IController<Model> {
     public void setModel(Model model) {
         this.model = model;
 
-        setColumns();
-        setListeners();
-        initMultipliers();
+        try {
+            setProjectTable();
+            setListeners();
+            initMultipliers();
+        } catch (ExceptionHandler e){
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
 
-    private void setColumns(){
+    private void setProjectTable() throws ExceptionHandler {
+        projectTable.setItems(model.getAllProjects());
+
         projectName.setCellValueFactory(cellData -> {
             String projectName = cellData.getValue().getName();
 
