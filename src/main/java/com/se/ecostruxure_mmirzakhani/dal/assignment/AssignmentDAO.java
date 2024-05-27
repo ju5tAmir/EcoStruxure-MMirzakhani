@@ -20,8 +20,8 @@ public class AssignmentDAO {
         dbConnection = new DBConnection();
     }
     public boolean createAssignment(Assignment assignment) throws ExceptionHandler {
-        String sql = "INSERT INTO Assignment (EmployeeID, ProjectID, TeamID, UtilizationPercentage, EmployeeType, FromDate, ToDate) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Assignment (EmployeeID, ProjectID, TeamID, UtilizationPercentage, EmployeeType) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -32,8 +32,6 @@ public class AssignmentDAO {
             statement.setInt(3, assignment.getTeam().getId());
             statement.setDouble(4, assignment.getUtilizationPercentage());
             statement.setString(5, assignment.getEmployeeType().toString());
-            statement.setTimestamp(6, Timestamp.valueOf(assignment.getTimeLine().getFrom()));
-            statement.setTimestamp(7, Timestamp.valueOf(assignment.getTimeLine().getTo()));
 
             // Execute the SQL statement
             int rowsInserted = statement.executeUpdate();
@@ -41,7 +39,7 @@ public class AssignmentDAO {
             // Check if the assignment was successfully created
             return rowsInserted > 0;
         } catch (SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+            throw new ExceptionHandler(e.getMessage());
         }
     }
     public List<Assignment> getAllAssignments() throws ExceptionHandler {
@@ -70,8 +68,7 @@ public class AssignmentDAO {
 
                 assignment.setUtilizationPercentage(resultSet.getFloat("UtilizationPercentage"));
                 assignment.setEmployeeType(EmployeeType.valueOf(resultSet.getString("EmployeeType")));
-                assignment.getTimeLine().setFrom(resultSet.getTimestamp("FromDate").toLocalDateTime());
-                assignment.getTimeLine().setTo(resultSet.getTimestamp("ToDate").toLocalDateTime());
+
 
                 assignments.add(assignment);
             }
