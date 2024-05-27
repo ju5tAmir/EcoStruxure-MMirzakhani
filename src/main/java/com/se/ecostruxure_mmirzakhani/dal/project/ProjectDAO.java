@@ -55,7 +55,7 @@ public class ProjectDAO {
                 Project project = new Project();
                 project.setId(resultSet.getInt("ProjectID"));
                 project.setName(resultSet.getString("ProjectName"));
-                project.setCountry(Country.valueOf(resultSet.getString("Country").toUpperCase()));
+                project.setCountry(Country.fromString(resultSet.getString("Country").toUpperCase()));
                 projects.add(project);
             }
         } catch (SQLException e) {

@@ -222,4 +222,14 @@ public enum Country {
     public String toString() {
         return country;
     }
+
+    // Method to get enum value by string
+    public static Country fromString(String text) {
+        for (Country c : Country.values()) {
+            if (c.country.equalsIgnoreCase(text)) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + text + " found");
+    }
 }
