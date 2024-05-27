@@ -115,6 +115,7 @@ public class EmployeeViewController implements IController<Model> {
     private void setAssignmentTable() throws ExceptionHandler {
         assignmentTable.setItems(model.getAssignments());
 
+        System.out.println(model.getAssignments());
 
         projectName.setCellValueFactory(cellData -> {
 
@@ -123,7 +124,7 @@ public class EmployeeViewController implements IController<Model> {
             return new SimpleStringProperty(name);
         });
         projectCountry.setCellValueFactory(cellData -> {
-            String name = cellData.getValue().getProject().getCountry().toString();
+            String name = cellData.getValue().getProject().getCountry().name();
 
             return new SimpleStringProperty(name);
         });

@@ -71,6 +71,7 @@ public class EmployeeAssignmentController implements IController<Model> {
 
             model.setAssignmentEmployee(model.getEmployee());
             model.setAssignmentProject(model.getProject());
+            model.setAssignmentTeam(model.getTeam());
             model.setAssignmentEmployeeType(EmployeeType.OVERHEAD);
             model.setAssignmentUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
             try {

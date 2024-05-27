@@ -502,6 +502,10 @@ public class Model {
         this.assignment.get().setProject(project);
     }
 
+    public void setAssignmentTeam(Team team) {
+        this.assignment.get().setTeam(team);
+    }
+
     public void setAssignmentEmployeeType(EmployeeType employeeType) {
         this.assignment.get().setEmployeeType(employeeType);
     }
