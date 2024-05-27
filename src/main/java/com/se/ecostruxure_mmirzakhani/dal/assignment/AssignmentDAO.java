@@ -1,6 +1,8 @@
 package com.se.ecostruxure_mmirzakhani.dal.assignment;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.*;
+import com.se.ecostruxure_mmirzakhani.be.enums.Country;
+import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
@@ -44,39 +46,79 @@ public class AssignmentDAO {
     }
     public List<Assignment> getAllAssignments() throws ExceptionHandler {
         List<Assignment> assignments = new ArrayList<>();
-        String sql = "SELECT * FROM Assignment";
+        String sql = "SELECT a.AssignmentID, a.UtilizationPercentage, a.EmployeeType, " +
+                "e.EmployeeID, e.FirstName, e.LastName, e.Email, " +
+                "p.ProjectID, p.ProjectName, p.Country, " +
+                "t.TeamID, t.TeamName, " +
+                "a.FromDate, a.ToDate, " +
+                "c.ContractID, c.AnnualSalary, c.FixedAnnualAmount, c.AnnualWorkHours, " +
+                "c.AverageDailyWorkHours, c.OverheadPercentage, c.Currency " +
+                "FROM Assignment a " +
+                "JOIN Employees e ON a.EmployeeID = e.EmployeeID " +
+                "JOIN Projects p ON a.ProjectID = p.ProjectID " +
+                "JOIN Teams t ON a.TeamID = t.TeamID " +
+                "JOIN Contract c ON e.EmployeeID = c.EmployeeID";
+
         try (Connection connection = dbConnection.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
+                // Create Assignment object and set its properties
                 Assignment assignment = new Assignment();
                 assignment.setId(resultSet.getInt("AssignmentID"));
-
-                // Initialize Employee, Project, and Team objects
-                Employee employee = new Employee();
-                employee.setId(resultSet.getInt("EmployeeID"));
-                assignment.setEmployee(employee);
-
-                Project project = new Project();
-                project.setId(resultSet.getInt("ProjectID"));
-                assignment.setProject(project);
-
-                Team team = new Team();
-                team.setId(resultSet.getInt("TeamID"));
-                assignment.setTeam(team);
-
                 assignment.setUtilizationPercentage(resultSet.getFloat("UtilizationPercentage"));
                 assignment.setEmployeeType(EmployeeType.valueOf(resultSet.getString("EmployeeType")));
 
+                // Create and set Employee details
+                Employee employee = new Employee();
+                employee.setId(resultSet.getInt("EmployeeID"));
+                employee.setFirstName(resultSet.getString("FirstName"));
+                employee.setLastName(resultSet.getString("LastName"));
+                employee.setEmail(resultSet.getString("Email"));
+                assignment.setEmployee(employee);
 
+                // Create and set Contract details
+                Contract contract = new Contract();
+                contract.setId(resultSet.getInt("ContractID"));
+                contract.setAnnualSalary(resultSet.getFloat("AnnualSalary"));
+                contract.setFixedAnnualAmount(resultSet.getFloat("FixedAnnualAmount"));
+                contract.setAnnualWorkHours(resultSet.getFloat("AnnualWorkHours"));
+                contract.setAverageDailyWorkHours(resultSet.getFloat("AverageDailyWorkHours"));
+                contract.setOverheadPercentage(resultSet.getFloat("OverheadPercentage"));
+                contract.setCurrency(Currency.valueOf(resultSet.getString("Currency")));
+                employee.setContract(contract);
+
+                // Create and set Project details
+                Project project = new Project();
+                project.setId(resultSet.getInt("ProjectID"));
+                project.setName(resultSet.getString("ProjectName"));
+                project.setCountry(Country.valueOf(resultSet.getString("Country")));
+                assignment.setProject(project);
+
+                // Create and set Team details
+                Team team = new Team();
+                team.setId(resultSet.getInt("TeamID"));
+                team.setName(resultSet.getString("TeamName"));
+                assignment.setTeam(team);
+
+                // Set the TimeLine
+                TimeLine timeLine = new TimeLine(
+                        resultSet.getTimestamp("FromDate").toLocalDateTime(),
+                        resultSet.getTimestamp("ToDate").toLocalDateTime()
+                );
+                assignment.setTimeLine(timeLine);
+
+                // Add the assignment to the list
                 assignments.add(assignment);
             }
         } catch (SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
         }
         return assignments;
     }
+
+
     public boolean updateAssignment(Assignment assignment) throws ExceptionHandler {
         String sql = "UPDATE Assignment " +
                 "SET EmployeeID = ?, " +
