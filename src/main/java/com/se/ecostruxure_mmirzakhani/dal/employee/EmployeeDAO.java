@@ -112,18 +112,12 @@ public class EmployeeDAO {
 
     public List<Employee> getAllEmployees() throws ExceptionHandler {
         List<Employee> employees = new ArrayList<>();
+
         String sql = "SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, " +
                 "c.ContractID, c.AnnualSalary, c.FixedAnnualAmount, c.AnnualWorkHours, " +
-                "c.AverageDailyWorkHours, c.OverheadPercentage, c.Currency, " +
-                "a.AssignmentID, a.UtilizationPercentage, a.EmployeeType, " +
-                "p.ProjectID, p.ProjectName, p.Country, " +
-                "t.TeamID, t.TeamName, " +
-                "a.FromDate, a.ToDate " +
+                "c.AverageDailyWorkHours, c.OverheadPercentage, c.Currency " +
                 "FROM Employees e " +
-                "LEFT JOIN Contract c ON e.EmployeeID = c.EmployeeID " +
-                "LEFT JOIN Assignment a ON e.EmployeeID = a.EmployeeID " +
-                "LEFT JOIN Projects p ON a.ProjectID = p.ProjectID " +
-                "LEFT JOIN Teams t ON a.TeamID = t.TeamID";
+                "LEFT JOIN Contract c ON e.EmployeeID = c.EmployeeID ";
 
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -146,36 +140,10 @@ public class EmployeeDAO {
                 contract.setCurrency(Currency.valueOf(rs.getString("Currency")));
                 employee.setContract(contract);
 
-                if (rs.getInt("AssignmentID") > 0) {
-                    Assignment assignment = new Assignment();
-                    assignment.setId(rs.getInt("AssignmentID"));
-                    assignment.setUtilizationPercentage(rs.getFloat("UtilizationPercentage"));
-                    assignment.setEmployeeType(EmployeeType.valueOf(rs.getString("EmployeeType")));
-
-                    assignment.setEmployee(employee);
-
-                    Project project = new Project();
-                    project.setId(rs.getInt("ProjectID"));
-                    project.setName(rs.getString("ProjectName"));
-                    project.setCountry(Country.valueOf(rs.getString("Country")));
-                    assignment.setProject(project);
-
-                    Team team = new Team();
-                    team.setId(rs.getInt("TeamID"));
-                    team.setName(rs.getString("TeamName"));
-                    assignment.setTeam(team);
-
-                    TimeLine timeLine = new TimeLine(
-                            rs.getTimestamp("FromDate").toLocalDateTime(),
-                            rs.getTimestamp("ToDate").toLocalDateTime()
-                    );
-                    assignment.setTimeLine(timeLine);
-                }
-
                 employees.add(employee);
             }
         } catch (SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue(), e.getMessage());
+            throw new ExceptionHandler(e.getMessage(), e.getMessage());
         }
         return employees;
     }

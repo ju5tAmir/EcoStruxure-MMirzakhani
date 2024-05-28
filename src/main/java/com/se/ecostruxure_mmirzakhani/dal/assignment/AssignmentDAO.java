@@ -93,7 +93,7 @@ public class AssignmentDAO {
                 Project project = new Project();
                 project.setId(resultSet.getInt("ProjectID"));
                 project.setName(resultSet.getString("ProjectName"));
-                project.setCountry(Country.valueOf(resultSet.getString("Country")));
+                project.setCountry(Country.fromString(resultSet.getString("Country")));
                 assignment.setProject(project);
 
                 // Create and set Team details
