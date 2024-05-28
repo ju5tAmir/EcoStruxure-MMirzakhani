@@ -592,7 +592,10 @@ public class Model {
     }
 
     public boolean updateEmployee() throws ExceptionHandler{
+        // Set the updated contract to the employee
         employee.get().setContract(contract.get());
+
+
         if (employeeService.update(employee.get())){
 
             // Updating the new object in the observableList
@@ -604,6 +607,24 @@ public class Model {
             return true;
         }
 
+        return false;
+    }
+
+    public boolean updateProject() throws ExceptionHandler {
+        if (projectService.update(project.get())){
+
+            // Updating the object within the observableList
+            for (int i = 0; i < projects.size(); i++){
+                if (projects.get(i).getId() == project.get().getId()){
+                    projects.set(i, project.get());
+                }
+            }
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
         return false;
     }
 }

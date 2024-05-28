@@ -10,7 +10,8 @@ public enum WindowType {
     UPDATE_EMPLOYEE("/com/se/ecostruxure-mmirzakhani/employee/update/UpdateEmployee.fxml"),
     ASSIGNMENT("/com/se/ecostruxure-mmirzakhani/employee/create/AssignEmployeeProject.fxml"),
     PROJECT_MAIN("/com/se/ecostruxure-mmirzakhani/project/view/ProjectMainView.fxml"),
-    CREATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml");
+    CREATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml"),
+    UPDATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/update/UpdateProject.fxml");
 
     private final String path;
 

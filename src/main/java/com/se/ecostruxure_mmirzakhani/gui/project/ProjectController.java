@@ -301,7 +301,16 @@ public class ProjectController implements IController<Model> {
 
     @FXML
     private void onUpdateProject(){
-
+        if (projectTable.getSelectionModel().getSelectedItem() != null){
+            model.setProject(projectTable.getSelectionModel().getSelectedItem());
+            try {
+                Window.createStage(WindowType.UPDATE_PROJECT, model, Modality.WINDOW_MODAL, false);
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            AlertHandler.displayAlert("Please select a project first in order update.", Alert.AlertType.INFORMATION);
+        }
     }
 
     @FXML
@@ -329,6 +338,8 @@ public class ProjectController implements IController<Model> {
             } catch (ExceptionHandler e) {
                 throw new RuntimeException(e);
             }
+        } else {
+            AlertHandler.displayAlert("Please select a project first in order view.", Alert.AlertType.INFORMATION);
         }
     }
 }

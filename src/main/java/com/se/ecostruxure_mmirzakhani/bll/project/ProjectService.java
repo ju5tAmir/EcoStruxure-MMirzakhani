@@ -51,7 +51,7 @@ public class ProjectService implements IService<Project> {
 
     @Override
     public boolean update(Project project) throws ExceptionHandler {
-        return false;
+        return dao.updateProject(project);
 
     }
 
