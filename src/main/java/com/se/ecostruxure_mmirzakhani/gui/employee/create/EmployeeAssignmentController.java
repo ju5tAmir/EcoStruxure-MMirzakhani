@@ -77,6 +77,7 @@ public class EmployeeAssignmentController implements IController<Model> {
             try {
                 // If assignment is legal to create
                 model.assignAssignmentToEmployee();
+
             } catch (ExceptionHandler e){
                 // if something goes wrong, like overall exceeds 100%
                 AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);

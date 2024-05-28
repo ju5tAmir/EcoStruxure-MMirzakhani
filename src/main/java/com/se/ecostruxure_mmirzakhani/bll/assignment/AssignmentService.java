@@ -1,12 +1,15 @@
 package com.se.ecostruxure_mmirzakhani.bll.assignment;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
+import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.bll.IService;
 import com.se.ecostruxure_mmirzakhani.dal.assignment.AssignmentDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AssignmentService implements IService<Assignment> {
 
@@ -54,4 +57,25 @@ public class AssignmentService implements IService<Assignment> {
         return dao.getAllAssignments();
     }
 
+    /**
+     * Get all the assignments for a specific project
+     */
+    public List<Assignment> getAllAssignments(Project project) throws ExceptionHandler{
+        List<Assignment> assignments =  dao.getAllAssignments();
+
+        return assignments.stream()
+                .filter(assignment -> assignment.getProject().equals(project))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all the assignments for a specific employee
+     */
+    public List<Assignment> getAllAssignments(Employee employee) throws ExceptionHandler{
+        List<Assignment> assignments =  dao.getAllAssignments();
+
+        return assignments.stream()
+                .filter(assignment -> assignment.getEmployee().equals(employee))
+                .collect(Collectors.toList());
+    }
 }

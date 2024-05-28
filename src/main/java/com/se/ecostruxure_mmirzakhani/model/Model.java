@@ -128,24 +128,16 @@ public class Model {
      * Get all the Assignments for a specific project
      */
     public ObservableList<Assignment> getAssignments(Project project) throws ExceptionHandler {
-        setAssignments();
-        return FXCollections.observableArrayList(
-                assignments.stream()
-                        .filter(assignment -> assignment.getProject().equals(project))
-                        .collect(Collectors.toList())
-        );
+        setAssignments(project);
+        return assignments;
     }
 
     /**
      * Get all the Assignments for a specific employee
      */
     public ObservableList<Assignment> getAssignments(Employee employee) throws ExceptionHandler {
-        setAssignments();
-        return FXCollections.observableArrayList(
-                assignments.stream()
-                        .filter(assignment -> assignment.getEmployee().equals(employee))
-                        .collect(Collectors.toList())
-        );
+        setAssignments(employee);
+        return assignments;
     }
     /**
      * Get current currency of the system (default EUR)
@@ -343,6 +335,20 @@ public class Model {
         assignments.setAll(assignmentService.getAllAssignments());
     }
 
+    /**
+     * Retrieve and updates the latest Assignment list
+     */
+    private void setAssignments(Project project) throws ExceptionHandler {
+        assignments.setAll(assignmentService.getAllAssignments(project));
+    }
+
+    /**
+     * Retrieve and updates the latest Assignment list
+     */
+    private void setAssignments(Employee employee) throws ExceptionHandler {
+        assignments.setAll(assignmentService.getAllAssignments(employee));
+    }
+
 //    /**
 //     * Set current currency of the system (default EUR)
 //     */
@@ -431,6 +437,11 @@ public class Model {
         setAssignments();
     }
 
+    private void updateTables() throws ExceptionHandler{
+        getAssignments(this.assignment.get().getEmployee());
+//        getAssignments(this.assignment.get().getProject());
+    }
+
     /**
      * Assign the contract to the employee (This is the moment that user clicks on submit contract)
      */
@@ -458,8 +469,11 @@ public class Model {
         // if no exception occurred, insert the assignment to the database
         assignmentService.create(this.assignment.get());
 
-        // Update the list of assignments without reloading from database (caching)
+        // Update the list of assignments without reloading from database
         this.projects.add(project.get());
+
+        // Update the tables
+        updateTables();
     }
 
     /**
