@@ -18,31 +18,14 @@ import javafx.stage.Stage;
 public class Main extends Application {
     public static void main(String[] args) {
 
-
-//
-//        Model model = new Model();
-//        try {
-//            System.out.println(model.getAllEmployees());
-//        } catch (ExceptionHandler e) {
-//            throw new RuntimeException(e);
-//        }
-
-//        model.getTotalHourlyRate();
-//        model.getTotalDailyRate();
-//        model.getTotalCosts();
-
         Application.launch(args);
     }
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws ExceptionHandler {
 
         // Create and show a new stage
-        try {
-            Window.createStage(WindowType.MAIN);
-        } catch (ExceptionHandler e) {
-            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
-        }
+        Window.createStage(WindowType.MAIN);
     }
 }

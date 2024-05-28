@@ -1,4 +1,4 @@
-package com.se.ecostruxure_mmirzakhani.gui.main;
+package com.se.ecostruxure_mmirzakhani.gui;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
