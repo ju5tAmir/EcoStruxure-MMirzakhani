@@ -56,7 +56,6 @@ public class EmployeeViewController implements IController<Model> {
 
         employeesTable.setItems(model.getAllEmployees());
 
-
         employeesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null){
                 model.setEmployee(newValue);
@@ -115,7 +114,6 @@ public class EmployeeViewController implements IController<Model> {
     private void setAssignmentTable() throws ExceptionHandler {
         assignmentTable.setItems(model.getAssignments());
 
-        System.out.println(model.getAssignments());
 
         projectName.setCellValueFactory(cellData -> {
 

@@ -80,6 +80,7 @@ public class EmployeeAssignmentController implements IController<Model> {
             } catch (ExceptionHandler e){
                 // if something goes wrong, like overall exceeds 100%
                 AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+                return;
             }
 
             closeWindow();

@@ -42,11 +42,11 @@ public class MainViewController implements Initializable, IController<Model> {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setModel(model);
         try {
-            setModel(model);
+
             onDashboard() ;
         } catch (ExceptionHandler e) {
-            System.out.println(e.getMessage());
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
     }
