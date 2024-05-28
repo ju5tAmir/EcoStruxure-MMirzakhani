@@ -36,7 +36,7 @@ public class TeamService implements IService<Team> {
 
     @Override
     public boolean update(Team team) throws ExceptionHandler {
-        return false;
+        return dao.updateTeam(team);
     }
 
     @Override

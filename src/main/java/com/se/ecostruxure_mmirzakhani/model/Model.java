@@ -658,4 +658,22 @@ public class Model {
         // If failed to create
         return false;
     }
+
+    public boolean updateTeam() throws ExceptionHandler{
+        if (teamService.update(team.get())){
+
+            // Updating the object within the observableList
+            for (int i = 0; i < teams.size(); i++){
+                if (teams.get(i).getId() == team.get().getId()){
+                    teams.set(i, team.get());
+                }
+            }
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
 }

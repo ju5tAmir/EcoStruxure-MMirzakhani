@@ -58,7 +58,7 @@ public class TeamViewController implements IController<Model> {
         if (!teamsTable.getSelectionModel().isEmpty()){
             model.setTeam(teamsTable.getSelectionModel().getSelectedItem());
             try {
-                Window.createStage(WindowType.UPDATE_EMPLOYEE, model, Modality.WINDOW_MODAL, false);
+                Window.createStage(WindowType.UPDATE_TEAM, model, Modality.WINDOW_MODAL, false);
             } catch (ExceptionHandler e) {
                 throw new RuntimeException(e);
             }
