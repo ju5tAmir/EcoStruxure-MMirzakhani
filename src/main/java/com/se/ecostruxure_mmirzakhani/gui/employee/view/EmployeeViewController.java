@@ -112,7 +112,8 @@ public class EmployeeViewController implements IController<Model> {
 
 
     private void setAssignmentTable() throws ExceptionHandler {
-        assignmentTable.setItems(model.getAssignments(model.getEmployee()));
+
+        assignmentTable.setItems(model.filter(model.getEmployee()));
 
 
         projectName.setCellValueFactory(cellData -> {
@@ -217,6 +218,18 @@ public class EmployeeViewController implements IController<Model> {
 
     @FXML
     private void onRemoveAssignment(){
+        if (!assignmentTable.getSelectionModel().isEmpty()){
+            try {
 
+                if (model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
+                    AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                };
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an assignment first in order delete.", Alert.AlertType.INFORMATION);
+        }
     }
 }

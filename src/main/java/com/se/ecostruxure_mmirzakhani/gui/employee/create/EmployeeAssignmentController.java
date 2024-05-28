@@ -4,6 +4,7 @@ import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Team;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
@@ -21,7 +22,7 @@ public class EmployeeAssignmentController implements IController<Model> {
     private TextField utilizationPercentage;
     @FXML
     private RadioButton overheadRB, productionRB;
-    private EmployeeType selectedType;
+    private EmployeeType selectedType = EmployeeType.OVERHEAD;
     @FXML
     private Model model;
     @Override
@@ -71,27 +72,26 @@ public class EmployeeAssignmentController implements IController<Model> {
 
     @FXML
     private void onAssign(){
+
+        model.setAssignmentEmployee(model.getEmployee());
+        model.setAssignmentProject(model.getProject());
+        model.setAssignmentTeam(model.getTeam());
+        model.setAssignmentEmployeeType(selectedType);
+        model.setAssignmentUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
         try {
-
-            model.setAssignmentEmployee(model.getEmployee());
-            model.setAssignmentProject(model.getProject());
-            model.setAssignmentTeam(model.getTeam());
-            model.setAssignmentEmployeeType(selectedType);
-            model.setAssignmentUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
-            try {
-                // If assignment is legal to create
-                model.assignAssignmentToEmployee();
-
-            } catch (ExceptionHandler e){
-                // if something goes wrong, like overall exceeds 100%
-                AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
-                return;
+            // If assignment is legal to create
+            if (model.assignAssignmentToEmployee()) {
+                AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
             }
 
-            closeWindow();
-        } catch (RuntimeException e){
+        } catch (ExceptionHandler e) {
+            // if something goes wrong, like overall exceeds 100%
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+            return;
         }
+
+        closeWindow();
+
     }
 
 
