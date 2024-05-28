@@ -26,24 +26,38 @@ public class AssignmentDAO {
                 "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = dbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             // Set parameters for the prepared statement
             statement.setInt(1, assignment.getEmployee().getId());
             statement.setInt(2, assignment.getProject().getId());
             statement.setInt(3, assignment.getTeam().getId());
             statement.setDouble(4, assignment.getUtilizationPercentage());
-            statement.setString(5, assignment.getEmployeeType().toString());
+            statement.setString(5, assignment.getEmployeeType().name());
 
             // Execute the SQL statement
             int rowsInserted = statement.executeUpdate();
 
             // Check if the assignment was successfully created
-            return rowsInserted > 0;
+            if (rowsInserted > 0) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        // Retrieve and update the ID of newly created assignment
+                        int assignmentId = generatedKeys.getInt(1);
+                        assignment.setId(assignmentId);
+                        return true;
+                    } else {
+                        throw new SQLException("Creating assignment failed, no ID obtained.");
+                    }
+                }
+            } else {
+                return false;
+            }
         } catch (SQLException e) {
             throw new ExceptionHandler(e.getMessage());
         }
     }
+
     public List<Assignment> getAllAssignments() throws ExceptionHandler {
         List<Assignment> assignments = new ArrayList<>();
         String sql = "SELECT a.AssignmentID, a.UtilizationPercentage, a.EmployeeType, " +
