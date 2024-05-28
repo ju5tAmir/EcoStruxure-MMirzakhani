@@ -18,10 +18,12 @@ import com.se.ecostruxure_mmirzakhani.utils.Mapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class Model {
@@ -41,6 +43,7 @@ public class Model {
 
     private final ObservableList        <Assignment>                employeeAssignments = FXCollections.observableArrayList();
     private final ObservableList        <Assignment>                projectAssignments  = FXCollections.observableArrayList();
+    private final FilteredList          <Assignment>                filteredAssignments = new FilteredList<>(assignments);
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
     private final EmployeeService                                   employeeService;
     private final TeamService                                       teamService;
@@ -465,21 +468,22 @@ public class Model {
     /**
      * Assign the assignment (This is the moment that user clicks on add new project)
      */
-    public void assignAssignmentToEmployee() throws ExceptionHandler{
+    public boolean assignAssignmentToEmployee() throws ExceptionHandler{
         List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee.get(), assignments);
 
         // Validating utilization percentage for new assignment
         assignmentService.checkIllegalUtilization(this.assignment.get().getUtilizationPercentage(), assignmentList);
 
         // if no exception occurred, insert the assignment to the database
-        assignmentService.create(this.assignment.get());
+        if (assignmentService.create(this.assignment.get())){
+            // Update the list of assignments without reloading from database
+            this.assignments.add(assignment.get());
 
-        // Update the list of assignments without reloading from database
-        this.assignments.add(assignment.get());
+            return true;
+        };
 
-        // Updating the tables
-        employeeAssignments.add(assignment.get());
-        projectAssignments.add(assignment.get());
+        return false;
+
     }
 
     /**
@@ -493,11 +497,13 @@ public class Model {
      * Removes an assignment from an employee (employee object is inside the assignment object)
      */
     public boolean removeAssignment(Assignment assignment) throws ExceptionHandler {
+        System.out.println(assignment);
         // If succeed
         if (assignmentService.delete(assignment)){
             // Remove the assignment from the assignments list
             assignments.remove(assignment);
 
+            updateTables();
             return true;
         }
 
@@ -562,6 +568,9 @@ public class Model {
         this.assignment.get().setUtilizationPercentage(amount);
     }
 
+    /**
+     * Delete a given employee from database and memory, also assignments related to that employee will be deleted
+     */
     public boolean deleteEmployee(Employee employee) throws ExceptionHandler{
         // Validate deleting from database
         if (employeeService.delete(employee)){
@@ -585,5 +594,34 @@ public class Model {
 //    // ****************** LAB *******************
 
 
+    /**
+     * Filter assignments based on employee in order to show in the table
+     */
+    public FilteredList<Assignment> filter(Employee employee) {
+        filteredAssignments.setPredicate(
+                new Predicate<Assignment>() {
+                    @Override
+                    public boolean test(Assignment assignment) {
+                        return assignment.getEmployee().equals(employee);
+                    }
+                }
+        );
+        return filteredAssignments;
+    }
+
+    /**
+     * Filter assignments based on employee in order to show in the project
+     */
+    public FilteredList<Assignment> filter(Project project) {
+        filteredAssignments.setPredicate(
+                new Predicate<Assignment>() {
+                    @Override
+                    public boolean test(Assignment assignment) {
+                        return assignment.getProject().equals(project);
+                    }
+                }
+        );
+        return filteredAssignments;
+    }
 
 }
