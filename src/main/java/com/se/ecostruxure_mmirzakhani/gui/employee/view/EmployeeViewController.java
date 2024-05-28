@@ -112,7 +112,7 @@ public class EmployeeViewController implements IController<Model> {
 
 
     private void setAssignmentTable() throws ExceptionHandler {
-        assignmentTable.setItems(model.getAssignments());
+        assignmentTable.setItems(model.getAssignments(model.getEmployee()));
 
 
         projectName.setCellValueFactory(cellData -> {

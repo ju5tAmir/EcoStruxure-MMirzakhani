@@ -1,25 +1,40 @@
 package com.se.ecostruxure_mmirzakhani;
 
 import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
+import com.se.ecostruxure_mmirzakhani.dal.assignment.AssignmentDAO;
+import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 
+import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
 import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 
 import javafx.application.Application;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     public static void main(String[] args) {
 
-        Model m = new Model();
-        try {
-            System.out.println(m.getAllProjects());
-        } catch (ExceptionHandler e) {
-            throw new RuntimeException(e);
-        }
 
+        EmployeeDAO e = new EmployeeDAO();
+        try {
+            System.out.println(e.getAllEmployees().size());
+        } catch (ExceptionHandler ex) {
+            throw new RuntimeException(ex);
+        }
+//        Model model = new Model();
+//        try {
+//            System.out.println(model.getAllEmployees());
+//        } catch (ExceptionHandler e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        model.getTotalHourlyRate();
+//        model.getTotalDailyRate();
+//        model.getTotalCosts();
 
         Application.launch(args);
     }
@@ -32,7 +47,7 @@ public class Main extends Application {
         try {
             Window.createStage(WindowType.MAIN);
         } catch (ExceptionHandler e) {
-            throw new RuntimeException(e);
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
     }
 }

@@ -48,11 +48,16 @@ public class Model {
 
     // ************************ Constructor ************************
     public Model() {
-        this.employeeService = new EmployeeService();
-        this.teamService = new TeamService();
-        this.projectService = new ProjectService();
-        this.assignmentService = new AssignmentService();
+        try {
+            this.employeeService = new EmployeeService();
+            this.teamService = new TeamService();
+            this.projectService = new ProjectService();
+            this.assignmentService = new AssignmentService();
 
+            updateAllProperties();
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -119,7 +124,29 @@ public class Model {
         return assignments;
     }
 
+    /**
+     * Get all the Assignments for a specific project
+     */
+    public ObservableList<Assignment> getAssignments(Project project) throws ExceptionHandler {
+        setAssignments();
+        return FXCollections.observableArrayList(
+                assignments.stream()
+                        .filter(assignment -> assignment.getProject().equals(project))
+                        .collect(Collectors.toList())
+        );
+    }
 
+    /**
+     * Get all the Assignments for a specific employee
+     */
+    public ObservableList<Assignment> getAssignments(Employee employee) throws ExceptionHandler {
+        setAssignments();
+        return FXCollections.observableArrayList(
+                assignments.stream()
+                        .filter(assignment -> assignment.getEmployee().equals(employee))
+                        .collect(Collectors.toList())
+        );
+    }
     /**
      * Get current currency of the system (default EUR)
      */
@@ -401,6 +428,7 @@ public class Model {
         setEmployees();
         setProjects();
         setTeams();
+        setAssignments();
     }
 
     /**
