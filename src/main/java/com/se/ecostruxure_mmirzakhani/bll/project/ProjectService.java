@@ -4,10 +4,9 @@ import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.bll.IService;
-import com.se.ecostruxure_mmirzakhani.dal.assignment.AssignmentDAO;
 import com.se.ecostruxure_mmirzakhani.dal.project.ProjectDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import javafx.collections.ObservableList;
+
 
 import java.util.List;
 import java.util.stream.Collectors;

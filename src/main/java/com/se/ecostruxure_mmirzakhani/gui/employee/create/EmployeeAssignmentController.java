@@ -1,7 +1,6 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
-import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Team;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;

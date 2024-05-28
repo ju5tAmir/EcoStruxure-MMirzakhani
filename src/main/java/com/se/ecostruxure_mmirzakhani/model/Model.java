@@ -36,9 +36,12 @@ public class Model {
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <Assignment>                assignments         = FXCollections.observableArrayList();
-
+    // This FilteredList contains assignment objects after user applied filters,
+    // It behaves like an ObservableList and can be set as TableView items.
     private final FilteredList          <Assignment>                filteredAssignments = new FilteredList<>(assignments);
+
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
+
     private final EmployeeService                                   employeeService;
     private final TeamService                                       teamService;
     private final ProjectService                                    projectService;
