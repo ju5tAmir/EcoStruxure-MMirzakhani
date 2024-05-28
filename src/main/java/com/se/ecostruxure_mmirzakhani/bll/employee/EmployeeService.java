@@ -66,7 +66,7 @@ public class EmployeeService implements IService<Employee> {
 
     @Override
     public boolean update(Employee employee) throws ExceptionHandler {
-        return false;
+        return dao.updateEmployee(employee);
 
     }
 

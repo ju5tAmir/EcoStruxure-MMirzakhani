@@ -20,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class EmployeeViewController implements IController<Model> {
     @FXML
@@ -161,7 +160,7 @@ public class EmployeeViewController implements IController<Model> {
     @FXML
     private void onRemoveButton() throws ExceptionHandler {
         if (!assignmentTable.getSelectionModel().isEmpty()){
-            if (model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
+            if (model.deleteAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
                 AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
 
             } else {
@@ -190,7 +189,17 @@ public class EmployeeViewController implements IController<Model> {
 
     @FXML
     private void onUpdateEmployee(){
+        if (!employeesTable.getSelectionModel().isEmpty()){
+            model.setEmployee(employeesTable.getSelectionModel().getSelectedItem());
+            try {
+                Window.createStage(WindowType.UPDATE_EMPLOYEE, model, Modality.WINDOW_MODAL, false);
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
 
+        } else {
+            AlertHandler.displayAlert("Please select an employee first in order to update.", Alert.AlertType.INFORMATION);
+        }
     }
 
     @FXML
@@ -221,7 +230,7 @@ public class EmployeeViewController implements IController<Model> {
         if (!assignmentTable.getSelectionModel().isEmpty()){
             try {
 
-                if (model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
+                if (model.deleteAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
                     AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
                 };
             } catch (ExceptionHandler e) {

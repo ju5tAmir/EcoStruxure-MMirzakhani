@@ -10,8 +10,6 @@ import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.bll.team.TeamService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
-import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import com.se.ecostruxure_mmirzakhani.utils.Mapper;
@@ -21,10 +19,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Model {
     // SimpleObjectProperty attributes to handle the current instance of objects for each category.
@@ -41,8 +37,6 @@ public class Model {
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <Assignment>                assignments         = FXCollections.observableArrayList();
 
-    private final ObservableList        <Assignment>                employeeAssignments = FXCollections.observableArrayList();
-    private final ObservableList        <Assignment>                projectAssignments  = FXCollections.observableArrayList();
     private final FilteredList          <Assignment>                filteredAssignments = new FilteredList<>(assignments);
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
     private final EmployeeService                                   employeeService;
@@ -127,24 +121,6 @@ public class Model {
     public ObservableList<Assignment> getAssignments() throws ExceptionHandler {
         setAssignments();
         return assignments;
-    }
-
-    /**
-     * Get all the Assignments for a specific project
-     */
-    public ObservableList<Assignment> getAssignments(Project project) throws ExceptionHandler {
-        setAssignments(project);
-
-        return projectAssignments;
-    }
-
-    /**
-     * Get all the Assignments for a specific employee
-     */
-    public ObservableList<Assignment> getAssignments(Employee employee) throws ExceptionHandler {
-        setAssignments(employee);
-
-        return employeeAssignments;
     }
 
     /**
@@ -343,19 +319,6 @@ public class Model {
         assignments.setAll(assignmentService.getAllAssignments());
     }
 
-    /**
-     * Retrieve and updates the latest Assignment list for a given project
-     */
-    private void setAssignments(Project project) throws ExceptionHandler {
-        projectAssignments.setAll(assignmentService.getAllAssignments(project));
-    }
-
-    /**
-     * Retrieve and updates the latest Assignment list for a given employee
-     */
-    private void setAssignments(Employee employee) throws ExceptionHandler {
-        employeeAssignments.setAll(assignmentService.getAllAssignments(employee));
-    }
 
 //    /**
 //     * Set current currency of the system (default EUR)
@@ -445,10 +408,6 @@ public class Model {
         setAssignments();
     }
 
-    private void updateTables() throws ExceptionHandler{
-        getAssignments(this.assignment.get().getEmployee());
-        getAssignments(this.assignment.get().getProject());
-    }
 
     /**
      * Assign the contract to the employee (This is the moment that user clicks on submit contract)
@@ -496,14 +455,12 @@ public class Model {
     /**
      * Removes an assignment from an employee (employee object is inside the assignment object)
      */
-    public boolean removeAssignment(Assignment assignment) throws ExceptionHandler {
-        System.out.println(assignment);
+    public boolean deleteAssignment(Assignment assignment) throws ExceptionHandler {
         // If succeed
         if (assignmentService.delete(assignment)){
             // Remove the assignment from the assignments list
             assignments.remove(assignment);
 
-            updateTables();
             return true;
         }
 
@@ -578,7 +535,7 @@ public class Model {
             List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee, assignments);
 
             for (Assignment a: assignmentList){
-                removeAssignment(a); // remove assignment from db
+                deleteAssignment(a); // remove assignment from db
                 assignments.remove(a); // remove assignment from memory
             }
 
@@ -625,7 +582,6 @@ public class Model {
     }
 
     public boolean deleteProject(Project project) throws ExceptionHandler{
-        System.out.println(project);
         if (projectService.delete(project)){
             projects.remove(project);
 
@@ -635,4 +591,19 @@ public class Model {
         return false;
     }
 
+    public boolean updateEmployee() throws ExceptionHandler{
+        employee.get().setContract(contract.get());
+        if (employeeService.update(employee.get())){
+
+            // Updating the new object in the observableList
+            for (int i = 0; i < employees.size(); i++){
+                if (employees.get(i).getId() == employee.get().getId()){
+                    employees.set(i, employee.get());
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
 }

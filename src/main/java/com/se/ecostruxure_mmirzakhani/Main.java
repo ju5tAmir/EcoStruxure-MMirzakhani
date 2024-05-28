@@ -19,19 +19,14 @@ public class Main extends Application {
     public static void main(String[] args) {
 
 
-        EmployeeDAO e = new EmployeeDAO();
-        try {
-            System.out.println(e.getAllEmployees().size());
-        } catch (ExceptionHandler ex) {
-            throw new RuntimeException(ex);
-        }
+//
 //        Model model = new Model();
 //        try {
 //            System.out.println(model.getAllEmployees());
 //        } catch (ExceptionHandler e) {
 //            throw new RuntimeException(e);
 //        }
-//
+
 //        model.getTotalHourlyRate();
 //        model.getTotalDailyRate();
 //        model.getTotalCosts();
