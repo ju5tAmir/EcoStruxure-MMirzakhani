@@ -3,6 +3,7 @@ package com.se.ecostruxure_mmirzakhani.dal.employee;
 import com.se.ecostruxure_mmirzakhani.be.entities.*;
 import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
+import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
 import com.se.ecostruxure_mmirzakhani.dal.db.DBConnection;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
@@ -111,11 +112,12 @@ public class EmployeeDAO {
 
     public List<Employee> getAllEmployees() throws ExceptionHandler {
         List<Employee> employees = new ArrayList<>();
+
         String sql = "SELECT e.EmployeeID, e.FirstName, e.LastName, e.Email, " +
                 "c.ContractID, c.AnnualSalary, c.FixedAnnualAmount, c.AnnualWorkHours, " +
                 "c.AverageDailyWorkHours, c.OverheadPercentage, c.Currency " +
                 "FROM Employees e " +
-                "INNER JOIN Contract c ON e.EmployeeID = c.EmployeeID";
+                "LEFT JOIN Contract c ON e.EmployeeID = c.EmployeeID ";
 
         try (Connection conn = dbConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -136,18 +138,18 @@ public class EmployeeDAO {
                 contract.setAverageDailyWorkHours(rs.getFloat("AverageDailyWorkHours"));
                 contract.setOverheadPercentage(rs.getFloat("OverheadPercentage"));
                 contract.setCurrency(Currency.valueOf(rs.getString("Currency")));
-
                 employee.setContract(contract);
 
                 employees.add(employee);
             }
-        } catch (Exception e) {
-            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
+        } catch (SQLException e) {
+            throw new ExceptionHandler(e.getMessage(), e.getMessage());
         }
         return employees;
     }
 
-    public boolean deleteEmployee(int employeeId) throws ExceptionHandler {
+
+    public boolean deleteEmployee(Employee employee) throws ExceptionHandler {
         String deleteAssignmentSql = "DELETE FROM Assignment WHERE EmployeeID = ?";
         String deleteContractSql = "DELETE FROM Contract WHERE EmployeeID = ?";
         String deleteEmployeeSql = "DELETE FROM Employees WHERE EmployeeID = ?";
@@ -160,15 +162,15 @@ public class EmployeeDAO {
                  PreparedStatement deleteEmployeeStmt = conn.prepareStatement(deleteEmployeeSql)) {
 
                 // Delete from Assignment
-                deleteAssignmentStmt.setInt(1, employeeId);
+                deleteAssignmentStmt.setInt(1, employee.getId());
                 deleteAssignmentStmt.executeUpdate();
 
                 // Delete from Contract
-                deleteContractStmt.setInt(1, employeeId);
+                deleteContractStmt.setInt(1, employee.getId());
                 deleteContractStmt.executeUpdate();
 
                 // Delete from Employees
-                deleteEmployeeStmt.setInt(1, employeeId);
+                deleteEmployeeStmt.setInt(1, employee.getId());
                 deleteEmployeeStmt.executeUpdate();
 
                 conn.commit();

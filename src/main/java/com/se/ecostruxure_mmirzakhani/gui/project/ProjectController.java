@@ -3,9 +3,11 @@ package com.se.ecostruxure_mmirzakhani.gui.project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
 import com.se.ecostruxure_mmirzakhani.model.Model;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
 import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,13 +43,18 @@ public class ProjectController implements IController<Model> {
     public void setModel(Model model) {
         this.model = model;
 
-        setColumns();
-        setListeners();
-        initMultipliers();
+        try {
+            setProjectTable();
+            initMultipliers();
+        } catch (ExceptionHandler e){
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
 
-    private void setColumns(){
+    private void setProjectTable() throws ExceptionHandler {
+        projectTable.setItems(model.getAllProjects());
+
         projectName.setCellValueFactory(cellData -> {
             String projectName = cellData.getValue().getName();
 
@@ -79,20 +86,7 @@ public class ProjectController implements IController<Model> {
         });
     }
 
-    private void setListeners(){
-        // Project table items listener
-        projectTable.setOnMouseClicked(event -> {
-            if (projectTable.getSelectionModel().getSelectedItem() != null){
-                model.setProject(projectTable.getSelectionModel().getSelectedItem());
-                try {
-                    Window.createStage(WindowType.PROJECT_MANAGER, model, Modality.WINDOW_MODAL, false);
-                } catch (ExceptionHandler e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
 
-    }
 
     @FXML
     private void onCreateProject(){
@@ -303,5 +297,49 @@ public class ProjectController implements IController<Model> {
     @FXML
     private void onReset(){
 
+    }
+
+    @FXML
+    private void onUpdateProject(){
+        if (projectTable.getSelectionModel().getSelectedItem() != null){
+            model.setProject(projectTable.getSelectionModel().getSelectedItem());
+            try {
+                Window.createStage(WindowType.UPDATE_PROJECT, model, Modality.WINDOW_MODAL, false);
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            AlertHandler.displayAlert("Please select a project first in order update.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void onDeleteProject(){
+        if (!projectTable.getSelectionModel().isEmpty()){
+            try {
+                if (model.deleteProject(projectTable.getSelectionModel().getSelectedItem())){
+                    AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                };
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select a project first in order delete.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void onViewProject(){
+        if (projectTable.getSelectionModel().getSelectedItem() != null){
+            model.setProject(projectTable.getSelectionModel().getSelectedItem());
+            try {
+                Window.createStage(WindowType.PROJECT_MANAGER, model, Modality.WINDOW_MODAL, false);
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            AlertHandler.displayAlert("Please select a project first in order view.", Alert.AlertType.INFORMATION);
+        }
     }
 }

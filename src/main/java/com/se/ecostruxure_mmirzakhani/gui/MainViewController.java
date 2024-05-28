@@ -1,7 +1,6 @@
-package com.se.ecostruxure_mmirzakhani.gui.main;
+package com.se.ecostruxure_mmirzakhani.gui;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
@@ -15,7 +14,7 @@ import javafx.scene.layout.Pane;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable, IController {
+public class MainViewController implements Initializable, IController<Model> {
     @FXML
     private Pane pane; // Main pane to replace new windows content with it
     private Model model;
@@ -42,7 +41,9 @@ public class MainViewController implements Initializable, IController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setModel(model);
         try {
+
             onDashboard() ;
         } catch (ExceptionHandler e) {
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
@@ -50,7 +51,7 @@ public class MainViewController implements Initializable, IController {
     }
 
     @Override
-    public void setModel(Object model) {
+    public void setModel(Model model) {
         this.model = new Model();
     }
 }

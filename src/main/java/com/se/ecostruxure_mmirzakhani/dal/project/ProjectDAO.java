@@ -55,7 +55,7 @@ public class ProjectDAO {
                 Project project = new Project();
                 project.setId(resultSet.getInt("ProjectID"));
                 project.setName(resultSet.getString("ProjectName"));
-                project.setCountry(Country.valueOf(resultSet.getString("Country")));
+                project.setCountry(Country.fromString(resultSet.getString("Country").toUpperCase()));
                 projects.add(project);
             }
         } catch (SQLException e) {
@@ -104,16 +104,34 @@ public class ProjectDAO {
         }
     }
 
-    public boolean deleteProject(int projectId) throws ExceptionHandler {
-        String sql = "DELETE FROM Projects WHERE ProjectID = ?";
-        try (Connection connection = dbConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+    public boolean deleteProject(Project project) throws ExceptionHandler {
+        String deleteAssignmentSql = "DELETE FROM Assignment WHERE ProjectID = ?";
+        String deleteProjectSql = "DELETE FROM Projects WHERE ProjectID = ?";
 
-            statement.setInt(1, projectId);
-            int rowsDeleted = statement.executeUpdate();
-            return rowsDeleted > 0;
+
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try (PreparedStatement deleteAssignmentStmt = conn.prepareStatement(deleteAssignmentSql);
+                 PreparedStatement deleteProjectStmt = conn.prepareStatement(deleteProjectSql)) {
+
+                // Delete from Assignment
+                deleteAssignmentStmt.setInt(1, project.getId());
+                deleteAssignmentStmt.executeUpdate();
+
+                // Delete from Contract
+                deleteProjectStmt.setInt(1, project.getId());
+                deleteProjectStmt.executeUpdate();
+
+                conn.commit();
+                return true;
+            }
+            catch (SQLException e) {
+                conn.rollback();
+                throw new ExceptionHandler(ExceptionMessage.EMPLOYEE_DELETE_FAILED.getValue());
+            }
         } catch (SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.PROJECT_DELETE_FAILED.getValue(), e.getMessage());
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
         }
     }
 }

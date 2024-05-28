@@ -3,13 +3,11 @@ package com.se.ecostruxure_mmirzakhani.bll.employee;
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
 import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.entities.History;
-import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.bll.IService;
 import com.se.ecostruxure_mmirzakhani.dal.employee.EmployeeDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
-import javafx.collections.ObservableList;
 
 import java.util.List;
 
@@ -59,20 +57,20 @@ public class EmployeeService implements IService<Employee> {
     }
 
     @Override
-    public boolean read(Employee object) throws ExceptionHandler {
+    public boolean read(Employee employee) throws ExceptionHandler {
         return false;
 
     }
 
     @Override
-    public boolean update(Employee object) throws ExceptionHandler {
-        return false;
+    public boolean update(Employee employee) throws ExceptionHandler {
+        return dao.updateEmployee(employee);
 
     }
 
     @Override
-    public boolean delete(Employee object) throws ExceptionHandler {
-        return false;
+    public boolean delete(Employee employee) throws ExceptionHandler {
+        return dao.deleteEmployee(employee);
 
     }
 

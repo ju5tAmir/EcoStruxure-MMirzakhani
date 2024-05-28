@@ -142,6 +142,10 @@ public class Window implements IUtils {
             case ASSIGNMENT         -> WindowType.ASSIGNMENT.getPath();
             case PROJECT_MAIN       -> WindowType.PROJECT_MAIN.getPath();
             case CREATE_PROJECT     -> WindowType.CREATE_PROJECT.getPath();
+            case UPDATE_EMPLOYEE    -> WindowType.UPDATE_EMPLOYEE.getPath();
+            case UPDATE_PROJECT     -> WindowType.UPDATE_PROJECT.getPath();
+            case CREATE_TEAM        -> WindowType.CREATE_TEAM.getPath();
+            case UPDATE_TEAM        -> WindowType.UPDATE_TEAM.getPath();
 
 
             // ToDo: Add additional cases for new window types and their corresponding resource paths

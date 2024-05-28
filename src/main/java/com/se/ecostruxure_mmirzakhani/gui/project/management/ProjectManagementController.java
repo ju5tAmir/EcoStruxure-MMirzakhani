@@ -46,7 +46,7 @@ public class ProjectManagementController implements IController<Model> {
     }
 
     private void setEmployeeTable() throws ExceptionHandler {
-        employeesTable.setItems(model.getAssignments());
+        employeesTable.setItems(model.filter(model.getProject()));
 
         employeeFirstName.setCellValueFactory(cellData -> {
             String firstName = cellData.getValue().getEmployee().getFirstName();

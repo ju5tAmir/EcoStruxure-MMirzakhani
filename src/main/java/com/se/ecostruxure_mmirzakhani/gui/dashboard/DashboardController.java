@@ -25,7 +25,6 @@ public class DashboardController implements IController<Model> {
 
     private Model model;
 
-    // ToDo: Currency sign
     @Override
     public void setModel(Model model) {
         this.model = model;

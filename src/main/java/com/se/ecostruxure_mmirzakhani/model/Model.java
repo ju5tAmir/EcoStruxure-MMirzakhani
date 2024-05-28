@@ -10,19 +10,17 @@ import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.bll.team.TeamService;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
-import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
-import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.CurrencyService;
 
 import com.se.ecostruxure_mmirzakhani.utils.Mapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 public class Model {
     // SimpleObjectProperty attributes to handle the current instance of objects for each category.
@@ -33,13 +31,17 @@ public class Model {
     private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
     private final SimpleObjectProperty  <Assignment>                assignment          = new SimpleObjectProperty<>(new Assignment());
 
-
+    // These ObservableLists are contains all objects for each category
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <Assignment>                assignments         = FXCollections.observableArrayList();
+    // This FilteredList contains assignment objects after user applied filters,
+    // It behaves like an ObservableList and can be set as TableView items.
+    private final FilteredList          <Assignment>                filteredAssignments = new FilteredList<>(assignments);
 
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
+
     private final EmployeeService                                   employeeService;
     private final TeamService                                       teamService;
     private final ProjectService                                    projectService;
@@ -48,11 +50,16 @@ public class Model {
 
     // ************************ Constructor ************************
     public Model() {
-        this.employeeService = new EmployeeService();
-        this.teamService = new TeamService();
-        this.projectService = new ProjectService();
-        this.assignmentService = new AssignmentService();
+        try {
+            this.employeeService = new EmployeeService();
+            this.teamService = new TeamService();
+            this.projectService = new ProjectService();
+            this.assignmentService = new AssignmentService();
 
+            updateAllProperties();
+        } catch (ExceptionHandler e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -118,7 +125,6 @@ public class Model {
         setAssignments();
         return assignments;
     }
-
 
     /**
      * Get current currency of the system (default EUR)
@@ -316,6 +322,7 @@ public class Model {
         assignments.setAll(assignmentService.getAllAssignments());
     }
 
+
 //    /**
 //     * Set current currency of the system (default EUR)
 //     */
@@ -401,7 +408,9 @@ public class Model {
         setEmployees();
         setProjects();
         setTeams();
+        setAssignments();
     }
+
 
     /**
      * Assign the contract to the employee (This is the moment that user clicks on submit contract)
@@ -421,17 +430,22 @@ public class Model {
     /**
      * Assign the assignment (This is the moment that user clicks on add new project)
      */
-    public void assignAssignmentToEmployee() throws ExceptionHandler{
+    public boolean assignAssignmentToEmployee() throws ExceptionHandler{
         List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee.get(), assignments);
 
         // Validating utilization percentage for new assignment
         assignmentService.checkIllegalUtilization(this.assignment.get().getUtilizationPercentage(), assignmentList);
 
         // if no exception occurred, insert the assignment to the database
-        assignmentService.create(this.assignment.get());
+        if (assignmentService.create(this.assignment.get())){
+            // Update the list of assignments without reloading from database
+            this.assignments.add(assignment.get());
 
-        // Update the list of assignments without reloading from database (caching)
-        this.projects.add(project.get());
+            return true;
+        };
+
+        return false;
+
     }
 
     /**
@@ -444,7 +458,7 @@ public class Model {
     /**
      * Removes an assignment from an employee (employee object is inside the assignment object)
      */
-    public boolean removeAssignment(Assignment assignment) throws ExceptionHandler {
+    public boolean deleteAssignment(Assignment assignment) throws ExceptionHandler {
         // If succeed
         if (assignmentService.delete(assignment)){
             // Remove the assignment from the assignments list
@@ -502,6 +516,10 @@ public class Model {
         this.assignment.get().setProject(project);
     }
 
+    public void setAssignmentTeam(Team team) {
+        this.assignment.get().setTeam(team);
+    }
+
     public void setAssignmentEmployeeType(EmployeeType employeeType) {
         this.assignment.get().setEmployeeType(employeeType);
     }
@@ -510,9 +528,155 @@ public class Model {
         this.assignment.get().setUtilizationPercentage(amount);
     }
 
+    /**
+     * Delete a given employee from database and memory, also assignments related to that employee will be deleted
+     */
+    public boolean deleteEmployee(Employee employee) throws ExceptionHandler{
+        // Validate deleting from database
+        if (employeeService.delete(employee)){
+            // List of assignments related to the given employee in order to delete
+            List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee, assignments);
+
+            for (Assignment a: assignmentList){
+                deleteAssignment(a); // remove assignment from db
+                assignments.remove(a); // remove assignment from memory
+            }
+
+            employees.remove(employee); // remove employee object from the list
+
+            return true;
+        }
+        return false;
+    }
+
+
 
 //    // ****************** LAB *******************
 
 
+    /**
+     * Filter assignments based on employee in order to show in the table
+     */
+    public FilteredList<Assignment> filter(Employee employee) {
+        filteredAssignments.setPredicate(
+                new Predicate<Assignment>() {
+                    @Override
+                    public boolean test(Assignment assignment) {
+                        return assignment.getEmployee().equals(employee);
+                    }
+                }
+        );
+        return filteredAssignments;
+    }
 
+    /**
+     * Filter assignments based on employee in order to show in the project
+     */
+    public FilteredList<Assignment> filter(Project project) {
+        filteredAssignments.setPredicate(
+                new Predicate<Assignment>() {
+                    @Override
+                    public boolean test(Assignment assignment) {
+                        return assignment.getProject().equals(project);
+                    }
+                }
+        );
+        return filteredAssignments;
+    }
+
+    public boolean deleteProject(Project project) throws ExceptionHandler{
+        if (projectService.delete(project)){
+            projects.remove(project);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateEmployee() throws ExceptionHandler{
+        // Set the updated contract to the employee
+        employee.get().setContract(contract.get());
+
+
+        if (employeeService.update(employee.get())){
+
+            // Updating the new object in the observableList
+            for (int i = 0; i < employees.size(); i++){
+                if (employees.get(i).getId() == employee.get().getId()){
+                    employees.set(i, employee.get());
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean updateProject() throws ExceptionHandler {
+        if (projectService.update(project.get())){
+
+            // Updating the object within the observableList
+            for (int i = 0; i < projects.size(); i++){
+                if (projects.get(i).getId() == project.get().getId()){
+                    projects.set(i, project.get());
+                }
+            }
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+    public boolean deleteTeam() throws ExceptionHandler{
+        if (teamService.delete(team.get())){
+
+            // Remove the team from cached list
+            teams.remove(team.get());
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+    public void setTeamName(String name){
+        this.team.get().setName(name);
+    }
+
+    public boolean createTeam() throws ExceptionHandler{
+        // If succeed to create updates the team ID from the db
+        if (teamService.create(team.get())){
+            // Update the list of teams
+            teams.add(team.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
+    }
+
+    public boolean updateTeam() throws ExceptionHandler{
+        if (teamService.update(team.get())){
+
+            // Updating the object within the observableList
+            for (int i = 0; i < teams.size(); i++){
+                if (teams.get(i).getId() == team.get().getId()){
+                    teams.set(i, team.get());
+                }
+            }
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
 }

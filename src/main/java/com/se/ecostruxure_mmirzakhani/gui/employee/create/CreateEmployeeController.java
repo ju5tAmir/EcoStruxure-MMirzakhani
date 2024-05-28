@@ -1,7 +1,5 @@
 package com.se.ecostruxure_mmirzakhani.gui.employee.create;
 
-import com.se.ecostruxure_mmirzakhani.be.entities.Contract;
-import com.se.ecostruxure_mmirzakhani.be.entities.Employee;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
@@ -23,8 +21,7 @@ public class CreateEmployeeController implements IController<Model> {
     @FXML
     private TextField annualSalary, fixedAmount, annualWH, dailyWH, overheadPercentage;
 
-    @FXML
-    private RadioButton overheadRB, productionRB;
+
     @FXML
     private Menu currencyMenu;
     private Currency selectedCurrency = Currency.EUR;
@@ -36,7 +33,6 @@ public class CreateEmployeeController implements IController<Model> {
         this.model = model;
 
 
-        setRadioButtons();
 
         initCurrencyButton();
 
@@ -46,10 +42,6 @@ public class CreateEmployeeController implements IController<Model> {
 
     }
 
-    private void setRadioButtons() {
-        productionRB.setOnAction(e -> {overheadRB.setSelected(false);});
-        overheadRB.setOnAction(e -> {productionRB.setSelected(false);});
-    }
 
 
     @FXML

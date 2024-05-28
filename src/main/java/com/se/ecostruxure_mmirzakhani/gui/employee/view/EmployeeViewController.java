@@ -20,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 public class EmployeeViewController implements IController<Model> {
     @FXML
@@ -36,7 +35,7 @@ public class EmployeeViewController implements IController<Model> {
     @FXML
     private TableColumn<Assignment, String> projectTeam;
     @FXML
-    private TableColumn<Assignment, String> utilizationPercentage;
+    private TableColumn<Assignment, String> utilizationPercentage, employeeType;
 
     private Model model;
     @Override
@@ -55,7 +54,6 @@ public class EmployeeViewController implements IController<Model> {
         Platform.runLater( () -> employeesTable.getScene().getRoot().requestFocus() );
 
         employeesTable.setItems(model.getAllEmployees());
-
 
         employeesTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null){
@@ -113,7 +111,8 @@ public class EmployeeViewController implements IController<Model> {
 
 
     private void setAssignmentTable() throws ExceptionHandler {
-        assignmentTable.setItems(model.getAssignments());
+
+        assignmentTable.setItems(model.filter(model.getEmployee()));
 
 
         projectName.setCellValueFactory(cellData -> {
@@ -123,7 +122,7 @@ public class EmployeeViewController implements IController<Model> {
             return new SimpleStringProperty(name);
         });
         projectCountry.setCellValueFactory(cellData -> {
-            String name = cellData.getValue().getProject().getCountry().toString();
+            String name = cellData.getValue().getProject().getCountry().name();
 
             return new SimpleStringProperty(name);
         });
@@ -137,6 +136,12 @@ public class EmployeeViewController implements IController<Model> {
 
         utilizationPercentage.setCellValueFactory(cellData -> {
             String name = String.valueOf(cellData.getValue().getUtilizationPercentage());
+
+            return new SimpleStringProperty(name);
+        });
+
+        employeeType.setCellValueFactory(cellData -> {
+            String name = cellData.getValue().getEmployeeType().name();
 
             return new SimpleStringProperty(name);
         });
@@ -155,7 +160,7 @@ public class EmployeeViewController implements IController<Model> {
     @FXML
     private void onRemoveButton() throws ExceptionHandler {
         if (!assignmentTable.getSelectionModel().isEmpty()){
-            if (model.removeAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
+            if (model.deleteAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
                 AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
 
             } else {
@@ -171,6 +176,7 @@ public class EmployeeViewController implements IController<Model> {
 
         if (!employeesTable.getSelectionModel().isEmpty()){
             try {
+                model.setEmployee(employeesTable.getSelectionModel().getSelectedItem());
                 Window.createStage(WindowType.ASSIGNMENT, model, Modality.WINDOW_MODAL, false);
             } catch (ExceptionHandler e) {
                 throw new RuntimeException(e);
@@ -178,6 +184,61 @@ public class EmployeeViewController implements IController<Model> {
 
         } else {
             AlertHandler.displayAlert("Please select an employee first in order to assign project.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void onUpdateEmployee(){
+        if (!employeesTable.getSelectionModel().isEmpty()){
+            model.setEmployee(employeesTable.getSelectionModel().getSelectedItem());
+            try {
+                Window.createStage(WindowType.UPDATE_EMPLOYEE, model, Modality.WINDOW_MODAL, false);
+            } catch (ExceptionHandler e) {
+                throw new RuntimeException(e);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an employee first in order to update.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void onDeleteEmployee(){
+        if (!employeesTable.getSelectionModel().isEmpty()){
+            try {
+                model.setEmployee(employeesTable.getSelectionModel().getSelectedItem());
+
+                if (model.deleteEmployee(model.getEmployee())){
+                    AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                };
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an employee first in order delete.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void onUpdateAssignment(){
+
+    }
+
+    @FXML
+    private void onRemoveAssignment(){
+        if (!assignmentTable.getSelectionModel().isEmpty()){
+            try {
+
+                if (model.deleteAssignment(assignmentTable.getSelectionModel().getSelectedItem())){
+                    AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                };
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an assignment first in order delete.", Alert.AlertType.INFORMATION);
         }
     }
 }
