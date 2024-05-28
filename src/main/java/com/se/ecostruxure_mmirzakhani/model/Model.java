@@ -624,4 +624,15 @@ public class Model {
         return filteredAssignments;
     }
 
+    public boolean deleteProject(Project project) throws ExceptionHandler{
+        System.out.println(project);
+        if (projectService.delete(project)){
+            projects.remove(project);
+
+            return true;
+        }
+
+        return false;
+    }
+
 }

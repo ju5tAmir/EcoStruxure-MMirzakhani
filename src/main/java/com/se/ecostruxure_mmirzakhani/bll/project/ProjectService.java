@@ -57,7 +57,7 @@ public class ProjectService implements IService<Project> {
 
     @Override
     public boolean delete(Project project) throws ExceptionHandler {
-        return false;
+        return dao.deleteProject(project);
 
     }
 
