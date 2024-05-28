@@ -83,19 +83,34 @@ public class TeamDAO {
         return teams;
     }
 
-    public boolean deleteTeam(int teamId) throws ExceptionHandler {
-        String sql = "DELETE FROM Teams WHERE TeamID = ?";
+    public boolean deleteTeam(Team team) throws ExceptionHandler {
+        String deleteAssignmentSql = "DELETE FROM Assignment WHERE TeamID = ?";
+        String deleteTeamSql = "DELETE FROM Teams WHERE TeamID = ?";
 
-        try (Connection conn = dbConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, teamId);
-            int rowsAffected = stmt.executeUpdate();
+        try (Connection conn = dbConnection.getConnection()) {
+            conn.setAutoCommit(false);
 
-            return rowsAffected > 0;
+            try (PreparedStatement deleteAssignmentStmt = conn.prepareStatement(deleteAssignmentSql);
+                 PreparedStatement deleteTeamStmt = conn.prepareStatement(deleteTeamSql)) {
 
+                // Delete from Assignment
+                deleteAssignmentStmt.setInt(1, team.getId());
+                deleteAssignmentStmt.executeUpdate();
+
+                // Delete from Contract
+                deleteTeamStmt.setInt(1, team.getId());
+                deleteTeamStmt.executeUpdate();
+
+                conn.commit();
+                return true;
+            }
+            catch (SQLException e) {
+                conn.rollback();
+                throw new ExceptionHandler(ExceptionMessage.EMPLOYEE_DELETE_FAILED.getValue());
+            }
         } catch (SQLException e) {
-            throw new ExceptionHandler(ExceptionMessage.TEAM_DELETE_FAILED.getValue(), e.getMessage());
+            throw new ExceptionHandler(ExceptionMessage.DB_CONNECTION_FAILURE.getValue());
         }
     }
 }
