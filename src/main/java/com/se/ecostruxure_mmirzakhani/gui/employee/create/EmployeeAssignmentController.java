@@ -10,18 +10,18 @@ import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.model.Model;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
 public class EmployeeAssignmentController implements IController<Model> {
     @FXML
-    private Menu teamMenu, projectMenu, employeeTypeMenu;
+    private Menu teamMenu, projectMenu;
     @FXML
     private TextField utilizationPercentage;
+    @FXML
+    private RadioButton overheadRB, productionRB;
+    private EmployeeType selectedType;
     @FXML
     private Model model;
     @Override
@@ -29,6 +29,7 @@ public class EmployeeAssignmentController implements IController<Model> {
         this.model = model;
 
         try {
+            setRadioButtons();
             setProjectMenu();
             setTeamMenu();
 
@@ -62,17 +63,20 @@ public class EmployeeAssignmentController implements IController<Model> {
         }
 
     }
+
+    private void setRadioButtons() {
+        productionRB.setOnAction(e -> {overheadRB.setSelected(false);selectedType = EmployeeType.PRODUCTION_RESOURCE;});
+        overheadRB.setOnAction(e -> {productionRB.setSelected(false);selectedType = EmployeeType.OVERHEAD;});
+    }
+
     @FXML
     private void onAssign(){
-
-        double totalUtil = model.getTotalUtils(model.getEmployee());
-
         try {
 
             model.setAssignmentEmployee(model.getEmployee());
             model.setAssignmentProject(model.getProject());
             model.setAssignmentTeam(model.getTeam());
-            model.setAssignmentEmployeeType(EmployeeType.OVERHEAD);
+            model.setAssignmentEmployeeType(selectedType);
             model.setAssignmentUtilizationPercentage(Double.parseDouble(utilizationPercentage.getText()));
             try {
                 // If assignment is legal to create

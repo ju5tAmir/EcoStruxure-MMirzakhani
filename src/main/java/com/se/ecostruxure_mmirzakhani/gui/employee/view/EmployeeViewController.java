@@ -36,7 +36,7 @@ public class EmployeeViewController implements IController<Model> {
     @FXML
     private TableColumn<Assignment, String> projectTeam;
     @FXML
-    private TableColumn<Assignment, String> utilizationPercentage;
+    private TableColumn<Assignment, String> utilizationPercentage, employeeType;
 
     private Model model;
     @Override
@@ -140,6 +140,12 @@ public class EmployeeViewController implements IController<Model> {
             return new SimpleStringProperty(name);
         });
 
+        employeeType.setCellValueFactory(cellData -> {
+            String name = cellData.getValue().getEmployeeType().name();
+
+            return new SimpleStringProperty(name);
+        });
+
     }
 
     @FXML
@@ -170,6 +176,7 @@ public class EmployeeViewController implements IController<Model> {
 
         if (!employeesTable.getSelectionModel().isEmpty()){
             try {
+                model.setEmployee(employeesTable.getSelectionModel().getSelectedItem());
                 Window.createStage(WindowType.ASSIGNMENT, model, Modality.WINDOW_MODAL, false);
             } catch (ExceptionHandler e) {
                 throw new RuntimeException(e);
@@ -178,5 +185,38 @@ public class EmployeeViewController implements IController<Model> {
         } else {
             AlertHandler.displayAlert("Please select an employee first in order to assign project.", Alert.AlertType.INFORMATION);
         }
+    }
+
+    @FXML
+    private void onUpdateEmployee(){
+
+    }
+
+    @FXML
+    private void onDeleteEmployee(){
+        if (!employeesTable.getSelectionModel().isEmpty()){
+            try {
+                model.setEmployee(employeesTable.getSelectionModel().getSelectedItem());
+
+                if (model.deleteEmployee(model.getEmployee())){
+                    AlertHandler.displayAlert(ExceptionMessage.SUCCESSFUL.getValue(), Alert.AlertType.INFORMATION);
+                };
+            } catch (ExceptionHandler e) {
+                AlertHandler.displayAlert(ExceptionMessage.FAILURE.getValue(), Alert.AlertType.ERROR);
+            }
+
+        } else {
+            AlertHandler.displayAlert("Please select an employee first in order delete.", Alert.AlertType.INFORMATION);
+        }
+    }
+
+    @FXML
+    private void onUpdateAssignment(){
+
+    }
+
+    @FXML
+    private void onRemoveAssignment(){
+
     }
 }

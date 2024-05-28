@@ -4,12 +4,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="455.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.create.EmployeeAssignmentController">
+<AnchorPane prefHeight="443.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.create.EmployeeAssignmentController">
    <children>
       <MenuBar layoutX="286.0" layoutY="80.0" prefHeight="31.0" prefWidth="190.0">
         <menus>
@@ -21,23 +21,30 @@
             <Font size="26.0" />
          </font>
       </Label>
-      <Label layoutX="73.0" layoutY="179.0" text="Working Team">
+      <Label layoutX="73.0" layoutY="148.0" text="Working Team">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <MenuBar layoutX="286.0" layoutY="179.0" prefHeight="31.0" prefWidth="190.0">
+      <MenuBar layoutX="286.0" layoutY="148.0" prefHeight="31.0" prefWidth="190.0">
          <menus>
             <Menu fx:id="teamMenu" mnemonicParsing="false" text="Select a team ..." />
          </menus>
       </MenuBar>
-      <Label layoutX="73.0" layoutY="279.0" text="Utilization %">
+      <Label layoutX="73.0" layoutY="212.0" text="Utilization %">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <TextField fx:id="utilizationPercentage" layoutX="286.0" layoutY="279.0" prefHeight="31.0" prefWidth="190.0" />
-      <Button layoutX="415.0" layoutY="360.0" mnemonicParsing="false" onAction="#onAssign" text="Assign" />
-      <Button layoutX="333.0" layoutY="360.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
+      <TextField fx:id="utilizationPercentage" layoutX="286.0" layoutY="212.0" prefHeight="31.0" prefWidth="190.0" />
+      <Button layoutX="418.0" layoutY="360.0" mnemonicParsing="false" onAction="#onAssign" text="Assign" />
+      <Button layoutX="337.0" layoutY="360.0" mnemonicParsing="false" onAction="#onCancel" text="Cancel" />
+      <Label layoutX="73.0" layoutY="277.0" prefHeight="32.0" prefWidth="129.0" text="Labor Type">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="overheadRB" layoutX="289.0" layoutY="275.0" mnemonicParsing="false" selected="true" text="Overhead" />
+      <RadioButton fx:id="productionRB" layoutX="289.0" layoutY="300.0" mnemonicParsing="false" text="Production Resource" />
    </children>
 </AnchorPane>

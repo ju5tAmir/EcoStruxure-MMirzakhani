@@ -9,7 +9,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="1600.0" stylesheets="@employee-view-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.view.EmployeeViewController">
    <children>
-      <TableView fx:id="employeesTable" layoutX="33.0" layoutY="52.0" prefHeight="411.0" prefWidth="1222.0">
+      <TableView fx:id="employeesTable" layoutX="33.0" layoutY="52.0" prefHeight="411.0" prefWidth="1063.0">
          <columns>
             <TableColumn fx:id="employeeFirstName" prefWidth="122.0" text="First Name" />
             <TableColumn fx:id="employeeLastName" prefWidth="126.0" text="Last Name" />
@@ -19,29 +19,32 @@
             <TableColumn fx:id="employeeAnnualWorkHours" prefWidth="154.0" text="Annual Work Hours" />
             <TableColumn fx:id="employeeAverageDailyWorkHour" prefWidth="138.0" text="Avg. Daily Work" />
             <TableColumn fx:id="employeeOverheadPercentage" prefWidth="93.0" text="Overhead %" />
-            <TableColumn fx:id="employeeType" prefWidth="162.0" text="Type" />
          </columns>
       </TableView>
-      <Button layoutX="1193.0" layoutY="470.0" mnemonicParsing="false" onAction="#onCreateButton" text="Create" />
-      <Label layoutX="369.0" layoutY="500.0" prefHeight="32.0" prefWidth="197.0" text="Assignments">
+      <Button layoutX="1034.0" layoutY="463.0" mnemonicParsing="false" onAction="#onCreateButton" text="Create" />
+      <Label layoutX="239.0" layoutY="494.0" prefHeight="32.0" prefWidth="197.0" text="Assignments">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
-      <TableView fx:id="assignmentTable" layoutX="369.0" layoutY="538.0" prefHeight="296.0" prefWidth="551.0">
+      <TableView fx:id="assignmentTable" layoutX="239.0" layoutY="532.0" prefHeight="296.0" prefWidth="716.0">
          <columns>
             <TableColumn fx:id="projectName" prefWidth="138.0" text="Project Name" />
             <TableColumn fx:id="projectCountry" prefWidth="114.0" text="Country" />
             <TableColumn fx:id="projectTeam" prefWidth="168.0" text="Team" />
             <TableColumn fx:id="utilizationPercentage" prefWidth="130.0" text="Utilization %" />
+            <TableColumn fx:id="employeeType" prefWidth="162.0" text="Type" />
          </columns>
       </TableView>
-      <Button layoutX="678.0" layoutY="851.0" mnemonicParsing="false" onAction="#onAssignButton" text="Assign" />
-      <Button layoutX="591.0" layoutY="851.0" mnemonicParsing="false" onAction="#onRemoveButton" text="Remove" />
+      <Button layoutX="894.0" layoutY="828.0" mnemonicParsing="false" onAction="#onAssignButton" text="Assign" />
+      <Button layoutX="708.0" layoutY="828.0" mnemonicParsing="false" onAction="#onRemoveAssignment" text="Un-Assign" />
       <Label layoutX="33.0" layoutY="9.0" prefHeight="32.0" prefWidth="129.0" text="Employees">
          <font>
             <Font size="21.0" />
          </font>
       </Label>
+      <Button layoutX="955.0" layoutY="463.0" mnemonicParsing="false" onAction="#onUpdateEmployee" text="Update" />
+      <Button layoutX="875.0" layoutY="463.0" mnemonicParsing="false" onAction="#onDeleteEmployee" text="Delete" />
+      <Button layoutX="809.0" layoutY="828.0" mnemonicParsing="false" onAction="#onUpdateAssignment" text="Update" />
    </children>
 </Pane>

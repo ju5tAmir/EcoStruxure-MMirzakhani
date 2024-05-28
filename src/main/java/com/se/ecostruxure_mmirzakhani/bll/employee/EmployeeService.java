@@ -59,20 +59,20 @@ public class EmployeeService implements IService<Employee> {
     }
 
     @Override
-    public boolean read(Employee object) throws ExceptionHandler {
+    public boolean read(Employee employee) throws ExceptionHandler {
         return false;
 
     }
 
     @Override
-    public boolean update(Employee object) throws ExceptionHandler {
+    public boolean update(Employee employee) throws ExceptionHandler {
         return false;
 
     }
 
     @Override
-    public boolean delete(Employee object) throws ExceptionHandler {
-        return false;
+    public boolean delete(Employee employee) throws ExceptionHandler {
+        return dao.deleteEmployee(employee);
 
     }
 

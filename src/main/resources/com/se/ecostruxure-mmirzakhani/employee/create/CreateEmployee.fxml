@@ -4,12 +4,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="559.0" prefWidth="1050.0" stylesheets="@create-employee-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.create.CreateEmployeeController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="1047.0" stylesheets="@create-employee-styles.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.se.ecostruxure_mmirzakhani.gui.employee.create.CreateEmployeeController">
    <children>
       <Label layoutX="39.0" layoutY="108.0" prefHeight="32.0" prefWidth="129.0" text="First Name">
          <font>
@@ -56,11 +55,6 @@
             <Font size="17.0" />
          </font>
       </Label>
-      <Label layoutX="544.0" layoutY="388.0" prefHeight="32.0" prefWidth="129.0" text="Labor Type">
-         <font>
-            <Font size="19.0" />
-         </font>
-      </Label>
       <TextField fx:id="dailyWH" layoutX="719.0" layoutY="274.0" />
       <TextField fx:id="overheadPercentage" layoutX="719.0" layoutY="330.0" />
       <Label layoutX="139.0" layoutY="55.0" prefHeight="32.0" prefWidth="129.0" text="Personal ">
@@ -73,19 +67,17 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Label>
-      <Button layoutX="804.0" layoutY="488.0" mnemonicParsing="false" onAction="#onSubmitButton" text="Submit">
+      <Button layoutX="810.0" layoutY="417.0" mnemonicParsing="false" onAction="#onSubmitButton" text="Submit">
          <font>
             <Font size="16.0" />
          </font>
       </Button>
-      <Button layoutX="714.0" layoutY="489.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel">
+      <Button layoutX="712.0" layoutY="418.0" mnemonicParsing="false" onAction="#onCancelButton" text="Cancel">
          <font>
             <Font size="15.0" />
          </font>
       </Button>
       <Label fx:id="firstNameMessageLabel" layoutX="193.0" layoutY="140.0" prefHeight="16.0" prefWidth="170.0" />
-      <RadioButton fx:id="overheadRB" layoutX="719.0" layoutY="395.0" mnemonicParsing="false" selected="true" text="Overhead" />
-      <RadioButton fx:id="productionRB" layoutX="829.0" layoutY="395.0" mnemonicParsing="false" text="Production Resource" />
       <MenuBar layoutX="915.0" layoutY="115.0">
         <menus>
           <Menu fx:id="currencyMenu" mnemonicParsing="false" text="EUR" />

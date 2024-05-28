@@ -149,7 +149,7 @@ public class EmployeeDAO {
     }
 
 
-    public boolean deleteEmployee(int employeeId) throws ExceptionHandler {
+    public boolean deleteEmployee(Employee employee) throws ExceptionHandler {
         String deleteAssignmentSql = "DELETE FROM Assignment WHERE EmployeeID = ?";
         String deleteContractSql = "DELETE FROM Contract WHERE EmployeeID = ?";
         String deleteEmployeeSql = "DELETE FROM Employees WHERE EmployeeID = ?";
@@ -162,15 +162,15 @@ public class EmployeeDAO {
                  PreparedStatement deleteEmployeeStmt = conn.prepareStatement(deleteEmployeeSql)) {
 
                 // Delete from Assignment
-                deleteAssignmentStmt.setInt(1, employeeId);
+                deleteAssignmentStmt.setInt(1, employee.getId());
                 deleteAssignmentStmt.executeUpdate();
 
                 // Delete from Contract
-                deleteContractStmt.setInt(1, employeeId);
+                deleteContractStmt.setInt(1, employee.getId());
                 deleteContractStmt.executeUpdate();
 
                 // Delete from Employees
-                deleteEmployeeStmt.setInt(1, employeeId);
+                deleteEmployeeStmt.setInt(1, employee.getId());
                 deleteEmployeeStmt.executeUpdate();
 
                 conn.commit();

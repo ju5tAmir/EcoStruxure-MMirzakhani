@@ -33,12 +33,14 @@ public class Model {
     private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
     private final SimpleObjectProperty  <Assignment>                assignment          = new SimpleObjectProperty<>(new Assignment());
 
-
+    // These ObservableLists are contains all objects for each category
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
     private final ObservableList        <Team>                      teams               = FXCollections.observableArrayList();
     private final ObservableList        <Project>                   projects            = FXCollections.observableArrayList();
     private final ObservableList        <Assignment>                assignments         = FXCollections.observableArrayList();
 
+    private final ObservableList        <Assignment>                employeeAssignments = FXCollections.observableArrayList();
+    private final ObservableList        <Assignment>                projectAssignments  = FXCollections.observableArrayList();
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
     private final EmployeeService                                   employeeService;
     private final TeamService                                       teamService;
@@ -128,17 +130,20 @@ public class Model {
      * Get all the Assignments for a specific project
      */
     public ObservableList<Assignment> getAssignments(Project project) throws ExceptionHandler {
+        setAssignments(project);
 
-        return FXCollections.observableArrayList(assignmentService.getAllAssignments(project));
+        return projectAssignments;
     }
 
     /**
      * Get all the Assignments for a specific employee
      */
     public ObservableList<Assignment> getAssignments(Employee employee) throws ExceptionHandler {
+        setAssignments(employee);
 
-        return FXCollections.observableArrayList(assignmentService.getAllAssignments(employee));
+        return employeeAssignments;
     }
+
     /**
      * Get current currency of the system (default EUR)
      */
@@ -335,8 +340,19 @@ public class Model {
         assignments.setAll(assignmentService.getAllAssignments());
     }
 
+    /**
+     * Retrieve and updates the latest Assignment list for a given project
+     */
+    private void setAssignments(Project project) throws ExceptionHandler {
+        projectAssignments.setAll(assignmentService.getAllAssignments(project));
+    }
 
-
+    /**
+     * Retrieve and updates the latest Assignment list for a given employee
+     */
+    private void setAssignments(Employee employee) throws ExceptionHandler {
+        employeeAssignments.setAll(assignmentService.getAllAssignments(employee));
+    }
 
 //    /**
 //     * Set current currency of the system (default EUR)
@@ -428,7 +444,7 @@ public class Model {
 
     private void updateTables() throws ExceptionHandler{
         getAssignments(this.assignment.get().getEmployee());
-//        getAssignments(this.assignment.get().getProject());
+        getAssignments(this.assignment.get().getProject());
     }
 
     /**
@@ -459,10 +475,11 @@ public class Model {
         assignmentService.create(this.assignment.get());
 
         // Update the list of assignments without reloading from database
-        this.projects.add(project.get());
+        this.assignments.add(assignment.get());
 
-        // Update the tables
-        updateTables();
+        // Updating the tables
+        employeeAssignments.add(assignment.get());
+        projectAssignments.add(assignment.get());
     }
 
     /**
@@ -544,6 +561,25 @@ public class Model {
     public void setAssignmentUtilizationPercentage(double amount) {
         this.assignment.get().setUtilizationPercentage(amount);
     }
+
+    public boolean deleteEmployee(Employee employee) throws ExceptionHandler{
+        // Validate deleting from database
+        if (employeeService.delete(employee)){
+            // List of assignments related to the given employee in order to delete
+            List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee, assignments);
+
+            for (Assignment a: assignmentList){
+                removeAssignment(a); // remove assignment from db
+                assignments.remove(a); // remove assignment from memory
+            }
+
+            employees.remove(employee); // remove employee object from the list
+
+            return true;
+        }
+        return false;
+    }
+
 
 
 //    // ****************** LAB *******************
