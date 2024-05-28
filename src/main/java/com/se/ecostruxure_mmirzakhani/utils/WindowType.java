@@ -11,7 +11,8 @@ public enum WindowType {
     PROJECT_MAIN("/com/se/ecostruxure-mmirzakhani/project/view/ProjectMainView.fxml"),
     CREATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/create/CreateProject.fxml"),
     UPDATE_PROJECT("/com/se/ecostruxure-mmirzakhani/project/update/UpdateProject.fxml"),
-    TEAM_MAIN("/com/se/ecostruxure-mmirzakhani/team/view/TeamView.fxml");
+    TEAM_MAIN("/com/se/ecostruxure-mmirzakhani/team/view/TeamView.fxml"),
+    CREATE_TEAM("/com/se/ecostruxure-mmirzakhani/team/create/CreateTeam.fxml");
 
     private final String path;
 

@@ -627,4 +627,35 @@ public class Model {
         // If failed
         return false;
     }
+
+    public boolean deleteTeam() throws ExceptionHandler{
+        if (teamService.delete(team.get())){
+
+            // Remove the team from cached list
+            teams.remove(team.get());
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+    public void setTeamName(String name){
+        this.team.get().setName(name);
+    }
+
+    public boolean createTeam() throws ExceptionHandler{
+        // If succeed to create updates the team ID from the db
+        if (teamService.create(team.get())){
+            // Update the list of teams
+            teams.add(team.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
+    }
 }

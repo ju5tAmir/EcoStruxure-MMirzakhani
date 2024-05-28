@@ -11,17 +11,17 @@
     <children>
         <HBox layoutX="526.0" layoutY="479.0" prefHeight="26.0" prefWidth="233.0" spacing="20.0">
             <children>
-                <Button fx:id="onDeleteTeamButton" mnemonicParsing="false" text="Delete">
+                <Button mnemonicParsing="false" onAction="#onDeleteTeamButton" text="Delete">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="onUpdateTeamButton" mnemonicParsing="false" text="Update">
+                <Button mnemonicParsing="false" onAction="#onUpdateTeamButton" text="Update">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
                 </Button>
-                <Button fx:id="onCreateTeamButton" mnemonicParsing="false" text="Create ">
+                <Button mnemonicParsing="false" onAction="#onCreateTeamButton" text="Create ">
                     <HBox.margin>
                         <Insets />
                     </HBox.margin>
