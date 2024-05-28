@@ -36,9 +36,8 @@ public class RateService implements IRateService{
             double      employeeAnnualWorkHours         = employee.getContract().getAnnualWorkHours();
             double      employeeCostPerHour             = employeeTotalCost / employeeAnnualWorkHours;
             double      employeeUtilizationPercentage   = assignment.getUtilizationPercentage() / 100 ;
-            double      employeeEffectiveWorkHours      = employeeAnnualWorkHours * employeeUtilizationPercentage ;
 
-            double      employeeRate                    = employeeCostPerHour * employeeEffectiveWorkHours;
+            double      employeeRate                    = employeeCostPerHour * employeeUtilizationPercentage;
 
             totalRate += employeeRate;
         }
@@ -63,12 +62,11 @@ public class RateService implements IRateService{
             double      employeeTotalCost               = EmployeeService.getTotalCost(employee);
             double      employeeAnnualWorkHours         = employee.getContract().getAnnualWorkHours();
             double      employeeAverageDailyWorkHours   = employee.getContract().getAverageDailyWorkHours();
-            double      employeeCostPerDay             = employeeTotalCost / employeeAnnualWorkHours * employeeAverageDailyWorkHours;
+            double      employeeCostPerDay             = employeeTotalCost / employeeAnnualWorkHours;
             double      employeeUtilizationPercentage   = assignment.getUtilizationPercentage() / 100; // Utilization percentage for this project of the employee
-            double      employeeEffectiveWorkHours      = employeeAnnualWorkHours * employeeUtilizationPercentage / 100;
 
 
-            double employeeRate = employeeCostPerDay * employeeEffectiveWorkHours;
+            double employeeRate = employeeCostPerDay * employeeAverageDailyWorkHours * employeeUtilizationPercentage;
 
             totalRate += employeeRate;
 
