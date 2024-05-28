@@ -128,16 +128,16 @@ public class Model {
      * Get all the Assignments for a specific project
      */
     public ObservableList<Assignment> getAssignments(Project project) throws ExceptionHandler {
-        setAssignments(project);
-        return assignments;
+
+        return FXCollections.observableArrayList(assignmentService.getAllAssignments(project));
     }
 
     /**
      * Get all the Assignments for a specific employee
      */
     public ObservableList<Assignment> getAssignments(Employee employee) throws ExceptionHandler {
-        setAssignments(employee);
-        return assignments;
+
+        return FXCollections.observableArrayList(assignmentService.getAllAssignments(employee));
     }
     /**
      * Get current currency of the system (default EUR)
@@ -335,19 +335,8 @@ public class Model {
         assignments.setAll(assignmentService.getAllAssignments());
     }
 
-    /**
-     * Retrieve and updates the latest Assignment list
-     */
-    private void setAssignments(Project project) throws ExceptionHandler {
-        assignments.setAll(assignmentService.getAllAssignments(project));
-    }
 
-    /**
-     * Retrieve and updates the latest Assignment list
-     */
-    private void setAssignments(Employee employee) throws ExceptionHandler {
-        assignments.setAll(assignmentService.getAllAssignments(employee));
-    }
+
 
 //    /**
 //     * Set current currency of the system (default EUR)
