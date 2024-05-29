@@ -106,6 +106,7 @@ public class ProjectDAO {
 
     public boolean deleteProject(Project project) throws ExceptionHandler {
         String deleteAssignmentSql = "DELETE FROM Assignment WHERE ProjectID = ?";
+        String deleteMultiplierSql = "DELETE FROM Multipliers WHERE ProjectID = ?";
         String deleteProjectSql = "DELETE FROM Projects WHERE ProjectID = ?";
 
 
@@ -113,11 +114,16 @@ public class ProjectDAO {
             conn.setAutoCommit(false);
 
             try (PreparedStatement deleteAssignmentStmt = conn.prepareStatement(deleteAssignmentSql);
+                 PreparedStatement deleteMultipliersStmt = conn.prepareStatement(deleteMultiplierSql);
                  PreparedStatement deleteProjectStmt = conn.prepareStatement(deleteProjectSql)) {
 
                 // Delete from Assignment
                 deleteAssignmentStmt.setInt(1, project.getId());
                 deleteAssignmentStmt.executeUpdate();
+
+                // Delete from Multipliers
+                deleteMultipliersStmt.setInt(1, project.getId());
+                deleteMultipliersStmt.executeUpdate();
 
                 // Delete from Contract
                 deleteProjectStmt.setInt(1, project.getId());

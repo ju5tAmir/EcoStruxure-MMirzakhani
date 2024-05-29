@@ -3,8 +3,6 @@ package com.se.ecostruxure_mmirzakhani.gui.project;
 import com.se.ecostruxure_mmirzakhani.be.entities.Multiplier;
 import com.se.ecostruxure_mmirzakhani.be.entities.Project;
 import com.se.ecostruxure_mmirzakhani.be.enums.MultiplierType;
-import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
-import com.se.ecostruxure_mmirzakhani.dal.multiplier.MultiplierDAO;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionMessage;
 import com.se.ecostruxure_mmirzakhani.gui.IController;

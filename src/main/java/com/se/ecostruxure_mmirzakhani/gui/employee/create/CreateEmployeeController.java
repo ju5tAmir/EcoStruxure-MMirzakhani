@@ -172,6 +172,7 @@ public class CreateEmployeeController implements IController<Model> {
         } else if (textField == emailAddress) {
             GUIHelper.validateEmail(textField.getText());
         }
+        // ...
 
         displaySuccessFlag(textField);
     }

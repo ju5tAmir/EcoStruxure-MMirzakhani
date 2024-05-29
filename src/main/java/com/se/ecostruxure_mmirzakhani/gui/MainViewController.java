@@ -41,9 +41,9 @@ public class MainViewController implements Initializable, IController<Model> {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        setModel(model);
-        try {
+        setModel(new Model());
 
+        try {
             onDashboard() ;
         } catch (ExceptionHandler e) {
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
