@@ -17,8 +17,6 @@ public class RateService implements IRateService{
         this.project = project;
         this.assignments = assignments;
     }
-
-
     @Override
     public double getHourlyRate() {
         // Initialize the total rate to accumulate the hourly rates of all employees
@@ -162,27 +160,6 @@ public class RateService implements IRateService{
         return CurrencyService.doubleFormatter(totalRate);
     }
 
-//    public List<Assignment> getOverheadEmployees(){
-//        List<Assignment> overheadEmployees = new ArrayList<>();
-//
-//        for (Assignment assignment : assignments){
-//            if (assignment.getEmployee().getContract().isOverhead()){
-//                overheadEmployees.add(assignment);
-//            }
-//        }
-//        return overheadEmployees;
-//    }
-//
-//    public List<Assignment> getProductionEmployees(){
-//        List<Assignment> overheadEmployees = new ArrayList<>();
-//
-//        for (Assignment assignment : assignments){
-//            if (!assignment.getEmployee().getContract().isOverhead()){
-//                overheadEmployees.add(assignment);
-//            }
-//        }
-//        return overheadEmployees;
-//    }
 
 
     @Override
