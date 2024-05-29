@@ -80,10 +80,11 @@
             </Text>
          </children>
       </HBox>
-      <HBox layoutX="997.0" layoutY="558.0" prefHeight="44.0" prefWidth="203.0" spacing="15.0">
+      <HBox layoutX="920.0" layoutY="558.0" prefHeight="44.0" prefWidth="302.0" spacing="15.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onReset" prefHeight="45.0" prefWidth="82.0" text="Reset" />
-            <Button mnemonicParsing="false" onAction="#onCalculate" prefHeight="44.0" prefWidth="104.0" text="Apply" />
+            <Button mnemonicParsing="false" onAction="#onSaveButton" prefHeight="45.0" prefWidth="82.0" text="Save" />
+            <Button mnemonicParsing="false" onAction="#onCalculate" prefHeight="44.0" prefWidth="94.0" text="Apply" />
          </children>
       </HBox>
       <TableView fx:id="multipliersTable" layoutX="50.0" layoutY="630.0" prefHeight="331.0" prefWidth="788.0">
