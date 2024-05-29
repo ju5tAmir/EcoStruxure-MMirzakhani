@@ -64,25 +64,5 @@ public class ProjectService implements IService<Project> {
         return dao.getAllProjects();
     }
 
-    /**
-     * Applies a gross margin multiplier to the original rate.
-     *
-     * @param originalRate The original rate (hourly or daily).
-     * @param grossMarginPercentage The gross margin percentage (e.g., 0.2 for 20%).
-     * @return The new rate after applying the gross margin multiplier.
-     */
-    public static double applyGrossMarginMultiplier(double originalRate, double grossMarginPercentage) {
-        return originalRate / (1 - grossMarginPercentage);
-    }
 
-    /**
-     * Applies a markup multiplier to the original rate.
-     *
-     * @param originalRate The original rate (hourly or daily).
-     * @param markupPercentage The markup percentage (e.g., 0.2 for 20%).
-     * @return The new rate after applying the markup multiplier.
-     */
-    public static double applyMarkupMultiplier(double originalRate, double markupPercentage) {
-        return originalRate * (1 + markupPercentage);
-    }
 }

@@ -1,10 +1,12 @@
 package com.se.ecostruxure_mmirzakhani;
 
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
+import com.se.ecostruxure_mmirzakhani.utils.AlertHandler;
 import com.se.ecostruxure_mmirzakhani.utils.Window;
 import com.se.ecostruxure_mmirzakhani.utils.WindowType;
 
 import javafx.application.Application;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -15,9 +17,13 @@ public class Main extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) throws ExceptionHandler {
+    public void start(Stage primaryStage) {
 
         // Create and show a new stage
-        Window.createStage(WindowType.MAIN);
+        try {
+            Window.createStage(WindowType.MAIN);
+        } catch (ExceptionHandler e) {
+            AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 }

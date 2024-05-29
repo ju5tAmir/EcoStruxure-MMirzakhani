@@ -67,7 +67,7 @@ public class Project {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Project project)) return false;
-        return getId() == project.getId() && Objects.equals(getName(), project.getName()) && getCountry() == project.getCountry();
+        return getId() == project.getId() && Objects.equals(getName(), project.getName());
     }
 
     @Override
