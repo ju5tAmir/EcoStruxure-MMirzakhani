@@ -6,9 +6,9 @@ public class Multiplier {
     private int id;
     private Project project;
     private MultiplierType multiplierType;
-    private int value;
+    private double value;
 
-    public Multiplier(int id, Project project, MultiplierType multiplierType, int value) {
+    public Multiplier(int id, Project project, MultiplierType multiplierType, double value) {
         this.id = id;
         this.project = project;
         this.multiplierType = multiplierType;
@@ -44,11 +44,11 @@ public class Multiplier {
         this.multiplierType = multiplierType;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 }
