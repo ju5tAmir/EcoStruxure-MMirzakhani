@@ -4,8 +4,10 @@ import com.se.ecostruxure_mmirzakhani.be.entities.*;
 import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
+import com.se.ecostruxure_mmirzakhani.be.enums.MultiplierType;
 import com.se.ecostruxure_mmirzakhani.bll.assignment.AssignmentService;
 import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeService;
+import com.se.ecostruxure_mmirzakhani.bll.multiplier.MultiplierService;
 import com.se.ecostruxure_mmirzakhani.bll.project.ProjectService;
 import com.se.ecostruxure_mmirzakhani.bll.rate.RateService;
 import com.se.ecostruxure_mmirzakhani.bll.team.TeamService;
@@ -30,6 +32,7 @@ public class Model {
     private final SimpleObjectProperty  <Team>                      team                = new SimpleObjectProperty<>(new Team());
     private final SimpleObjectProperty  <Project>                   project             = new SimpleObjectProperty<>(new Project());
     private final SimpleObjectProperty  <Assignment>                assignment          = new SimpleObjectProperty<>(new Assignment());
+    private final SimpleObjectProperty  <Multiplier>                multiplier          = new SimpleObjectProperty<>(new Multiplier());
 
     // These ObservableLists are contains all objects for each category
     private final ObservableList        <Employee>                  employees           = FXCollections.observableArrayList();
@@ -46,6 +49,7 @@ public class Model {
     private final TeamService                                       teamService;
     private final ProjectService                                    projectService;
     private final AssignmentService                                 assignmentService;
+    private final MultiplierService                                 multiplierService;
 
 
     // ************************ Constructor ************************
@@ -55,6 +59,7 @@ public class Model {
             this.teamService = new TeamService();
             this.projectService = new ProjectService();
             this.assignmentService = new AssignmentService();
+            this.multiplierService = new MultiplierService();
 
             updateAllProperties();
         } catch (ExceptionHandler e) {
@@ -681,10 +686,42 @@ public class Model {
     }
 
     public double applyGrossMarginMultiplier(double originalRate, double gmPercentage){
-        return ProjectService.applyGrossMarginMultiplier(originalRate, gmPercentage);
+        return MultiplierService.applyGrossMarginMultiplier(originalRate, gmPercentage);
     }
 
     public double applyMarkupMultiplier(double originalRate, double markupPercentage){
-        return ProjectService.applyMarkupMultiplier(originalRate, markupPercentage);
+        return MultiplierService.applyMarkupMultiplier(originalRate, markupPercentage);
+    }
+
+    public boolean saveRate(Multiplier multiplier) throws ExceptionHandler{
+        return multiplierService.save(multiplier);
+    }
+
+    public void setMultiplierType(MultiplierType multiplierType) {
+        this.multiplier.get().setMultiplierType(multiplierType);
+    }
+
+    public void setMultiplierProject(Project project) {
+        this.multiplier.get().setProject(project);
+    }
+
+    public void setMultiplierValue(double value) {
+        this.multiplier.get().setValue(value);
+    }
+
+    public Multiplier getMultiplier() {
+        return multiplier.get();
+    }
+
+    public List<Multiplier> getMultipliers(Project project) throws ExceptionHandler{
+        return multiplierService.getMultipliers(project);
+    }
+
+    public void setMultiplier(Multiplier multiplier){
+        this.multiplier.set(multiplier);
+    }
+
+    public void clearMultiplier() {
+        this.multiplier.set(new Multiplier());
     }
 }
