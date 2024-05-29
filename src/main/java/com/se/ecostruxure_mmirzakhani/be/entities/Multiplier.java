@@ -16,6 +16,7 @@ public class Multiplier {
     }
 
     public Multiplier() {
+        this.project = new Project(); // Prevent NullPointerException
 
     }
 
@@ -50,5 +51,15 @@ public class Multiplier {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Multiplier{" +
+                "id=" + id +
+                ", project=" + project +
+                ", multiplierType=" + multiplierType +
+                ", value=" + value +
+                '}';
     }
 }
