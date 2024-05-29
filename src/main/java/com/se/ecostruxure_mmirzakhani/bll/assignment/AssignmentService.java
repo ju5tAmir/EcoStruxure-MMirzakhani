@@ -24,13 +24,8 @@ public class AssignmentService implements IService<Assignment> {
     }
 
     @Override
-    public boolean read(Assignment assignment) throws ExceptionHandler{
-        return false;
-    }
-
-    @Override
     public boolean update(Assignment assignment) throws ExceptionHandler{
-        return false;
+        return dao.updateAssignment(assignment);
     }
 
     @Override

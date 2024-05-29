@@ -19,6 +19,23 @@ public class EmployeeService implements IService<Employee> {
         this.dao = new EmployeeDAO();
     }
 
+    @Override
+    public boolean create(Employee employee) throws ExceptionHandler {
+        return dao.createEmployee(employee);
+    }
+
+
+    @Override
+    public boolean update(Employee employee) throws ExceptionHandler {
+        return dao.updateEmployee(employee);
+
+    }
+
+    @Override
+    public boolean delete(Employee employee) throws ExceptionHandler {
+        return dao.deleteEmployee(employee);
+
+    }
     /**
      * Get total utilization percentage for an employee
      */
@@ -51,28 +68,7 @@ public class EmployeeService implements IService<Employee> {
         return totalCostInSystemCurrency;
     }
 
-    @Override
-    public boolean create(Employee employee) throws ExceptionHandler {
-        return dao.createEmployee(employee);
-    }
 
-    @Override
-    public boolean read(Employee employee) throws ExceptionHandler {
-        return false;
-
-    }
-
-    @Override
-    public boolean update(Employee employee) throws ExceptionHandler {
-        return dao.updateEmployee(employee);
-
-    }
-
-    @Override
-    public boolean delete(Employee employee) throws ExceptionHandler {
-        return dao.deleteEmployee(employee);
-
-    }
 
     /**
      * Get employee contract and projects changes

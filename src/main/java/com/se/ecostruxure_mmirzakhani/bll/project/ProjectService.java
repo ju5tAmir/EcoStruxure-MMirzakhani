@@ -18,6 +18,23 @@ public class ProjectService implements IService<Project> {
         this.dao = new ProjectDAO();
     }
 
+    @Override
+    public boolean create(Project project) throws ExceptionHandler {
+        return dao.createProject(project);
+    }
+
+    @Override
+    public boolean update(Project project) throws ExceptionHandler {
+        return dao.updateProject(project);
+
+    }
+
+    @Override
+    public boolean delete(Project project) throws ExceptionHandler {
+        return dao.deleteProject(project);
+
+    }
+
     /**
      * Returns list of the overhead assignments for a project
      */
@@ -38,27 +55,7 @@ public class ProjectService implements IService<Project> {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public boolean create(Project project) throws ExceptionHandler {
-        return dao.createProject(project);
-    }
 
-    @Override
-    public boolean read(Project project) throws ExceptionHandler {
-        return false;
-    }
-
-    @Override
-    public boolean update(Project project) throws ExceptionHandler {
-        return dao.updateProject(project);
-
-    }
-
-    @Override
-    public boolean delete(Project project) throws ExceptionHandler {
-        return dao.deleteProject(project);
-
-    }
 
     public List<Project> getAllProjects() throws ExceptionHandler{
         return dao.getAllProjects();

@@ -50,7 +50,7 @@ public class Validate implements IUtils {
 
     /**
      * Validates a string input to ensure it meets the criteria for a name.
-     * Names must contain only letters, with a minimum length of 3 and a maximum length of 50 characters.
+     * Names must contain only letters, with a minimum length of 2 and a maximum length of 50 characters.
      *
      * @param name The string to validate as a name.
      * @return The validated name if it meets the criteria.
@@ -58,8 +58,8 @@ public class Validate implements IUtils {
      */
 
     public static void validateName(String name) throws RuntimeException{
-        // Regex pattern to check if user input matches to a name (only letters, min 3 and max 50)
-        Pattern pattern = Pattern.compile("^[a-zA-Z]{3,50}$");
+        // Regex pattern to check if user input matches to a name (only letters, min 2 and max 50)
+        Pattern pattern = Pattern.compile("^[a-zA-Z]{2,50}$");
 
         // Matches the provided name with the pattern
         Matcher matcher = pattern.matcher(name);

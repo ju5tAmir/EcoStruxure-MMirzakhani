@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
  * This class provides methods to map Employees, Projects, Assignments and so on.
  */
 public class Mapper {
-
     /**
      * Maps a project to it's assignments
      */

@@ -11,16 +11,9 @@ import java.util.List;
 
 public class TeamService implements IService<Team> {
     private TeamDAO dao;
-
-    private EmployeeService employeeService = new EmployeeService();
     public TeamService(){
         this.dao = new TeamDAO();
 
-    }
-
-
-    public List<Team> getAllTeams() throws ExceptionHandler {
-        return dao.getAllTeams();
     }
 
     @Override
@@ -28,10 +21,6 @@ public class TeamService implements IService<Team> {
         return dao.createTeam(team);
     }
 
-    @Override
-    public boolean read(Team team) throws ExceptionHandler {
-        return false;
-    }
 
     @Override
     public boolean update(Team team) throws ExceptionHandler {
@@ -42,4 +31,9 @@ public class TeamService implements IService<Team> {
     public boolean delete(Team team) throws ExceptionHandler {
         return dao.deleteTeam(team);
     }
+
+    public List<Team> getAllTeams() throws ExceptionHandler {
+        return dao.getAllTeams();
+    }
+
 }
