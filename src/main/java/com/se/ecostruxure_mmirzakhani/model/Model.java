@@ -4,7 +4,6 @@ import com.se.ecostruxure_mmirzakhani.be.entities.*;
 import com.se.ecostruxure_mmirzakhani.be.enums.Country;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
-import com.se.ecostruxure_mmirzakhani.be.enums.MultiplierType;
 import com.se.ecostruxure_mmirzakhani.bll.assignment.AssignmentService;
 import com.se.ecostruxure_mmirzakhani.bll.employee.EmployeeService;
 import com.se.ecostruxure_mmirzakhani.bll.multiplier.MultiplierService;
@@ -20,7 +19,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -45,6 +43,7 @@ public class Model {
 
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
 
+    // Logic classes
     private final EmployeeService                                   employeeService;
     private final TeamService                                       teamService;
     private final ProjectService                                    projectService;
@@ -69,8 +68,8 @@ public class Model {
 
 
     // ************************ Methods *****************************
-    // ************************ Getters *****************************
 
+    // ************************ Employee ****************************
     /**
      * Get currently working employee object
      */
@@ -79,25 +78,12 @@ public class Model {
     }
 
     /**
-     * Get currently working Team object
+     * Set Employee object
      */
-    public Team getTeam() {
-        return team.get();
+    public void setEmployee(Employee employee){
+        this.employee.set(employee);
     }
 
-    /**
-     * Get currently working Project object
-     */
-    public Project getProject() {
-        return project.get();
-    }
-
-    /**
-     * Get currently working Assignment object
-     */
-    public Assignment getAssignment() {
-        return assignment.get();
-    }
 
     /**
      * Get all the employees
@@ -105,6 +91,91 @@ public class Model {
     public ObservableList<Employee> getAllEmployees() throws ExceptionHandler {
         setEmployees();
         return employees;
+    }
+
+    /**
+     * Retrieve and updates the latest Employees list
+     */
+    private void setEmployees() throws ExceptionHandler {
+        employees.setAll(employeeService.getAllEmployees());
+    }
+
+    /**
+     * Create employee based on the currently working object
+     */
+    public boolean createEmployee() throws ExceptionHandler{
+        this.employee.get().setContract(this.contract.get()); // Setting currently filled contract to the currently working employee
+
+        // If succeed to create
+        if (employeeService.create(employee.get())){
+            // Employee creation was successful, add new object to the employees list without reloading it from database
+            // However, ID of contract and employee object has been updated after creation in database
+            employees.add(employee.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
+    }
+
+    /**
+     * Update the currently working employee object
+     */
+    public boolean updateEmployee() throws ExceptionHandler{
+        // Set the updated contract to the employee
+        employee.get().setContract(contract.get());
+
+
+        if (employeeService.update(employee.get())){
+
+            // Updating the new object in the observableList
+            for (int i = 0; i < employees.size(); i++){
+                if (employees.get(i).getId() == employee.get().getId()){
+                    employees.set(i, employee.get());
+                }
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Delete a given employee from database and memory, also assignments related to that employee will be deleted
+     */
+    public boolean deleteEmployee(Employee employee) throws ExceptionHandler{
+        // Validate deleting from database
+        if (employeeService.delete(employee)){
+            // List of assignments related to the given employee in order to delete
+            List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee, assignments);
+
+            for (Assignment a: assignmentList){
+                deleteAssignment(a); // remove assignment from db
+                assignments.remove(a); // remove assignment from memory
+            }
+
+            employees.remove(employee); // remove employee object from the list
+
+            return true;
+        }
+        return false;
+    }
+
+
+    // ************************ Team ****************************
+    /**
+     * Get currently working Team object
+     */
+    public Team getTeam() {
+        return team.get();
+    }
+
+    /**
+     * Set Team object
+     */
+    public void setTeam(Team team){
+        this.team.set(team);
     }
 
     /**
@@ -116,11 +187,208 @@ public class Model {
     }
 
     /**
+     * Retrieve and updates the latest Team list
+     */
+    private void setTeams() throws ExceptionHandler {
+        teams.setAll(teamService.getAllTeams());
+    }
+
+    /**
+     * Set team name to currently working team object
+     */
+    public void setTeamName(String name){
+        this.team.get().setName(name);
+    }
+
+    /**
+     * Create a team in the database based on the currently working team object, also adds it to memory
+     */
+    public boolean createTeam() throws ExceptionHandler{
+        // If succeed to create updates the team ID from the db
+        if (teamService.create(team.get())){
+            // Update the list of teams
+            teams.add(team.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
+    }
+
+    /**
+     * Update a team in database and memory
+     */
+    public boolean updateTeam() throws ExceptionHandler{
+        if (teamService.update(team.get())){
+
+            // Updating the object within the observableList
+            for (int i = 0; i < teams.size(); i++){
+                if (teams.get(i).getId() == team.get().getId()){
+                    teams.set(i, team.get());
+                }
+            }
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+    /**
+     * Delete a team from database and memory
+     */
+    public boolean deleteTeam() throws ExceptionHandler{
+        if (teamService.delete(team.get())){
+
+            // Remove the team from cached list
+            teams.remove(team.get());
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+    // ************************ Project ****************************
+    /**
+     * Get currently working Project object
+     */
+    public Project getProject() {
+        return project.get();
+    }
+
+    /**
+     * Set Project object
+     */
+    public void setProject(Project project){
+        this.project.set(project);
+    }
+
+    /**
      * Get all the Projects
      */
     public ObservableList<Project> getAllProjects() throws ExceptionHandler {
         setProjects();
         return projects;
+    }
+
+    /**
+     * Set the currently working project name
+     */
+    public void setProjectName(String name){
+        this.project.get().setName(name);
+    }
+
+    /**
+     * Set the currently working project country
+     */
+    public void setProjectCountry(Country country){
+        this.project.get().setCountry(country);
+    }
+
+
+    /**
+     * Retrieve and updates the latest Project list
+     */
+    private void setProjects() throws ExceptionHandler {
+        projects.setAll(projectService.getAllProjects());
+    }
+
+
+    /**
+     * Get list of assignments for a project
+     */
+    public List<Assignment> getProjectAssignments(Project project) {
+        return Mapper.projectAssignmentMapper(project, assignments);
+    }
+
+
+    /**
+     * Get the list of teams for a project
+     */
+    public List<Team> getProjectTeams(Project project) {
+        return Mapper.projectTeamMapper(project, assignments);
+    }
+
+    /**
+     * List of assignments which their linked employees are overhead
+     */
+    public List<Assignment> getOverheadAssignments(Project project) {
+        return ProjectService.projectOverheadAssignments(project, assignments);
+    }
+
+    /**
+     * List of assignments which their linked employees are considered as production resource
+     */
+    public List<Assignment> getProductionResourceAssignments(Project project) {
+        return ProjectService.projectProductResourceAssignments(project, assignments);
+    }
+
+
+
+    /**
+     * Creates a project based on the currently working project object
+     * @throws ExceptionHandler if something goes wrong in the creation process.
+     */
+    public boolean createProject() throws ExceptionHandler{
+        // If succeed to create
+        if (projectService.create(this.project.get())) {
+            // Adds the project to the list
+            projects.add(project.get());
+
+            return true;
+        }
+
+        // If failed to create
+        return false;
+    }
+
+    /**
+     * Delete a given project from database and then memory
+     */
+    public boolean deleteProject(Project project) throws ExceptionHandler{
+        if (projectService.delete(project)){
+            projects.remove(project);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Updates the currently working project object and then update the list of observable
+     */
+    public boolean updateProject() throws ExceptionHandler {
+        if (projectService.update(project.get())){
+
+            // Updating the object within the observableList
+            for (int i = 0; i < projects.size(); i++){
+                if (projects.get(i).getId() == project.get().getId()){
+                    projects.set(i, project.get());
+                }
+            }
+
+            // If everything went well
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+
+    // ************************ Assignment ****************************
+    /**
+     * Get currently working Assignment object
+     */
+    public Assignment getAssignment() {
+        return assignment.get();
     }
 
     /**
@@ -132,11 +400,82 @@ public class Model {
     }
 
     /**
-     * Get current currency of the system (default EUR)
+     * Retrieve and updates the latest Assignment list
      */
-    public Currency getCurrency(){
-        return CurrencyService.getSystemCurrency();
+    private void setAssignments() throws ExceptionHandler {
+        assignments.setAll(assignmentService.getAllAssignments());
     }
+
+    /**
+     * Set Assignment object
+     */
+    private void setAssignment(Assignment assignment){
+        this.assignment.set(assignment);
+    }
+
+
+
+    /**
+     * Assign the assignment (This is the moment that user clicks on add new project)
+     */
+    public boolean assignAssignmentToEmployee() throws ExceptionHandler{
+        List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee.get(), assignments);
+
+        // Validating utilization percentage for new assignment
+        assignmentService.checkIllegalUtilization(this.assignment.get().getUtilizationPercentage(), assignmentList);
+
+        // if no exception occurred, insert the assignment to the database
+        if (assignmentService.create(this.assignment.get())){
+            // Update the list of assignments without reloading from database
+            this.assignments.add(assignment.get());
+
+            return true;
+        };
+
+        return false;
+
+    }
+
+
+    /**
+     * Removes an assignment from an employee (employee object is inside the assignment object)
+     */
+    public boolean deleteAssignment(Assignment assignment) throws ExceptionHandler {
+        // If succeed
+        if (assignmentService.delete(assignment)){
+            // Remove the assignment from the assignments list
+            assignments.remove(assignment);
+
+            return true;
+        }
+
+        // If failed
+        return false;
+    }
+
+
+    public void setAssignmentEmployee(Employee employee) {
+        this.assignment.get().setEmployee(employee);
+    }
+
+    public void setAssignmentProject(Project project) {
+        this.assignment.get().setProject(project);
+    }
+
+    public void setAssignmentTeam(Team team) {
+        this.assignment.get().setTeam(team);
+    }
+
+    public void setAssignmentEmployeeType(EmployeeType employeeType) {
+        this.assignment.get().setEmployeeType(employeeType);
+    }
+
+    public void setAssignmentUtilizationPercentage(double amount) {
+        this.assignment.get().setUtilizationPercentage(amount);
+    }
+
+
+    // ************************ RateService ****************************
 
     /**
      * Get hourly rate of a project
@@ -147,8 +486,6 @@ public class Model {
 
         return new RateService(project, assignmentList).getHourlyRate();
     }
-
-
 
     /**
      * Get daily rate of a project
@@ -226,114 +563,25 @@ public class Model {
     }
 
 
+    // ************************ CurrencyService ****************************
+
     /**
-     * Get list of assignments for a project
+     * Get current currency of the system (default EUR)
      */
-    public List<Assignment> getProjectAssignments(Project project) {
-        return Mapper.projectAssignmentMapper(project, assignments);
+    public Currency getCurrency(){
+        return CurrencyService.getSystemCurrency();
     }
 
 
     /**
-     * Get the list of teams for a project
+     * Convert an amount of money from local currency to system preferred currency
      */
-    public List<Team> getProjectTeams(Project project) {
-        return Mapper.projectTeamMapper(project, assignments);
+    public double getConvertedValue(Currency localCurrency, double amount) {
+        return CurrencyService.convert(localCurrency, systemCurrency, amount);
     }
 
-    /**
-     * List of assignments which their linked employees are overhead
-     */
-    public List<Assignment> getOverheadAssignments(Project project) {
-        return ProjectService.projectOverheadAssignments(project, assignments);
-    }
+    // ************************ Contract *****************************
 
-    /**
-     * List of assignments which their linked employees are considered as production resource
-     */
-    public List<Assignment> getProductionResourceAssignments(Project project) {
-        return ProjectService.projectProductResourceAssignments(project, assignments);
-    }
-
-
-    // ************************ Setters *****************************
-    /**
-     * Set Employee object
-     */
-    public void setEmployee(Employee employee){
-        this.employee.set(employee);
-    }
-
-    /**
-     * Set Team object
-     */
-    public void setTeam(Team team){
-        this.team.set(team);
-    }
-
-    /**
-     * Set Project object
-     */
-    public void setProject(Project project){
-        this.project.set(project);
-    }
-
-    /**
-     * Set the currently working project name
-     */
-    public void setProjectName(String name){
-        this.project.get().setName(name);
-    }
-
-    /**
-     * Set the currently working project country
-     */
-    public void setProjectCountry(Country country){
-        this.project.get().setCountry(country);
-    }
-
-    /**
-     * Set Assignment object
-     */
-    private void setAssignment(Assignment assignment){
-        this.assignment.set(assignment);
-    }
-
-    /**
-     * Retrieve and updates the latest Employees list
-     */
-    private void setEmployees() throws ExceptionHandler {
-        employees.setAll(employeeService.getAllEmployees());
-    }
-
-    /**
-     * Retrieve and updates the latest Team list
-     */
-    private void setTeams() throws ExceptionHandler {
-        teams.setAll(teamService.getAllTeams());
-    }
-
-    /**
-     * Retrieve and updates the latest Project list
-     */
-    private void setProjects() throws ExceptionHandler {
-        projects.setAll(projectService.getAllProjects());
-    }
-
-    /**
-     * Retrieve and updates the latest Assignment list
-     */
-    private void setAssignments() throws ExceptionHandler {
-        assignments.setAll(assignmentService.getAllAssignments());
-    }
-
-
-//    /**
-//     * Set current currency of the system (default EUR)
-//     */
-//    public void setCurrency(Currency currency){
-//        this.currency.set(currency);
-//    }
 
     /**
      * Set Employee's first name
@@ -400,12 +648,45 @@ public class Model {
         this.contract.get().setOverheadPercentage(overheadPercentage);
     }
 
-//    /**
-//     * Retrieve latest employee changes for Contract and Projects
-//     */
-//    private void setEmployeeHistory(Employee employee) throws ExceptionHandler{
-//        this.history.set(employeeService.getEmployeeHistory(employee));
-//    }
+
+    // ************************ Multipliers *****************************
+
+    /**
+     * Apply gross margin multiplier
+     */
+    public double applyGrossMarginMultiplier(double originalRate, double gmPercentage){
+        return MultiplierService.applyGrossMarginMultiplier(originalRate, gmPercentage);
+    }
+
+    /**
+     * Apply markup multiplier
+     */
+    public double applyMarkupMultiplier(double originalRate, double markupPercentage){
+        return MultiplierService.applyMarkupMultiplier(originalRate, markupPercentage);
+    }
+
+    /**
+     * Save the multiplier in the database
+     */
+    public void saveRate(Multiplier multiplier) throws ExceptionHandler{
+        multiplierService.save(multiplier);
+    }
+
+    /**
+     * Get list of multipliers for a given project
+     */
+    public List<Multiplier> getMultipliers(Project project) throws ExceptionHandler{
+        return multiplierService.getMultipliers(project);
+    }
+
+    /**
+     * Set multiplier to the SimpleObjectProperty
+     */
+    public void setMultiplier(Multiplier multiplier){
+        this.multiplier.set(multiplier);
+    }
+
+
 
 
     // ************************ Utilities *****************************
@@ -415,149 +696,6 @@ public class Model {
         setTeams();
         setAssignments();
     }
-
-
-    /**
-     * Assign the contract to the employee (This is the moment that user clicks on submit contract)
-     */
-    public void assignContractToEmployee(){
-        // Assign this moment as start time
-        this.contract.get().setTimeLine(new TimeLine(LocalDateTime.now(), LocalDateTime.MAX));
-
-        // ToDo: Add to database/ if it's ok, then update it here.
-
-        // Assign the currently working contract to the currently working employee
-        this.employee.get().setContract(contract.get());
-    }
-
-
-
-    /**
-     * Assign the assignment (This is the moment that user clicks on add new project)
-     */
-    public boolean assignAssignmentToEmployee() throws ExceptionHandler{
-        List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee.get(), assignments);
-
-        // Validating utilization percentage for new assignment
-        assignmentService.checkIllegalUtilization(this.assignment.get().getUtilizationPercentage(), assignmentList);
-
-        // if no exception occurred, insert the assignment to the database
-        if (assignmentService.create(this.assignment.get())){
-            // Update the list of assignments without reloading from database
-            this.assignments.add(assignment.get());
-
-            return true;
-        };
-
-        return false;
-
-    }
-
-    /**
-     * Convert an amount of money from local currency to system preferred currency
-     */
-    public double getConvertedValue(Currency localCurrency, double amount) {
-        return CurrencyService.convert(localCurrency, systemCurrency, amount);
-    }
-
-    /**
-     * Removes an assignment from an employee (employee object is inside the assignment object)
-     */
-    public boolean deleteAssignment(Assignment assignment) throws ExceptionHandler {
-        // If succeed
-        if (assignmentService.delete(assignment)){
-            // Remove the assignment from the assignments list
-            assignments.remove(assignment);
-
-            return true;
-        }
-
-        // If failed
-        return false;
-    }
-
-    /**
-     * Creates a project based on the currently working project object
-     * @throws ExceptionHandler if something goes wrong in the creation process.
-     */
-    public boolean createProject() throws ExceptionHandler{
-        // If succeed to create
-        if (projectService.create(this.project.get())) {
-            // Adds the project to the list
-            projects.add(project.get());
-
-            return true;
-        }
-
-        // If failed to create
-        return false;
-    }
-
-
-    /**
-     * Create employee based on the currently working object
-     */
-    public boolean createEmployee() throws ExceptionHandler{
-        this.employee.get().setContract(this.contract.get()); // Setting currently filled contract to the currently working employee
-
-        // If succeed to create
-        if (employeeService.create(employee.get())){
-            // Employee creation was successful, add new object to the employees list without reloading it from database
-            // However, ID of contract and employee object has been updated after creation in database
-            employees.add(employee.get());
-
-            return true;
-        }
-
-        // If failed to create
-        return false;
-    }
-
-    public void setAssignmentEmployee(Employee employee) {
-        this.assignment.get().setEmployee(employee);
-    }
-
-    public void setAssignmentProject(Project project) {
-        this.assignment.get().setProject(project);
-    }
-
-    public void setAssignmentTeam(Team team) {
-        this.assignment.get().setTeam(team);
-    }
-
-    public void setAssignmentEmployeeType(EmployeeType employeeType) {
-        this.assignment.get().setEmployeeType(employeeType);
-    }
-
-    public void setAssignmentUtilizationPercentage(double amount) {
-        this.assignment.get().setUtilizationPercentage(amount);
-    }
-
-    /**
-     * Delete a given employee from database and memory, also assignments related to that employee will be deleted
-     */
-    public boolean deleteEmployee(Employee employee) throws ExceptionHandler{
-        // Validate deleting from database
-        if (employeeService.delete(employee)){
-            // List of assignments related to the given employee in order to delete
-            List<Assignment> assignmentList = Mapper.employeeAssignmentMapper(employee, assignments);
-
-            for (Assignment a: assignmentList){
-                deleteAssignment(a); // remove assignment from db
-                assignments.remove(a); // remove assignment from memory
-            }
-
-            employees.remove(employee); // remove employee object from the list
-
-            return true;
-        }
-        return false;
-    }
-
-
-
-//    // ****************** LAB *******************
-
 
     /**
      * Filter assignments based on employee in order to show in the table
@@ -589,139 +727,4 @@ public class Model {
         return filteredAssignments;
     }
 
-    public boolean deleteProject(Project project) throws ExceptionHandler{
-        if (projectService.delete(project)){
-            projects.remove(project);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean updateEmployee() throws ExceptionHandler{
-        // Set the updated contract to the employee
-        employee.get().setContract(contract.get());
-
-
-        if (employeeService.update(employee.get())){
-
-            // Updating the new object in the observableList
-            for (int i = 0; i < employees.size(); i++){
-                if (employees.get(i).getId() == employee.get().getId()){
-                    employees.set(i, employee.get());
-                }
-            }
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean updateProject() throws ExceptionHandler {
-        if (projectService.update(project.get())){
-
-            // Updating the object within the observableList
-            for (int i = 0; i < projects.size(); i++){
-                if (projects.get(i).getId() == project.get().getId()){
-                    projects.set(i, project.get());
-                }
-            }
-
-            // If everything went well
-            return true;
-        }
-
-        // If failed
-        return false;
-    }
-
-    public boolean deleteTeam() throws ExceptionHandler{
-        if (teamService.delete(team.get())){
-
-            // Remove the team from cached list
-            teams.remove(team.get());
-
-            // If everything went well
-            return true;
-        }
-
-        // If failed
-        return false;
-    }
-
-    public void setTeamName(String name){
-        this.team.get().setName(name);
-    }
-
-    public boolean createTeam() throws ExceptionHandler{
-        // If succeed to create updates the team ID from the db
-        if (teamService.create(team.get())){
-            // Update the list of teams
-            teams.add(team.get());
-
-            return true;
-        }
-
-        // If failed to create
-        return false;
-    }
-
-    public boolean updateTeam() throws ExceptionHandler{
-        if (teamService.update(team.get())){
-
-            // Updating the object within the observableList
-            for (int i = 0; i < teams.size(); i++){
-                if (teams.get(i).getId() == team.get().getId()){
-                    teams.set(i, team.get());
-                }
-            }
-
-            // If everything went well
-            return true;
-        }
-
-        // If failed
-        return false;
-    }
-
-    public double applyGrossMarginMultiplier(double originalRate, double gmPercentage){
-        return MultiplierService.applyGrossMarginMultiplier(originalRate, gmPercentage);
-    }
-
-    public double applyMarkupMultiplier(double originalRate, double markupPercentage){
-        return MultiplierService.applyMarkupMultiplier(originalRate, markupPercentage);
-    }
-
-    public boolean saveRate(Multiplier multiplier) throws ExceptionHandler{
-        return multiplierService.save(multiplier);
-    }
-
-    public void setMultiplierType(MultiplierType multiplierType) {
-        this.multiplier.get().setMultiplierType(multiplierType);
-    }
-
-    public void setMultiplierProject(Project project) {
-        this.multiplier.get().setProject(project);
-    }
-
-    public void setMultiplierValue(double value) {
-        this.multiplier.get().setValue(value);
-    }
-
-    public Multiplier getMultiplier() {
-        return multiplier.get();
-    }
-
-    public List<Multiplier> getMultipliers(Project project) throws ExceptionHandler{
-        return multiplierService.getMultipliers(project);
-    }
-
-    public void setMultiplier(Multiplier multiplier){
-        this.multiplier.set(multiplier);
-    }
-
-    public void clearMultiplier() {
-        this.multiplier.set(new Multiplier());
-    }
 }

@@ -21,6 +21,9 @@ public class GUIHelper {
         return currencySign.getSign() + value;
     }
 
+    /**
+     * Simple double formatter, 12.32
+     */
     public static String simpleDoubleFormatter(double amount){
         return CurrencyService.stringFormatter(amount);
     }
