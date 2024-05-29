@@ -679,4 +679,12 @@ public class Model {
         // If failed
         return false;
     }
+
+    public double applyGrossMarginMultiplier(double originalRate, double gmPercentage){
+        return ProjectService.applyGrossMarginMultiplier(originalRate, gmPercentage);
+    }
+
+    public double applyMarkupMultiplier(double originalRate, double markupPercentage){
+        return ProjectService.applyMarkupMultiplier(originalRate, markupPercentage);
+    }
 }

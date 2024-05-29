@@ -41,7 +41,7 @@
                         <Font size="16.0" />
                      </font>
                   </CheckBox>
-                  <Slider fx:id="markupSlider" disable="true" min="1.0" prefHeight="15.0" prefWidth="168.0" value="1.0" />
+                  <Slider fx:id="markupSlider" disable="true" max="99.99" min="1.0" prefHeight="15.0" prefWidth="168.0" value="1.0" />
                </children>
             </VBox>
             <TextField fx:id="markupTextField" disable="true" prefHeight="26.0" prefWidth="66.0" text="1.00">
@@ -65,7 +65,7 @@
                         <Font size="16.0" />
                      </font>
                   </CheckBox>
-                  <Slider fx:id="gmSlider" disable="true" min="1.0" prefHeight="16.0" prefWidth="182.0" value="1.0" />
+                  <Slider fx:id="gmSlider" disable="true" max="99.99" min="1.0" prefHeight="16.0" prefWidth="182.0" value="1.0" />
                </children>
             </VBox>
             <TextField fx:id="gmTextField" disable="true" prefHeight="26.0" prefWidth="66.0" text="1.00">
@@ -86,12 +86,12 @@
             <Button mnemonicParsing="false" onAction="#onCalculate" prefHeight="44.0" prefWidth="104.0" text="Apply" />
          </children>
       </HBox>
-      <TableView fx:id="projectTable1" layoutX="50.0" layoutY="630.0" prefHeight="331.0" prefWidth="788.0">
+      <TableView fx:id="multipliersTable" layoutX="50.0" layoutY="630.0" prefHeight="331.0" prefWidth="788.0">
          <columns>
-            <TableColumn fx:id="projectName1" prefWidth="240.0" text="Project Name" />
-            <TableColumn fx:id="projectHourlyRate1" prefWidth="141.0" text="Hourly Rate" />
-            <TableColumn fx:id="projectDailyRate1" prefWidth="133.0" text="Daily Rate" />
-            <TableColumn fx:id="projectTotalCost1" prefWidth="273.0" text="Total Cost" />
+            <TableColumn fx:id="projectNameM" prefWidth="240.0" text="Project Name" />
+            <TableColumn fx:id="projectHourlyRateM" prefWidth="141.0" text="Hourly Rate" />
+            <TableColumn fx:id="projectDailyRateM" prefWidth="133.0" text="Daily Rate" />
+            <TableColumn fx:id="projectTotalCostM" prefWidth="273.0" text="Total Cost" />
          </columns>
       </TableView>
       <Label layoutX="48.0" layoutY="580.0" styleClass="h2-label" text="Multipliers Applied" />
