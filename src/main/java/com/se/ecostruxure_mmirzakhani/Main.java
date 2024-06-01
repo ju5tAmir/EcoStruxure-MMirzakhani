@@ -19,9 +19,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+
         // Create and show a new stage
         try {
-            Window.createStage(WindowType.MAIN);
+            Window.createStage(WindowType.HISTORY);
         } catch (ExceptionHandler e) {
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
