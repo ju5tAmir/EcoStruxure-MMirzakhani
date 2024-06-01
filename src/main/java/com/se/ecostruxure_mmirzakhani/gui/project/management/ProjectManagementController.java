@@ -14,6 +14,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 
 public class ProjectManagementController implements IController<Model> {
 
@@ -90,8 +91,24 @@ public class ProjectManagementController implements IController<Model> {
         teamsTable.setItems(model.getAllTeams());
 
         // ** Set the listeners **
+        teamsTable.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
 
+            // Update the employees table based on the selected team
+            employeesTable.setItems(model.filter(model.getProject(), teamsTable.getSelectionModel().getSelectedItem()));
+        });
 
+        // Set click event to disable selection
+        teamsTable.setOnKeyPressed(event -> {
+            // If the user clicked on the ESC button, means disable selection
+            if (event.getCode() == KeyCode.ESCAPE){
+                // clear selection
+                teamsTable.getSelectionModel().clearSelection();
+
+                // clear the filter for the employees table (show all)
+                employeesTable.setItems(model.filter(model.getProject()));
+
+            }
+        });
         // ** Set the columns **
         teamName.setCellValueFactory(cellData -> {
             return new SimpleStringProperty(cellData.getValue().getName());

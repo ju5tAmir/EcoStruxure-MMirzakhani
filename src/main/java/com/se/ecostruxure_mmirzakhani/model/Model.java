@@ -40,6 +40,7 @@ public class Model {
     // This FilteredList contains assignment objects after user applied filters,
     // It behaves like an ObservableList and can be set as TableView items.
     private final FilteredList          <Assignment>                filteredAssignments = new FilteredList<>(assignments);
+    private final FilteredList          <Employee>                  filteredEmployees   = new FilteredList<>(employees);
 
     private final Currency                                          systemCurrency      = CurrencyService.getSystemCurrency();
 
@@ -765,5 +766,21 @@ public class Model {
         );
         return filteredAssignments;
     }
+
+    /**
+     * Filter assignments based on the given team and project
+     */
+    public FilteredList<Assignment> filter(Project project, Team team) {
+        filteredAssignments.setPredicate(
+                new Predicate<Assignment>() {
+                    @Override
+                    public boolean test(Assignment assignment) {
+                        return assignment.getProject().equals(project) && assignment.getTeam().equals(team);
+                    }
+                }
+        );
+        return filteredAssignments;
+    }
+
 
 }
