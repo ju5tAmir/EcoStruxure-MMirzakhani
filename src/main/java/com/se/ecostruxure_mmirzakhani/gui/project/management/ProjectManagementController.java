@@ -1,6 +1,7 @@
 package com.se.ecostruxure_mmirzakhani.gui.project.management;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.Assignment;
+import com.se.ecostruxure_mmirzakhani.be.entities.Team;
 import com.se.ecostruxure_mmirzakhani.exceptions.ExceptionHandler;
 import com.se.ecostruxure_mmirzakhani.gui.IController;
 import com.se.ecostruxure_mmirzakhani.gui.gui_utils.GUIHelper;
@@ -32,6 +33,10 @@ public class ProjectManagementController implements IController<Model> {
     @FXML
     private TableColumn<Assignment, String> employeeType;
 
+    @FXML
+    private TableView<Team> teamsTable;
+    @FXML
+    private TableColumn<Team, String> teamName, teamOverheadCosts, teamDirectCosts, teamTotalCosts;
 
     private Model model;
     @Override
@@ -40,6 +45,7 @@ public class ProjectManagementController implements IController<Model> {
         try {
             setLabels();
             setEmployeeTable();
+            setTeamsTable();
         } catch (ExceptionHandler | RuntimeException e){
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
@@ -77,6 +83,44 @@ public class ProjectManagementController implements IController<Model> {
 
             return new SimpleStringProperty(teamName);
         });
+    }
+
+    private void setTeamsTable() throws ExceptionHandler {
+        // ** Set the items **
+        teamsTable.setItems(model.getAllTeams());
+
+        // ** Set the listeners **
+
+
+        // ** Set the columns **
+        teamName.setCellValueFactory(cellData -> {
+            return new SimpleStringProperty(cellData.getValue().getName());
+        });
+
+        teamOverheadCosts.setCellValueFactory(cellData -> {
+            double directCosts = model.getOverheadCosts(model.getProject(), cellData.getValue());
+
+            String stringBeautifier = GUIHelper.currencyFormatter(directCosts);
+
+            return new SimpleStringProperty(stringBeautifier);
+        });
+
+        teamDirectCosts.setCellValueFactory(cellData -> {
+            double directCosts = model.getDirectCosts(model.getProject(), cellData.getValue());
+
+            String stringBeautifier = GUIHelper.currencyFormatter(directCosts);
+
+            return new SimpleStringProperty(stringBeautifier);
+        });
+
+        teamTotalCosts.setCellValueFactory(cellData -> {
+            double directCosts = model.getTotalCost(model.getProject(), cellData.getValue());
+
+            String stringBeautifier = GUIHelper.currencyFormatter(directCosts);
+
+            return new SimpleStringProperty(stringBeautifier);
+        });
+
     }
 
 

@@ -254,6 +254,45 @@ public class Model {
         return false;
     }
 
+    /**
+     * Get overhead costs for a team in a given project
+     */
+    public double getOverheadCosts(Project project, Team team){
+        // List of assignments related to the provided project
+        List<Assignment> assignmentListForProject = Mapper.projectAssignmentMapper(project, assignments);
+
+        // List of assignments related to the provided team
+        List<Assignment> assignmentListForTeam = Mapper.teamAssignmentMapper(team, assignmentListForProject);
+
+        return new RateService(project, assignmentListForTeam).getOverheadCosts();
+    }
+
+    /**
+     * Get direct costs for a team in a given project
+     */
+    public double getDirectCosts(Project project, Team team){
+        // List of assignments related to the provided project
+        List<Assignment> assignmentListForProject = Mapper.projectAssignmentMapper(project, assignments);
+
+        // List of assignments related to the provided team
+        List<Assignment> assignmentListForTeam = Mapper.teamAssignmentMapper(team, assignmentListForProject);
+
+        return new RateService(project, assignmentListForTeam).getDirectCosts();
+    }
+
+    /**
+     * Get total costs for a team in a given project
+     */
+    public double getTotalCost(Project project, Team team){
+        // List of assignments related to the provided project
+        List<Assignment> assignmentListForProject = Mapper.projectAssignmentMapper(project, assignments);
+
+        // List of assignments related to the provided team
+        List<Assignment> assignmentListForTeam = Mapper.teamAssignmentMapper(team, assignmentListForProject);
+
+        return new RateService(project, assignmentListForTeam).getTotalCosts();
+    }
+
     // ************************ Project ****************************
     /**
      * Get currently working Project object

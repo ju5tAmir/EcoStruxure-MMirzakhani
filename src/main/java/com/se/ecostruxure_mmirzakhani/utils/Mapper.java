@@ -40,5 +40,12 @@ public class Mapper {
                 .collect(Collectors.toList());
     }
 
-
+    /**
+     * Map assignments for a team
+     */
+    public static List<Assignment> teamAssignmentMapper(Team team, List<Assignment> assignments){
+        return assignments.stream()
+                .filter(assignment -> assignment.getTeam().equals(team))
+                .collect(Collectors.toList());
+    }
 }
