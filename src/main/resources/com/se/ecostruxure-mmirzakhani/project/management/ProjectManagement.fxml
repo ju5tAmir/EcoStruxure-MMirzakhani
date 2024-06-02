@@ -150,7 +150,7 @@
             <Font size="32.0" />
          </font>
       </Label>
-      <Button layoutX="1326.0" layoutY="335.0" mnemonicParsing="false" text="History">
+      <Button disable="true" layoutX="1326.0" layoutY="335.0" mnemonicParsing="false" text="History">
          <font>
             <Font size="30.0" />
          </font>

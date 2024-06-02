@@ -22,7 +22,7 @@ public class Main extends Application {
 
         // Create and show a new stage
         try {
-            Window.createStage(WindowType.HISTORY);
+            Window.createStage(WindowType.MAIN);
         } catch (ExceptionHandler e) {
             AlertHandler.displayAlert(e.getMessage(), Alert.AlertType.ERROR);
         }
