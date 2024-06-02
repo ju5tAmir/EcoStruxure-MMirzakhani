@@ -1,141 +1,25 @@
-package com.se.ecostruxure_mmirzakhani.gui.history;
+package com.se.ecostruxure_mmirzakhani.dal.history;
 
 import com.se.ecostruxure_mmirzakhani.be.entities.*;
 import com.se.ecostruxure_mmirzakhani.be.enums.Currency;
 import com.se.ecostruxure_mmirzakhani.be.enums.EmployeeType;
-import com.se.ecostruxure_mmirzakhani.gui.IController;
-import com.se.ecostruxure_mmirzakhani.model.Model;
-import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-public class HistoryController implements IController<Model> {
-    @FXML
-    private DatePicker fromDate, toDate;
+public class HistoryDAO {
 
-    @FXML
-    private Pane mainPane;
-    private LineChart<Number, Number> lineChart;
-    private Model model;
-    private List<Assignment> assignments = new ArrayList<>();
-
-    @Override
-    public void setModel(Model model) {
-        this.model = model;
-        initMockData();
-        setDatePickerListener();
-    }
-
-    private void setDatePickerListener(){
-        fromDate.valueProperty().addListener((observable, oldValue, newValue) -> {
-
-            setDailyGraph(newValue, assignments);
-        });
-    }
-
-    /**
-     * Set graph charts, currently only daily chart is available
-     */
-    private void setDailyGraph(LocalDate date, List<Assignment> assignments){
-        // Remove the previous chart from the main pane (if exists)
-        mainPane.getChildren().remove(lineChart);
-
-        // Get number of days in the selected month
-        int year = date.getYear();
-        int month = date.getMonthValue();
-        YearMonth yearMonthObject = YearMonth.of(year, month);
-        int numberOfDays          = yearMonthObject.lengthOfMonth();
-
-
-        // Defining the y-axis (Price)
-        NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Cost");
-
-
-        // Defining the x-axis (Time)
-        NumberAxis xAxis = new NumberAxis();
-        xAxis.setLabel("Day of the Month");
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(1);
-        xAxis.setUpperBound(numberOfDays);
-        xAxis.setTickUnit(1);
-        xAxis.setMinorTickCount(0);
-        xAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(xAxis) {
-            @Override
-            public String toString(Number object) {
-                return String.format("%d", object.intValue());
-            }
-        });
-
-        // Creating the line chart
-        lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setLayoutX(415);
-        lineChart.setLayoutY(135);
-        lineChart.setPrefWidth(770);
-        lineChart.setPrefHeight(525);
-        lineChart.setTitle("Price Changes");
-
-        // Defining a series to display data
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        series.setName("Price over Time");
-
-
-        // Populating the series with data with number of days in that month
-        for (int i = 1; i <= numberOfDays; i ++){
-            // Iterate over days of the selected month
-            LocalDate localDate = yearMonthObject.atDay(i);
-            for (Assignment assignment: assignments){
-                LocalDateTime localDateTime = assignment.getTimeLine().getFrom();
-
-
-                if (localDateTime.toLocalDate().isEqual(localDate)){
-                    series.getData().add(new XYChart.Data<>(i, assignment.getEmployee().getContract().getAnnualSalary()));
-
-                }
-            }
-
-        }
-
-        // Adding the series to the line chart
-        lineChart.getData().add(series);
-
-        // Add the new chart to the main pane
-        mainPane.getChildren().add(lineChart);
-
-
-    }
-
-    @FXML
-    private void onDailyButton(){
-
-    }
-
-    @FXML
-    private void onMonthlyButton(){
+    public HistoryDAO(){
 
     }
 
     private void initMockData(){
 
         // Create TimeLine objects
-        TimeLine timeLine1 = new TimeLine(LocalDateTime.of(2024, 6, 10, 9, 0), LocalDateTime.of(2023, 12, 31, 18, 0));
-        TimeLine timeLine2 = new TimeLine(LocalDateTime.of(2024, 6, 10, 9, 0), LocalDateTime.of(2023, 11, 30, 17, 0));
-        TimeLine timeLine3 = new TimeLine(LocalDateTime.of(2024, 6, 11, 9, 0), LocalDateTime.of(2023, 10, 31, 18, 0));
-        TimeLine timeLine4 = new TimeLine(LocalDateTime.of(2024, 6, 12, 9, 0), LocalDateTime.of(2023, 9, 30, 17, 0));
-        TimeLine timeLine5 = new TimeLine(LocalDateTime.of(2024, 6, 15, 9, 0), LocalDateTime.of(2023, 8, 31, 18, 0));
+        TimeLine timeLine1 = new TimeLine(LocalDateTime.of(2023, 1, 1, 9, 0), LocalDateTime.of(2023, 12, 31, 18, 0));
+        TimeLine timeLine2 = new TimeLine(LocalDateTime.of(2023, 2, 1, 9, 0), LocalDateTime.of(2023, 11, 30, 17, 0));
+        TimeLine timeLine3 = new TimeLine(LocalDateTime.of(2023, 3, 1, 9, 0), LocalDateTime.of(2023, 10, 31, 18, 0));
+        TimeLine timeLine4 = new TimeLine(LocalDateTime.of(2023, 4, 1, 9, 0), LocalDateTime.of(2023, 9, 30, 17, 0));
+        TimeLine timeLine5 = new TimeLine(LocalDateTime.of(2023, 5, 1, 9, 0), LocalDateTime.of(2023, 8, 31, 18, 0));
 
         // Create Contract objects
         Contract contract1 = new Contract();
@@ -245,7 +129,7 @@ public class HistoryController implements IController<Model> {
         assignment2.setTeam(team2);
         assignment2.setUtilizationPercentage(80);
         assignment2.setEmployeeType(EmployeeType.OVERHEAD);
-        assignment2.setTimeLine(timeLine5);
+        assignment2.setTimeLine(timeLine2);
 
         Assignment assignment3 = new Assignment();
         assignment3.setId(3);
@@ -256,7 +140,25 @@ public class HistoryController implements IController<Model> {
         assignment3.setEmployeeType(EmployeeType.OVERHEAD);
         assignment3.setTimeLine(timeLine3);
 
+        Assignment assignment4 = new Assignment();
+        assignment4.setId(4);
+        assignment4.setEmployee(employee4);
+        assignment4.setProject(project2);
+        assignment4.setTeam(team2);
+        assignment4.setUtilizationPercentage(85);
+        assignment4.setEmployeeType(EmployeeType.OVERHEAD);
+        assignment4.setTimeLine(timeLine4);
 
-        assignments.addAll(List.of(assignment1, assignment2, assignment3));
+        Assignment assignment5 = new Assignment();
+        assignment5.setId(5);
+        assignment5.setEmployee(employee5);
+        assignment5.setProject(project1);
+        assignment5.setTeam(team1);
+        assignment5.setUtilizationPercentage(90);
+        assignment5.setEmployeeType(EmployeeType.OVERHEAD);
+        assignment5.setTimeLine(timeLine5);
     }
+
+
+
 }
