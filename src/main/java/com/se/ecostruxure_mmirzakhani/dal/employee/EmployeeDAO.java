@@ -32,7 +32,7 @@ public class EmployeeDAO {
         try (Connection conn = dbConnection.getConnection()) {
             conn.setAutoCommit(false);
             try (PreparedStatement insertEmployeeStmt = conn.prepareStatement(insertEmployeeSql, Statement.RETURN_GENERATED_KEYS);
-                 PreparedStatement insertContractStmt = conn.prepareStatement(insertContractSql)) {
+                 PreparedStatement insertContractStmt = conn.prepareStatement(insertContractSql, Statement.RETURN_GENERATED_KEYS)) {
                 // Insert into Employees
                 insertEmployeeStmt.setString(1, employee.getFirstName());
                 insertEmployeeStmt.setString(2, employee.getLastName());
@@ -51,7 +51,6 @@ public class EmployeeDAO {
                 // Insert into Contract
                 Contract contract = employee.getContract();
                 if (contract != null) {
-                    insertContractStmt.setInt(1, employee.getId());
                     insertContractStmt.setDouble(2, contract.getAnnualSalary());
                     insertContractStmt.setDouble(3, contract.getFixedAnnualAmount());
                     insertContractStmt.setDouble(4, contract.getAnnualWorkHours());
@@ -59,7 +58,17 @@ public class EmployeeDAO {
                     insertContractStmt.setDouble(6, contract.getOverheadPercentage());
                     insertContractStmt.setString(7, contract.getCurrency().name());
                     insertContractStmt.executeUpdate();
+
+                    // Retrieve the generated EmployeeID
+                    ResultSet rsC = insertEmployeeStmt.getGeneratedKeys();
+                    if (rsC.next()) {
+                        int contractID = rs.getInt(1);
+                        contract.setId(contractID);
+                    } else {
+                        throw new SQLException("Creating contract failed, no ID obtained.");
+                    }
                 }
+
                 conn.commit();
                 return true;
             } catch (SQLException e) {
